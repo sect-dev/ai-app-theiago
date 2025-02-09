@@ -1,24 +1,31 @@
-import React from 'react';
+import React, {FC} from 'react';
 import FavoritesGirlsCard from "@/app/widgets/FavoritesGirls/FavoritesGirlsCard";
+import {IAvatar} from "@/app/shared/api/types";
+import FavoritesGirlsSkeleton from "@/app/widgets/FavoritesGirls/FavoritesGirlsSkeleton";
+import Tags from "@/app/widgets/Tags";
+import TagsSkeleton from "@/app/widgets/Tags/TagsSkeleton";
 
-const FavoritesGirls = () => {
+interface ComponentProps {
+  avatars: IAvatar[]
+  tags: string[]
+}
+
+const FavoritesGirls:FC<ComponentProps>  = ({avatars,tags}) => {
+
   return (
     <div className="bg-[#121423] p-[1.88vw] rounded-[1.88vw]">
       <p className="text-[1.56vw] font-semibold tracking-[0.02vw] mb-[0.94vw]">Explore hottest AI Characters</p>
       <ul className="flex gap-[0.31vw] mb-[1.56vw]">
-        <li className="rounded-[0.94vw] bg-[#1D1F37] text-[0.94vw] px-[0.94vw] py-[0.47vw] font-semibold">
-          <button>
-            Model
-          </button>
-        </li>
-        <li className="rounded-[0.94vw] bg-[#1D1F37] text-[0.94vw] px-[0.94vw] py-[0.47vw] font-semibold">
-          <button>
-            Femdom
-          </button>
-        </li>
+        {(!tags || tags.length === 0)
+          ? <TagsSkeleton />
+          : <Tags tags={tags} />
+        }
       </ul>
-      <div>
-        <FavoritesGirlsCard />
+      <div className="flex gap-[0.94vw]">
+        { (!avatars || avatars.length === 0)
+          ? <FavoritesGirlsSkeleton />
+          : avatars?.map(avatar => <FavoritesGirlsCard key={avatar.id} avatar={avatar} />)
+        }
       </div>
     </div>
   );

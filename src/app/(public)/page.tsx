@@ -1,9 +1,12 @@
 import React from 'react';
 import HomePage from "@/app/flat-pages/Homepage";
+import {getCharactersList} from "@/app/shared/api";
 
-const Page = () => {
+const Page = async () => {
+  const charactersList = await getCharactersList();
+
   return (
-    <HomePage />
+    <HomePage avatars={charactersList} />
   );
 };
 

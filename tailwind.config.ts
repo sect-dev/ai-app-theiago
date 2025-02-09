@@ -18,12 +18,16 @@ export default {
       },
       boxShadow: {
         'card-shadow': '0px 0px 16.1px 0px #086BDF36',
-      },
+        'skeleton-shadow': 'linear-gradient(0deg, #1F2237, #1F2237),' +
+          'linear-gradient(180deg, rgba(0, 0, 0, 0) 42.51%, rgba(0, 0, 0, 0.5) 77.39%)'
+
+},
       colors: {
         gray: "#9DB2CE",
         white: "#fff",
         blue: '#075AD4',
-        background: '#121423'
+        background: '#121423',
+        skeleton: '#1D1F37'
       },
       keyframes: {
         fadeIn: {
