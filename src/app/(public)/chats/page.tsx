@@ -1,9 +1,9 @@
 import React from 'react';
-import HomePage from "@/app/flat-pages/Homepage";
+import Chatspage from "@/app/flat-pages/Chatspage";
 
 const Page = () => {
   return (
-    <HomePage />
+    <Chatspage />
   );
 };
 

@@ -14,11 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-    <body
-      className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
-    >
-    {children}
-    </body>
+      <body
+        className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
+      >
+      {children}
+      </body>
     </html>
   );
 }
