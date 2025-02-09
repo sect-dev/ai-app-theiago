@@ -11,8 +11,8 @@ const Tags: FC<ComponentProps> = ({tags}) => {
       {tags.map(item => {
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         return (
-          <li key={item} className="rounded-[0.94vw] bg-[#1D1F37] px-[0.94vw] py-[0.47vw] ">
-            <button style={{ color: randomColor }} className="capitalize font-semibold text-[0.94vw]">
+          <li key={item} className="rounded-[0.94vw] animate-fadeIn bg-[#1D1F37] border border-transparent transition-border duration-300 hover:border-[#049AEF]">
+            <button style={{ color: randomColor }} className="block capitalize font-semibold text-[0.94vw] px-[0.94vw] py-[0.47vw]">
               {item}
             </button>
           </li>

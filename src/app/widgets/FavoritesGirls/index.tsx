@@ -13,7 +13,7 @@ interface ComponentProps {
 const FavoritesGirls:FC<ComponentProps>  = ({avatars,tags}) => {
 
   return (
-    <div className="bg-[#121423] p-[1.88vw] rounded-[1.88vw]">
+    <div className="bg-[#121423] p-[1.88vw] rounded-l-[1.88vw] ">
       <p className="text-[1.56vw] font-semibold tracking-[0.02vw] mb-[0.94vw]">Explore hottest AI Characters</p>
       <ul className="flex gap-[0.31vw] mb-[1.56vw]">
         {(!tags || tags.length === 0)

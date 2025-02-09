@@ -7,7 +7,7 @@ import IconDownload from '@/../public/images/icons/icon-download.svg';
 
 const Sidebar = () => {
   return (
-    <div className="max-w-[15.86vw] w-full h-[calc(100vh-46px)] pt-[1.17vw]  pb-[1.88vw]">
+    <div className="w-full h-[calc(100vh-46px)] pt-[1.17vw] pb-[1.88vw]">
       <div className="container h-full">
         <div className="grid content-between gap-[0.5vw] h-full">
           <SidebarMenu />

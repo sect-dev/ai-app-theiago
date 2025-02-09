@@ -34,3 +34,8 @@ body {
 .skeleton-shadow {
   background: #1D1F37 linear-gradient(180deg, rgba(0, 0, 0, 0) 42.51%, rgba(0, 0, 0, 0.5) 77.39%);
 }
+
+.inner-shadow {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 42.51%, rgba(0, 0, 0, 0.5) 77.39%);
+
+}

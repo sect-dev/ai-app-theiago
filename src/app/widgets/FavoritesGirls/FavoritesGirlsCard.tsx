@@ -9,7 +9,7 @@ interface ComponentProps {
 
 const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
   return (
-    <div className="card-shadow flex items-end relative p-[0.94vw] w-[23.44vw] h-[25.78vw] rounded-[1.56vw] overflow-hidden">
+    <div className="card-shadow cursor-pointer animate-fadeIn flex items-end relative p-[0.94vw] w-[23.44vw] h-[25.78vw] rounded-[1.56vw] overflow-hidden">
       <Image
         src={avatar.avatar}
         fill

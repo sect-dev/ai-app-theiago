@@ -1,11 +1,16 @@
 'use client'
-import React from 'react';
+import React, {FC} from 'react';
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import Image from "next/image";
 import AvatarImage from "../../../../public/images/img/avatar.webp";
 import clsx from "clsx";
+import {IAvatar} from "@/app/shared/api/types";
 
-const Card = () => {
+interface ComponentProps {
+  avatar: IAvatar
+}
+
+const Card:FC<ComponentProps> = ({avatar}) => {
   const { selectedCard } = useSelectedCardStore();
   const setSelectedCard = useSelectedCardStore((state) => state.setSelectedCard);
 
@@ -17,11 +22,11 @@ const Card = () => {
   };
 
   return (
-    <div className={clsx("flex items-end group relative cursor-pointer p-[0.94vw] w-[19.14vw] h-[30.08vw] rounded-[1.56vw] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow", {
+    <div className={clsx("flex items-end group relative animate-fadeIn cursor-pointer p-[0.94vw] w-[19.14vw] h-[30.08vw] rounded-[1.56vw] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow", {
 
     })}>
       <Image
-        src={AvatarImage.src}
+        src={avatar.avatar}
         fill
         alt="image"
         className="object-cover"
@@ -32,9 +37,9 @@ const Card = () => {
             Fiction
           </div>
         </div>
-        <p className="text-[1.25vw] font-semibold">Emily</p>
-        <p className="opacity-[60%] text-[1.09vw] pb-[0.94vw] leading-[1.2em] line-clamp-2">
-          Cutie girl, that likes to send you messages and a little strange
+        <p className="text-[1.25vw] font-semibold">{avatar.name}</p>
+        <p className="opacity-[60%] text-[1.09vw] mb-[0.94vw] leading-[1.2em] line-clamp-2">
+          {avatar.description.en}
         </p>
       </div>
       <button

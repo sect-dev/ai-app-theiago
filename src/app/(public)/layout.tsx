@@ -8,13 +8,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <DefaultLayout>
       <Header/>
       <div className="flex flex-1 gap-[0.94vw] h-[calc(100vh-3.59vw)] mt-[3.59vw]">
-        <div className="fixed left-0 top-[3.59vw] z-[10]">
+        <div className="fixed left-0 top-[3.59vw] z-[10] max-w-[15.86vw] w-full ">
           <Sidebar />
         </div>
        <div className="ml-auto overflow-y-auto w-[calc(100vw-15.86vw)] ">
-         <div className="container">
-           {children}
-         </div>
+         {children}
        </div>
       </div>
 
