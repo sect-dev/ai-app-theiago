@@ -31,7 +31,7 @@ const Card:FC<ComponentProps> = ({avatar}) => {
       <div className="relative z-[2] transition-all duration-300 group-hover:mb-[3.67vw]">
         <div className="flex items-center gap-[0.16vw] text-[1.09vw] mb-[1.09vw] font-semibold font-semibold">
           <div className="rounded-[0.63vw] bg-[#426EFD] font-semibold h-[1.64vw] text-[1.09vw] px-[0.31vw]">
-            Fiction
+            {avatar.tags}
           </div>
         </div>
         <p className="text-[1.25vw] font-semibold">{avatar.name}</p>

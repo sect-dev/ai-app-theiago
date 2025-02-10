@@ -9,9 +9,9 @@ interface ComponentProps {
 
 const HomePage:FC<ComponentProps> = ({avatars}) => {
   const charactersListData = Object.values(avatars)
-  const favoriteAvatars = charactersListData.filter(item => item.isPremium)
+  const favoriteAvatars = charactersListData.filter(item => !item.isPremium)
   const simpleAvatars = charactersListData.filter(item => !item.isPremium)
-  const tags = [...new Set(charactersListData.filter(item => !item.isPremium).flatMap(avatar => avatar.tags))];
+  const tags:string[] = [...new Set(simpleAvatars.flatMap(avatar => avatar.tags ?? [])) as string];
 
   return (
     <div className="animate-fadeIn">

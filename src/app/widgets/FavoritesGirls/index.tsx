@@ -1,9 +1,15 @@
+'use client'
 import React, {FC} from 'react';
 import FavoritesGirlsCard from "@/app/widgets/FavoritesGirls/FavoritesGirlsCard";
 import {IAvatar} from "@/app/shared/api/types";
 import FavoritesGirlsSkeleton from "@/app/widgets/FavoritesGirls/FavoritesGirlsSkeleton";
 import Tags from "@/app/widgets/Tags";
 import TagsSkeleton from "@/app/widgets/Tags/TagsSkeleton";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper/modules';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/free-mode';
 
 interface ComponentProps {
   avatars: IAvatar[]
@@ -24,7 +30,20 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars,tags}) => {
       <div className="flex gap-[0.94vw]">
         { (!avatars || avatars.length === 0)
           ? <FavoritesGirlsSkeleton />
-          : avatars?.map(avatar => <FavoritesGirlsCard key={avatar.id} avatar={avatar} />)
+          : <Swiper
+              slidesPerView={"auto"}
+              spaceBetween={20}
+              freeMode={true}
+              modules={[FreeMode]}
+            >
+            {avatars?.map(avatar => {
+              return (
+                <SwiperSlide key={avatar.id} className="!w-[23.44vw] !h-[25.78vw]">
+                  <FavoritesGirlsCard avatar={avatar} />
+                </SwiperSlide>
+              )
+            }) }
+          </Swiper>
         }
       </div>
     </div>
