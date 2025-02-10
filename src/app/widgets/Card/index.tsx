@@ -11,23 +11,20 @@ interface ComponentProps {
 }
 
 const Card:FC<ComponentProps> = ({avatar}) => {
-  const { selectedCard } = useSelectedCardStore();
   const setSelectedCard = useSelectedCardStore((state) => state.setSelectedCard);
 
-  const handleClick = () => {
-    const id = 1
-    const title = 'title'
-    const description = 'description'
-    setSelectedCard({ id, title, description });
+  const handleClick = (avatar:IAvatar) => {
+    setSelectedCard(avatar);
   };
 
   return (
-    <div className={clsx("flex items-end group relative animate-fadeIn cursor-pointer p-[0.94vw] w-[19.14vw] h-[30.08vw] rounded-[1.56vw] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow", {
+    <div className={clsx("flex card items-end group relative animate-fadeIn cursor-pointer p-[0.94vw] w-[19.14vw] h-[30.08vw] rounded-[1.56vw] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow", {
 
     })}>
       <Image
         src={avatar.avatar}
         fill
+        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 19.14vw"
         alt="image"
         className="object-cover"
       />
@@ -38,12 +35,12 @@ const Card:FC<ComponentProps> = ({avatar}) => {
           </div>
         </div>
         <p className="text-[1.25vw] font-semibold">{avatar.name}</p>
-        <p className="opacity-[60%] text-[1.09vw] mb-[0.94vw] leading-[1.2em] line-clamp-2">
+        <p className="card-description opacity-[60%] text-[1.09vw] mb-[0.94vw] leading-[1.2em] line-clamp-2">
           {avatar.description.en}
         </p>
       </div>
       <button
-        onClick={handleClick}
+        onClick={() => handleClick(avatar)}
         className="bg-main-gradient absolute left-1/2 -bottom-[3vw] z-[10] w-[16.64vw] -translate-x-1/2 transition-all duration-300 flex items-center justify-center gap-[0.63vw] text-[1.09vw] rounded-[0.94vw] h-[2.73vw] font-semibold text-white group-hover:bottom-[1.5vw]"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

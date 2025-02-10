@@ -37,5 +37,8 @@ body {
 
 .inner-shadow {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 42.51%, rgba(0, 0, 0, 0.5) 77.39%);
+}
 
+.card:hover .card-description {
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.44);
 }
