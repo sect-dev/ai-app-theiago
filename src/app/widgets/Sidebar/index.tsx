@@ -13,7 +13,9 @@ const Sidebar = () => {
           <SidebarMenu />
           <div className="space-y-[0.94vw]">
             <SidebarBanner />
-            <Link href="https://google.com" className="flex items-center rounded-[0.94vw] gap-[0.63vw] py-[0.78vw] px-[1.25vw] bg-[#121423] font-semibold text-[1.09vw] tracking-[-0.01vw]">
+            <Link
+              href="https://google.com"
+              className="flex items-center rounded-[0.94vw] gap-[0.63vw] py-[0.78vw] px-[1.25vw] bg-[#121423] font-semibold text-[1.09vw] tracking-[-0.01vw] transition-bg duration-300 hover:bg-[#2E335B]">
               <Image
                 src={IconDownload.src}
                 width={IconDownload.width}

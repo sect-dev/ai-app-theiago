@@ -21,13 +21,13 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars,tags}) => {
   return (
     <div className="bg-[#121423] p-[1.88vw] rounded-l-[1.88vw] sm:rounded-l-0 sm:p-[4.27vw]">
       <p className="text-[1.56vw] font-semibold tracking-[0.02vw] mb-[0.94vw] sm:hidden">Explore hottest AI Characters</p>
-      <div className="flex gap-[0.31vw] mb-[1.56vw] sm:mb-[4.27vw] sm:gap-[1.07vw]">
+      <div className="flex gap-[0.31vw] mb-[1.56vw] sm:mb-[4.27vw] sm:gap-[1.07vw] sm:overflow-hidden">
         {(!tags || tags.length === 0)
           ? <TagsSkeleton />
           : <Tags tags={tags} />
         }
       </div>
-      <div className="flex gap-[0.94vw]">
+      <div className="flex gap-[0.94vw] sm:gap-[3.2vw]">
         { (!avatars || avatars.length === 0)
           ? <FavoritesGirlsSkeleton />
           : <Swiper

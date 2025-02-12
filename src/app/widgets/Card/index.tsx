@@ -19,9 +19,7 @@ const Card:FC<ComponentProps> = ({avatar}) => {
   };
 
   return (
-    <div className={clsx("flex card items-end group relative animate-fadeIn cursor-pointer p-[0.94vw] w-[19.14vw] h-[30.08vw] rounded-[1.56vw] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow sm:p-[3.20vw] sm:w-[44.60vw] sm:h-[71.47vw] sm:rounded-[5.33vw]", {
-
-    })}>
+    <div className={clsx("flex card items-end group relative animate-fadeIn cursor-pointer p-[0.94vw] w-[19.14vw] h-[30.08vw] rounded-[1.56vw] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow sm:p-[3.20vw] sm:w-[44.60vw] sm:h-[71.47vw] sm:rounded-[5.33vw]", {})}>
       <Image
         src={avatar.avatar}
         fill
@@ -39,7 +37,7 @@ const Card:FC<ComponentProps> = ({avatar}) => {
         />
         19k
       </span>
-      <div className="relative z-[2] transition-all duration-300 group-hover:mb-[3.67vw] group-hover:mb-[9.67vw]">
+      <div className="relative z-[2] transition-all duration-300 group-hover:mb-[3.67vw] sm:group-hover:mb-[9.67vw]">
         <div className="flex items-center gap-[0.16vw] text-[1.09vw] mb-[1.09vw] font-semibold font-semibold sm:mb-[2.13vw] sm:gap-[1.5vw]">
           <div className="rounded-[0.63vw] capitalize bg-[#426EFD] font-semibold h-[1.64vw] text-[1.09vw] px-[0.31vw] sm:rounded-[2.13vw] sm:px-[1.07vw] sm:h-[4.80vw] sm:text-[3.20vw]">
             {avatar.tags[0]}

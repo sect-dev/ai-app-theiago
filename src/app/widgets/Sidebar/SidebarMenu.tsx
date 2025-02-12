@@ -37,7 +37,7 @@ const SidebarMenu = () => {
         const image = checkUrl ? item.activeIcon : item.icon
         return (
           <li key={item.id} className="group">
-            <Link href={item.href} className={clsx("flex items-center cursor-pointer font-semibold bg-[#121423] text-[1.09vw] rounded-b-[0.31vw] rounded-t-[0.94vw] gap-[0.63vw] py-[0.94vw] px-[1.25vw]",{})}>
+            <Link href={item.href} className={clsx("flex items-center cursor-pointer font-semibold bg-[#121423] text-[1.09vw] rounded-b-[0.31vw] rounded-t-[0.94vw] gap-[0.63vw] py-[0.94vw] px-[1.25vw] transition-bg duration-300 hover:bg-[#2E335B]",{})}>
               <Image
                 src={image.src}
                 width={image.width}
