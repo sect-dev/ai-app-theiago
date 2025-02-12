@@ -27,13 +27,13 @@ const Card:FC<ComponentProps> = ({avatar}) => {
         alt="image"
         className="object-cover"
       />
-      <span className="flex bg-[#3B3E5E59] backdrop-blur-[3px] bg-opacity-20 text-[0.94vw] font-medium px-[0.39vw] rounded-[0.63vw] h-[1.41vw] items-center gap-[0.5vw] absolute right-[1.56vw] top-[1.56vw]">
+      <span className="flex bg-[#3B3E5E59] backdrop-blur-[3px] bg-opacity-20 text-[0.94vw] font-medium px-[0.39vw] rounded-[0.63vw] h-[1.41vw] items-center gap-[0.5vw] absolute right-[1.56vw] top-[1.56vw] sm:rounded-[2.13vw] sm:gap-[1.07vw] sm:px-[1.07vw] sm:text-[3.20vw] sm:h-[4.80vw] sm:right-[3.20vw] sm:top-[3.20vw]">
         <Image
           src={IconMessage.src}
           width={IconMessage.width}
           height={IconMessage.height}
           alt="message icon"
-          className="size-[0.94vw]"
+          className="size-[0.94vw] sm:size-[3.20vw]"
         />
         19k
       </span>
