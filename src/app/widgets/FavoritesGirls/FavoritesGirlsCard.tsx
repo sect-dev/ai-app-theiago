@@ -16,7 +16,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
   };
 
   return (
-    <div className="card-shadow cursor-grab group animate-fadeIn flex items-end relative p-[0.94vw] h-full rounded-[1.56vw] overflow-hidden">
+    <div className="card-shadow card overflow-hidden cursor-grab group animate-fadeIn flex items-end relative p-[0.94vw] h-full rounded-[1.56vw] sm:p-[3.20vw] sm:rounded-[6.40vw]">
       <Image
         src={avatar.avatar}
         sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 23.14vw"
@@ -24,24 +24,24 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
         alt="image"
         className="object-cover"
       />
-      <div className="relative z-[2] transition-all duration-300 group-hover:mb-[4.27vw]">
-        <div className="flex items-center gap-[0.16vw] text-[1.09vw] mb-[0.63vw] font-semibold font-semibold">
+      <div className="relative z-[2] transition-all duration-300 group-hover:mb-[4.27vw] sm:group-hover:mb-[10.27vw]">
+        <div className="flex items-center gap-[0.16vw] mb-[0.63vw] font-semibold font-semibold sm:gap-[0.8vw] sm:mb-[2.13vw]">
           {avatar.tags.map(tag => {
             return (
-              <div key={tag} className="rounded-[0.63vw] font-semibold h-[1.64vw] text-[1.09vw] px-[0.31vw] backdop-blur-[8px] bg-[#3B3E5E8A]">
+              <div key={tag} className="rounded-[0.63vw] capitalize font-semibold h-[1.64vw] text-[1.09vw] px-[0.31vw] backdop-blur-[8px] bg-[#3B3E5E8A] sm:rounded-[2.13vw] sm:h-[4.80vw] sm:px-[1.27vw] sm:text-[3.20vw]">
                 {tag}
               </div>
             )
           })}
         </div>
-        <p className="text-[1.25vw] font-semibold">{avatar.name}</p>
-        <p className="opacity-[60%] line-clamp-2 text-[1.09vw]">
+        <p className="text-[1.25vw] font-semibold sm:text-[4.27vw]">{avatar.name}</p>
+        <p className="opacity-[60%] line-clamp-2 text-[1.09vw] sm:text-[3.20vw]">
           {avatar.description.en}
         </p>
       </div>
       <button
         onClick={() => handleClick(avatar)}
-        className="bg-main-gradient cursor-pointer absolute left-1/2 -bottom-[3vw] z-[10] w-[16.64vw] -translate-x-1/2 transition-all duration-300 flex items-center justify-center gap-[0.63vw] text-[1.09vw] rounded-[0.94vw] h-[2.73vw] font-semibold text-white group-hover:bottom-[1.5vw]"
+        className="bg-main-gradient cursor-pointer absolute left-1/2 -bottom-[3vw] z-[10] w-[16.64vw] -translate-x-1/2 transition-all duration-300 flex items-center justify-center gap-[0.63vw] text-[1.09vw] rounded-[0.94vw] h-[2.73vw] font-semibold text-white group-hover:bottom-[1.5vw] sm:bottom-[-10vw] sm:gap-[1.8vw] sm:w-[73.60vw] sm:h-[9vw] sm:rounded-[5.33vw] sm:text-[3.73vw] sm:group-hover:bottom-[2vw]"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18.3332 10.7166C18.3332 12.6249 17.3499 14.3166 15.8332 15.3833L14.7166 17.8416C14.4582 18.3999 13.7082 18.5083 13.3166 18.0333L12.0832 16.5499C10.5332 16.5499 9.10824 16.0249 8.0249 15.1499L8.5249 14.5583C12.3749 14.2666 15.4166 11.2166 15.4166 7.49994C15.4166 6.8666 15.3249 6.2416 15.1582 5.6416C17.0499 6.6416 18.3332 8.5416 18.3332 10.7166Z" fill="#fff"/>

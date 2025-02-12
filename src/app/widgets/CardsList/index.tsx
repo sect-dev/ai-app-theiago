@@ -17,7 +17,7 @@ const CardsList:FC<ComponentProps> = ({avatars}) => {
     : avatars;
 
   return (
-    <div className="flex flex-wrap gap-[1.25vw]">
+    <div className="flex flex-wrap gap-[1.25vw] sm:gap-[2.13vw]">
       {(!avatars || avatars.length === 0)
         ? <CardSkeleton />
         : filteredAvatars.map(avatar => <Card key={avatar.id} avatar={avatar} />)

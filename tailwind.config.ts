@@ -7,6 +7,20 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      xl: { max: '1460px' },
+      // => @media (max-width: 1527px) { ... }
+      ls: { max: '1024px' },
+
+      lg: { max: '991px' },
+      // => @media (max-width: 1023px) { ... }
+
+      md: { max: '767px' },
+      // => @media (max-width: 767px) { ... }
+
+      sm: { max: '540px' },
+      // => @media (max-width: 639px) { ... }
+    },
     extend: {
       fontFamily: {
         'bai-jamjuree': ['var(--font-bai-jamjuree)'],
@@ -15,6 +29,7 @@ export default {
       },
       backgroundImage: {
         'main-gradient': 'linear-gradient(180deg, #049AEF 0%, #0862DC 100%)',
+        "card-gradient": "linear-gradient(180deg, rgba(0, 0, 0, 0) 66.81%, rgba(0, 0, 0, 0.35) 85.47%)",
       },
       boxShadow: {
         'card-shadow': '0px 0px 16.1px 0px #086BDF36',

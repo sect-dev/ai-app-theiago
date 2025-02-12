@@ -19,26 +19,25 @@ interface ComponentProps {
 const FavoritesGirls:FC<ComponentProps>  = ({avatars,tags}) => {
 
   return (
-    <div className="bg-[#121423] p-[1.88vw] rounded-l-[1.88vw] ">
-      <p className="text-[1.56vw] font-semibold tracking-[0.02vw] mb-[0.94vw]">Explore hottest AI Characters</p>
-      <ul className="flex gap-[0.31vw] mb-[1.56vw]">
+    <div className="bg-[#121423] p-[1.88vw] rounded-l-[1.88vw] sm:rounded-l-0 sm:p-[4.27vw]">
+      <p className="text-[1.56vw] font-semibold tracking-[0.02vw] mb-[0.94vw] sm:hidden">Explore hottest AI Characters</p>
+      <div className="flex gap-[0.31vw] mb-[1.56vw] sm:mb-[4.27vw] sm:gap-[1.07vw]">
         {(!tags || tags.length === 0)
           ? <TagsSkeleton />
           : <Tags tags={tags} />
         }
-      </ul>
+      </div>
       <div className="flex gap-[0.94vw]">
         { (!avatars || avatars.length === 0)
           ? <FavoritesGirlsSkeleton />
           : <Swiper
               slidesPerView={"auto"}
-              spaceBetween={20}
               freeMode={true}
               modules={[FreeMode]}
             >
             {avatars?.map(avatar => {
               return (
-                <SwiperSlide key={avatar.id} className="!w-[23.44vw] !h-[25.78vw]">
+                <SwiperSlide key={avatar.id} className="!w-[23.44vw] !h-[25.78vw] mr-[0.94vw] sm:!mr-[3.20vw] sm:!h-[88vw] sm:!w-[80vw]">
                   <FavoritesGirlsCard avatar={avatar} />
                 </SwiperSlide>
               )

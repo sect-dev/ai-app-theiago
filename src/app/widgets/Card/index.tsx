@@ -1,8 +1,9 @@
 'use client'
 import React, {FC} from 'react';
-import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import Image from "next/image";
-import AvatarImage from "../../../../public/images/img/avatar.webp";
+import { useSelectedCardStore } from "@/app/shared/store/publicStore";
+import IconMessage from '@/../public/images/icons/icon-message.svg';
+
 import clsx from "clsx";
 import {IAvatar} from "@/app/shared/api/types";
 
@@ -18,7 +19,7 @@ const Card:FC<ComponentProps> = ({avatar}) => {
   };
 
   return (
-    <div className={clsx("flex card items-end group relative animate-fadeIn cursor-pointer p-[0.94vw] w-[19.14vw] h-[30.08vw] rounded-[1.56vw] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow", {
+    <div className={clsx("flex card items-end group relative animate-fadeIn cursor-pointer p-[0.94vw] w-[19.14vw] h-[30.08vw] rounded-[1.56vw] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow sm:p-[3.20vw] sm:w-[44.60vw] sm:h-[71.47vw] sm:rounded-[5.33vw]", {
 
     })}>
       <Image
@@ -28,20 +29,30 @@ const Card:FC<ComponentProps> = ({avatar}) => {
         alt="image"
         className="object-cover"
       />
-      <div className="relative z-[2] transition-all duration-300 group-hover:mb-[3.67vw]">
-        <div className="flex items-center gap-[0.16vw] text-[1.09vw] mb-[1.09vw] font-semibold font-semibold">
-          <div className="rounded-[0.63vw] bg-[#426EFD] font-semibold h-[1.64vw] text-[1.09vw] px-[0.31vw]">
-            {avatar.tags}
+      <span className="flex bg-[#3B3E5E59] backdrop-blur-[3px] bg-opacity-20 text-[0.94vw] font-medium px-[0.39vw] rounded-[0.63vw] h-[1.41vw] items-center gap-[0.5vw] absolute right-[1.56vw] top-[1.56vw]">
+        <Image
+          src={IconMessage.src}
+          width={IconMessage.width}
+          height={IconMessage.height}
+          alt="message icon"
+          className="size-[0.94vw]"
+        />
+        19k
+      </span>
+      <div className="relative z-[2] transition-all duration-300 group-hover:mb-[3.67vw] group-hover:mb-[9.67vw]">
+        <div className="flex items-center gap-[0.16vw] text-[1.09vw] mb-[1.09vw] font-semibold font-semibold sm:mb-[2.13vw] sm:gap-[1.5vw]">
+          <div className="rounded-[0.63vw] capitalize bg-[#426EFD] font-semibold h-[1.64vw] text-[1.09vw] px-[0.31vw] sm:rounded-[2.13vw] sm:px-[1.07vw] sm:h-[4.80vw] sm:text-[3.20vw]">
+            {avatar.tags[0]}
           </div>
         </div>
-        <p className="text-[1.25vw] font-semibold">{avatar.name}</p>
-        <p className="card-description opacity-[60%] text-[1.09vw] mb-[0.94vw] leading-[1.2em] line-clamp-2">
+        <p className="text-[1.25vw] font-semibold sm:text-[3.73vw]">{avatar.name}</p>
+        <p className="card-description opacity-[60%] text-[1.09vw] mb-[0.94vw] leading-[1.2em] line-clamp-2 sm:text-[3.20vw]">
           {avatar.description.en}
         </p>
       </div>
       <button
         onClick={() => handleClick(avatar)}
-        className="bg-main-gradient absolute left-1/2 -bottom-[3vw] z-[10] w-[16.64vw] -translate-x-1/2 transition-all duration-300 flex items-center justify-center gap-[0.63vw] text-[1.09vw] rounded-[0.94vw] h-[2.73vw] font-semibold text-white group-hover:bottom-[1.5vw]"
+        className="bg-main-gradient absolute left-1/2 -bottom-[3vw] z-[10] w-[16.64vw] -translate-x-1/2 transition-all duration-300 flex items-center justify-center gap-[0.63vw] text-[1.09vw] rounded-[0.94vw] h-[2.73vw] font-semibold text-white group-hover:bottom-[1.5vw] sm:bottom-[-10vw] sm:gap-[1.8vw] sm:w-[36.60vw] sm:h-[8vw] sm:rounded-[5.33vw] sm:text-[3.73vw] sm:group-hover:bottom-[3vw]"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18.3332 10.7166C18.3332 12.6249 17.3499 14.3166 15.8332 15.3833L14.7166 17.8416C14.4582 18.3999 13.7082 18.5083 13.3166 18.0333L12.0832 16.5499C10.5332 16.5499 9.10824 16.0249 8.0249 15.1499L8.5249 14.5583C12.3749 14.2666 15.4166 11.2166 15.4166 7.49994C15.4166 6.8666 15.3249 6.2416 15.1582 5.6416C17.0499 6.6416 18.3332 8.5416 18.3332 10.7166Z" fill="#fff"/>
