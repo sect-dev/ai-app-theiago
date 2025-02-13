@@ -6,17 +6,17 @@ import clsx from "clsx";
 const Header = () => {
   const [menuModal,setMenuModal] = useState(false)
   return (
-    <div className="fixed top-0 left-0 z-50 w-full py-[0.63vw] sm:py-[3.20vw] sm:static">
+    <div className="fixed top-0 left-0 z-50 w-full py-[6px] sm:py-[14px] sm:static">
       <div className="container ">
         <div className="flex justify-between items-center font-bai-jamjuree">
-          <div className="flex items-center gap-[3.20vw]">
+          <div className="flex items-center gap-[14px]">
             <button
               onClick={() => setMenuModal(!menuModal)}
-              className="flex-col h-[3.20vw] w-[4.80vw] gap-[1.011vw] hidden sm:flex"
+              className="flex-col h-[12px] w-[18px] gap-[4px] hidden md:flex"
             >
               <span
                 className={clsx('block h-[2px] w-full rounded-[5px] bg-white transition-transform duration-300', {
-                  'origin-[0.156vw] rotate-[45deg] sm:origin-[0.356vw]': menuModal,
+                  'origin-[2px] rotate-[45deg] sm:origin-[0.356vw]': menuModal,
                 })}
               />
               <span
@@ -26,16 +26,16 @@ const Header = () => {
               />
               <span
                 className={clsx('block h-[2px] w-full rounded-[5px] bg-white transition-transform duration-300', {
-                  'origin-[0.365vw] rotate-[-45deg] sm:origin-[0.565vw]': menuModal,
+                  'origin-[1px] rotate-[-45deg] sm:origin-[0.565vw]': menuModal,
                 })}
               />
             </button>
-            <Link href="/" className="font-bold block text-[1.56vw] tracking-[0.04em] sm:text-[5.33vw] ">
+            <Link href="/" className="font-bold block text-[20px] tracking-[0.04em] sm:text-[5.33vw] ">
               <span className="logo-gradient ">Ai</span>
               <span className="">Go</span>
             </Link>
           </div>
-          <button className="bg-main-gradient px-[0.94vw] h-[1.88vw] font-bold text-[0.94vw] rounded-[0.63vw] sm:px-[3.20vw] sm:h-[7.20vw] sm:rounded-[2.13vw] sm:text-[3.73vw]">
+          <button className="bg-main-gradient px-[12px] h-[24px] font-bold text-[12px] rounded-[8px] md:px-[12px] md:h-[27px] md:text-[14px]">
             Sign in
           </button>
         </div>

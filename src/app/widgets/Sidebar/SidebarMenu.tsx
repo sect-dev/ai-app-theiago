@@ -31,19 +31,19 @@ const SidebarMenu = () => {
   const pathname = usePathname();
 
   return (
-    <ul className="space-y-[0.31vw] text-gray sm:bg-[#121423] sm:flex sm:space-y-0 sm:overflow-hidden sm:h-[14.93vw] sm:w-[34.13vw] sm:rounded-[6.40vw] sm:backdrop-blur-[10px] sm:bg-opacity-50 ">
+    <ul className="space-y-[4px] text-gray md:bg-[#121423] md:flex md:space-y-0 md:overflow-hidden md:h-[56px] md:w-[128px] md:rounded-[24px] md:backdrop-blur-[10px] md:bg-opacity-50 ">
       {navigationData.map(item => {
         const checkUrl = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
         const image = checkUrl ? item.activeIcon : item.icon
         return (
-          <li key={item.id} className="group sm:size-full">
-            <Link href={item.href} className={clsx("flex items-center cursor-pointer font-semibold bg-[#121423] text-[1.09vw] rounded-b-[0.31vw] rounded-t-[0.94vw] gap-[0.63vw] py-[0.94vw] px-[1.25vw] transition-bg duration-300 hover:bg-[#2E335B] sm:hover:bg-transparent sm:bg-transparent sm:justify-center sm:size-full sm:rounded-none sm:gap-0 sm:text-[2.67vw] sm:flex-col",{})}>
+          <li key={item.id} className="group md:size-full">
+            <Link href={item.href} className={clsx("flex items-center cursor-pointer font-semibold bg-[#121423] text-[14px] rounded-b-[4px] rounded-t-[12px] gap-[8px] py-[12px] px-[16px] transition-bg duration-300 hover:bg-[#2E335B] md:hover:bg-transparent md:bg-transparent md:justify-center md:size-full md:rounded-none md:gap-0 md:text-[10px] md:flex-col",{})}>
               <Image
                 src={image.src}
                 width={image.width}
                 height={image.height}
                 alt="Explore icon"
-                className="size-[1.56vw] sm:size-[5.33vw]"
+                className="size-[20px]"
               />
               <span className={clsx("text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]",{
                  "logo-gradient transition-all duration-300": checkUrl,
@@ -52,13 +52,13 @@ const SidebarMenu = () => {
           </li>
         )
       })}
-      <li className="flex items-center cursor-pointer font-semibold gap-[0.63vw] text-[1.09vw] py-[0.94vw] rounded-t-[0.31vw] rounded-b-[0.94vw] px-[1.25vw] bg-main-gradient text-white sm:hidden">
+      <li className="flex items-center cursor-pointer font-semibold gap-[8px] text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] bg-main-gradient text-white md:hidden">
         <Image
           src={IconStars.src}
           width={IconStars.width}
           height={IconStars.height}
           alt="Subscription icon"
-          className="size-[1.56vw]"
+          className="size-[20px]"
         />
         <span>Subscription</span>
       </li>

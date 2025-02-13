@@ -21,14 +21,14 @@ const CardsList:FC<ComponentProps> = ({avatars,tags}) => {
 
   return (
     <>
-      <p className="text-[1.56vw] font-semibold tracking-[0.02vw] mb-[0.94vw] sm:hidden">Explore hottest AI Characters</p>
-      <div className="flex gap-[0.31vw] mb-[1.36vw] sm:mb-[4.27vw] sm:gap-[1.07vw] sm:overflow-hidden">
+      <p className="text-[20px] font-semibold tracking-[0.02vw] mb-[12px] sm:hidden">Explore hottest AI Characters</p>
+      <div className="flex gap-[4px] mb-[16px] sm:overflow-hidden">
         {(!tags || tags.length === 0)
           ? <TagsSkeleton />
           : <Tags tags={tags} />
         }
       </div>
-      <div className="flex flex-wrap gap-[1.25vw] sm:gap-[2.13vw]">
+      <div className="gap-[16px] cards-list">
         {(!avatars || avatars.length === 0)
           ? <CardSkeleton />
           : filteredAvatars.map(avatar => <Card key={avatar.id} avatar={avatar} />)

@@ -38,16 +38,16 @@ const Tags: FC<ComponentProps> = ({ tags }) => {
     >
       {tags.map((item) => {
         return (
-          <SwiperSlide key={item} className="!w-fit mr-[0.47vw] sm:mr-[1.07vw]">
+          <SwiperSlide key={item} className="!w-fit mr-[4px]">
             <div
-              className={clsx("rounded-[0.94vw] animate-fadeIn bg-[#1D1F37] border border-transparent transition-border duration-300 sm:rounded-[3.20vw] hover:border-[#049AEF]",{
+              className={clsx("rounded-[12px] animate-fadeIn bg-[#1D1F37] border border-transparent transition-border duration-300 hover:border-[#049AEF]",{
                 "!border-[#049AEF]": selectedTag === item
               })}
             >
               <button
                 onClick={() => handleTagsSelect(item)}
                 style={{ color: tagColors[item] }}
-                className="block capitalize font-semibold text-[0.94vw] px-[0.94vw] py-[0.47vw] sm:text-[3.20vw] leading-[1.2em] sm:px-[3.20vw] sm:py-[1.60vw]"
+                className="block capitalize font-semibold text-[12px] px-[12px] py-[6px] leading-[1.2em]"
               >
                 {item}
               </button>

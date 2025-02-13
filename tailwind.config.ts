@@ -10,15 +10,11 @@ export default {
     screens: {
       xl: { max: '1460px' },
       // => @media (max-width: 1527px) { ... }
-      ls: { max: '1024px' },
 
-      lg: { max: '991px' },
-      // => @media (max-width: 1023px) { ... }
-
-      md: { max: '767px' },
+      md: { max: '1020px' },
       // => @media (max-width: 767px) { ... }
 
-      sm: { max: '540px' },
+      sm: { max: '570px' },
       // => @media (max-width: 639px) { ... }
     },
     extend: {

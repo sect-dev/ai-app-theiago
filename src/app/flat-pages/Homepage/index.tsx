@@ -15,9 +15,9 @@ const HomePage:FC<ComponentProps> = ({avatars}) => {
   return (
     <div className="animate-fadeIn">
       <div className="container !px-0">
-        <div className="space-y-[0.63vw] sm:space-y-0">
+        <div className="space-y-[8px] sm:space-y-0">
           <FavoritesGirls avatars={favoriteAvatars} />
-          <div className="bg-[#121423] p-[1.88vw] rounded-l-[1.88vw] sm:p-[4.27vw] sm:pt-0">
+          <div className="bg-[#121423] p-[24px] rounded-l-[24px] md:p-[16px] sm:pt-0 md:rounded-none">
             <CardsList tags={tags} avatars={simpleAvatars} />
           </div>
         </div>
