@@ -15,4 +15,5 @@ export interface IAvatar {
   tags: string[]
   voice: string
   style: string
+  top_horizontal_list_position: number
 }
