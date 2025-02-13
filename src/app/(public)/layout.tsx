@@ -8,8 +8,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <DefaultLayout>
       <Header/>
-      <div className="flex flex-1 gap-[14px] h-[calc(100vh-46px)] mt-[46px] sm:mt-0">
-        <div className="block fixed left-0 top-[46px] z-[10] max-w-[203px] w-full md:hidden">
+      <div className="flex flex-1 gap-[14px] h-[calc(100%-46px)] mt-[46px] sm:mt-0">
+        <div className="block h-full fixed left-0 top-[46px] z-[10] max-w-[203px] w-full md:hidden">
           <Sidebar />
         </div>
         <div className="hidden absolute left-1/2 bottom-[5vw] -translate-x-1/2 z-[10] md:block">
