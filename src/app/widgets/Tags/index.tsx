@@ -22,7 +22,7 @@ const Tags: FC<ComponentProps> = ({ tags }) => {
       acc[tag] = colors[index % colors.length];
       return acc;
     }, {});
-  }, [tags]);
+  }, [tags,colors]);
 
   const handleTagsSelect = (tag:string) => {
     const item = tag === selectedTag ? null : tag
