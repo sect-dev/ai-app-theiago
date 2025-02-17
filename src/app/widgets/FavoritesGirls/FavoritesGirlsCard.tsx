@@ -3,6 +3,7 @@ import React, {FC} from 'react';
 import Image from "next/image";
 import {IAvatar} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import {useRouter} from "next/navigation";
 
 interface ComponentProps {
   avatar: IAvatar
@@ -10,9 +11,11 @@ interface ComponentProps {
 
 const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
   const setSelectedCard = useSelectedCardStore((state) => state.setSelectedCard);
+  const navigate = useRouter()
 
   const handleClick = (avatar:IAvatar) => {
     setSelectedCard(avatar);
+    navigate.push(`/chats/${avatar.id}`)
   };
 
   return (

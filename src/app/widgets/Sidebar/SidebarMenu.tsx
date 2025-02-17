@@ -1,5 +1,4 @@
-'use client'
-import React from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
 import IconDiscover from '@/../public/images/icons/icon-discover.svg';
 import IconChats from '@/../public/images/icons/icon-chats.svg';
@@ -7,7 +6,7 @@ import IconChatsActive from '@/../public/images/icons/icon-chats-active.svg';
 import IconDiscoverActive from '@/../public/images/icons/icon-discover-active.svg';
 import IconStars from '@/../public/images/icons/icon-stars.svg';
 import Link from "next/link";
-import {usePathname} from "next/navigation";
+
 import clsx from "clsx";
 
 const navigationData = [
@@ -27,13 +26,16 @@ const navigationData = [
   }
 ]
 
-const SidebarMenu = () => {
-  const pathname = usePathname();
+interface ComponentProps {
+  pathname?: string
+}
 
+const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
+  const isChatPage = pathname?.includes('chats')
   return (
     <ul className="space-y-[4px] text-gray md:bg-[#121423] md:flex md:space-y-0 md:overflow-hidden md:h-[56px] md:w-[128px] md:rounded-[24px] md:backdrop-blur-[10px] md:bg-opacity-50 ">
       {navigationData.map(item => {
-        const checkUrl = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+        const checkUrl = item.href === "/" ? pathname === "/" : pathname?.startsWith(item.href);
         const image = checkUrl ? item.activeIcon : item.icon
         return (
           <li key={item.id} className="group md:size-full">
@@ -45,9 +47,12 @@ const SidebarMenu = () => {
                 alt="Explore icon"
                 className="size-[20px]"
               />
-              <span className={clsx("text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]",{
-                 "logo-gradient transition-all duration-300": checkUrl,
-              })}>{item.title}</span>
+              {!isChatPage && (
+                <span
+                  className={clsx("animate-fadeIn text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]", {
+                    "logo-gradient transition-all duration-300": checkUrl,
+                  })}>{item.title}</span>
+              )}
           </Link>
           </li>
         )
@@ -60,7 +65,7 @@ const SidebarMenu = () => {
           alt="Subscription icon"
           className="size-[20px]"
         />
-        <span>Subscription</span>
+        {!isChatPage && <span>Subscription</span>}
       </li>
     </ul>
   );

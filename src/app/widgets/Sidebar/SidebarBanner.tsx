@@ -4,7 +4,7 @@ import ImageBg from '@/../public/images/img/connection.png';
 
 const SidebarBanner = () => {
   return (
-    <div className="relative overflow-hidden rounded-[16px] p-[12px] bg-main-gradient">
+    <div className="relative animate-fadeIn overflow-hidden rounded-[16px] p-[12px] bg-main-gradient">
       <Image
         src={ImageBg.src}
         width={ImageBg.width}

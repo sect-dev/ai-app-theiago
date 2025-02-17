@@ -6,6 +6,7 @@ import IconMessage from '@/../public/images/icons/icon-message.svg';
 
 import clsx from "clsx";
 import {IAvatar} from "@/app/shared/api/types";
+import {useRouter} from "next/navigation";
 
 interface ComponentProps {
   avatar: IAvatar
@@ -13,9 +14,10 @@ interface ComponentProps {
 
 const Card:FC<ComponentProps> = ({avatar}) => {
   const setSelectedCard = useSelectedCardStore((state) => state.setSelectedCard);
-
+  const navigate = useRouter()
   const handleClick = (avatar:IAvatar) => {
     setSelectedCard(avatar);
+    navigate.push(`/chats/${avatar.id}`)
   };
 
   return (
