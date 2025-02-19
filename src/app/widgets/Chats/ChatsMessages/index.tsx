@@ -1,15 +1,16 @@
 'use client'
-import React, {useState} from 'react';
+import React from 'react';
 import Image from "next/image";
 import IconSend from '@/../public/images/icons/icon-send.svg';
 import { useForm } from "react-hook-form";
+import clsx from "clsx";
 
 interface FormData {
   message: string;
 }
 
 const ChatsMessages = () => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  // const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const {
     register,
@@ -28,17 +29,17 @@ const ChatsMessages = () => {
 
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setSelectedFile(event.target.files[0]);
-    }
-  };
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     setSelectedFile(event.target.files[0]);
+  //   }
+  // };
 
   return (
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex gap-[8px]"
+        className="relative flex gap-[8px]"
       >
         <textarea
           id="message"
@@ -46,12 +47,12 @@ const ChatsMessages = () => {
           className="rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.2em] h-[48px] text-[14px] resize-none placeholder:opacity-50"
           placeholder="Your message here"
         />
-        {errors.message && <p className="text-red-500 text-[12px]">{errors.message.message}</p>}
-
         <button
           type="submit"
           disabled={isSubmitting}
-          className="p-[12px] rounded-[16px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]"
+          className={clsx("p-[12px] rounded-[16px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]", {
+            "border border-red-500": errors.message
+          })}
         >
           <Image
             src={IconSend.src}

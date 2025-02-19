@@ -9,7 +9,10 @@ interface ComponentProps {
 
 const HomePage:FC<ComponentProps> = ({avatars}) => {
   const favoriteAvatars = avatars.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position)
-  const simpleAvatars = avatars.filter(item => !item.isPremium)
+  /**
+   * После того как вернут теги на все карточки - убрать фильтр
+   */
+  const simpleAvatars = avatars.filter(item => item.tags)
   const tags: string[] = Array.from(new Set(simpleAvatars.flatMap(avatar => avatar.tags ?? [])));
 
   return (

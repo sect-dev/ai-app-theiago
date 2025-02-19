@@ -38,8 +38,8 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
       "w-[200px]": collapse
     })}>
       <div className="chatInfoImage relative flex items-end p-[20px] h-[293px] rounded-tl-[8px] rounded-tr-[24px] overflow-hidden">
-        {characterInfo?.avatar && <Image
-          src={characterInfo?.avatar}
+        {characterInfo?.image && <Image
+          src={characterInfo?.image}
           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 292px"
           fill
           alt="image"

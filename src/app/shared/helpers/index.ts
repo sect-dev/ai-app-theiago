@@ -8,7 +8,7 @@ export const saveCharacterToLocalStorage = (avatar: IAvatar) => {
     if (!characters.some(a => a.id === avatar.id)) {
       const newCharacter = {
         id: avatar.id,
-        image: avatar.image,
+        image: avatar.avatar,
         listMsgs: avatar.listMsgs,
         name: avatar.name
       };

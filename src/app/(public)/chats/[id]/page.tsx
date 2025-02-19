@@ -8,17 +8,19 @@ import ChatHeaderSkeleton from "@/app/widgets/Chats/ChatsHeader/ChatHeaderSkelet
 import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
 
 interface ComponentProps {
-  params: Promise<{ category: string }>;
+  params: Promise<{ id: string }>;
 }
 
 const Page:FC<ComponentProps> = async ({params}) => {
   const { id } = await params
-  const characterInfo = await getCharacterInfoById(id)
+  const characterInfo = await getCharacterInfoById(+id)
 
   return (
     <div>
       <div className="flex gap-[12px] pr-[12px] md:px-[8px]">
-        {(characterInfo && Object.keys(characterInfo).length > 0) && <ChatsList characterInfo={characterInfo} />}
+        {(characterInfo && Object.keys(characterInfo).length > 0) &&
+          <ChatsList characterInfo={characterInfo} />
+        }
         <div className="w-full space-y-[8px]">
           {(characterInfo && Object.keys(characterInfo).length > 0)
             ? <ChatsHeader avatar={characterInfo.avatar} name={characterInfo.name} />

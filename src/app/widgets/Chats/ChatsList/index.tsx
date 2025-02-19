@@ -57,15 +57,15 @@ const ChatsList:FC<ComponentProps> = ({characterInfo}) => {
         </button>
       </div>
       <div>
-        <ChatsListItem
-          id={characterInfo.id}
-          collapse={collapse}
-          image={characterInfo.avatar}
-          name={characterInfo.name}
-          lastMessage={characterInfo.listMsgs[characterInfo.listMsgs.length-1].en}
-        />
+        {/*<ChatsListItem*/}
+        {/*  id={characterInfo.id}*/}
+        {/*  collapse={collapse}*/}
+        {/*  image={characterInfo.avatar}*/}
+        {/*  name={characterInfo.name}*/}
+        {/*  lastMessage={characterInfo.listMsgs[characterInfo.listMsgs.length-1].en}*/}
+        {/*/>*/}
         {(charactersFromLs.length > 0) &&
-          charactersFromLs.filter(item => item.id !== characterInfo.id).map((character) => (
+          charactersFromLs.map((character) => (
             <ChatsListItem
               key={character.id}
               id={character.id}

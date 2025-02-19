@@ -41,7 +41,7 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
         const image = checkUrl ? item.activeIcon : item.icon
         return (
           <li key={item.id} className="group md:size-full [&>*:a]:rounded-t-[4px]">
-            <Link href={item.href} className={clsx("flex items-center cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] py-[12px] px-[16px] transition-bg duration-300 hover:bg-[#2E335B] md:hover:bg-transparent md:bg-transparent md:justify-center md:size-full md:rounded-none md:gap-0 md:text-[10px] md:flex-col",item.className)}>
+            <Link href={item.href} className={clsx("flex items-center justify-center cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B] md:hover:bg-transparent md:bg-transparent md:justify-center md:size-full md:rounded-none md:gap-0 md:text-[10px] md:flex-col",item.className)}>
               <Image
                 src={image.src}
                 width={image.width}
