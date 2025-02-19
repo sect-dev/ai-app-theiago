@@ -4,6 +4,7 @@ import Image from "next/image";
 import {IAvatar} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import {useRouter} from "next/navigation";
+import {saveCharacterToLocalStorage} from "@/app/shared/helpers";
 
 interface ComponentProps {
   avatar: IAvatar
@@ -16,16 +17,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
   const handleClick = (avatar: IAvatar) => {
     setSelectedCard(avatar);
     navigate.push(`/chats/${avatar.id}`);
-
-    if (typeof window !== "undefined") {
-      const storedIds = localStorage.getItem("chatStartedIds");
-      const chatIds: number[] = storedIds ? JSON.parse(storedIds) : [];
-
-      if (!chatIds.includes(avatar.id)) {
-        chatIds.push(avatar.id);
-        localStorage.setItem("chatStartedIds", JSON.stringify(chatIds));
-      }
-    }
+    saveCharacterToLocalStorage(avatar)
   };
 
   return (
@@ -49,7 +41,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
         </div>
         <p className="text-[16px] font-semibold">{avatar.name}</p>
         <p className="opacity-[60%] line-clamp-2 text-[14px] md:text-[12px]">
-          {avatar.description.en}
+          {avatar.description?.en}
         </p>
       </div>
       <div className="absolute left-1/2 -bottom-[40px] z-[10] w-full px-[16px] -translate-x-1/2 transition-all duration-300 group-hover:bottom-[12px] ">

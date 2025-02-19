@@ -9,6 +9,14 @@ interface ComponentProps {
 
 const ChatsInfoPosts:FC<ComponentProps> = ({content}) => {
 
+  if(!content || content.length === 0) {
+    return (
+      <div className="animate-fadeIn flex flex-wrap gap-[8px] px-[12px] pt-[20px]">
+        <p className="text-[14px] opacity-60">No photos yet</p>
+      </div>
+    )
+  }
+
   return (
     <div className="animate-fadeIn flex flex-wrap gap-[8px]">
       {content.map((photo,index) => {

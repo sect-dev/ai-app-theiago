@@ -1,23 +1,16 @@
-'use client'
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import FavoritesGirls from "@/app/widgets/FavoritesGirls";
 import {IAvatar} from "@/app/shared/api/types";
 import CardsList from "@/app/widgets/CardsList";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface ComponentProps {
   avatars: IAvatar[]
 }
 
 const HomePage:FC<ComponentProps> = ({avatars}) => {
-  const { setCharacters } = useSelectedCardStore();
   const favoriteAvatars = avatars.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position)
   const simpleAvatars = avatars.filter(item => !item.isPremium)
   const tags: string[] = Array.from(new Set(simpleAvatars.flatMap(avatar => avatar.tags ?? [])));
-
-  useEffect(() => {
-    setCharacters(avatars);
-  }, [avatars, setCharacters]);
 
   return (
     <div className="animate-fadeIn">

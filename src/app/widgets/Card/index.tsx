@@ -3,10 +3,10 @@ import React, {FC} from 'react';
 import Image from "next/image";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import IconMessage from '@/../public/images/icons/icon-message.svg';
-
 import clsx from "clsx";
 import {IAvatar} from "@/app/shared/api/types";
 import {useRouter} from "next/navigation";
+import {saveCharacterToLocalStorage} from "@/app/shared/helpers";
 
 interface ComponentProps {
   avatar: IAvatar
@@ -19,18 +19,8 @@ const Card:FC<ComponentProps> = ({avatar}) => {
   const handleClick = (avatar: IAvatar) => {
     setSelectedCard(avatar);
     navigate.push(`/chats/${avatar.id}`);
-
-    if (typeof window !== "undefined") {
-      const storedIds = localStorage.getItem("chatStartedIds");
-      const chatIds: number[] = storedIds ? JSON.parse(storedIds) : [];
-
-      if (!chatIds.includes(avatar.id)) {
-        chatIds.push(avatar.id);
-        localStorage.setItem("chatStartedIds", JSON.stringify(chatIds));
-      }
-    }
+    saveCharacterToLocalStorage(avatar)
   };
-
 
   return (
     <div className={clsx("flex card items-end group relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {})}>
@@ -52,11 +42,13 @@ const Card:FC<ComponentProps> = ({avatar}) => {
         19k
       </span>
       <div className="relative z-[2] transition-all duration-300 group-hover:mb-[45px] md:group-hover:mb-[40px] ">
-        <div className="flex items-center gap-[4px] mb-[14px] font-semibold font-semibold ">
-          <div className="rounded-[20px] capitalize bg-[#426EFD] font-semibold h-[21px] text-[14px] px-[4px] md:text-[12px]">
-            {avatar.tags[0]}
+        {avatar.tags?.length > 0 &&
+          <div className="flex items-center gap-[4px] mb-[14px] font-semibold font-semibold ">
+            <div className="rounded-[20px] capitalize bg-[#426EFD] font-semibold h-[21px] text-[14px] px-[4px] md:text-[12px]">
+              { avatar.tags[0]}
+            </div>
           </div>
-        </div>
+        }
         <p className="text-[16px] font-semibold md:text-[14px]">{avatar.name}</p>
         <p className="card-description opacity-[60%] text-[14px] leading-[1.2em] line-clamp-2 md:text-[12px]">
           {avatar.description.en}

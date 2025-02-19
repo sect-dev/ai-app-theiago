@@ -1,5 +1,6 @@
 export interface IAvatar {
   avatar: string
+  image: string
   description: {
     en: string
   }
@@ -15,7 +16,12 @@ export interface IAvatar {
   tags: string[]
   voice: string
   style: string
+  listMsgs: ListMsgs[]
   top_horizontal_list_position: number
+}
+
+interface ListMsgs {
+  en: string
 }
 
 interface Localization {
@@ -71,4 +77,11 @@ export interface Character {
   occupation: string;
   clothes: string[];
   top_horizontal_list_position: number;
+}
+
+export interface PreparedAvatar {
+  id: number,
+  image: string,
+  listMsgs: { en:string }[],
+  name: string
 }

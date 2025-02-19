@@ -25,11 +25,6 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     characters: initialCharacters,
     setSelectedCard: (card) => set({ selectedCard: card }),
     setSelectedTag: (tag) => set({ selectedTag: tag }),
-    setCharacters: (characters) => {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("characters", JSON.stringify(characters));
-      }
-      set({ characters });
-    },
+    setCharacters: (characters) => set({ characters }),
   };
 });

@@ -8,12 +8,10 @@ import Link from "next/link";
 const Chatspage = () => {
 
   if (typeof window !== "undefined") {
-    const storedChats = localStorage.getItem("chatStartedIds");
+    const storedChats = localStorage.getItem("chatStartedCharacters");
     if (storedChats) {
       const chatIds = JSON.parse(storedChats);
-      if (Array.isArray(chatIds) && chatIds.length > 0) {
-        redirect(`/chats/${chatIds[0]}`);
-      }
+      redirect(`/chats/${chatIds[0].id}`);
     }
   }
 

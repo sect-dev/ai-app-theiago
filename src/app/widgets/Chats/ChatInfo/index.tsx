@@ -25,7 +25,6 @@ interface ComponentProps {
 const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
   const [collapse, setCollapse] = useState<boolean>(false)
   const [tabs,setTabs] = useState<string>('Posts')
-
   const handleCollapse = () => {
     setCollapse(!collapse)
   }
@@ -39,16 +38,16 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
       "w-[200px]": collapse
     })}>
       <div className="chatInfoImage relative flex items-end p-[20px] h-[293px] rounded-tl-[8px] rounded-tr-[24px] overflow-hidden">
-        <Image
-          src={characterInfo.image}
+        {characterInfo?.avatar && <Image
+          src={characterInfo?.avatar}
           sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 292px"
           fill
           alt="image"
           className="object-cover object-top"
-        />
+        />}
         <div className="relative z-[5]">
           <p className="text-[20px] font-semibold">{characterInfo.name}</p>
-          <p className="text-[14px] font-medium opacity-[60%]">{characterInfo.shortDescription.en}</p>
+          <p className="text-[14px] font-medium opacity-[60%]">{characterInfo.shortDescription?.en}</p>
         </div>
         <button onClick={handleCollapse} className="absolute left-[20px] top-[20px] z-[5] flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]">
           <Image
@@ -61,7 +60,9 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
         </button>
       </div>
       <div className="p-[20px]">
-        <p className="text-[14px] opacity-[60%]">{characterInfo.description.en}</p>
+        <p className="text-[14px] opacity-[60%]">
+          {characterInfo.description.en}
+        </p>
       </div>
       <div>
         <div className="flex gap-[20px] px-[20px]">
@@ -79,8 +80,8 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
           })}
         </div>
         <div className="px-[8px] overflow-y-auto max-h-[34vh] pb-[8px]">
-          {(tabs === 'Posts' && characterInfo.listProfilePhoto) && <ChatsInfoPosts content={characterInfo.listProfilePhoto} />}
-          {(tabs === 'Videos' && characterInfo.listVideo) && <ChatsInfoVideos content={characterInfo.listVideo} />}
+          {tabs === 'Posts' && <ChatsInfoPosts content={characterInfo.listProfilePhoto} />}
+          {/*{tabs === 'Videos'&& <ChatsInfoVideos content={characterInfo.listVideo} />}*/}
         </div>
       </div>
     </div>

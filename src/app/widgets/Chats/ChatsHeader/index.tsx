@@ -14,13 +14,13 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
     <div className="flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px]">
       <div className="flex items-center gap-[12px]">
         <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
-                <Image
-                  src={avatar}
-                  fill
-                  alt="nicole image"
-                  className="object-cover object-top"
-                />
-              </span>
+          <Image
+            src={avatar}
+            fill
+            alt="nicole image"
+            className="object-cover object-top"
+          />
+        </span>
         <div className="text-left">
           <p className="font-medium text-[17px] tracking-[-0.04em]">{name}</p>
           <p className="flex items-center gap-[4px] font-medium max-w-[125px] ">

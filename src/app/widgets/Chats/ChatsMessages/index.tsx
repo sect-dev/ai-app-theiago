@@ -28,7 +28,6 @@ const ChatsMessages = () => {
 
   };
 
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
@@ -52,7 +51,7 @@ const ChatsMessages = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="p-[12px] rounded-[16px] bg-[#21233A] shrink-0"
+          className="p-[12px] rounded-[16px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]"
         >
           <Image
             src={IconSend.src}
