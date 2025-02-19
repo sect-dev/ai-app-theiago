@@ -17,3 +17,58 @@ export interface IAvatar {
   style: string
   top_horizontal_list_position: number
 }
+
+interface Localization {
+  en: string;
+}
+
+interface Message {
+  en: string;
+}
+
+export interface Character {
+  isAds: boolean;
+  dataVersion: number;
+  type: string;
+  listVideo: string[];
+  shortDescription: Localization;
+  imageZero: string;
+  apps: string;
+  voice: string;
+  sdName: string;
+  video: string;
+  name: string;
+  audioZeroToken: Localization;
+  isPremium: boolean;
+  position: number;
+  badge: Localization;
+  listProfilePhoto: string[];
+  created: number;
+  description: Localization;
+  visible: boolean;
+  tags: string[];
+  id: number;
+  vitrinaMsg2: Localization;
+  modelDs: string;
+  image: string;
+  modelGpt: string;
+  groupImg: string;
+  listImage: string[];
+  avatar: string;
+  listMsgs: Message[];
+  audioHello: Localization;
+  vitrinaMsg1: Localization;
+  gender: string;
+  style: string;
+  ethnicity: string;
+  height: number;
+  age: string;
+  final_age: number;
+  body_type: string;
+  breast_type: string;
+  butt_type: string;
+  hair_style: string;
+  occupation: string;
+  clothes: string[];
+  top_horizontal_list_position: number;
+}

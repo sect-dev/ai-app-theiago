@@ -15,10 +15,22 @@ interface ComponentProps {
 const Card:FC<ComponentProps> = ({avatar}) => {
   const setSelectedCard = useSelectedCardStore((state) => state.setSelectedCard);
   const navigate = useRouter()
-  const handleClick = (avatar:IAvatar) => {
+
+  const handleClick = (avatar: IAvatar) => {
     setSelectedCard(avatar);
-    navigate.push(`/chats/${avatar.id}`)
+    navigate.push(`/chats/${avatar.id}`);
+
+    if (typeof window !== "undefined") {
+      const storedIds = localStorage.getItem("chatStartedIds");
+      const chatIds: number[] = storedIds ? JSON.parse(storedIds) : [];
+
+      if (!chatIds.includes(avatar.id)) {
+        chatIds.push(avatar.id);
+        localStorage.setItem("chatStartedIds", JSON.stringify(chatIds));
+      }
+    }
   };
+
 
   return (
     <div className={clsx("flex card items-end group relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {})}>

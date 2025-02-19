@@ -13,9 +13,19 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
   const setSelectedCard = useSelectedCardStore((state) => state.setSelectedCard);
   const navigate = useRouter()
 
-  const handleClick = (avatar:IAvatar) => {
+  const handleClick = (avatar: IAvatar) => {
     setSelectedCard(avatar);
-    navigate.push(`/chats/${avatar.id}`)
+    navigate.push(`/chats/${avatar.id}`);
+
+    if (typeof window !== "undefined") {
+      const storedIds = localStorage.getItem("chatStartedIds");
+      const chatIds: number[] = storedIds ? JSON.parse(storedIds) : [];
+
+      if (!chatIds.includes(avatar.id)) {
+        chatIds.push(avatar.id);
+        localStorage.setItem("chatStartedIds", JSON.stringify(chatIds));
+      }
+    }
   };
 
   return (

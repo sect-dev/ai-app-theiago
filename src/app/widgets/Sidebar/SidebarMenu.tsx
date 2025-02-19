@@ -15,14 +15,16 @@ const navigationData = [
     id: 1,
     icon: IconDiscover,
     activeIcon: IconDiscoverActive,
-    href:'/'
+    href:'/',
+    className: 'rounded-b-[4px] rounded-t-[12px]'
   },
   {
     title: 'Chats',
     id: 2,
     icon: IconChats,
     activeIcon: IconChatsActive,
-    href:'/chats'
+    href:'/chats',
+    className: 'rounded-[4px]'
   }
 ]
 
@@ -38,8 +40,8 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
         const checkUrl = item.href === "/" ? pathname === "/" : pathname?.startsWith(item.href);
         const image = checkUrl ? item.activeIcon : item.icon
         return (
-          <li key={item.id} className="group md:size-full">
-            <Link href={item.href} className={clsx("flex items-center cursor-pointer font-semibold bg-[#121423] text-[14px] rounded-b-[4px] rounded-t-[12px] gap-[8px] py-[12px] px-[16px] transition-bg duration-300 hover:bg-[#2E335B] md:hover:bg-transparent md:bg-transparent md:justify-center md:size-full md:rounded-none md:gap-0 md:text-[10px] md:flex-col",{})}>
+          <li key={item.id} className="group md:size-full [&>*:a]:rounded-t-[4px]">
+            <Link href={item.href} className={clsx("flex items-center cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] py-[12px] px-[16px] transition-bg duration-300 hover:bg-[#2E335B] md:hover:bg-transparent md:bg-transparent md:justify-center md:size-full md:rounded-none md:gap-0 md:text-[10px] md:flex-col",item.className)}>
               <Image
                 src={image.src}
                 width={image.width}

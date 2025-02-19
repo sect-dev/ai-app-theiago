@@ -21,10 +21,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Sidebar isChatPage={isChatPage} pathname={pathname} />
         </div>
         <div className="hidden absolute left-1/2 bottom-[5vw] -translate-x-1/2 z-[10] md:block">
-          <SidebarMenu />
+          <SidebarMenu pathname={pathname} />
         </div>
         <div className={clsx("ml-auto transition-width duration-300 overflow-y-auto w-[calc(100vw-203px)] md:w-full", {
-          "w-[calc(100vw-87px)]": isChatPage
+          "w-[calc(100vw-75px)]": isChatPage
         })}>
          {children}
         </div>
