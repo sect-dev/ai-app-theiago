@@ -1,8 +1,7 @@
 import React, {FC} from 'react';
 import Image from "next/image";
-import ImageTest from "../../../../../public/images/img/test.png";
-import IcnPlus from "../../../../../public/images/icons/icon-plus.svg";
-import IcnCoins from "../../../../../public/images/icons/icon-coins.svg";
+import IcnPlus from "@/../public/images/icons/icon-plus.svg";
+import IcnCoins from "@/../public/images/icons/icon-coins.svg";
 
 interface ComponentProps {
   avatar: string
