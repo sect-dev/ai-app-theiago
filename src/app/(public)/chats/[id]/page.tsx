@@ -20,7 +20,7 @@ const CharacterContent = async ({ id }: { id: string }) => {
       <div className="w-full space-y-[8px]">
         <ChatsHeader avatar={characterInfo.avatar} name={characterInfo.name} />
         <div className="flex flex-col justify-end p-[20px] rounded-[8px] bg-[#121423] h-[calc(100vh-142px)]">
-          <ChatsMessages />
+          <ChatsMessages characterInfo={characterInfo} />
         </div>
       </div>
       <ChatInfo characterInfo={characterInfo} />

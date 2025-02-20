@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const apiClient = axios.create({
   baseURL: "https://stage.theaigo.com:8000",
   headers: {
@@ -30,14 +29,19 @@ export const getCharacterInfoById = async (id:number) => {
   }
 }
 
-export const sendMessage = async (userId: string, character: any, message: string) => {
+interface SendMessageParam {
+  userId: string,
+  characterId: string,
+  message: string
+}
+
+export const sendMessage = async (params:SendMessageParam) => {
   try {
-    const response = await apiClient.post("/build_response", {
+    const response = await apiClient.post("/build_web_response", {
       type: "text",
-      user_id: userId,
-      character_id: character.id, // Берём ID из объекта персонажа
-      locale: "en", // Или character.locale, если оно есть в объекте
-      message,
+      user_id: params.userId,
+      character_id: params.characterId,
+      message: params.message,
       allowed_response_types: ["text", "image", "video", "audio"],
       censorship: {
         text: "low",
@@ -45,8 +49,9 @@ export const sendMessage = async (userId: string, character: any, message: strin
         audio: "low",
         video: "low",
       },
+      token: "10"
     });
-
+    console.log('response',response)
     return response.data;
   } catch (error) {
     console.error("Ошибка при отправке сообщения:", error);
