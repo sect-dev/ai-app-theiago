@@ -28,7 +28,11 @@ const CharacterContent = async ({ id }: { id: string }) => {
   );
 };
 
-const Page = async ({params}) => {
+interface ComponentProps {
+  params: Promise<{ id: string }>;
+}
+
+const Page = async ({params}:ComponentProps) => {
   const { id } = await params
 
   return (
