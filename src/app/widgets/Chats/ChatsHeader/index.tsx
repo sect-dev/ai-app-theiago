@@ -21,7 +21,7 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
           />
         </span>
         <div className="text-left">
-          <p className="font-medium text-[17px] tracking-[-0.04em]">{name}</p>
+          <p className="font-medium text-[17px] tracking-[-0.04em] mb-[2px]">{name}</p>
           <p className="flex items-center gap-[4px] font-medium max-w-[125px] ">
             <span className="block rounded-full bg-[#4DCF9F] size-[4px]" />
             <span className="text-[12px] opacity-50 line-clamp-1 tracking-[-0.04em]">Online</span>
