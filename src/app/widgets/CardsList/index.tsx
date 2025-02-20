@@ -14,7 +14,7 @@ interface ComponentProps {
 
 const CardsList:FC<ComponentProps> = ({avatars,tags}) => {
   const { selectedTag } = useSelectedCardStore();
-  console.log('avatars',avatars)
+
   const filteredAvatars = selectedTag
     ? avatars.filter(avatar => avatar.tags.includes(selectedTag))
     : avatars;

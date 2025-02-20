@@ -6,6 +6,8 @@ import {getCharacterInfoById} from "@/app/shared/api";
 import ChatsMessages from "@/app/widgets/Chats/ChatsMessages";
 import ChatHeaderSkeleton from "@/app/widgets/Chats/ChatsHeader/ChatHeaderSkeleton";
 import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
+import ChatsMessagesSkeleton from "@/app/widgets/Chats/ChatsMessages/ChatsMessagesSkeleton";
+import ChatsInfoSkeleton from "@/app/widgets/Chats/ChatInfo/ChatsInfoSkeleton";
 
 interface ComponentProps {
   params: Promise<{ id: string }>;
@@ -27,10 +29,16 @@ const Page:FC<ComponentProps> = async ({params}) => {
             : <ChatHeaderSkeleton />
           }
           <div className="flex flex-col justify-end p-[20px] rounded-[8px] bg-[#121423] h-[calc(100vh-142px)]">
-            <ChatsMessages />
+            {(characterInfo && Object.keys(characterInfo).length > 0)
+              ? <ChatsMessages />
+              : <ChatsMessagesSkeleton />
+            }
           </div>
         </div>
-        <ChatInfo characterInfo={characterInfo} />
+        {(characterInfo && Object.keys(characterInfo).length > 0)
+          ? <ChatInfo characterInfo={characterInfo} />
+          : <ChatsInfoSkeleton />
+        }
       </div>
     </div>
   );

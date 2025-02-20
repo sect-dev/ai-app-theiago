@@ -1,0 +1,17 @@
+import React from 'react';
+import clsx from "clsx";
+
+const ChatsMessagesSkeleton = () => {
+  return (
+    <div>
+      <div className="relative flex gap-[8px]">
+        <div className="animate-pulse rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.2em] h-[48px] text-[14px] resize-none placeholder:opacity-50"/>
+        <div className={clsx("animate-pulse p-[12px] rounded-[16px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]", {})}>
+          <div className=" size-[24px]"/>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ChatsMessagesSkeleton;

@@ -10,7 +10,7 @@ interface ComponentProps {
 
 const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
   return (
-    <div className="flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px]">
+    <div className="animate-fadeIn flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px]">
       <div className="flex items-center gap-[12px]">
         <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
           <Image

@@ -8,7 +8,7 @@ import ChatsListItem from "@/app/widgets/Chats/ChatsList/ChatsListItem";
 import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
 
 interface ComponentProps {
-  characterInfo: IAvatar
+  characterInfo: IAvatar | null
 }
 
 const ChatsList:FC<ComponentProps> = ({characterInfo}) => {
@@ -38,7 +38,7 @@ const ChatsList:FC<ComponentProps> = ({characterInfo}) => {
 
   return (
     <div
-      className={clsx("h-[calc(100%-24px)] w-full max-w-[220px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300", {
+      className={clsx("animate-fadeIn h-[calc(100%-24px)] w-full max-w-[220px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300", {
         "max-w-[82px] ": collapse
       })}>
       <div className="flex items-center justify-between px-[20px] mb-[9px]">
@@ -57,13 +57,6 @@ const ChatsList:FC<ComponentProps> = ({characterInfo}) => {
         </button>
       </div>
       <div>
-        {/*<ChatsListItem*/}
-        {/*  id={characterInfo.id}*/}
-        {/*  collapse={collapse}*/}
-        {/*  image={characterInfo.avatar}*/}
-        {/*  name={characterInfo.name}*/}
-        {/*  lastMessage={characterInfo.listMsgs[characterInfo.listMsgs.length-1].en}*/}
-        {/*/>*/}
         {(charactersFromLs.length > 0) &&
           charactersFromLs.map((character) => (
             <ChatsListItem
