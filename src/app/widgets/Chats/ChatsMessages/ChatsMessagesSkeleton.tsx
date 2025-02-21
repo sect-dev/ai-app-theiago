@@ -7,9 +7,9 @@ const ChatsMessagesSkeleton = () => {
   return (
     <div className="h-full">
       <div className="h-[calc(100%-40px)] space-y-[12px]">
-        <p className="animate-pulse bg-[#21233A] w-[120px] h-[38px] w-fit py-[10px] px-[20px] rounded-[20px] rounded-bl-none"/>
-        <p className="animate-pulse bg-[#21233A] w-[170px] h-[38px] w-fit py-[10px] px-[20px] rounded-[20px] rounded-bl-none"/>
-        <p className="animate-pulse bg-[#21233A] w-[160px] h-[38px] w-fit py-[10px] px-[20px] font-medium rounded-[20px] rounded-bl-none"/>
+        <p className="animate-pulse bg-[#21233A] w-[210px] h-[38px] py-[10px] px-[20px] rounded-[20px] rounded-bl-none"/>
+        <p className="animate-pulse bg-[#21233A] w-[290px] h-[38px] py-[10px] px-[20px] rounded-[20px] rounded-bl-none"/>
+        <p className="animate-pulse bg-[#21233A] w-[150px] h-[38px] py-[10px] px-[20px] font-medium rounded-[20px] rounded-bl-none"/>
       </div>
       <div className="relative flex gap-[8px]">
         <div className="animate-pulse rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.2em] h-[48px] text-[14px] resize-none placeholder:opacity-50"/>

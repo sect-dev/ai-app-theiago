@@ -66,7 +66,7 @@ body {
   left: 0;
   top: 0;
   z-index: 2;
-  background:linear-gradient(180deg, rgba(0, 0, 0, 0.5) 14.26%, rgba(0, 0, 0, 0.31) 22.4%, rgba(0, 0, 0, 0.31) 73.49%, rgba(0, 0, 0, 0.5) 81.04%);
+  background:linear-gradient(180deg, rgba(0, 0, 0, 0.5) 8.26%, rgba(0, 0, 0, 0.31) 34.4%, rgba(0, 0, 0, 0.31) 58.49%, rgba(0, 0, 0, 0.5) 89.04%);
 }
 
 @media screen and (min-width: 640px) {
@@ -104,4 +104,10 @@ body {
   .cards-list .card {
     height: 370px;
   }
+}
+
+.transcribate-button {
+  background: linear-gradient(0deg, rgba(6, 128, 230, 0.24), rgba(6, 128, 230, 0.24)),
+  linear-gradient(0deg, rgba(6, 128, 230, 0.24), rgba(6, 128, 230, 0.24));
+
 }
