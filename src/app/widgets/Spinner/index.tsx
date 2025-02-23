@@ -1,9 +1,8 @@
 import React from 'react';
-import styles from './styles.module.css'
 
 const Spinner = () => {
   return (
-    <span className={styles.loader} />
+    <div className="w-4 h-4 border-2 border-gray-200 border-t-[#007AFF] rounded-full animate-spin" />
   );
 };
 

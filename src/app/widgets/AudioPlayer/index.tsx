@@ -6,15 +6,12 @@ import IconPlay from '@/../public/images/icons/icon-play.svg';
 import IconPause from '@/../public/images/icons/icon-pause.svg';
 import IconArrow from '@/../public/images/icons/icon-arrow-translate.svg';
 import clsx from "clsx";
+import Spinner from "@/app/widgets/Spinner";
 
 interface AudioPlayerProps {
   audioUrl: string;
   text: string;
 }
-
-const Spinner = () => (
-  <div className="w-4 h-4 border-2 border-gray-200 border-t-[#007AFF] rounded-full animate-spin"></div>
-);
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -80,9 +77,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
           onClick={togglePlay}
         >
           {isPlaying ? (
-            <Image src={IconPause.src} width={16} height={16} alt="Pause icon" />
+            <Image src={IconPause.src} width={10} height={11} alt="Pause icon" />
           ) : (
-            <Image src={IconPlay.src} width={16} height={16} alt="Play icon" />
+            <Image src={IconPlay.src} width={10} height={13} alt="Play icon" />
           )}
         </button>
 
@@ -107,7 +104,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
         </button>
       </div>
 
-      {/* Показываем Spinner во время загрузки или текст после загрузки */}
       {isLoadingText && (
         <div className="pt-[10px] flex justify-center">
           <Spinner />

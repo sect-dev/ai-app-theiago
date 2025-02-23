@@ -3,6 +3,7 @@ import IconPlay from '@/../public/images/icons/icon-play.svg';
 import Image from "next/image";
 import clsx from "clsx";
 import IconArrow from "../../../../public/images/icons/icon-arrow-translate.svg";
+import Spinner from "@/app/widgets/Spinner";
 
 interface ComponentProps {
   url: string;
@@ -92,8 +93,15 @@ const VideoPlayer: FC<ComponentProps> = ({ url,text }) => {
           )}
         </button>
       </div>
+
+      {isLoadingText && (
+        <div className="pt-[10px] w-[240px] flex justify-center">
+          <Spinner />
+        </div>
+      )}
+
       {showText && !isLoadingText && (
-        <p className="animate-fadeIn w-[188px] text-[14px] !opacity-50 font-medium leading-[1.2em]">{text}</p>
+        <p className="animate-fadeIn w-[210px] text-[14px] !opacity-50 font-medium leading-[1.2em]">{text}</p>
       )}
     </>
   );

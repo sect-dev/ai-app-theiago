@@ -3,10 +3,9 @@ import Image from "next/image";
 import VideoPlayer from "@/app/widgets/VideoPlayer";
 import AudioPlayer from "@/app/widgets/AudioPlayer";
 import clsx from "clsx";
-import Spinner from "@/app/widgets/Spinner";
+import MessageLoading from "@/app/widgets/MessageLoading";
 import {Message} from "@/app/widgets/Chats/ChatsMessages/index";
 import {Character} from "@/app/shared/api/types";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface ComponentProps {
   messages: Message[] | null
@@ -78,7 +77,7 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
       {loading && (
         <div className="animate-fadeIn space-y-[6px] pt-[32px]">
           <div className="animate-fadeIn flex items-center justify-center bg-[#21233A] w-[80px] h-[28px] text-[14px] font-medium rounded-[20px] rounded-bl-none">
-            <Spinner />
+            <MessageLoading />
           </div>
           <p className="font-medium text-[12px] opacity-50 tracking-[-0.04em]">Typing message</p>
         </div>
