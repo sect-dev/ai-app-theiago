@@ -85,3 +85,25 @@ export interface PreparedAvatar {
   listMsgs: { en:string }[],
   name: string
 }
+
+export interface MessageResponse {
+  type: "text" | "video" | "audio" | "image";
+  message: string;
+  url?: string;
+  row_id: number;
+  timestamp: number;
+  nsfw: boolean;
+}
+
+export interface SendMessageResponse {
+  request_nsfw: boolean;
+  character_id: string;
+  response: MessageResponse[];
+  tokens_remaining: number;
+}
+
+export interface SendMessageParam {
+  userId: string,
+  characterId: string,
+  message: string
+}

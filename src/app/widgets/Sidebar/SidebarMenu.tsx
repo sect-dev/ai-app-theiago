@@ -65,7 +65,6 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
           width={IconStars.width}
           height={IconStars.height}
           alt="Subscription icon"
-          className="size-[20px]"
         />
         {!isChatPage && <span>Subscription</span>}
       </li>

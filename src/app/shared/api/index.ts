@@ -1,4 +1,5 @@
 import axios from "axios";
+import {SendMessageParam, SendMessageResponse} from "@/app/shared/api/types";
 
 const apiClient = axios.create({
   baseURL: "https://stage.theaigo.com:8000",
@@ -29,13 +30,7 @@ export const getCharacterInfoById = async (id:number) => {
   }
 }
 
-interface SendMessageParam {
-  userId: string,
-  characterId: string,
-  message: string
-}
-
-export const sendMessage = async (params:SendMessageParam) => {
+export const sendMessage = async (params:SendMessageParam):Promise<SendMessageResponse | null> => {
   try {
     const response = await apiClient.post("/build_web_response", {
       type: "text",
@@ -58,3 +53,13 @@ export const sendMessage = async (params:SendMessageParam) => {
     return null;
   }
 };
+
+export const getTokensInfo = async (userId:string) => {
+  try {
+    const response = await apiClient.get(`/user_tokens?user_id=${userId}`)
+    return response.data
+  } catch (error) {
+    console.error("Ошибка при отправке сообщения:", error);
+    return null;
+  }
+}

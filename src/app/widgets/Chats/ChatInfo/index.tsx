@@ -25,6 +25,7 @@ interface ComponentProps {
 const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
   const [collapse, setCollapse] = useState<boolean>(false)
   const [tabs,setTabs] = useState<string>('Posts')
+
   const handleCollapse = () => {
     setCollapse(!collapse)
   }

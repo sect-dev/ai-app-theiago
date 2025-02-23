@@ -27,7 +27,6 @@ const Sidebar:FC<ComponentProps> = ({isChatPage,pathname}) => {
                 width={IconDownload.width}
                 height={IconDownload.height}
                 alt="download app"
-                className="size-[20px]"
               />
               {!isChatPage && <span className="animate-fadeIn">Download App</span>}
             </Link>

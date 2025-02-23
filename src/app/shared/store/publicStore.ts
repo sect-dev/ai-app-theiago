@@ -14,6 +14,8 @@ interface SelectedCardState {
   setSelectedCard: (avatar: IAvatar) => void;
   setSelectedTag: (tag: string | null) => void;
   setCharacters: (characters: IAvatar[] | null) => void;
+  setTokens: (tokens: number | null) => void;
+  tokens: number | null
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
@@ -22,9 +24,11 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
   return {
     selectedCard: null,
     selectedTag: null,
+    tokens: null,
     characters: initialCharacters,
     setSelectedCard: (card) => set({ selectedCard: card }),
     setSelectedTag: (tag) => set({ selectedTag: tag }),
     setCharacters: (characters) => set({ characters }),
+    setTokens:(tokens) => set({tokens})
   };
 });

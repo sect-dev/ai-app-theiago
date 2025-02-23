@@ -1,5 +1,5 @@
 'use client'
-import React, {FC, useEffect, useRef, useState} from "react";
+import React, {FC, useState} from "react";
 import Image from "next/image";
 import IconSend from "@/../public/images/icons/icon-send.svg";
 import IconUpload from "@/../public/images/icons/icon-upload.svg";
@@ -9,15 +9,14 @@ import clsx from "clsx";
 import ChatsMessageModal from "@/app/widgets/Chats/ChatsMessages/ChatsMessageModal";
 import { sendMessage } from "@/app/shared/api";
 import { Character } from "@/app/shared/api/types";
-import Spinner from "@/app/widgets/Spinner";
-import AudioPlayer from "@/app/widgets/AudioPlayer";
-import VideoPlayer from "@/app/widgets/VideoPlayer";
+import ChatsMessageText from "@/app/widgets/Chats/ChatsMessages/ChatsMessageText";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface FormData {
   message: string;
 }
 
-interface Message {
+export interface Message {
   text: string;
   type: "text" | "video" | "audio";
   url?: string;
@@ -31,8 +30,8 @@ interface ComponentProps {
 const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null); // 👈 Реф для скролла
+  const [messages, setMessages] = useState<Message[] | null>([]);
+  const { setTokens } = useSelectedCardStore();
 
   const {
     register,
@@ -57,13 +56,14 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     try {
       const response = await sendMessage(params);
       if (response?.response?.length > 0) {
-        const botMessages = response.response.map((msg: any) => ({
+        const botMessages = response?.response?.map((msg: any) => ({
           text: msg.message,
           type: msg.type as "text" | "video" | "audio" | 'image',
           url: msg.url || "",
           sender: "bot",
         }));
         setMessages((prev) => [...prev, ...botMessages]);
+        setTokens(response?.tokens_remaining || null)
       }
     } catch (error) {
       console.error("Ошибка отправки сообщения:", error);
@@ -80,74 +80,12 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     reset();
   }
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
-
   const messageValue = watch("message");
 
   return (
     <div className="h-full">
       <div className="h-[calc(100%-40px)] space-y-[12px] overflow-auto pb-[20px]">
-        {/* Сообщения из characterInfo */}
-        {characterInfo.listMsgs.map((item) => (
-          <p
-            className="animate-fadeIn bg-[#21233A] w-fit py-[10px] px-[20px] text-[14px] font-medium rounded-[20px] rounded-bl-none"
-            key={item.en}
-          >
-            {item.en}
-          </p>
-        ))}
-
-        {/* Динамический рендер сообщений */}
-        {messages.map((msg, index) => {
-          {/* Видео-сообщение */}
-          if(msg.type === "video")  {
-            return (
-              <VideoPlayer key={index} url={msg.url ?? ''} text={msg.text ?? ''} />
-            )
-          }
-          {/* Аудио-сообщение */}
-          if(msg.type === "audio") {
-            return  (
-              <AudioPlayer key={index} audioUrl={msg.url ?? ''} text={msg.text} />
-            )
-          }
-          {/* Аудио-сообщение */}
-          if(msg.type === "image") {
-            return  (
-              <div key={index} className="relative w-[240px] h-[300px] overflow-hidden rounded-[20px] rounded-bl-none">
-                <Image
-                  key={index}
-                  fill
-                  src={msg.url ?? ''}
-                  alt="image"
-                  className="object-cover object-top"
-                />
-              </div>
-            )
-          }
-           return (
-             <div key={index}
-                  className={clsx("animate-fadeIn w-fit max-w-[80%] py-[10px] px-[20px] text-[14px] font-medium rounded-[20px]", {
-                    "bg-main-gradient text-white rounded-br-none ml-auto": msg.sender === "user", // Сообщения пользователя (справа)
-                    "bg-[#21233A] rounded-bl-none": msg.sender === "bot", // Ответы бота (слева)
-                  })}>
-               {msg.type === "text" && <p>{msg.text}</p>}
-             </div>
-           )
-        })}
-
-        {/* Спиннер загрузки */}
-        {loading && (
-          <div className="animate-fadeIn space-y-[6px] pt-[32px]">
-            <div className="animate-fadeIn flex items-center justify-center bg-[#21233A] w-[80px] h-[28px] text-[14px] font-medium rounded-[20px] rounded-bl-none">
-              <Spinner />
-            </div>
-            <p className="font-medium text-[12px] opacity-50 tracking-[-0.04em]">Typing message</p>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
+        <ChatsMessageText loading={loading} messages={messages} characterInfo={characterInfo} />
       </div>
 
       {/* Форма отправки сообщений */}
@@ -178,7 +116,6 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
                 width={IconClose.width}
                 height={IconClose.height}
                 alt="clean form"
-                className="size-[24px]"
               />
             </button>
           }

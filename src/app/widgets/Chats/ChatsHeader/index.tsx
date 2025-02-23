@@ -1,14 +1,23 @@
-import React, {FC} from 'react';
+'use client'
+import React, {FC, useEffect} from 'react';
 import Image from "next/image";
 import IcnPlus from "@/../public/images/icons/icon-plus.svg";
 import IcnCoins from "@/../public/images/icons/icon-coins.svg";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface ComponentProps {
   avatar: string
   name: string
+  token: number
 }
 
-const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
+const ChatsHeader:FC<ComponentProps> = ({avatar,name,token = 0}) => {
+  const { tokens, setTokens } = useSelectedCardStore();
+
+  useEffect(() => {
+    setTokens(token)
+  },[])
+
   return (
     <div className="animate-fadeIn flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px]">
       <div className="flex items-center gap-[12px]">
@@ -16,6 +25,7 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
           <Image
             src={avatar}
             fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 42px"
             alt="nicole image"
             className="object-cover object-top"
           />
@@ -28,23 +38,25 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
           </p>
         </div>
       </div>
-      <button className="block bg-main-gradient h-[24px] flex items-center rounded-[15px] px-[12px]">
-        <Image
-          src={IcnPlus.src}
-          width={IcnPlus.width}
-          height={IcnPlus.height}
-          alt="plus image"
-          className="size-[8px]"
-        />
-        <span className="text-[12px] font-bold pl-[8px] pr-[4px]">20</span>
-        <Image
-          src={IcnCoins.src}
-          width={IcnCoins.width}
-          height={IcnCoins.height}
-          alt="coins image"
-          className="w-[11px] h-[12px]"
-        />
-      </button>
+      {tokens
+        ? <button className="block bg-main-gradient h-[24px] flex items-center rounded-[15px] px-[12px]">
+          <Image
+            src={IcnPlus.src}
+            width={IcnPlus.width}
+            height={IcnPlus.height}
+            alt="plus image"
+            className="size-[8px]"
+          />
+          <span className="text-[12px] font-bold pl-[8px] pr-[4px]">{tokens}</span>
+          <Image
+            src={IcnCoins.src}
+            width={IcnCoins.width}
+            height={IcnCoins.height}
+            alt="coins image"
+          />
+        </button>
+        : <span className="animate-pulse block bg-main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " />
+      }
     </div>
   );
 };
