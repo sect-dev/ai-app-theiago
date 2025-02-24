@@ -4,7 +4,7 @@ import Image from "next/image";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import clsx from "clsx";
 import ChatsInfoPosts from "@/app/widgets/Chats/ChatInfo/ChatsInfoPosts";
-import ChatsInfoVideos from "@/app/widgets/Chats/ChatInfo/ChatsInfoVideos";
+// import ChatsInfoVideos from "@/app/widgets/Chats/ChatInfo/ChatsInfoVideos";
 import {Character} from "@/app/shared/api/types";
 
 const tabsCaptions = [
@@ -73,7 +73,7 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
                 "logo-gradient !opacity-100": tabs === item.title
               })}>
                 {item.title}
-                <span className={clsx("block w-full h-[6px] rounded-t-[4px] transition-opacity duration-300 bg-main-gradient opacity-0", {
+                <span className={clsx("block w-full h-[6px] rounded-t-[4px] transition-opacity duration-300 main-gradient opacity-0", {
                   "!opacity-100": tabs === item.title
                 })} />
               </button>

@@ -41,7 +41,7 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
         const image = checkUrl ? item.activeIcon : item.icon
         return (
           <li key={item.id} className="group md:size-full [&>*:a]:rounded-t-[4px]">
-            <Link href={item.href} className={clsx("flex items-center justify-center cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B] md:hover:bg-transparent md:bg-transparent md:justify-center md:size-full md:rounded-none md:gap-0 md:text-[10px] md:flex-col",item.className)}>
+            <Link href={item.href} className={clsx("flex items-center pl-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B] md:hover:bg-transparent md:bg-transparent md:justify-center md:size-full md:rounded-none md:gap-0 md:text-[10px] md:flex-col md:pl-0",item.className)}>
               <Image
                 src={image.src}
                 width={image.width}
@@ -59,14 +59,16 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
           </li>
         )
       })}
-      <li className="flex items-center cursor-pointer font-semibold gap-[8px] text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] bg-main-gradient text-white md:hidden">
-        <Image
-          src={IconStars.src}
-          width={IconStars.width}
-          height={IconStars.height}
-          alt="Subscription icon"
-        />
-        {!isChatPage && <span>Subscription</span>}
+      <li className="cursor-pointer font-semibold text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] main-gradient text-white md:hidden">
+        <span className="relative z-[5] flex items-center gap-[8px]">
+          <Image
+            src={IconStars.src}
+            width={IconStars.width}
+            height={IconStars.height}
+            alt="Subscription icon"
+          />
+          {!isChatPage && <span>Subscription</span>}
+        </span>
       </li>
     </ul>
   );

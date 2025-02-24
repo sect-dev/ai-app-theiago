@@ -53,5 +53,13 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.hover-main-gradient:hover': {
+          backgroundImage: 'linear-gradient(180deg, #6ABCEB 0%, #357DDF 100%)',
+        },
+      });
+    },
+  ],
 } satisfies Config;

@@ -46,7 +46,7 @@ const ChatsInfoSkeleton = () => {
                 "logo-gradient !opacity-100": 'Posts' === item.title
               })}>
                 {item.title}
-                <span className={clsx("block w-full h-[6px] rounded-t-[4px] transition-opacity duration-300 bg-main-gradient opacity-0", {
+                <span className={clsx("block w-full h-[6px] rounded-t-[4px] transition-opacity duration-300 main-gradient opacity-0", {
                   "!opacity-100": 'Posts' === item.title
                 })} />
               </button>

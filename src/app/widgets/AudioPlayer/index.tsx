@@ -73,7 +73,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
       <div className="flex items-center gap-2">
         {/* Кнопка Play/Pause */}
         <button
-          className="bg-main-gradient size-[32px] rounded-[12px] shrink-0 flex items-center justify-center"
+          className="main-gradient size-[32px] rounded-[12px] shrink-0 flex items-center justify-center"
           onClick={togglePlay}
         >
           {isPlaying ? (

@@ -13,7 +13,7 @@ const ChatHeaderSkeleton = () => {
           </p>
         </div>
       </div>
-      <div className="animate-pulse block bg-main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " />
+      <div className="animate-pulse block main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " />
     </div>
   );
 };

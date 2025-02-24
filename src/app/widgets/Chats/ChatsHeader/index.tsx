@@ -39,21 +39,23 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name,token = 0}) => {
         </div>
       </div>
       {tokens
-        ? <button className="block bg-main-gradient h-[24px] flex items-center rounded-[15px] px-[12px]">
-          <Image
-            src={IcnPlus.src}
-            width={IcnPlus.width}
-            height={IcnPlus.height}
-            alt="plus image"
-            className="size-[8px]"
-          />
-          <span className="text-[12px] font-bold pl-[8px] pr-[4px]">{tokens}</span>
-          <Image
-            src={IcnCoins.src}
-            width={IcnCoins.width}
-            height={IcnCoins.height}
-            alt="coins image"
-          />
+        ? <button className="block main-gradient h-[24px] rounded-[15px] px-[12px]">
+            <span className="relative z-[5] flex items-center">
+              <Image
+                src={IcnPlus.src}
+                width={IcnPlus.width}
+                height={IcnPlus.height}
+                alt="plus image"
+                className="size-[8px]"
+              />
+              <span className="text-[12px] font-bold pl-[8px] pr-[4px]">{tokens}</span>
+              <Image
+                src={IcnCoins.src}
+                width={IcnCoins.width}
+                height={IcnCoins.height}
+                alt="coins image"
+              />
+          </span>
         </button>
         : <span className="animate-pulse block bg-main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " />
       }
