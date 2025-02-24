@@ -27,6 +27,27 @@ body {
   display: inline-block;
 }
 
+.gradient-border:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 9px;
+  padding: 1px;
+  background: linear-gradient(180deg, #049AEF 0%, #0862DC 100%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  z-index: -1;
+  transition: 0.3s ease-out;
+}
+
 .card-shadow {
   box-shadow: 0px 0px 16.1px 0px #086BDF36;
 }
@@ -69,6 +90,35 @@ body {
   background:linear-gradient(180deg, rgba(0, 0, 0, 0.5) 8.26%, rgba(0, 0, 0, 0.31) 34.4%, rgba(0, 0, 0, 0.31) 58.49%, rgba(0, 0, 0, 0.5) 89.04%);
 }
 
+.yarl__container {
+  background-color: rgba(0,0,0,0.3) !important;
+  backdrop-filter: blur(5px) !important;
+}
+
+.yarl__slide {
+  padding: 50px 20px!important;
+}
+
+.yarl__slide img {
+  border-radius: 8px;
+}
+
+.yarl__toolbar {
+  right: calc(55vw + 20px) !important;
+  top: 65px!important;
+  transform: translateX(-100%);
+}
+
+.yarl__toolbar .yarl__button {
+  width: 32px;
+  height: 32px;
+  background: #191B2C!important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
 @media screen and (min-width: 640px) {
   .cards-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -109,5 +159,4 @@ body {
 .transcribate-button {
   background: linear-gradient(0deg, rgba(6, 128, 230, 0.24), rgba(6, 128, 230, 0.24)),
   linear-gradient(0deg, rgba(6, 128, 230, 0.24), rgba(6, 128, 230, 0.24));
-
 }

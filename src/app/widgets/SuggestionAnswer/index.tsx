@@ -67,14 +67,14 @@ const SuggestionAnswer:FC<ComponentProps> = ({onSelectMessage}) => {
         </button>
       }
       <button
-        className={clsx("flex items-center gap-[4px]", {
+        className={clsx("flex items-center gap-[4px] group", {
           "pointer-events-none opacity-20": loading
         })}
         onClick={getRandomAnswer}
         disabled={loading}
       >
         <span className="text-[12px]">✨</span>
-        <span className="text-[12px] font-semibold tracking-[-0.04em] opacity-50"> Suggestion answer</span>
+        <span className="text-[12px] font-semibold tracking-[-0.04em] opacity-50 transition-border border-b border-b-transparent duration-300 group-hover:border-b-white"> Suggestion answer</span>
         <Image
           src={IconReload.src}
           width={IconReload.width}

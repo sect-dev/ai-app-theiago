@@ -3,6 +3,7 @@ import React, {FC, useRef, useState} from "react";
 import Image from "next/image";
 import IconSend from "@/../public/images/icons/icon-send.svg";
 import IconUpload from "@/../public/images/icons/icon-upload.svg";
+import IconUploadGradient from "@/../public/images/icons/icon-upload-gradient.svg";
 import IconClose from "@/../public/images/icons/icon-close.svg";
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
@@ -110,10 +111,14 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
             <button
               onClick={handleModal}
               type="button"
-              className="absolute right-[20px] top-1/2 -translate-y-1/2 bg-[#121423] rounded-[9px] flex items-center gap-[6px] h-[24px] px-[9px]"
+              className={clsx("absolute right-[20px] top-1/2 -translate-y-1/2 bg-[#121423] rounded-[9px] flex items-center gap-[6px] h-[24px] px-[9px]", {
+                "gradient-border": showModal
+              })}
             >
-              <Image src={IconUpload.src} width={IconUpload.width} height={IconUpload.height} alt="upload photos" className="size-[14px]" />
-              <span className="font-medium text-[12px]"> Send photo</span>
+              <Image src={showModal ? IconUploadGradient : IconUpload.src} width={IconUpload.width} height={IconUpload.height} alt="upload photos" className="size-[14px]" />
+              <span className={clsx("font-medium text-[12px]", {
+                "logo-gradient": showModal
+              })}> Send photo</span>
             </button>
             {messageValue &&
               <button
