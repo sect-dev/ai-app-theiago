@@ -77,9 +77,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
           onClick={togglePlay}
         >
           {isPlaying ? (
-            <Image src={IconPause.src} width={10} height={11} alt="Pause icon" />
+            <Image src={IconPause.src} width={10} height={11} alt="Pause icon" className="relative z-[5]" />
           ) : (
-            <Image src={IconPlay.src} width={10} height={13} alt="Play icon" />
+            <Image src={IconPlay.src} width={10} height={13} alt="Play icon" className="relative z-[5]" />
           )}
         </button>
 

@@ -7,6 +7,46 @@
   --text: #fff;
 }
 
+/* width */
+.scroll-wrapper::-webkit-scrollbar,
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #191B2C;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #049AEF;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #191B2C;
+}
+
+.scrollbar-track {
+  background-color: #191B2C!important;
+  border-radius: 5px!important;
+}
+
+/* Стили для "ползунка" скролла */
+.scrollbar-thumb {
+  background-color: #049AEF!important;
+  border-radius: 5px!important;
+  transition: background-color 0.3s!important;
+}
+
+/* Ховер-эффект */
+.scrollbar-thumb:hover {
+  background-color: #202044;
+}
+
 body {
   color: var(--text);
   background: var(--background);

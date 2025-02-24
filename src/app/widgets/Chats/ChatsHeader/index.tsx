@@ -4,6 +4,8 @@ import Image from "next/image";
 import IcnPlus from "@/../public/images/icons/icon-plus.svg";
 import IcnCoins from "@/../public/images/icons/icon-coins.svg";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import clsx from "clsx";
+import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 
 interface ComponentProps {
   avatar: string
@@ -13,6 +15,7 @@ interface ComponentProps {
 
 const ChatsHeader:FC<ComponentProps> = ({avatar,name,token = 0}) => {
   const { tokens, setTokens } = useSelectedCardStore();
+  const {setInfoCollapse,characterInfoCollapse} = useSelectedCardStore()
 
   useEffect(() => {
     setTokens(token)
@@ -38,8 +41,9 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name,token = 0}) => {
           </p>
         </div>
       </div>
-      {tokens
-        ? <button className="block main-gradient h-[24px] rounded-[15px] px-[12px]">
+      <div className="flex items-center gap-[8px]">
+        {tokens
+          ? <button className="block main-gradient h-[24px] rounded-[15px] px-[12px]">
             <span className="relative z-[5] flex items-center">
               <Image
                 src={IcnPlus.src}
@@ -56,9 +60,24 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name,token = 0}) => {
                 alt="coins image"
               />
           </span>
+          </button>
+          : <span className="animate-pulse block bg-main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " />
+        }
+        <button
+          onClick={() => setInfoCollapse(false)}
+          className={clsx("hidden animate-fadeIn z-[5] flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]", {
+            "!flex": characterInfoCollapse
+          })}
+        >
+          <Image
+            src={IconCollapse.src}
+            width={IconCollapse.width}
+            height={IconCollapse.height}
+            alt="collapse image"
+            className="size-[18px]"
+          />
         </button>
-        : <span className="animate-pulse block bg-main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " />
-      }
+      </div>
     </div>
   );
 };

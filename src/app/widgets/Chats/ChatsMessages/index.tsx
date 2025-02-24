@@ -107,6 +107,14 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
             {...register("message", { required: "Поле обязательно для заполнения" })}
             className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.2em] h-[48px] text-[14px] pr-[160px] resize-none placeholder:opacity-50 focus:outline-none"
             placeholder="Your message here"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                if (messageValue?.trim() && !loading) {
+                  handleSubmit(onSubmit)();
+                }
+              }
+            }}
           />
             <button
               onClick={handleModal}

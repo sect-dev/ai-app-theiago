@@ -56,7 +56,7 @@ const ChatsInfoSkeleton = () => {
         <div className="flex flex-wrap gap-[8px] px-[8px] overflow-auto max-h-[34vh] pb-[8px]" >
           {Array.from({length: 4}).map((_,index) => {
             return (
-              <div key={index} className="animate-pulse w-[134px] h-[157px] rounded-[12px] bg-[#1F2237] " />
+              <div key={index} className="animate-pulse w-[48%] h-[157px] rounded-[12px] bg-[#1F2237] " />
             )
           })}
         </div>

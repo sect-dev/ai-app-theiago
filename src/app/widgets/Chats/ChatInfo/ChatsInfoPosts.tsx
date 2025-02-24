@@ -30,7 +30,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
           return (
             <div
               key={photo}
-              className={clsx("gradient-border relative pointer-events-none animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-[134px] h-[157px] cursor-pointer before:rounded-[12px] before:z-[2] before:opacity-0", {
+              className={clsx("gradient-border relative pointer-events-none animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-[48%] h-[157px] cursor-pointer before:rounded-[12px] before:z-[2] before:opacity-0", {
                 "hover:before:opacity-100 pointer-events-auto": isAvailable
               })}
               onClick={() =>  setOpen(true)}
