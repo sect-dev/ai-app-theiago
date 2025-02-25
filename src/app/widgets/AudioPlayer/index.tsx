@@ -32,7 +32,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
       barWidth: 2,
       barHeight: 1,
       height: 20,
-      responsive: true,
       minPxPerSec: 10,
       fillParent: true,
     });
