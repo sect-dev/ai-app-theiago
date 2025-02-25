@@ -25,6 +25,12 @@ export interface Message {
   sender: "user" | "bot";
 }
 
+interface BotMessage {
+  message: string;
+  type: "text" | "video" | "audio" | "image";
+  url?: string;
+}
+
 interface ComponentProps {
   characterInfo: Character | null;
 }
@@ -61,11 +67,11 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     try {
       const response = await sendMessage(params);
       if (response &&response?.response?.length > 0) {
-        const botMessages = response?.response?.map((msg: any) => ({
+        const botMessages = response?.response?.map((msg: BotMessage) => ({
           text: msg.message,
-          type: msg.type as "text" | "video" | "audio" | 'image',
+          type: msg.type,
           url: msg.url || "",
-          sender: "bot" as "bot",
+          sender: "bot" as const,
         }));
         setMessages((prev) => [...(prev ?? []), ...botMessages]);
 
