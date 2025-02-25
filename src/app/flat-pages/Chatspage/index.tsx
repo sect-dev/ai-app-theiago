@@ -4,6 +4,10 @@ import {redirect} from "next/navigation";
 import Image from "next/image";
 import ImageEmptyChat from '@/../public/images/img/img-no-chat.svg';
 import Link from "next/link";
+import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
+import ChatHeaderSkeleton from "@/app/widgets/Chats/ChatsHeader/ChatHeaderSkeleton";
+import ChatsMessagesSkeleton from "@/app/widgets/Chats/ChatsMessages/ChatsMessagesSkeleton";
+import ChatsInfoSkeleton from "@/app/widgets/Chats/ChatInfo/ChatsInfoSkeleton";
 
 const Chatspage = () => {
 
@@ -12,6 +16,24 @@ const Chatspage = () => {
     if (storedChats) {
       const chatIds = JSON.parse(storedChats);
       redirect(`/chats/${chatIds[0].id}`);
+      return (
+        <div className="relative flex gap-[12px] pr-[12px] md:px-[8px] md:flex-col">
+          <div className="w-full">
+            <div className="flex gap-[12px] md:px-[8px] md:flex-col">
+              <div className="md:hidden">
+                <ChatsListSkeleton />
+              </div>
+              <div className="w-full space-y-[8px]">
+                <ChatHeaderSkeleton />
+                <div className="flex flex-col justify-end p-[20px] rounded-[8px] bg-[#121423] h-[calc(100vh-142px)]">
+                  <ChatsMessagesSkeleton />
+                </div>
+              </div>
+              <ChatsInfoSkeleton />
+            </div>
+          </div>
+        </div>
+      )
     }
   }
 
