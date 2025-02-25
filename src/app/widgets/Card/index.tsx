@@ -54,7 +54,7 @@ const Card:FC<ComponentProps> = ({avatar}) => {
           {avatar.description.en}
         </p>
       </div>
-      <div className="w-full absolute left-1/2 -bottom-[35px] z-[10] -translate-x-1/2 px-[16px] transition-all duration-300 group-hover:bottom-[14px] md:-bottom-[30px] md:group-hover:bottom-[9px] md:px-[12px]">
+      <div className="w-full absolute left-1/2 -bottom-[35px] z-[10] -translate-x-1/2 px-[16px] transition-all duration-300 group-hover:bottom-[14px] md:-bottom-[35px] md:group-hover:bottom-[9px] md:px-[12px]">
         <button
           onClick={() => handleClick(avatar)}
           className="main-gradient  w-full text-[14px] rounded-[12px] h-[35px] font-semibold text-white md:h-[30px] md:text-[12px]"

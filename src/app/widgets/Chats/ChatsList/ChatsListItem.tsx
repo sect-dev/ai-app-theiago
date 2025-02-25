@@ -23,11 +23,11 @@ const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessa
     <button
       key={id}
       onClick={() => handleChatChange(id)}
-      className={clsx("flex transition-bg duration-300 px-[20px] py-[6px]", {
+      className={clsx("flex transition-bg duration-300 px-[20px] py-[6px] md:px-[16px] md:w-full", {
         "bg-[#0680E642]": (params?.id && +id === +params?.id)
       })}
     >
-       <span className="flex items-center gap-[8px]">
+       <span className="flex items-center gap-[8px] md:w-full">
         <span className="relative">
         <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
           <Image

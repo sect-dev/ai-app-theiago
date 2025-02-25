@@ -10,7 +10,7 @@ import {Character} from "@/app/shared/api/types";
 interface ComponentProps {
   messages: Message[] | null
   loading: boolean
-  characterInfo: Character
+  characterInfo: Character | null
 }
 
 const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) => {
@@ -25,7 +25,7 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
   return (
     <>
       {/* Сообщения из characterInfo */}
-      {characterInfo.listMsgs.map((item) => (
+      {characterInfo?.listMsgs.map((item) => (
         <p
           className="animate-fadeIn bg-[#21233A] w-fit py-[10px] px-[20px] text-[14px] font-medium rounded-[20px] rounded-bl-none"
           key={item.en}

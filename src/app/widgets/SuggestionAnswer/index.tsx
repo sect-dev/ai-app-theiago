@@ -56,7 +56,7 @@ const SuggestionAnswer:FC<ComponentProps> = ({onSelectMessage}) => {
   };
 
   return (
-    <div className="animate-fadeIn bg-[#21233A] p-[8px] rounded-[12px] w-[365px] mb-[8px]">
+    <div className="animate-fadeIn bg-[#21233A] p-[8px] rounded-[12px] w-[365px] mb-[8px] md:w-full">
       {loading
         ? <div className="h-[32px]"><Spinner /> </div>
         : <button

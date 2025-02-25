@@ -49,12 +49,13 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
                 alt="Explore icon"
                 className="size-[20px]"
               />
-              {!isChatPage && (
                 <span
                   className={clsx("animate-fadeIn text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]", {
                     "logo-gradient transition-all duration-300": checkUrl,
-                  })}>{item.title}</span>
-              )}
+                    "hidden md:!block": isChatPage,
+                  })}>
+                  {item.title}
+                </span>
           </Link>
           </li>
         )

@@ -16,8 +16,9 @@ const Chatspage = () => {
   }
 
   return (
-    <div className="w-[calc(100vw-87px)] ml-auto animate-fadeIn h-[calc(100%-24px)] bg-[#121423] p-[24px] mr-[12px] rounded-[24px] md:p-[16px] md:rounded-none md:w-full">
-      <div className="container h-full">
+    <div className="w-[calc(100vw-87px)] ml-auto animate-fadeIn h-[calc(100%-24px)] bg-[#121423] p-[24px] mr-[12px] rounded-[24px] md:p-[16px] md:rounded-[16px] md:w-full sm:h-auto">
+      <div className="container h-full md:w-[92vw]">
+        <p className="hidden md:block md:mb-[16px] text-[20px] font-medium">Chats</p>
         <div className="flex flex-col items-center h-full justify-center gap-[24px]">
           <Image
             src={ImageEmptyChat.src}

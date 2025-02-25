@@ -13,11 +13,15 @@ interface SelectedCardState {
   characterInfoCollapse: boolean
   characters: IAvatar[] | null;
   tokens: number | null
+  isMobileChatOpen: boolean
+  isMobileInfoOpen: boolean
   setSelectedCard: (avatar: IAvatar) => void;
   setSelectedTag: (tag: string | null) => void;
   setCharacters: (characters: IAvatar[] | null) => void;
   setTokens: (tokens: number | null) => void;
   setInfoCollapse:(value:boolean) => void
+  setMobileChatOpen:(value: boolean) => void
+  setMobileInfoOpen:(value: boolean) => void
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
@@ -27,12 +31,16 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     selectedCard: null,
     selectedTag: null,
     characterInfoCollapse: false,
+    isMobileChatOpen: true,
     tokens: null,
+    isMobileInfoOpen: false,
     characters: initialCharacters,
     setSelectedCard: (card) => set({ selectedCard: card }),
     setSelectedTag: (tag) => set({ selectedTag: tag }),
     setCharacters: (characters) => set({ characters }),
     setTokens:(tokens) => set({tokens}),
-    setInfoCollapse:(characterInfoCollapse) => set({characterInfoCollapse})
+    setInfoCollapse:(characterInfoCollapse) => set({characterInfoCollapse}),
+    setMobileChatOpen:(isMobileChatOpen: boolean) => set({isMobileChatOpen}),
+    setMobileInfoOpen:(isMobileInfoOpen: boolean) => set({isMobileInfoOpen})
   };
 });

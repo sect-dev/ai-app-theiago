@@ -7,6 +7,7 @@ import ChatsInfoPosts from "@/app/widgets/Chats/ChatInfo/ChatsInfoPosts";
 // import ChatsInfoVideos from "@/app/widgets/Chats/ChatInfo/ChatsInfoVideos";
 import {Character} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import IconBack from "../../../../../public/images/icons/icon-back.svg";
 
 const tabsCaptions = [
   {
@@ -24,7 +25,7 @@ interface ComponentProps {
 }
 
 const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
-  const {setInfoCollapse,characterInfoCollapse} = useSelectedCardStore()
+  const {setInfoCollapse, characterInfoCollapse, isMobileInfoOpen, setMobileInfoOpen} = useSelectedCardStore()
   const [tabs,setTabs] = useState<string>('Posts')
 
   const handleCollapse = () => {
@@ -34,11 +35,12 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
   const handleTabs = (value: string) => {
     setTabs(value)
   }
-
+  console.log('isMobileInfoOpen',isMobileInfoOpen)
   return (
-    <div className="relative">
-      <div className={clsx("animate-fadeIn bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-all duration-300 overflow-hidden", {
-        "hidden": characterInfoCollapse
+    <div>
+      <div className={clsx("animate-fadeIn bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-all duration-300 md:absolute md:h-full md:left-0 md:top-0 md:w-full md:-translate-x-[-105%]", {
+        "hidden md:block": characterInfoCollapse,
+        "md:!translate-x-0": isMobileInfoOpen
       })}>
         <div className="chatInfoImage relative flex items-end p-[20px] h-[293px] rounded-tl-[8px] rounded-tr-[24px] overflow-hidden">
           {characterInfo?.image && <Image
@@ -52,13 +54,23 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
             <p className="text-[20px] font-semibold">{characterInfo.name}</p>
             <p className="text-[14px] font-medium opacity-[60%]">{characterInfo.shortDescription?.en}</p>
           </div>
-          <button onClick={handleCollapse} className="absolute left-[20px] top-[20px] z-[5] flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]">
+
+          <button onClick={handleCollapse} className="flex md:hidden absolute left-[20px] top-[20px] z-[5] items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]">
             <Image
               src={IconCollapse.src}
               width={IconCollapse.width}
               height={IconCollapse.height}
               alt="collapse image"
-              className="size-[18px]"
+              className="size-[18px] block md:hidden"
+            />
+          </button>
+          <button onClick={() => setMobileInfoOpen(false)} className="hidden md:flex absolute left-[20px] top-[20px] z-[5] items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]">
+            <Image
+              src={IconBack.src}
+              width={IconBack.width}
+              height={IconBack.height}
+              alt="icon back"
+              className=""
             />
           </button>
         </div>
@@ -67,8 +79,8 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
             {characterInfo.description.en}
           </p>
         </div>
-        <div>
-          <div className="flex gap-[20px] px-[20px]">
+        <div className="bg-[#121423]">
+          <div className="flex gap-[20px] px-[20px] ">
             {tabsCaptions.map(item => {
               return (
                 <button onClick={() => handleTabs(item.title)} key={item.id} className={clsx("text-[14px] px-[7px] h-[27px] font-semibold opacity-[20%] transition-all duration-300", {

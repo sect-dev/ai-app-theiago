@@ -13,12 +13,12 @@ const ChatsListSkeleton = () => {
 
   return (
     <div
-      className={clsx("h-[calc(100%-24px)] w-full max-w-[220px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300", {
+      className={clsx("h-[calc(100%-24px)] w-full max-w-[220px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300 md:max-w-full", {
         "max-w-[82px] ": collapse
       })}>
       <div className="flex items-center justify-between px-[20px] mb-[9px]">
-        {!collapse && <p className="animate-fadeIn text-[17px] font-medium">Chats</p>}
-        <button onClick={handleCollapse} className="flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]">
+        {!collapse && <p className="animate-fadeIn text-[17px] font-medium ">Chats</p>}
+        <button onClick={handleCollapse} className="flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px] md:hidden">
           <Image
             src={IconCollapse.src}
             width={IconCollapse.width}
@@ -37,7 +37,7 @@ const ChatsListSkeleton = () => {
             {!collapse && (
               <div className="animate-fadeIn delay-300 space-y-[4px]">
                 <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px]" />
-                <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px]" />
+                <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px] md:w-[180px]" />
               </div>
             )}
           </span>
@@ -50,7 +50,7 @@ const ChatsListSkeleton = () => {
             {!collapse && (
               <div className="animate-fadeIn delay-300 space-y-[4px]">
                 <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px]" />
-                <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px]" />
+                <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px] md:w-[180px]" />
               </div>
             )}
           </span>
@@ -63,7 +63,7 @@ const ChatsListSkeleton = () => {
             {!collapse && (
               <div className="animate-fadeIn delay-300 space-y-[4px]">
                 <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px]" />
-                <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px]" />
+                <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px] md:w-[180px]" />
               </div>
             )}
           </span>
@@ -76,7 +76,7 @@ const ChatsListSkeleton = () => {
             {!collapse && (
               <div className="animate-fadeIn delay-300 space-y-[4px]">
                 <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px]" />
-                <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px]" />
+                <div className="animate-pulse font-medium w-[81px] h-[18px] bg-[#1F2237] rounded-[9px] md:w-[180px]" />
               </div>
             )}
           </span>

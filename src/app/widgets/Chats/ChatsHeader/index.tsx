@@ -6,25 +6,32 @@ import IcnCoins from "@/../public/images/icons/icon-coins.svg";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
+import IconBack from "@/../public/images/icons/icon-back.svg";
 
 interface ComponentProps {
-  avatar: string
-  name: string
-  token: number
+  avatar: string | null
+  name: string | null
 }
 
-const ChatsHeader:FC<ComponentProps> = ({avatar,name,token = 0}) => {
-  const { tokens, setTokens } = useSelectedCardStore();
-  const {setInfoCollapse,characterInfoCollapse} = useSelectedCardStore()
-
-  useEffect(() => {
-    setTokens(token)
-  },[])
+const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
+  const { tokens, setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen } = useSelectedCardStore();
 
   return (
-    <div className="animate-fadeIn flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px]">
-      <div className="flex items-center gap-[12px]">
-        <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
+    <div className={clsx("animate-fadeIn flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px] transition-transform duration-300 md:rounded-[16px] md:py-[14px] md:px-[12px]", {})}>
+      <button onClick={() => setMobileInfoOpen(true)} className="flex items-center gap-[12px]">
+        <div
+          onClick={() => setMobileChatOpen(false)}
+          className="hidden size-[28px] rounded-[8px] bg-[#191B2C] flex items-center justify-center md:flex"
+        >
+          <Image
+            src={IconBack.src}
+            width={IconBack.width}
+            height={IconBack.height}
+            alt="icon back"
+          />
+        </div>
+        <div className="flex items-center gap-[12px]">
+          <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
           <Image
             src={avatar}
             fill
@@ -33,14 +40,15 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name,token = 0}) => {
             className="object-cover object-top"
           />
         </span>
-        <div className="text-left">
-          <p className="font-medium text-[17px] tracking-[-0.04em] mb-[2px]">{name}</p>
-          <p className="flex items-center gap-[4px] font-medium max-w-[125px] ">
-            <span className="block rounded-full bg-[#4DCF9F] size-[4px]" />
-            <span className="text-[12px] opacity-50 line-clamp-1 tracking-[-0.04em]">Online</span>
-          </p>
+          <div className="text-left">
+            <p className="font-medium text-[17px] tracking-[-0.04em] mb-[2px]">{name}</p>
+            <p className="flex items-center gap-[4px] font-medium max-w-[125px] ">
+              <span className="block rounded-full bg-[#4DCF9F] size-[4px]" />
+              <span className="text-[12px] opacity-50 line-clamp-1 tracking-[-0.04em]">Online</span>
+            </p>
+          </div>
         </div>
-      </div>
+      </button>
       <div className="flex items-center gap-[8px]">
         {tokens
           ? <button className="block main-gradient h-[24px] rounded-[15px] px-[12px]">

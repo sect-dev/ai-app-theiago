@@ -6,8 +6,10 @@ import Sidebar from "@/app/widgets/Sidebar";
 import SidebarMenu from "@/app/widgets/Sidebar/SidebarMenu";
 import {usePathname} from "next/navigation";
 import clsx from "clsx";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+  const { isMobileChatOpen } = useSelectedCardStore();
   const pathname = usePathname();
   const isChatPage = pathname?.includes('chats');
 
@@ -20,10 +22,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         })}>
           <Sidebar isChatPage={isChatPage} pathname={pathname} />
         </div>
-        <div className="hidden absolute left-1/2 bottom-[5vw] -translate-x-1/2 z-[10] md:block">
+        <div className={clsx("hidden absolute left-1/2 bottom-[5vw] -translate-x-1/2 z-[10] md:block", {
+          "!hidden": isMobileChatOpen
+        })}>
           <SidebarMenu pathname={pathname} />
         </div>
-        <div className={clsx("ml-auto transition-width duration-300 overflow-y-auto w-[calc(100vw-203px)] md:w-full", {
+        <div className={clsx("ml-auto transition-width duration-300 overflow-y-auto overflow-x-hidden w-[calc(100vw-203px)] md:w-full", {
           "w-[calc(100vw-75px)]": isChatPage
         })}>
          {children}

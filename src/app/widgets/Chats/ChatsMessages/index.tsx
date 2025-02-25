@@ -26,7 +26,7 @@ export interface Message {
 }
 
 interface ComponentProps {
-  characterInfo: Character;
+  characterInfo: Character | null;
 }
 
 const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
@@ -92,7 +92,8 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const messageValue = watch("message");
 
   return (
-    <div className="h-full flex flex-col justify-between">
+    <div className={clsx("flex flex-col justify-end p-[20px] rounded-[8px] bg-[#121423] h-[calc(100vh-142px)] transition-transform duration-300  md:rounded-[16px] md:py-[14px] md:px-[12px] ", {})}>
+      <div className="h-full flex flex-col justify-between">
       <div className="space-y-[12px] overflow-auto pb-[20px]">
         <ChatsMessageText loading={loading} messages={messages} characterInfo={characterInfo} />
       </div>
@@ -105,7 +106,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
             ref={textAreaRef}
             id="message"
             {...register("message", { required: "Поле обязательно для заполнения" })}
-            className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.2em] h-[48px] text-[14px] pr-[160px] resize-none placeholder:opacity-50 focus:outline-none"
+            className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.2em] h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px]"
             placeholder="Your message here"
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
@@ -156,6 +157,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 };
