@@ -35,7 +35,6 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
   const handleTabs = (value: string) => {
     setTabs(value)
   }
-  console.log('isMobileInfoOpen',isMobileInfoOpen)
   return (
     <div>
       <div className={clsx("animate-fadeIn bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-all duration-300 md:absolute md:h-full md:left-0 md:top-0 md:w-full md:-translate-x-[-105%]", {

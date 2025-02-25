@@ -46,7 +46,6 @@ export const sendMessage = async (params:SendMessageParam):Promise<SendMessageRe
       },
       token: "10"
     });
-    console.log('response',response)
     return response.data;
   } catch (error) {
     console.error("Ошибка при отправке сообщения:", error);
