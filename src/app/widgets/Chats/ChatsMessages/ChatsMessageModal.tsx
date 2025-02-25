@@ -56,14 +56,14 @@ const ChatsMessageModal:FC<ComponentProps> = ({closeModal,onSelectMessage}) => {
     <div ref={modalRef} className="animate-fadeIn w-[187px] absolute right-[60px] bottom-[calc(100%+10px)] space-y-[4px]">
       <div className="py-[12px] px-[6px] bg-[#21233A] rounded-t-[12px] rounded-b-[4px]">
         <p className="text-[14px] font-semibold mb-[10px]">Ask a photo with</p>
-        <ul className="space-y-[12px]">
+        <ul className="">
           {photoPrompt.map(item => {
             const prompt = item.title.includes('Custom') ? 'Send me ' : `Send me your photo with ${item.title}`
             return (
               <li key={item.id} className="">
                 <button
                   onClick={() => onSelectMessage(prompt)}
-                  className="flex items-center gap-[8px] group"
+                  className="flex items-center gap-[8px] text-left w-full py-[6px] group"
                 >
                   <span className="text-[14px]">{item.image}</span>
                   <span className="text-[12px] font-medium border-b border-b-transparent transition-border duration-300 group-hover:border-b-white">{item.title}</span>
@@ -74,15 +74,15 @@ const ChatsMessageModal:FC<ComponentProps> = ({closeModal,onSelectMessage}) => {
         </ul>
       </div>
       <div className="py-[12px] px-[6px] bg-[#21233A] rounded-b-[12px] rounded-t-[4px] ">
-        <ul className="space-y-[12px] mb-[12px]">
+        <ul className="mb-[12px]">
           {textPrompt.map(item => {
             return (
               <li key={item.id} className="group">
                 <button
                   onClick={() => onSelectMessage(item.title)}
-                  className="block text-[12px] font-medium border-b border-b-transparent transition-border duration-300 group-hover:border-b-white"
+                  className="block text-left w-full py-[6px] text-[12px] font-medium "
                 >
-                  {item.title}
+                  <span className="border-b border-b-transparent transition-border duration-300 group-hover:border-b-white">{item.title}</span>
                 </button>
               </li>
             )

@@ -28,17 +28,14 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
   const {setInfoCollapse, characterInfoCollapse, isMobileInfoOpen, setMobileInfoOpen} = useSelectedCardStore()
   const [tabs,setTabs] = useState<string>('Posts')
 
-  const handleCollapse = () => {
-    setInfoCollapse(true)
-  }
+  const handleCollapse = () => setInfoCollapse(true);
 
-  const handleTabs = (value: string) => {
-    setTabs(value)
-  }
+  const handleTabs = (value: string) => setTabs(value);
+
   return (
-    <div>
+    <>
       <div className={clsx("animate-fadeIn bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-all duration-300 md:absolute md:h-full md:left-0 md:top-0 md:w-full md:-translate-x-[-105%]", {
-        "hidden md:block": characterInfoCollapse,
+        "mr-[-310px]": characterInfoCollapse,
         "md:!translate-x-0": isMobileInfoOpen
       })}>
         <div className="chatInfoImage relative flex items-end p-[20px] h-[293px] rounded-tl-[8px] rounded-tr-[24px] overflow-hidden">
@@ -93,13 +90,13 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
               )
             })}
           </div>
-          <div className="px-[8px] overflow-y-auto max-h-[34vh] pb-[8px]">
+          <div className="px-[8px] overflow-y-auto max-h-[calc(100vh-510px)] pb-[8px]">
             {tabs === 'Posts' && <ChatsInfoPosts content={characterInfo.listProfilePhoto} />}
             {/*{tabs === 'Videos'&& <ChatsInfoVideos content={characterInfo.listVideo} />}*/}
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

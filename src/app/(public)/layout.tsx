@@ -7,6 +7,7 @@ import SidebarMenu from "@/app/widgets/Sidebar/SidebarMenu";
 import {usePathname} from "next/navigation";
 import clsx from "clsx";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import AuthModal from "@/app/widgets/Modals/AuthModal";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { isMobileChatOpen } = useSelectedCardStore();
@@ -33,6 +34,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
          {children}
         </div>
       </div>
+      <AuthModal />
     </DefaultLayout>
   );
 };

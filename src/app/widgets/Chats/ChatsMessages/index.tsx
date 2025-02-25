@@ -116,7 +116,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
               textAreaRef.current = e;
             }}
             id="message"
-            className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.2em] h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px]"
+            className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.5em] h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px]"
             placeholder="Your message here"
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {

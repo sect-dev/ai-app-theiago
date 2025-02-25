@@ -2,9 +2,12 @@
 import React, {useState} from 'react';
 import Link from "next/link";
 import clsx from "clsx";
+// import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 const Header = () => {
   const [menuModal,setMenuModal] = useState(false);
+  // const {setAuthModal} = useSelectedCardStore()
+
   return (
     <div className="fixed top-0 left-0 z-50 w-full py-[6px] md:py-[14px] md:static">
       <div className="container ">
@@ -35,7 +38,10 @@ const Header = () => {
               <span className="">Go</span>
             </Link>
           </div>
-          <button className="main-gradient px-[12px] h-[24px] font-bold text-[12px] rounded-[8px] md:px-[12px] md:h-[27px] md:text-[14px]">
+          <button
+            // onClick={() => setAuthModal({modalType:"login", isAuthModalActive:true})}
+            className="main-gradient px-[12px] h-[24px] font-bold text-[12px] rounded-[8px] md:px-[12px] md:h-[27px] md:text-[14px]"
+          >
             <span className="relative z-[5]">Sign in</span>
           </button>
         </div>
