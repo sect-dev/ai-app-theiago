@@ -8,6 +8,7 @@ import clsx from "clsx";
 
 interface ComponentProps {
   characterInfo: Character | null
+  token: number
 }
 
 const ChatsContent:FC<ComponentProps> = ({token, characterInfo}) => {

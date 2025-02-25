@@ -33,7 +33,7 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
         <div className="flex items-center gap-[12px]">
           <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
           <Image
-            src={avatar}
+            src={avatar ?? ''}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 42px"
             alt="nicole image"

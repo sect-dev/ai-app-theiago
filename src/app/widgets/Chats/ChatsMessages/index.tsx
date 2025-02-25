@@ -20,7 +20,7 @@ interface FormData {
 
 export interface Message {
   text: string;
-  type: "text" | "video" | "audio";
+  type: "text" | "image" | "video" | "audio";
   url?: string;
   sender: "user" | "bot";
 }
@@ -49,25 +49,26 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const onSubmit = async (data: FormData) => {
     // Добавляем сообщение пользователя в чат
     const userMessage: Message = { text: data.message, type: "text", sender: "user" };
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages((prev) => [...(prev || []), userMessage]);
     reset();
 
     setLoading(true);
     const params = {
       userId: "8d9b409fe5287d5b",
       message: data.message,
-      characterId: characterInfo.id.toString(),
+      characterId: characterInfo?.id.toString() ?? '',
     };
     try {
       const response = await sendMessage(params);
-      if (response?.response?.length > 0) {
+      if (response &&response?.response?.length > 0) {
         const botMessages = response?.response?.map((msg: any) => ({
           text: msg.message,
           type: msg.type as "text" | "video" | "audio" | 'image',
           url: msg.url || "",
-          sender: "bot",
+          sender: "bot" as "bot",
         }));
-        setMessages((prev) => [...prev, ...botMessages]);
+        setMessages((prev) => [...(prev ?? []), ...botMessages]);
+
         setTokens(response?.tokens_remaining || null)
       }
     } catch (error) {
@@ -103,9 +104,12 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
           {showModal && <ChatsMessageModal onSelectMessage={handleSelectMessage} closeModal={() => setShowModal(false)} />}
           <div className="relative w-full">
           <textarea
-            ref={textAreaRef}
-            id="message"
             {...register("message", { required: "Поле обязательно для заполнения" })}
+            ref={(e) => {
+              register("message").ref(e);
+              textAreaRef.current = e;
+            }}
+            id="message"
             className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.2em] h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px]"
             placeholder="Your message here"
             onKeyDown={(e) => {

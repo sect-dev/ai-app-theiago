@@ -17,7 +17,7 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if(messages?.length > 2) {
+    if(messages && messages?.length > 2) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, loading]);
