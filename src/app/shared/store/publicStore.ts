@@ -16,7 +16,7 @@ interface SelectedCardState {
   isMobileChatOpen: boolean
   isMobileInfoOpen: boolean
   isAuthModalActive: boolean
-  modalType: "login" | "register",
+  modalType: "login" | "register" | null,
   setSelectedCard: (avatar: IAvatar) => void;
   setSelectedTag: (tag: string | null) => void;
   setCharacters: (characters: IAvatar[] | null) => void;
@@ -47,6 +47,6 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     setInfoCollapse:(characterInfoCollapse) => set({characterInfoCollapse}),
     setMobileChatOpen:(isMobileChatOpen: boolean) => set({isMobileChatOpen}),
     setMobileInfoOpen:(isMobileInfoOpen: boolean) => set({isMobileInfoOpen}),
-    setAuthModal: (value: { modalType: "login" | "register" | null; isAuthModalActive: boolean }) => set({modalype: value.modalType, isAuthModalActive:value.isAuthModalActive}),
+    setAuthModal: (value: { modalType: "login" | "register" | null; isAuthModalActive: boolean }) => set({modalType: value.modalType, isAuthModalActive:value.isAuthModalActive}),
   };
 });
