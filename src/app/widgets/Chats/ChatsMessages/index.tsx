@@ -1,5 +1,5 @@
 'use client'
-import React, {FC, useRef, useState} from "react";
+import React, {FC, useEffect, useRef, useState} from "react";
 import Image from "next/image";
 import IconSend from "@/../public/images/icons/icon-send.svg";
 import IconUpload from "@/../public/images/icons/icon-upload.svg";
@@ -52,10 +52,47 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     watch
   } = useForm<FormData>();
 
+  useEffect(() => {
+    if (characterInfo) {
+      const storedData = localStorage.getItem("chatStartedCharacters");
+      if (storedData) {
+        const characters = JSON.parse(storedData);
+        const character = characters.find((char: any) => char.id === characterInfo.id);
+        if (character) {
+          setMessages(character.listMsgs || []);
+        }
+      }
+    }
+  }, [characterInfo]);
+
+  const saveMessagesToLocalStorage = (newMessages: Message[]) => {
+    if (!characterInfo) return;
+
+    const storedData = localStorage.getItem("chatStartedCharacters");
+    let characters = storedData ? JSON.parse(storedData) : [];
+
+    const characterIndex = characters.findIndex((char: any) => char.id === characterInfo.id);
+
+    if (characterIndex !== -1) {
+      characters[characterIndex].listMsgs = newMessages;
+    } else {
+      characters.push({
+        id: characterInfo.id,
+        image: characterInfo.image,
+        listMsgs: newMessages,
+        name: characterInfo.name,
+      });
+    }
+
+    localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
+  };
+
   const onSubmit = async (data: FormData) => {
     // Добавляем сообщение пользователя в чат
     const userMessage: Message = { text: data.message, type: "text", sender: "user" };
-    setMessages((prev) => [...(prev || []), userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
+    saveMessagesToLocalStorage(updatedMessages);
     reset();
 
     setLoading(true);
@@ -73,7 +110,9 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
           url: msg.url || "",
           sender: "bot" as const,
         }));
-        setMessages((prev) => [...(prev ?? []), ...botMessages]);
+        const updatedWithBotMessages = [...updatedMessages, ...botMessages];
+        setMessages(updatedWithBotMessages);
+        saveMessagesToLocalStorage(updatedWithBotMessages);
 
         setTokens(response?.tokens_remaining || null)
       }

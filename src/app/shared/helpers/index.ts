@@ -9,7 +9,7 @@ export const saveCharacterToLocalStorage = (avatar: IAvatar) => {
       const newCharacter = {
         id: avatar.id,
         image: avatar.avatar,
-        listMsgs: avatar.listMsgs,
+        listMsgs: [],
         name: avatar.name
       };
       characters.push(newCharacter);
