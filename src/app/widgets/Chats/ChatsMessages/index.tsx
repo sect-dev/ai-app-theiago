@@ -48,7 +48,6 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     reset,
     setValue,
     setFocus,
-    formState: { errors },
     watch
   } = useForm<FormData>();
 
@@ -196,12 +195,11 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
             type="submit"
             disabled={!messageValue?.trim() || loading}
             className={clsx("size-[48px] flex items-center justify-center rounded-[16px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B] disabled:pointer-events-none", {
-              "border border-red-500": errors.message,
-              "bg-main-gradient": messageValue
+              "bg-main-gradient": (messageValue?.trim() && !loading)
             })}
           >
             <Image src={IconSend.src} width={IconSend.width} height={IconSend.height} alt="send message icon" className={clsx("size-[24px] transition-opacity duration-300 opacity-20",{
-              "!opacity-100": messageValue
+              "!opacity-100": (messageValue?.trim() && !loading)
             })} />
           </button>
         </form>
