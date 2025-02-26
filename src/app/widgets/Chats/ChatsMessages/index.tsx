@@ -69,9 +69,9 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     if (!characterInfo) return;
 
     const storedData = localStorage.getItem("chatStartedCharacters");
-    let characters = storedData ? JSON.parse(storedData) : [];
+    const characters = storedData ? JSON.parse(storedData) : [];
 
-    const characterIndex = characters.findIndex((char: any) => char.id === characterInfo.id);
+    const characterIndex = characters.findIndex((char: IAvatar) => char.id === characterInfo.id);
 
     if (characterIndex !== -1) {
       characters[characterIndex].listMsgs = newMessages;
