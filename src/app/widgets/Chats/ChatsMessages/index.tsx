@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import clsx from "clsx";
 import ChatsMessageModal from "@/app/widgets/Chats/ChatsMessages/ChatsMessageModal";
 import { sendMessage } from "@/app/shared/api";
-import { Character } from "@/app/shared/api/types";
+import {Character, IAvatar} from "@/app/shared/api/types";
 import ChatsMessageText from "@/app/widgets/Chats/ChatsMessages/ChatsMessageText";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import SuggestionAnswer from "@/app/widgets/SuggestionAnswer";
@@ -57,7 +57,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
       const storedData = localStorage.getItem("chatStartedCharacters");
       if (storedData) {
         const characters = JSON.parse(storedData);
-        const character = characters.find((char: any) => char.id === characterInfo.id);
+        const character = characters.find((char: IAvatar) => char.id === characterInfo.id);
         if (character) {
           setMessages(character.listMsgs || []);
         }
@@ -90,7 +90,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const onSubmit = async (data: FormData) => {
     // Добавляем сообщение пользователя в чат
     const userMessage: Message = { text: data.message, type: "text", sender: "user" };
-    const updatedMessages = [...messages, userMessage];
+    const updatedMessages = [...(messages ?? []), userMessage];
     setMessages(updatedMessages);
     saveMessagesToLocalStorage(updatedMessages);
     reset();
