@@ -59,10 +59,10 @@ const Login = () => {
   }
 
   return (
-    <div className="flex justify-between rounded-[24px] overflow-hidden">
-      <div className="w-full bg-[#121423] p-[20px]">
+    <div className="flex justify-between rounded-[24px] overflow-hidden sm:h-full">
+      <div className="w-full bg-[#121423] p-[20px] sm:flex sm:flex-col sm:items-center sm:justify-center sm:h-full">
         <p className="mb-[24px] leading-[1.2em] font-semibold text-[20px]">Nice to see you again</p>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-[16px] pb-[32px] mb-[32px] border-b border-b-[#3A3F63]">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-[16px] pb-[32px] mb-[32px] border-b border-b-[#3A3F63] sm:w-full">
           {/* Поле Email */}
           <div className="relative">
             <label htmlFor="email" className="block text-[12px] pl-[16px] leading-[1.2em] mb-[8px]">Email</label>
@@ -188,7 +188,7 @@ const Login = () => {
           <div className="flex gap-[8px] text-[12px]">
             <p>Dont have an account?</p>
             <button
-              onClick={onGoogleSignInHandler}
+              onClick={() => setAuthModal({modalType:"register", isAuthModalActive: true})}
               className="logo-gradient"
             >
               Register now
@@ -196,7 +196,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-hull relative">
+      <div className="w-full h-hull relative sm:hidden">
         <Image
           src={ImageModal.src}
           fill

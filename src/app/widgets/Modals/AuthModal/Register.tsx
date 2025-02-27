@@ -24,16 +24,11 @@ const Register = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    console.log("Форма отправлена:", data);
     try {
       setLoading(true)
-      const resp = await signUpWithEmailAndPassword(data.email,data.password)
-      if(resp.accessToken) {
-
-      }
+      await signUpWithEmailAndPassword(data.email,data.password)
       reset();
       setAuthModal({ modalType: null, isAuthModalActive: false })
-      console.log('resp',resp)
     } catch (error) {
       console.log('error',error)
     } finally {
@@ -42,10 +37,10 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-between rounded-[24px] overflow-hidden">
-      <div className="w-full bg-[#121423] p-[20px]">
+    <div className="flex justify-between rounded-[24px] overflow-hidden sm:h-full">
+      <div className="w-full bg-[#121423] p-[20px] sm:flex sm:flex-col sm:items-center sm:justify-center sm:h-full">
         <p className="mb-[24px] leading-[1.2em] font-semibold text-[20px]">Create your account</p>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-[16px] pb-[32px] mb-[32px] border-b border-b-[#3A3F63]">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-[16px] pb-[32px] mb-[32px] border-b border-b-[#3A3F63] sm:w-full">
           {/* Поле Email */}
           <div className="relative">
             <label htmlFor="email" className="block text-[12px] pl-[16px] leading-[1.2em] mb-[8px]">Email</label>
@@ -140,7 +135,7 @@ const Register = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-hull relative">
+      <div className="w-full h-hull relative sm:hidden">
         <Image
           src={ImageModal.src}
           fill
