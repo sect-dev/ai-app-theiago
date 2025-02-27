@@ -54,6 +54,7 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
             <div key={index} className="relative w-[240px] h-[300px] overflow-hidden rounded-[20px] rounded-bl-none">
               <Image
                 key={index}
+                sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 240px"
                 fill
                 src={msg.url ?? ''}
                 alt="image"

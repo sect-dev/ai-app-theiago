@@ -24,7 +24,7 @@ interface SelectedCardState {
   setInfoCollapse:(value:boolean) => void
   setMobileChatOpen:(value: boolean) => void
   setMobileInfoOpen:(value: boolean) => void
-  setAuthModal: (value: { modalType: "login" | "register" | null; isAuthModalActive: boolean }) => void;
+  setAuthModal: (value: { modalType: "login" | "register" | "forgotPass" | null; isAuthModalActive: boolean }) => void;
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
@@ -47,6 +47,6 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     setInfoCollapse:(characterInfoCollapse) => set({characterInfoCollapse}),
     setMobileChatOpen:(isMobileChatOpen: boolean) => set({isMobileChatOpen}),
     setMobileInfoOpen:(isMobileInfoOpen: boolean) => set({isMobileInfoOpen}),
-    setAuthModal: (value: { modalType: "login" | "register" | null; isAuthModalActive: boolean }) => set({modalType: value.modalType, isAuthModalActive:value.isAuthModalActive}),
+    setAuthModal: (value: { modalType: "login" | "register" | "forgotPass" | null; isAuthModalActive: boolean }) => set({modalType: value.modalType, isAuthModalActive:value.isAuthModalActive}),
   };
 });

@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <DefaultLayout>
       <Header/>
-      <div className="flex flex-1 gap-[14px] h-[calc(100%-46px)] mt-[46px] sm:mt-0">
+      <div className="flex flex-1 gap-[14px] h-[calc(100%-46px)] mt-[46px] md:mt-0">
         <div className={clsx("block h-full transition-width duration-300 fixed left-0 top-[46px] z-[10] max-w-[203px] w-full md:hidden",{
           "max-w-[75px]": isChatPage
         })}>
