@@ -1,5 +1,6 @@
 name: Deploy next js App main branch on outerspace server
 
+
 on:
   push:
     branches:
