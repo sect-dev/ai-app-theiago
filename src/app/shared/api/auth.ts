@@ -98,7 +98,7 @@ export const signInWithFacebook = async () => {
     }
 
     return { user, accessToken };
-  } catch (error: any) {
+  } catch (error) {
     console.error("Ошибка входа через Facebook:", error.message);
 
     return {

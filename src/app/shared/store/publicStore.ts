@@ -16,7 +16,7 @@ interface SelectedCardState {
   isMobileChatOpen: boolean
   isMobileInfoOpen: boolean
   isAuthModalActive: boolean
-  modalType: "login" | "register" | null,
+  modalType: "login" | "register" | "forgotPass" | null,
   setSelectedCard: (avatar: IAvatar) => void;
   setSelectedTag: (tag: string | null) => void;
   setCharacters: (characters: IAvatar[] | null) => void;
