@@ -1,3 +1,4 @@
+import { User } from "firebase/auth";
 interface ProviderData {
   providerId: string;
   uid: string;
@@ -13,16 +14,15 @@ interface StsTokenManager {
   expirationTime: number;
 }
 
-export interface FirebaseUser {
-  uid: string;
-  email: string | null;
-  emailVerified: boolean;
-  isAnonymous: boolean;
-  providerData: ProviderData[];
-  stsTokenManager: StsTokenManager;
+export interface FirebaseUser extends User {
+  accessToken: string
+  stsTokenManager: {
+    refreshToken: string;
+    accessToken: string;
+    expirationTime: number;
+  };
   createdAt: string;
   lastLoginAt: string;
   apiKey: string;
   appName: string;
-  accessToken: string;
 }
