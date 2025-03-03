@@ -14,7 +14,7 @@ export const signUpWithEmailAndPassword = async (email: string, password: string
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user as FirebaseUser;
-    user.accessToken = (userCredential.user as any).stsTokenManager.accessToken;
+    user.accessToken = (userCredential.user as FirebaseUser).stsTokenManager.accessToken;
 
     if(user.accessToken) {
       localStorage.setItem("accessToken", user.accessToken);
@@ -31,7 +31,7 @@ export const signInWithEmailAndPasswordHandler = async (email: string, password:
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user as FirebaseUser;
-    user.accessToken = (userCredential.user as any).stsTokenManager.accessToken;
+    user.accessToken = (userCredential.user as FirebaseUser).stsTokenManager.accessToken;
 
     if(user.accessToken) {
       localStorage.setItem("accessToken", user.accessToken);
@@ -50,7 +50,7 @@ export const resetPasswordHandler = async (email: string) => {
     await sendPasswordResetEmail(auth, email);
 
     return { success: true, message: "✅ Letter sent! Check your mail." };
-  } catch (error: any) {
+  } catch (error) {
     return { success: false, message: error.message };
   }
 };
@@ -70,7 +70,7 @@ export const signInWithGoogle = async () => {
       return user
     }
     return user
-  } catch (error: any) {
+  } catch (error) {
     console.error("Ошибка входа через Google:", error.message);
     return {
       success: false,
