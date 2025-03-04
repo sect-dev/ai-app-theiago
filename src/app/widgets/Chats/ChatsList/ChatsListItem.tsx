@@ -11,7 +11,7 @@ interface ComponentProps {
   image: string
   name: string
   lastMessage: Message
-  lastMessageTime: string
+  lastMessageTime: Date
 }
 
 const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessage,lastMessageTime}) => {
