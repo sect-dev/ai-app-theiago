@@ -16,7 +16,7 @@ const CharacterContent = async ({ id }: { id: string }) => {
 
   return (
     <>
-      <ChatsList characterInfo={characterInfo} />
+      <ChatsList />
       <ChatsContent token={token} characterInfo={characterInfo} />
       <ChatInfo characterInfo={characterInfo} />
     </>
@@ -35,7 +35,7 @@ const Page = async ({params}:ComponentProps) => {
       <Suspense fallback={
         <div className="w-full">
           <div className="flex gap-[12px] md:px-[8px] md:flex-col">
-            <div className="md:hidden">
+            <div className="md:hidden w-full max-w-[260px]">
               <ChatsListSkeleton />
             </div>
             <div className="w-full space-y-[8px]">

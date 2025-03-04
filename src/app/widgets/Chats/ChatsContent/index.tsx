@@ -12,7 +12,7 @@ interface ComponentProps {
 }
 
 const ChatsContent:FC<ComponentProps> = ({token, characterInfo}) => {
-  const { setTokens, setMobileChatOpen, isMobileChatOpen } = useSelectedCardStore();
+  const { setTokens,setMobileChatOpen, isMobileChatOpen } = useSelectedCardStore();
 
   useEffect(() => {
     setTokens(token)

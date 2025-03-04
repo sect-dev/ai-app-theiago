@@ -13,7 +13,7 @@ const ChatsListSkeleton = () => {
 
   return (
     <div
-      className={clsx("h-[calc(100%-24px)] w-full max-w-[220px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300 md:max-w-full", {
+      className={clsx("h-[calc(100%-24px)] w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300 md:max-w-full", {
         "max-w-[82px] ": collapse
       })}>
       <div className="flex items-center justify-between px-[20px] mb-[9px]">

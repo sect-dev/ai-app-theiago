@@ -34,7 +34,7 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     selectedCard: null,
     selectedTag: null,
     characterInfoCollapse: false,
-    isMobileChatOpen: true,
+    isMobileChatOpen: false,
     tokens: null,
     isMobileInfoOpen: false,
     isAuthModalActive: false,

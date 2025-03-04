@@ -4,8 +4,8 @@ import VideoPlayer from "@/app/widgets/VideoPlayer";
 import AudioPlayer from "@/app/widgets/AudioPlayer";
 import clsx from "clsx";
 import MessageLoading from "@/app/widgets/MessageLoading";
-import {Message} from "@/app/widgets/Chats/ChatsMessages/index";
-import {Character} from "@/app/shared/api/types";
+import TextMessage from './TextMessage';
+import {Character, Message} from "@/app/shared/api/types";
 
 interface ComponentProps {
   messages: Message[] | null
@@ -26,15 +26,10 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
     <>
       {/* Сообщения из characterInfo */}
       {characterInfo?.listMsgs.map((item) => (
-        <p
-          className="animate-fadeIn bg-[#21233A] w-fit py-[10px] px-[20px] text-[14px] font-medium rounded-[20px] rounded-bl-none"
-          key={item.en}
-        >
-          {item.en}
-        </p>
+        <TextMessage key={item.text} message={item.text} />
       ))}
 
-      {/* Динамический рендер сообщений */}
+      {/* Видео сообщение */}
       {messages?.map((msg, index) => {
         {/* Видео-сообщение */}
         if(msg.type === "video")  {
@@ -53,7 +48,6 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
           return  (
             <div key={index} className="relative w-[240px] h-[300px] overflow-hidden rounded-[20px] rounded-bl-none">
               <Image
-                key={index}
                 sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 240px"
                 fill
                 src={msg.url ?? ''}

@@ -2,8 +2,8 @@ import React, { FC, useRef, useState } from 'react';
 import IconPlay from '@/../public/images/icons/icon-play.svg';
 import Image from "next/image";
 import clsx from "clsx";
-import IconArrow from "../../../../public/images/icons/icon-arrow-translate.svg";
-import Spinner from "@/app/widgets/Spinner";
+import IconArrow from "@/../public/images/icons/icon-arrow-translate.svg";
+import {marked} from "marked";
 
 interface ComponentProps {
   url: string;
@@ -14,7 +14,6 @@ const VideoPlayer: FC<ComponentProps> = ({ url,text }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showText, setShowText] = useState(false);
-  const [isLoadingText, setIsLoadingText] = useState(false);
 
   const togglePlayPause = () => {
     if (videoRef.current) {
@@ -28,15 +27,7 @@ const VideoPlayer: FC<ComponentProps> = ({ url,text }) => {
   };
 
   const handleShowText = () => {
-    setIsLoadingText(true);
-    setShowText(false);
-
-    const timer = setTimeout(() => {
-      setIsLoadingText(false);
-      setShowText(true);
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    setShowText(true);
   };
 
   return (
@@ -88,20 +79,17 @@ const VideoPlayer: FC<ComponentProps> = ({ url,text }) => {
             alt="icon arrow"
             className={clsx("w-[5px] h-[10px]transition-transform duration-300", { "rotate-[-90deg]": showText })}
           />
-          {!showText && !isLoadingText && (
+          {!showText && (
             <span className="text-[#0680E6] font-medium text-[12px]">A</span>
           )}
         </button>
       </div>
 
-      {isLoadingText && (
-        <div className="pt-[10px] w-[240px] flex justify-center">
-          <Spinner />
-        </div>
-      )}
-
-      {showText && !isLoadingText && (
-        <p className="animate-fadeIn w-[210px] text-[14px] !opacity-50 font-medium leading-[1.2em]">{text}</p>
+      {showText && (
+        <p
+          className="animate-fadeIn w-[210px] text-[14px] !opacity-50 font-medium leading-[1.2em]"
+          dangerouslySetInnerHTML={{__html:marked(text)}}
+        />
       )}
     </>
   );

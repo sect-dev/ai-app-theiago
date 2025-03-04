@@ -1,17 +1,13 @@
 'use client'
-import React, {FC, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Image from "next/image";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import clsx from "clsx";
-import {IAvatar, PreparedAvatar} from "@/app/shared/api/types";
+import {PreparedAvatar} from "@/app/shared/api/types";
 import ChatsListItem from "@/app/widgets/Chats/ChatsList/ChatsListItem";
 import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
 
-interface ComponentProps {
-  characterInfo: IAvatar | null
-}
-
-const ChatsList:FC<ComponentProps> = ({characterInfo}) => {
+const ChatsList = () => {
   const [collapse, setCollapse] = useState<boolean>(false)
   const [charactersFromLs,setCharactersFromLs] = useState<PreparedAvatar[]>([])
 
@@ -38,7 +34,7 @@ const ChatsList:FC<ComponentProps> = ({characterInfo}) => {
 
   return (
     <div
-      className={clsx("animate-fadeIn h-[calc(100%-24px)] w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300 md:!rounded-[16px] md:opacity-0 md:max-w-full", {
+      className={clsx("animate-fadeIn shrink-0 h-[calc(100%-24px)] w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300 md:!rounded-[16px] md:opacity-0 md:max-w-full", {
         "!max-w-[82px] ": collapse
       })}>
       <div className="flex items-center justify-between px-[20px] mb-[9px]">
@@ -58,16 +54,22 @@ const ChatsList:FC<ComponentProps> = ({characterInfo}) => {
       </div>
       <div>
         {(charactersFromLs.length > 0) &&
-          charactersFromLs.map((character) => (
-            <ChatsListItem
-              key={character.id}
-              id={character.id}
-              collapse={collapse}
-              image={character.image}
-              name={character.name}
-              lastMessage={character.listMsgs?.[character.listMsgs.length - 1]?.en || "No messages"}
-            />
-          ))}
+          charactersFromLs
+            .slice()
+            .sort((a, b) => +new Date(b.lastMessageTime) - +new Date(a.lastMessageTime))
+            .map((character) => {
+             return (
+               <ChatsListItem
+                 key={character.id}
+                 id={character.id}
+                 collapse={collapse}
+                 image={character.image}
+                 name={character.name}
+                 lastMessage={character.listMsgs?.[character.listMsgs.length - 1]}
+                 lastMessageTime={character.lastMessageTime}
+               />
+             )
+          })}
       </div>
     </div>
   );

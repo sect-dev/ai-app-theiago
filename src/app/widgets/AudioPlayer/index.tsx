@@ -6,7 +6,6 @@ import IconPlay from '@/../public/images/icons/icon-play.svg';
 import IconPause from '@/../public/images/icons/icon-pause.svg';
 import IconArrow from '@/../public/images/icons/icon-arrow-translate.svg';
 import clsx from "clsx";
-import Spinner from "@/app/widgets/Spinner";
 
 interface AudioPlayerProps {
   audioUrl: string;
@@ -18,7 +17,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
   const [showText, setShowText] = useState(false);
-  const [isLoadingText, setIsLoadingText] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -56,15 +54,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   };
 
   const handleShowText = () => {
-    setIsLoadingText(true);
-    setShowText(false);
-
-    const timer = setTimeout(() => {
-      setIsLoadingText(false);
-      setShowText(true);
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    setShowText(true);
   };
 
   return (
@@ -97,18 +87,13 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
             alt="icon arrow"
             className={clsx("w-[5px] h-[10px] transition-transform duration-300", { "rotate-[-90deg]": showText })}
           />
-          {!showText && !isLoadingText && (
+          {!showText && (
             <span className="text-[#0680E6] font-medium text-[12px]">A</span>
           )}
         </button>
       </div>
 
-      {isLoadingText && (
-        <div className="pt-[10px] flex justify-center">
-          <Spinner />
-        </div>
-      )}
-      {showText && !isLoadingText && (
+      {showText && (
         <p className="animate-fadeIn pt-[10px] text-[14px] !opacity-50 font-medium leading-[1.2em]">{text}</p>
       )}
     </div>

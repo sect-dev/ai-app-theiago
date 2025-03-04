@@ -2,22 +2,28 @@ import React, {FC} from 'react';
 import Image from "next/image";
 import clsx from "clsx";
 import {useParams,useRouter} from "next/navigation"
+import {Message} from "@/app/shared/api/types";
+import LastMessage from "@/app/widgets/Chats/ChatsList/LastMessage";
 
 interface ComponentProps {
   id: number
   collapse: boolean
   image: string
   name: string
-  lastMessage: string
+  lastMessage: Message
+  lastMessageTime: string
 }
 
-const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessage}) => {
+const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessage,lastMessageTime}) => {
   const router = useRouter()
   const params = useParams()
 
   const handleChatChange = (chatId: number) => {
     router.push(`/chats/${chatId}`);
   }
+
+  const date = new Date(lastMessageTime);
+  const formattedTime = date.toLocaleTimeString("ru-RU", {hour: "2-digit", minute: "2-digit"});
 
   return (
     <button
@@ -27,7 +33,7 @@ const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessa
         "bg-[#0680E642]": (params?.id && +id === +params?.id)
       })}
     >
-       <span className="flex items-center gap-[8px] md:w-full">
+       <span className="flex w-full items-center gap-[8px] md:w-full">
         <span className="relative">
         <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
           <Image
@@ -48,15 +54,15 @@ const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessa
              {!collapse && (
                <span className="animate-fadeIn text-left">
               <span className="font-medium text-[14px] tracking-[-0.04em] line-clamp-1">{name}</span>
-              <span className="font-medium text-[12px] max-w-[125px] opacity-50 line-clamp-1 tracking-[-0.04em]">
-                 {lastMessage}
+              <span className="flex items-center gap-[4px]">
+                 <LastMessage message={lastMessage} />
               </span>
              </span>
              )}
       </span>
       {!collapse && (
         <span className="animate-fadeIn flex flex-col items-end pl-[5px] ">
-          <span className="text-[12px] font-medium tracking-[-0.04em]">16:44</span>
+          <span className="text-[12px] font-medium opacity-50 tracking-[-0.04em]">{formattedTime}</span>
           {/*<span*/}
           {/*  className="bg-main-gradient flex items-center justify-center font-semibold text-[11px] rounded-full size-[14px] mt-[8px]"*/}
           {/*>*/}

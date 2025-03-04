@@ -4,7 +4,8 @@ import Image from "next/image";
 import {IAvatar} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import {useRouter} from "next/navigation";
-import {saveCharacterToLocalStorage} from "@/app/shared/helpers";
+import {mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
+import {startConversation} from "@/app/shared/api/mesages";
 
 interface ComponentProps {
   avatar: IAvatar
@@ -14,10 +15,19 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
   const setSelectedCard = useSelectedCardStore((state) => state.setSelectedCard);
   const navigate = useRouter()
 
-  const handleClick = (avatar: IAvatar) => {
+  const handleClick = async (avatar: IAvatar) => {
     setSelectedCard(avatar);
-    navigate.push(`/chats/${avatar.id}`);
-    saveCharacterToLocalStorage(avatar)
+    try {
+      const startChat = await startConversation({userId: 'id', characterId: avatar.id.toString()})
+      const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
+
+      navigate.push(`/chats/${avatar.id}`);
+      saveCharacterToLocalStorage(avatar,startChatMessages)
+
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   return (

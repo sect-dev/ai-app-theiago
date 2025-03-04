@@ -8,21 +8,14 @@ import IconClose from "@/../public/images/icons/icon-close.svg";
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
 import ChatsMessageModal from "@/app/widgets/Chats/ChatsMessages/ChatsMessageModal";
-import { sendMessage } from "@/app/shared/api";
-import {Character, IAvatar} from "@/app/shared/api/types";
+import { sendMessage } from "@/app/shared/api/mesages";
+import {Character, IAvatar, Message} from "@/app/shared/api/types";
 import ChatsMessageText from "@/app/widgets/Chats/ChatsMessages/ChatsMessageText";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import SuggestionAnswer from "@/app/widgets/SuggestionAnswer";
 
 interface FormData {
   message: string;
-}
-
-export interface Message {
-  text: string;
-  type: "text" | "image" | "video" | "audio";
-  url?: string;
-  sender: "user" | "bot";
 }
 
 interface BotMessage {
@@ -71,16 +64,11 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     const characters = storedData ? JSON.parse(storedData) : [];
 
     const characterIndex = characters.findIndex((char: IAvatar) => char.id === characterInfo.id);
+    const currentTime = new Date()
 
     if (characterIndex !== -1) {
       characters[characterIndex].listMsgs = newMessages;
-    } else {
-      characters.push({
-        id: characterInfo.id,
-        image: characterInfo.image,
-        listMsgs: newMessages,
-        name: characterInfo.name,
-      });
+      characters[characterIndex].lastMessageTime = currentTime;
     }
 
     localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
@@ -143,7 +131,9 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         <ChatsMessageText loading={loading} messages={messages} characterInfo={characterInfo} />
       </div>
       <div>
-        {!loading && <SuggestionAnswer onSelectMessage={handleSelectMessage}/>}
+        <div className={clsx("transition-opacity duration-300",{"opacity-0 pointer-events-none absolute": loading})}>
+          <SuggestionAnswer waitingMessage={loading} userId="8d9b409fe5287d5b" characterId={characterInfo?.id ?? null} onSelectMessage={handleSelectMessage}/>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)} className="relative flex gap-[8px]">
           {showModal && <ChatsMessageModal onSelectMessage={handleSelectMessage} closeModal={() => setShowModal(false)} />}
           <div className="relative w-full">

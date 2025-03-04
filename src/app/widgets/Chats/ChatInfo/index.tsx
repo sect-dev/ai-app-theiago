@@ -34,7 +34,7 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
 
   return (
     <>
-      <div className={clsx("animate-fadeIn bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-all duration-300 md:absolute md:h-full md:left-0 md:top-0 md:w-full md:-translate-x-[-105%]", {
+      <div className={clsx("animate-fadeIn overflow-auto max-h-[calc(100vh-57px)] bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-all duration-300 md:absolute md:h-full md:left-0 md:top-0 md:w-full md:-translate-x-[-105%]", {
         "mr-[-310px]": characterInfoCollapse,
         "md:!translate-x-0": isMobileInfoOpen
       })}>
@@ -90,7 +90,7 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
               )
             })}
           </div>
-          <div className="px-[8px] overflow-y-auto max-h-[calc(100vh-510px)] pb-[8px]">
+          <div className="px-[8px]  pb-[8px]">
             {tabs === 'Posts' && <ChatsInfoPosts content={characterInfo.listProfilePhoto} />}
             {/*{tabs === 'Videos'&& <ChatsInfoVideos content={characterInfo.listVideo} />}*/}
           </div>

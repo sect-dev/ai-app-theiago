@@ -1,5 +1,5 @@
 'use client'
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
 import IcnPlus from "@/../public/images/icons/icon-plus.svg";
 import IcnCoins from "@/../public/images/icons/icon-coins.svg";
@@ -7,6 +7,7 @@ import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import IconBack from "@/../public/images/icons/icon-back.svg";
+import {useRouter} from "next/navigation";
 
 interface ComponentProps {
   avatar: string | null
@@ -15,10 +16,16 @@ interface ComponentProps {
 
 const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
   const { tokens, setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen } = useSelectedCardStore();
+  const navigate = useRouter()
+
+  const handleBack = () => {
+    setMobileInfoOpen(false)
+    navigate.push('/chats')
+  }
 
   return (
     <div className={clsx("animate-fadeIn flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px] transition-transform duration-300 md:rounded-[16px] md:py-[14px] md:px-[12px]", {})}>
-      <button onClick={() => setMobileInfoOpen(true)} className="flex items-center gap-[12px]">
+      <button onClick={handleBack} className="flex items-center gap-[12px]">
         <div
           onClick={() => setMobileChatOpen(false)}
           className="hidden size-[28px] rounded-[8px] bg-[#191B2C] flex items-center justify-center md:flex"

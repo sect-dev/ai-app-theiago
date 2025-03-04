@@ -28,10 +28,6 @@ interface Localization {
   en: string;
 }
 
-interface Message {
-  en: string;
-}
-
 export interface Character {
   isAds: boolean;
   dataVersion: number;
@@ -79,11 +75,19 @@ export interface Character {
   top_horizontal_list_position: number;
 }
 
+export interface Message {
+  text: string;
+  type: "text" | "image" | "video" | "audio";
+  url?: string;
+  sender: "user" | "bot";
+}
+
 export interface PreparedAvatar {
   id: number,
   image: string,
-  listMsgs: { en:string }[],
+  listMsgs: Message[],
   name: string
+  lastMessageTime: string
 }
 
 export interface MessageResponse {
