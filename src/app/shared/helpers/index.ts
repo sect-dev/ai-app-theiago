@@ -26,8 +26,8 @@ export function getMessageSize(size: number, position: number): string {
 
   if (size === 1) return (maxSize / 1000).toFixed(1) + "k";
 
-  let step: number = (maxSize - minSize) / (size - 1);
-  let index: number = (position - 10) / (10000 - 10) * (size - 1);
+  const step: number = (maxSize - minSize) / (size - 1);
+  const index: number = (position - 10) / (10000 - 10) * (size - 1);
   let currentSize: number = Math.round(maxSize - step * index);
 
   // Ограничиваем в пределах допустимых значений

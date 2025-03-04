@@ -87,7 +87,7 @@ export interface PreparedAvatar {
   image: string,
   listMsgs: Message[],
   name: string
-  lastMessageTime: string
+  lastMessageTime: Date
 }
 
 export interface MessageResponse {

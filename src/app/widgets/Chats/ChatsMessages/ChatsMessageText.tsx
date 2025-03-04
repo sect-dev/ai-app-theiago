@@ -4,8 +4,8 @@ import VideoPlayer from "@/app/widgets/VideoPlayer";
 import AudioPlayer from "@/app/widgets/AudioPlayer";
 import clsx from "clsx";
 import MessageLoading from "@/app/widgets/MessageLoading";
-import TextMessage from './TextMessage';
 import {Character, Message} from "@/app/shared/api/types";
+import {marked} from "marked";
 
 interface ComponentProps {
   messages: Message[] | null
@@ -24,26 +24,21 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
 
   return (
     <>
-      {/* Сообщения из characterInfo */}
-      {characterInfo?.listMsgs.map((item) => (
-        <TextMessage key={item.text} message={item.text} />
-      ))}
-
       {/* Видео сообщение */}
       {messages?.map((msg, index) => {
-        {/* Видео-сообщение */}
+        {/* Video-message */}
         if(msg.type === "video")  {
           return (
             <VideoPlayer key={index} url={msg.url ?? ''} text={msg.text ?? ''} />
           )
         }
-        {/* Аудио-сообщение */}
+        {/* Audio-message */}
         if(msg.type === "audio") {
           return  (
             <AudioPlayer key={index} audioUrl={msg.url ?? ''} text={msg.text} />
           )
         }
-        {/* Аудио-сообщение */}
+        {/* Image-message */}
         if(msg.type === "image") {
           return  (
             <div key={index} className="relative w-[240px] h-[300px] overflow-hidden rounded-[20px] rounded-bl-none">
@@ -58,12 +53,14 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
           )
         }
         return (
-          <div key={index}
-               className={clsx("animate-fadeIn w-fit max-w-[80%] py-[10px] px-[20px] text-[14px] font-medium rounded-[20px]", {
-                 "bg-main-gradient text-white rounded-br-none ml-auto": msg.sender === "user", // Сообщения пользователя (справа)
-                 "bg-[#21233A] rounded-bl-none": msg.sender === "bot", // Ответы бота (слева)
-               })}>
-            {msg.type === "text" && <p>{msg.text}</p>}
+          <div
+            key={index}
+             className={clsx("animate-fadeIn w-fit max-w-[80%] py-[10px] px-[20px] text-[14px] font-medium rounded-[20px]", {
+               "bg-main-gradient text-white rounded-br-none ml-auto": msg.sender === "user",
+               "bg-[#21233A] rounded-bl-none": msg.sender === "bot",
+             })}
+          >
+            {msg.type === "text" && <p dangerouslySetInnerHTML={{__html: marked(msg.text)}} />}
           </div>
         )
       })}
