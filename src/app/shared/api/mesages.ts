@@ -6,7 +6,7 @@ export const generateUserText = async (userId: string | null,characterId: number
   const payload: GenerateUserTextPayload = {
     type: "generate_user_text",
     user_id: userId,
-    character_id: characterId.toString(),
+    character_id: characterId?.toString() ?? '',
     locale: "en",
     allowed_response_types: ["text", "image", "video", "audio"],
     censorship: {
