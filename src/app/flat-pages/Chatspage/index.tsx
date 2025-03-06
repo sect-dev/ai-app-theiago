@@ -4,11 +4,11 @@ import Image from "next/image";
 import ImageEmptyChat from '@/../public/images/img/img-no-chat.svg';
 import Link from "next/link";
 import ChatsList from "@/app/widgets/Chats/ChatsList";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 const Chatspage = () => {
-  if (typeof window !== "undefined") {
-    const storedChats = localStorage.getItem("chatStartedCharacters");
-    if (storedChats) {
+    const {characters} = useSelectedCardStore()
+    if (characters) {
       return <ChatsList />
     } else {
       return (
@@ -35,7 +35,7 @@ const Chatspage = () => {
         </div>
       );
     }
-  }
+
 };
 
 export default Chatspage;

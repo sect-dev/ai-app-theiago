@@ -1,25 +1,25 @@
 import { create } from "zustand";
-import { IAvatar } from "@/app/shared/api/types";
+import {Character, PreparedAvatar} from "@/app/shared/api/types";
 
-const loadCharactersFromLocalStorage = (): IAvatar[] | null => {
+const loadCharactersFromLocalStorage = (): PreparedAvatar[] | null => {
   if (typeof window === "undefined") return null;
-  const storedCharacters = localStorage.getItem("characters");
+  const storedCharacters = localStorage.getItem("chatStartedCharacters");
   return storedCharacters ? JSON.parse(storedCharacters) : null;
 };
 
 interface SelectedCardState {
-  selectedCard: IAvatar | null;
+  selectedCard: Character | null;
   selectedTag: string | null;
   characterInfoCollapse: boolean
-  characters: IAvatar[] | null;
+  characters: PreparedAvatar[] | null;
   tokens: number | null
   isMobileChatOpen: boolean
   isMobileInfoOpen: boolean
   isAuthModalActive: boolean
   modalType: "login" | "register" | "forgotPass" | null,
-  setSelectedCard: (avatar: IAvatar) => void;
+  setSelectedCard: (avatar: Character) => void;
   setSelectedTag: (tag: string | null) => void;
-  setCharacters: (characters: IAvatar[] | null) => void;
+  setCharacters: (characters: PreparedAvatar[] | null) => void;
   setTokens: (tokens: number | null) => void;
   setInfoCollapse:(value:boolean) => void
   setMobileChatOpen:(value: boolean) => void

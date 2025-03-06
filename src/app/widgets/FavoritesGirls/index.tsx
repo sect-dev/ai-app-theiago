@@ -1,7 +1,7 @@
 'use client'
 import React, {FC} from 'react';
 import FavoritesGirlsCard from "@/app/widgets/FavoritesGirls/FavoritesGirlsCard";
-import {IAvatar} from "@/app/shared/api/types";
+import {Character} from "@/app/shared/api/types";
 import FavoritesGirlsSkeleton from "@/app/widgets/FavoritesGirls/FavoritesGirlsSkeleton";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode,Autoplay } from 'swiper/modules';
@@ -10,7 +10,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 
 interface ComponentProps {
-  avatars: IAvatar[]
+  avatars: Character[]
 }
 
 const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {

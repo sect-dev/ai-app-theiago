@@ -2,13 +2,13 @@
 import React, {FC} from 'react';
 import CardSkeleton from "@/app/widgets/Card/CardSkeleton";
 import Card from "@/app/widgets/Card";
-import {IAvatar} from "@/app/shared/api/types";
+import {Character} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import TagsSkeleton from "@/app/widgets/Tags/TagsSkeleton";
 import Tags from "@/app/widgets/Tags";
 
 interface ComponentProps {
-  avatars: IAvatar[]
+  avatars: Character[]
   tags: string[]
 }
 

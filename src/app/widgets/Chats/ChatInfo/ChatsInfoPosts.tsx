@@ -8,7 +8,7 @@ import "yet-another-react-lightbox/styles.css";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface ComponentProps {
-  content: string[];
+  content: string[] | null;
 }
 
 const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {

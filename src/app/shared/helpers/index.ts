@@ -1,22 +1,26 @@
-import {IAvatar, Message, PreparedAvatar} from "@/app/shared/api/types";
+import {Character, Message, PreparedAvatar} from "@/app/shared/api/types";
 
-export const saveCharacterToLocalStorage = (avatar: IAvatar, messages: Message[]) => {
+export const saveCharacterToLocalStorage = (avatar: Character, messages: Message[]) => {
   if (typeof window !== "undefined") {
     const storedIds = localStorage.getItem("chatStartedCharacters");
     const characters: PreparedAvatar[] = storedIds ? JSON.parse(storedIds) : [];
     const currentTime = new Date();
-
+    const startImage = messages.find(item => item.type === 'image')
     if (!characters.some(a => a.id === avatar.id)) {
       const newCharacter = {
         id: avatar.id,
         image: avatar.avatar,
         listMsgs: messages,
         name: avatar.name,
-        lastMessageTime: currentTime
+        photos: [startImage?.url ?? ''],
+        videos: [],
+        lastMessageTime: currentTime,
+        startPhotosCount: 0
       };
       characters.push(newCharacter);
-      localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
     }
+    localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
+    return characters
   }
 };
 

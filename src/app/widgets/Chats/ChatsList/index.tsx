@@ -1,37 +1,18 @@
 'use client'
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Image from "next/image";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import clsx from "clsx";
-import {PreparedAvatar} from "@/app/shared/api/types";
 import ChatsListItem from "@/app/widgets/Chats/ChatsList/ChatsListItem";
-import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 const ChatsList = () => {
+  const {characters} = useSelectedCardStore()
   const [collapse, setCollapse] = useState<boolean>(false)
-  const [charactersFromLs,setCharactersFromLs] = useState<PreparedAvatar[]>([])
 
   const handleCollapse = () => {
     setCollapse(!collapse)
   }
-
-  useEffect(() => {
-    const savedCharacters = localStorage.getItem('chatStartedCharacters');
-
-    if (savedCharacters) {
-      try {
-        const characters: PreparedAvatar[] = JSON.parse(savedCharacters);
-        setCharactersFromLs(characters);
-      } catch (error) {
-        console.error("Ошибка парсинга localStorage:", error);
-      }
-    }
-  }, []);
-
-  if(!charactersFromLs || charactersFromLs.length === 0) {
-    return <ChatsListSkeleton />
-  }
-
   return (
     <div
       className={clsx("animate-fadeIn shrink-0 h-[calc(100%-24px)] w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300 md:!rounded-[16px] md:opacity-0 md:max-w-full", {
@@ -53,9 +34,9 @@ const ChatsList = () => {
         </button>
       </div>
       <div>
-        {(charactersFromLs.length > 0) &&
-          charactersFromLs
-            .slice()
+        {(characters && characters?.length > 0) &&
+          characters
+            ?.slice()
             .sort((a, b) => +new Date(b.lastMessageTime) - +new Date(a.lastMessageTime))
             .map((character) => {
              return (

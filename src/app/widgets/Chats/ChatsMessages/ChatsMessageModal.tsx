@@ -53,7 +53,7 @@ const ChatsMessageModal:FC<ComponentProps> = ({closeModal,onSelectMessage}) => {
   useClickOutside(modalRef, closeModal);
 
   return (
-    <div ref={modalRef} className="animate-fadeIn w-[187px] absolute right-[60px] bottom-[calc(100%+10px)] space-y-[4px]">
+    <div ref={modalRef} className="animate-fadeIn w-[187px] absolute right-[60px] bottom-[calc(100%+10px)] space-y-[4px] z-[5]">
       <div className="py-[12px] px-[6px] bg-[#21233A] rounded-t-[12px] rounded-b-[4px]">
         <p className="text-[14px] font-semibold mb-[10px]">Ask a photo with</p>
         <ul className="">

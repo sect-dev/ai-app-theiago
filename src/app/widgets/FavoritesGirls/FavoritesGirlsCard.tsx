@@ -1,29 +1,29 @@
 'use client'
 import React, {FC} from 'react';
 import Image from "next/image";
-import {IAvatar} from "@/app/shared/api/types";
+import {Character} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import {useRouter} from "next/navigation";
 import {mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
 import {startConversation} from "@/app/shared/api/mesages";
 
 interface ComponentProps {
-  avatar: IAvatar
+  avatar: Character
 }
 
 const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
-  const setSelectedCard = useSelectedCardStore((state) => state.setSelectedCard);
+  const {setSelectedCard,setCharacters} = useSelectedCardStore();
   const navigate = useRouter()
 
-  const handleClick = async (avatar: IAvatar) => {
+  const handleClick = async (avatar: Character) => {
     setSelectedCard(avatar);
     try {
       const startChat = await startConversation({userId: 'id', characterId: avatar.id.toString()})
       const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
 
       navigate.push(`/chats/${avatar.id}`);
-      saveCharacterToLocalStorage(avatar,startChatMessages)
-
+      const preparedCharacters = saveCharacterToLocalStorage(avatar,startChatMessages)
+      setCharacters(preparedCharacters ?? null)
     } catch (error) {
       console.log(error)
     }

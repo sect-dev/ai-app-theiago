@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
 import FavoritesGirls from "@/app/widgets/FavoritesGirls";
-import {IAvatar} from "@/app/shared/api/types";
+import {Character, IAvatar} from "@/app/shared/api/types";
 import CardsList from "@/app/widgets/CardsList";
 
 interface ComponentProps {
-  avatars: IAvatar[]
+  avatars: Character[]
 }
 
 const HomePage:FC<ComponentProps> = ({avatars}) => {

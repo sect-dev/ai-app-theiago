@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import clsx from "clsx";
 import ChatsMessageModal from "@/app/widgets/Chats/ChatsMessages/ChatsMessageModal";
 import { sendMessage } from "@/app/shared/api/mesages";
-import {Character, IAvatar, Message} from "@/app/shared/api/types";
+import {Character, Message, PreparedAvatar} from "@/app/shared/api/types";
 import ChatsMessageText from "@/app/widgets/Chats/ChatsMessages/ChatsMessageText";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import SuggestionAnswer from "@/app/widgets/SuggestionAnswer";
@@ -32,7 +32,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[] | null>([]);
-  const { setTokens } = useSelectedCardStore();
+  const { setTokens,characters,setCharacters } = useSelectedCardStore();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const {
@@ -45,33 +45,45 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   } = useForm<FormData>();
 
   useEffect(() => {
-    if (characterInfo) {
-      const storedData = localStorage.getItem("chatStartedCharacters");
-      if (storedData) {
-        const characters = JSON.parse(storedData);
-        const character = characters.find((char: IAvatar) => char.id === characterInfo.id);
-        if (character) {
-          setMessages(character.listMsgs || []);
-        }
+    if (characters) {
+      const character = characters.find((char: PreparedAvatar) => char.id === characterInfo?.id);
+      if (character) {
+        setMessages(character.listMsgs || []);
       }
     }
   }, [characterInfo]);
 
   const saveMessagesToLocalStorage = (newMessages: Message[]) => {
     if (!characterInfo) return;
-
     const storedData = localStorage.getItem("chatStartedCharacters");
     const characters = storedData ? JSON.parse(storedData) : [];
 
-    const characterIndex = characters.findIndex((char: IAvatar) => char.id === characterInfo.id);
+    const characterIndex = characters.findIndex((char: Character) => char.id === characterInfo.id);
     const currentTime = new Date()
 
     if (characterIndex !== -1) {
-      characters[characterIndex].listMsgs = newMessages;
-      characters[characterIndex].lastMessageTime = currentTime;
+      const character = characters[characterIndex];
+      character.listMsgs = newMessages;
+      character.lastMessageTime = currentTime;
+
+      newMessages.forEach((message) => {
+        if (message.sender === "bot" && message.type === "image" && message.url) {
+          character.photos = character.photos || [];
+          if (!character.photos.includes(message.url)) {
+            character.photos.unshift(message.url);
+          }
+        }
+        if (message.type === "video") {
+          character.videos = character.videos || [];
+          if (!character.videos.includes(message.url)) {
+            character.videos.unshift(message.url);
+          }
+        }
+      });
     }
 
     localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
+    setCharacters(characters)
   };
 
   const onSubmit = async (data: FormData) => {
@@ -131,9 +143,11 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         <ChatsMessageText loading={loading} messages={messages} characterInfo={characterInfo} />
       </div>
       <div>
-        <div className={clsx("transition-opacity duration-300",{"opacity-0 pointer-events-none absolute": loading})}>
-          <SuggestionAnswer waitingMessage={loading} userId="8d9b409fe5287d5b" characterId={characterInfo?.id ?? null} onSelectMessage={handleSelectMessage}/>
-        </div>
+        {!loading && (
+          <div className={clsx("transition-opacity duration-300",{"opacity-0 pointer-events-none absolute": loading})}>
+            <SuggestionAnswer waitingMessage={loading} userId="8d9b409fe5287d5b" characterId={characterInfo?.id ?? null} onSelectMessage={handleSelectMessage}/>
+          </div>
+        )}
         <form onSubmit={handleSubmit(onSubmit)} className="relative flex gap-[8px]">
           {showModal && <ChatsMessageModal onSelectMessage={handleSelectMessage} closeModal={() => setShowModal(false)} />}
           <div className="relative w-full">

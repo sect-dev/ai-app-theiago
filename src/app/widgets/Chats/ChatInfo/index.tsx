@@ -1,13 +1,13 @@
 "use client"
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Image from "next/image";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import clsx from "clsx";
 import ChatsInfoPosts from "@/app/widgets/Chats/ChatInfo/ChatsInfoPosts";
-// import ChatsInfoVideos from "@/app/widgets/Chats/ChatInfo/ChatsInfoVideos";
 import {Character} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import IconBack from "../../../../../public/images/icons/icon-back.svg";
+import ChatsInfoVideos from "@/app/widgets/Chats/ChatInfo/ChatsInfoVideos";
 
 const tabsCaptions = [
   {
@@ -25,12 +25,29 @@ interface ComponentProps {
 }
 
 const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
-  const {setInfoCollapse, characterInfoCollapse, isMobileInfoOpen, setMobileInfoOpen} = useSelectedCardStore()
+  const {setInfoCollapse, characterInfoCollapse, isMobileInfoOpen, setMobileInfoOpen, setCharacters, characters} = useSelectedCardStore()
   const [tabs,setTabs] = useState<string>('Posts')
-
+  const currentCharacter = characters?.find(char => char.id === characterInfo.id);
   const handleCollapse = () => setInfoCollapse(true);
 
   const handleTabs = (value: string) => setTabs(value);
+
+  useEffect(() => {
+    if (characters) {
+      const characterIndex = characters.findIndex((char) => char.id === characterInfo.id);
+
+      if (characterIndex !== -1) {
+        const character = characters[characterIndex];
+        if (character.photos.length === 1) {
+          character.photos = [...character.photos, ...(characterInfo.listProfilePhoto || [])];
+          character.startPhotosCount = characterInfo?.listProfilePhoto?.length ?? 0
+          setCharacters([...characters]);
+          localStorage.setItem('chatStartedCharacters', JSON.stringify([...characters]));
+        }
+      }
+    }
+  }, []);
+
 
   return (
     <>
@@ -91,8 +108,8 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
             })}
           </div>
           <div className="px-[8px]  pb-[8px]">
-            {tabs === 'Posts' && <ChatsInfoPosts content={characterInfo.listProfilePhoto} />}
-            {/*{tabs === 'Videos'&& <ChatsInfoVideos content={characterInfo.listVideo} />}*/}
+            {tabs === 'Posts' && <ChatsInfoPosts content={currentCharacter?.photos ?? null} />}
+            {tabs === 'Videos'&& <ChatsInfoVideos content={currentCharacter?.videos ?? null} />}
           </div>
         </div>
       </div>

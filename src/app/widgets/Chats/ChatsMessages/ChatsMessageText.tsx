@@ -60,7 +60,7 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
                "bg-[#21233A] rounded-bl-none": msg.sender === "bot",
              })}
           >
-            {msg.type === "text" && <p dangerouslySetInnerHTML={{__html: marked(msg.text)}} />}
+            {msg.type === "text" && <div dangerouslySetInnerHTML={{__html: marked(msg.text)}} />}
           </div>
         )
       })}

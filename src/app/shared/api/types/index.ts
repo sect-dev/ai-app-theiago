@@ -17,6 +17,7 @@ export interface IAvatar {
   voice: string
   style: string
   listMsgs: ListMsgs[]
+  listImage: string[]
   top_horizontal_list_position: number
 }
 
@@ -85,9 +86,12 @@ export interface Message {
 export interface PreparedAvatar {
   id: number,
   image: string,
-  listMsgs: Message[],
+  listMsgs: Message[]
   name: string
+  photos: string[]
+  videos: string[]
   lastMessageTime: Date
+  startPhotosCount: number
 }
 
 export interface MessageResponse {
