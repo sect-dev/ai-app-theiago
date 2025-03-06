@@ -77,7 +77,6 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
         })}
       </div>
 
-      {/* Lightbox для просмотра фото */}
       <Lightbox
         open={open}
         close={() => setOpen(false)}

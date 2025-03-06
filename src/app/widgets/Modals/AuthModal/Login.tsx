@@ -12,43 +12,53 @@ import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import Spinner from "@/app/widgets/Spinner";
 import {
   signInWithEmailAndPasswordHandler,
-  signInWithFacebook, signInWithGoogle,
+  signInWithFacebook,
+  signInWithGoogle,
 } from "@/app/shared/api/auth";
+import {authErrorMessages} from "@/app/shared/conts";
 
 interface FormData {
   email: string;
   password: string;
 }
 
+interface AuthError {
+  code: string;
+}
+
 const Login = () => {
   const {setAuthModal} = useSelectedCardStore()
   const [loading,setLoading] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [authError, setAuthError] = useState<string | null>(null);
   const { register, reset, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [isChecked, setIsChecked] = useState(false);
 
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true)
+      setAuthError(null);
       const resp = await signInWithEmailAndPasswordHandler(data.email,data.password)
       if(resp.accessToken) {
         reset();
         setAuthModal({ modalType: null, isAuthModalActive: false })
       }
     } catch (error) {
-      console.log('error')
+      const authError = error as AuthError;
+      const errorMessage = authErrorMessages[authError.code] || authErrorMessages["default"];
+      setAuthError(errorMessage);
     } finally {
       setLoading(false)
     }
   };
 
-  const onGoogleSignInHandler = async () => {
-    try {
-      await signInWithGoogle()
-    } catch (error) {
-      console.log('error',error)
-    }
-  }
+  // const onGoogleSignInHandler = async () => {
+  //   try {
+  //     await signInWithGoogle()
+  //   } catch (error) {
+  //     console.log('error',error)
+  //   }
+  // }
 
   const onFacebookSignInHandler = async () => {
     try {
@@ -140,6 +150,10 @@ const Login = () => {
               Forgot password?
             </button>
           </div>
+
+          {/*  Отображение ошибки авторизации */}
+          {authError && <p className="text-[#BD0000] text-[14px]">{authError}</p>}
+
 
           {/* Кнопка отправки */}
           <button

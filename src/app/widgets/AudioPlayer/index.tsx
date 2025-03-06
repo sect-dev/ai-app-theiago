@@ -6,6 +6,7 @@ import IconPlay from '@/../public/images/icons/icon-play.svg';
 import IconPause from '@/../public/images/icons/icon-pause.svg';
 import IconArrow from '@/../public/images/icons/icon-arrow-translate.svg';
 import clsx from "clsx";
+import {useMediaStore} from "@/app/shared/store/mediaStore";
 
 interface AudioPlayerProps {
   audioUrl: string;
@@ -17,6 +18,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
   const [showText, setShowText] = useState(false);
+  const { currentPlaying, setCurrentPlaying } = useMediaStore();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -48,13 +50,32 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   // Функция Play/Pause
   const togglePlay = () => {
     if (wavesurferRef.current) {
-      wavesurferRef.current.playPause();
-      setIsPlaying(wavesurferRef.current.isPlaying());
+      if (!isPlaying) {
+        setCurrentPlaying('audio');
+        wavesurferRef.current.playPause();
+        setIsPlaying(wavesurferRef.current.isPlaying());
+      } else {
+        wavesurferRef.current.pause();
+        setIsPlaying(false);
+      }
     }
   };
 
+
+  useEffect(() => {
+    if (currentPlaying === 'video' && wavesurferRef.current) {
+      wavesurferRef.current.pause();
+      setIsPlaying(false);
+    }
+    if (currentPlaying === 'audio' && wavesurferRef.current && !isPlaying) {
+      wavesurferRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [currentPlaying]);
+
+
   const handleShowText = () => {
-    setShowText(true);
+    setShowText(!showText);
   };
 
   return (

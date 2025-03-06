@@ -11,26 +11,34 @@ import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import {signUpWithEmailAndPassword} from "@/app/shared/api/auth";
 import Spinner from "@/app/widgets/Spinner";
 import Link from "next/link";
+import {authErrorMessages} from "@/app/shared/conts";
 
 interface FormData {
   email: string;
   password: string;
 }
+interface AuthError {
+  code: string;
+}
 
 const Register = () => {
   const {setAuthModal} = useSelectedCardStore();
   const [loading,setLoading] = useState<boolean>(false)
+  const [authError, setAuthError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true)
+      setAuthError(null);
       await signUpWithEmailAndPassword(data.email,data.password)
       reset();
       setAuthModal({ modalType: null, isAuthModalActive: false })
     } catch (error) {
-      console.log('error',error)
+      const authError = error as AuthError;
+      const errorMessage = authErrorMessages[authError.code] || authErrorMessages["default"];
+      setAuthError(errorMessage);
     } finally {
       setLoading(false)
     }
@@ -85,6 +93,9 @@ const Register = () => {
             </div>
             {errors.password && <p className="text-[#BD0000] text-[12px] absolute right-0 top-0">{errors.password.message}</p>}
           </div>
+
+          {/*  Отображение ошибки авторизации */}
+          {authError && <p className="text-[#BD0000] text-[14px]">{authError}</p>}
 
           {/* Кнопка отправки */}
           <button

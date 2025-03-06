@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useMemo } from "react";
+import React, {FC, useEffect, useMemo} from "react";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import {SwiperSlide,Swiper} from "swiper/react";
@@ -28,6 +28,10 @@ const Tags: FC<ComponentProps> = ({ tags }) => {
     const item = tag === selectedTag ? null : tag
     setSelectedTag(item)
   }
+
+  useEffect(() => {
+    return () => {setSelectedTag(null)}
+  },[])
 
   return (
     <Swiper
