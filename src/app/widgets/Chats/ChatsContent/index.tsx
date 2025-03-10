@@ -18,7 +18,7 @@ const ChatsContent:FC<ComponentProps> = ({token, characterInfo}) => {
 
   useEffect(() => {
     setTokens(token)
-    if (params.id && window.innerWidth < 520) {
+    if (params.id && window.innerWidth < 1020) {
       setMobileChatOpen(true)
     }
   },[])
