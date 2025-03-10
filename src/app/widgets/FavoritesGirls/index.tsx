@@ -18,30 +18,23 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {
   return (
     <div className="bg-[#121423] p-[24px] rounded-l-[24px] md:p-[16px] md:rounded-none">
       <p className="text-[20px] font-semibold tracking-[0.02vw] mb-[16px] sm:hidden">They crave to chat with you!</p>
-      <div className="">
-        { (!avatars || avatars.length === 0)
-          ? <div className="flex gap-[14px] overflow-hidden">
-              {Array.from({ length: 8 }).map((_, index) => <FavoritesGirlsSkeleton key={index} />)}
-            </div>
-          : <Swiper
-              slidesPerView={"auto"}
-              freeMode={true}
-              autoplay={{
-                delay: 5500,
-                disableOnInteraction: true,
-              }}
-              modules={[Autoplay,FreeMode]}
-            >
-            {avatars?.map(avatar => {
-              return (
-                <SwiperSlide key={avatar.id} className="!w-[300px] !h-[330px] mr-[12px]">
-                  <FavoritesGirlsCard avatar={avatar} />
-                </SwiperSlide>
-              )
-            }) }
-          </Swiper>
-        }
-      </div>
+     <Swiper
+      slidesPerView={"auto"}
+      freeMode={true}
+      autoplay={{
+        delay: 5500,
+        disableOnInteraction: true,
+      }}
+      modules={[Autoplay,FreeMode]}
+    >
+      {avatars?.map(avatar => {
+        return (
+          <SwiperSlide key={avatar.id} className="!w-[300px] !h-[330px] mr-[12px]">
+            <FavoritesGirlsCard avatar={avatar} />
+          </SwiperSlide>
+        )
+      })}
+  </Swiper>
     </div>
   );
 };

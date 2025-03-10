@@ -1,6 +1,5 @@
 'use client'
 import React, {FC} from 'react';
-import CardSkeleton from "@/app/widgets/Card/CardSkeleton";
 import Card from "@/app/widgets/Card";
 import {Character} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
@@ -29,10 +28,7 @@ const CardsList:FC<ComponentProps> = ({avatars,tags}) => {
         }
       </div>
       <div className="gap-[16px] cards-list">
-        {(!avatars || avatars.length === 0)
-          ? Array.from({ length: 10 }).map((_, index) => <CardSkeleton key={index} />)
-          : filteredAvatars.map(avatar => <Card key={avatar.id} avatar={avatar} />)
-        }
+        {filteredAvatars.map(avatar => <Card key={avatar.id} avatar={avatar} />)}
       </div>
     </>
   );

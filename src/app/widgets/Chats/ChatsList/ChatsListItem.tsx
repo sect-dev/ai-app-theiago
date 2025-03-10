@@ -37,7 +37,7 @@ const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessa
         <span className="relative">
         <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
           <Image
-            src={image}
+            src={`${image}?format=webp&quality=80&width=50`}
             fill
             sizes="(max-width: 768px) 42px, (max-width: 1200px) 42px, 42px"
             alt="nicole image"

@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import ChatsInfoSkeleton from "@/app/widgets/Chats/ChatInfo/ChatsInfoSkeleton";
 
 interface ComponentProps {
   content: string[] | null;
@@ -18,8 +19,8 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
 
   if (!content || content.length === 0) {
     return (
-      <div className="animate-fadeIn flex flex-wrap gap-[8px] px-[12px] pt-[20px]">
-        <p className="text-[14px] opacity-60">No photos yet</p>
+      <div className="flex flex-wrap gap-[8px]">
+        {Array.from({length:8}).map((_,index) =>  <div key={index} className="animate-pulse w-[48%] h-[157px] rounded-[12px] bg-[#1F2237] " />)}
       </div>
     );
   }
@@ -39,7 +40,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
                 onClick={() =>  setAuthModal({modalType:"register",isAuthModalActive:true})}
               >
                 <Image
-                  src={photo}
+                  src={`${photo}?format=webp&quality=80&width=150`}
                   fill
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 134px"
                   alt="image"
@@ -57,7 +58,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
               onClick={() =>  setOpen(true)}
             >
               <Image
-                src={photo}
+                src={`${photo}?format=webp&quality=80&width=150`}
                 fill
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 134px"
                 alt="image"

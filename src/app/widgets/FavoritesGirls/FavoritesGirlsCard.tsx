@@ -40,10 +40,11 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
       {inView
         ? <div className="card-shadow card overflow-hidden cursor-grab group animate-fadeIn flex items-end relative p-[12px] h-full rounded-[20px] md:rounded-[24px]">
           <Image
-            src={`${avatar.avatar}?format=webp&quality=80`}
+            src={`${avatar.avatar}?format=webp&quality=80&width=300`}
             sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
             fill
             alt="image"
+            priority
             className="object-cover"
           />
           <div className="relative z-[2] transition-all duration-300 group-hover:mb-[50px] ">

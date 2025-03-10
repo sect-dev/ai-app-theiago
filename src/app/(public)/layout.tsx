@@ -16,8 +16,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const isChatPage = pathname?.includes('chats');
 
   useEffect(() => {
-    signInAnonymouslyHandler()
-  }, [])
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      signInAnonymouslyHandler();
+    }
+  }, []);
 
   return (
     <DefaultLayout>

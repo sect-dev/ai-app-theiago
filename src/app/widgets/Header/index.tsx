@@ -15,10 +15,8 @@ const Header = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      setUser(null);
-      localStorage.removeItem("accessToken");
     } catch (error) {
-      console.error("Ошибка при выходе:", error);
+      console.error("Ошибка выхода из системы:", error);
     }
   };
 

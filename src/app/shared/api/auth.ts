@@ -11,18 +11,44 @@ import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
 import {FirebaseUser} from "@/app/shared/api/types/auth";
 import {apiClient} from "@/app/shared/api/index";
+import {useAuthStore} from "@/app/shared/store/authStore";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 export const signUpWithEmailAndPassword = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user as FirebaseUser;
-    user.accessToken = (userCredential.user as FirebaseUser).stsTokenManager.accessToken;
+    const currentUser = auth.currentUser;
 
-    if(user.accessToken) {
-      localStorage.setItem("accessToken", user.accessToken);
+    if (currentUser && currentUser.isAnonymous) {
+      const credential = EmailAuthProvider.credential(email, password);
+      const userCredential = await linkWithCredential(currentUser, credential);
+
+      const user = userCredential.user as FirebaseUser;
+      user.accessToken = (userCredential.user as FirebaseUser).stsTokenManager.accessToken;
+
+      if (user.accessToken) {
+        localStorage.setItem("accessToken", user.accessToken);
+        localStorage.removeItem("uid");
+        localStorage.removeItem("tempToken");
+      }
+
+      const setUser = useAuthStore.getState().setUser;
+      const { setAuthModal } = useSelectedCardStore.getState();
+
+      setAuthModal({ modalType: null, isAuthModalActive: false });
+      setUser(user);
+
+      return user;
+    } else {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user as FirebaseUser;
+      user.accessToken = (userCredential.user as FirebaseUser).stsTokenManager.accessToken;
+
+      if (user.accessToken) {
+        localStorage.setItem("accessToken", user.accessToken);
+      }
+
+      return user;
     }
-
-    return user;
   } catch (error) {
     console.error("Ошибка регистрации:", error);
     throw error;
@@ -31,15 +57,12 @@ export const signUpWithEmailAndPassword = async (email: string, password: string
 
 export const signInWithEmailAndPasswordHandler = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
-    const currentUser = auth.currentUser as FirebaseUser;
-
-    const credential = EmailAuthProvider.credential(email, password);
-    const userCredential = await linkWithCredential(currentUser, credential);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
     const user = userCredential.user as FirebaseUser;
     user.accessToken = (userCredential.user as FirebaseUser).stsTokenManager.accessToken;
 
-    if(user.accessToken) {
+    if (user.accessToken) {
       localStorage.setItem("accessToken", user.accessToken);
     }
 
@@ -49,7 +72,6 @@ export const signInWithEmailAndPasswordHandler = async (email: string, password:
     throw error;
   }
 };
-
 export const resetPasswordHandler = async (email: string) => {
   const auth = getAuth();
   try {
@@ -134,12 +156,13 @@ export const signInAnonymouslyHandler = async () => {
     const userCredential = await signInAnonymously(auth);
     const user = userCredential.user;
 
-    if(user.uid) {
+    if (user.uid && user.isAnonymous) {
+      const token = await user.getIdToken();
       localStorage.setItem("uid", user.uid);
-      await registerAnonymousUser()
-      return user;
+      localStorage.setItem("tempToken", token);
+      await registerAnonymousUser();
+      return;
     }
-
   } catch (error) {
     console.error("Ошибка анонимной авторизации:", error);
     throw error;
@@ -148,9 +171,8 @@ export const signInAnonymouslyHandler = async () => {
 
 export const registerAnonymousUser = async (): Promise<string | null> => {
   try {
-    const response = await apiClient.get('/register_anonymous_web_user');
-    console.log('response',response)
-    return response.data;
+    await apiClient.get('/register_anonymous_web_user');
+    return;
   } catch (error) {
     console.error('Ошибка при регистрации анонимного пользователя:', error);
     return null;
