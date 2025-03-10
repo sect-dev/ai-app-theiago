@@ -46,7 +46,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
             alt="image"
             priority
             decoding="async"
-            fetchpriority="high"
+            fetchPriority="high"
             className="object-cover"
           />
           <div className="relative z-[2] transition-all duration-300 group-hover:mb-[50px] ">
