@@ -12,7 +12,7 @@ export const saveCharacterToLocalStorage = (avatar: Character, messages: Message
         image: avatar.avatar,
         listMsgs: messages,
         name: avatar.name,
-        photos: [startImage?.url ?? ''],
+        photos: startImage?.url ? [startImage.url] : [],
         videos: [],
         lastMessageTime: currentTime,
         startPhotosCount: 0

@@ -20,7 +20,9 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {
       <p className="text-[20px] font-semibold tracking-[0.02vw] mb-[16px] sm:hidden">They crave to chat with you!</p>
       <div className="">
         { (!avatars || avatars.length === 0)
-          ? <FavoritesGirlsSkeleton />
+          ? <div className="flex gap-[14px] overflow-hidden">
+              {Array.from({ length: 8 }).map((_, index) => <FavoritesGirlsSkeleton key={index} />)}
+            </div>
           : <Swiper
               slidesPerView={"auto"}
               freeMode={true}

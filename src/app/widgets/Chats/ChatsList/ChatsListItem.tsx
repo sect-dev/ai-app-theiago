@@ -51,14 +51,16 @@ const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessa
           {/*</span>*/}
           {/*)}*/}
         </span>
-             {!collapse && (
-               <span className="animate-fadeIn text-left">
+           {!collapse && (
+             <span className="animate-fadeIn text-left">
               <span className="font-medium text-[14px] tracking-[-0.04em] line-clamp-1">{name}</span>
-              <span className="flex items-center gap-[4px]">
-                 <LastMessage message={lastMessage} />
-              </span>
-             </span>
-             )}
+               {lastMessage && (
+                 <span className="flex items-center gap-[4px]">
+                    <LastMessage message={lastMessage}/>
+                 </span>
+               )}
+            </span>
+           )}
       </span>
       {!collapse && (
         <span className="animate-fadeIn flex flex-col items-end pl-[5px] ">

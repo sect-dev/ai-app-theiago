@@ -30,7 +30,7 @@ const CardsList:FC<ComponentProps> = ({avatars,tags}) => {
       </div>
       <div className="gap-[16px] cards-list">
         {(!avatars || avatars.length === 0)
-          ? <CardSkeleton />
+          ? Array.from({ length: 10 }).map((_, index) => <CardSkeleton key={index} />)
           : filteredAvatars.map(avatar => <Card key={avatar.id} avatar={avatar} />)
         }
       </div>

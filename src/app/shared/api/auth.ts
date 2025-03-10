@@ -5,11 +5,12 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
-  FacebookAuthProvider, signInAnonymously
+  FacebookAuthProvider, signInAnonymously, linkWithCredential, EmailAuthProvider
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
 import {FirebaseUser} from "@/app/shared/api/types/auth";
+import {apiClient} from "@/app/shared/api/index";
 
 export const signUpWithEmailAndPassword = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
@@ -30,7 +31,11 @@ export const signUpWithEmailAndPassword = async (email: string, password: string
 
 export const signInWithEmailAndPasswordHandler = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const currentUser = auth.currentUser as FirebaseUser;
+
+    const credential = EmailAuthProvider.credential(email, password);
+    const userCredential = await linkWithCredential(currentUser, credential);
+
     const user = userCredential.user as FirebaseUser;
     user.accessToken = (userCredential.user as FirebaseUser).stsTokenManager.accessToken;
 
@@ -129,14 +134,26 @@ export const signInAnonymouslyHandler = async () => {
     const userCredential = await signInAnonymously(auth);
     const user = userCredential.user;
 
-    // Сохраняем токен или UID, если это нужно
-    localStorage.setItem("uid", user.uid);
+    if(user.uid) {
+      localStorage.setItem("uid", user.uid);
+      await registerAnonymousUser()
+      return user;
+    }
 
-    console.log("Анонимный пользователь:", user);
-    return user;
   } catch (error) {
     console.error("Ошибка анонимной авторизации:", error);
     throw error;
+  }
+};
+
+export const registerAnonymousUser = async (): Promise<string | null> => {
+  try {
+    const response = await apiClient.get('/register_anonymous_web_user');
+    console.log('response',response)
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка при регистрации анонимного пользователя:', error);
+    return null;
   }
 };
 

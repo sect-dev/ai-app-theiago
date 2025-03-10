@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {useEffect} from 'react';
 import DefaultLayout from "@/app/widgets/Layout/DefaultLayout";
 import Header from "@/app/widgets/Header";
 import Sidebar from "@/app/widgets/Sidebar";
@@ -8,11 +8,16 @@ import {usePathname} from "next/navigation";
 import clsx from "clsx";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import AuthModal from "@/app/widgets/Modals/AuthModal";
+import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { isMobileChatOpen } = useSelectedCardStore();
   const pathname = usePathname();
   const isChatPage = pathname?.includes('chats');
+
+  useEffect(() => {
+    signInAnonymouslyHandler()
+  }, [])
 
   return (
     <DefaultLayout>

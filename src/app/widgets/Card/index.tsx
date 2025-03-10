@@ -8,12 +8,19 @@ import {Character} from "@/app/shared/api/types";
 import {useRouter} from "next/navigation";
 import {getMessageSize, mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
 import {startConversation} from "@/app/shared/api/mesages";
+import {useInView} from "react-intersection-observer";
+import CardSkeleton from "@/app/widgets/Card/CardSkeleton";
 
 interface ComponentProps {
   avatar: Character
 }
 
 const Card:FC<ComponentProps> = ({avatar}) => {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   const { setSelectedCard, setCharacters } = useSelectedCardStore();
   const navigate = useRouter()
 
@@ -33,18 +40,20 @@ const Card:FC<ComponentProps> = ({avatar}) => {
   };
 
   return (
-    <button
-      onClick={() => handleClick(avatar)}
-      className={clsx("flex card items-end group text-left relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {})}
-    >
-      <Image
-        src={avatar.avatar}
-        fill
-        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
-        alt="image"
-        className="object-cover"
-      />
-      <span className="flex bg-[#3B3E5E59] backdrop-blur-[3px] bg-opacity-20 text-[12px] font-medium px-[4px] rounded-[8px] h-[18px] items-center gap-[4px] absolute right-[20px] top-[16px]">
+    <div ref={ref} className="w-full">
+      {inView
+        ?  <button
+          onClick={() => handleClick(avatar)}
+          className={clsx("flex card items-end group text-left relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {})}
+        >
+          <Image
+            src={`${avatar.avatar}?format=webp&quality=80`}
+            fill
+            sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
+            alt="image"
+            className="object-cover"
+          />
+          <span className="flex bg-[#3B3E5E59] backdrop-blur-[3px] bg-opacity-20 text-[12px] font-medium px-[4px] rounded-[8px] h-[18px] items-center gap-[4px] absolute right-[20px] top-[16px]">
         <Image
           src={IconMessage.src}
           width={IconMessage.width}
@@ -52,25 +61,25 @@ const Card:FC<ComponentProps> = ({avatar}) => {
           alt="message icon"
           className="size-[12px]"
         />
-        {getMessageSize(5,avatar.position)}
+            {getMessageSize(5,avatar.position)}
       </span>
-      <div className="relative z-[2] transition-all duration-300 group-hover:mb-[45px] md:group-hover:mb-[40px] ">
-        {avatar.tags?.length > 0 &&
-          <div className="flex items-center gap-[4px] mb-[14px] font-semibold font-semibold ">
-            <div className="rounded-[20px] capitalize bg-[#426EFD] font-semibold h-[21px] text-[14px] px-[4px] md:text-[12px]">
-              { avatar.tags[0]}
-            </div>
+          <div className="relative z-[2] transition-all duration-300 group-hover:mb-[45px] md:group-hover:mb-[40px] ">
+            {avatar.tags?.length > 0 &&
+              <div className="flex items-center gap-[4px] mb-[14px] font-semibold font-semibold ">
+                <div className="rounded-[20px] capitalize bg-[#426EFD] font-semibold h-[21px] text-[14px] px-[4px] md:text-[12px]">
+                  { avatar.tags[0]}
+                </div>
+              </div>
+            }
+            <p className="text-[16px] font-semibold md:text-[14px]">{avatar.name}</p>
+            <p className="card-description opacity-[60%] text-[14px] leading-[1.2em] line-clamp-2 md:text-[12px]">
+              {avatar.description.en}
+            </p>
           </div>
-        }
-        <p className="text-[16px] font-semibold md:text-[14px]">{avatar.name}</p>
-        <p className="card-description opacity-[60%] text-[14px] leading-[1.2em] line-clamp-2 md:text-[12px]">
-          {avatar.description.en}
-        </p>
-      </div>
-      <div className="w-full absolute left-1/2 -bottom-[35px] z-[10] -translate-x-1/2 px-[16px] transition-all duration-300 group-hover:bottom-[14px] md:-bottom-[35px] md:group-hover:bottom-[9px] md:px-[12px]">
-        <div
-          className="main-gradient w-full text-[14px] rounded-[12px] h-[35px] font-semibold text-white md:h-[30px] md:text-[12px]"
-        >
+          <div className="w-full absolute left-1/2 -bottom-[35px] z-[10] -translate-x-1/2 px-[16px] transition-all duration-300 group-hover:bottom-[14px] md:-bottom-[35px] md:group-hover:bottom-[9px] md:px-[12px]">
+            <div
+              className="main-gradient w-full text-[14px] rounded-[12px] h-[35px] font-semibold text-white md:h-[30px] md:text-[12px]"
+            >
           <span className="relative z-[5] h-full flex items-center justify-center gap-[8px] ">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M18.3332 10.7166C18.3332 12.6249 17.3499 14.3166 15.8332 15.3833L14.7166 17.8416C14.4582 18.3999 13.7082 18.5083 13.3166 18.0333L12.0832 16.5499C10.5332 16.5499 9.10824 16.0249 8.0249 15.1499L8.5249 14.5583C12.3749 14.2666 15.4166 11.2166 15.4166 7.49994C15.4166 6.8666 15.3249 6.2416 15.1582 5.6416C17.0499 6.6416 18.3332 8.5416 18.3332 10.7166Z" fill="#fff"/>
@@ -78,9 +87,14 @@ const Card:FC<ComponentProps> = ({avatar}) => {
             </svg>
             <span >Start chat</span>
           </span>
-        </div>
-      </div>
-    </button>
+            </div>
+          </div>
+        </button>
+        : <CardSkeleton />
+
+      }
+
+    </div>
   );
 };
 

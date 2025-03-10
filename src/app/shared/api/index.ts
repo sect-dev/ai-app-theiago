@@ -1,10 +1,7 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-  baseURL: "https://stage.theaigo.com:8000",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: 'https://stage.theaigo.com:8000',
 });
 
 export const getCharactersList = async () => {
