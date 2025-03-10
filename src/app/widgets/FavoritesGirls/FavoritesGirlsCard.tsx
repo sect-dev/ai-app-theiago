@@ -6,18 +6,13 @@ import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import {useRouter} from "next/navigation";
 import {mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
 import {startConversation} from "@/app/shared/api/mesages";
-import {useInView} from "react-intersection-observer";
-import FavoritesGirlsSkeleton from "@/app/widgets/FavoritesGirls/FavoritesGirlsSkeleton";
 
 interface ComponentProps {
   avatar: Character
 }
 
 const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+
   const {setSelectedCard,setCharacters} = useSelectedCardStore();
   const navigate = useRouter()
 
@@ -36,17 +31,14 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
   };
 
   return (
-    <div ref={ref} className="size-full">
-      {inView
-        ? <div className="card-shadow card overflow-hidden cursor-grab group animate-fadeIn flex items-end relative p-[12px] h-full rounded-[20px] md:rounded-[24px]">
+    <div  className="size-full">
+     <div className="card-shadow card overflow-hidden cursor-grab group animate-fadeIn flex items-end relative p-[12px] h-full rounded-[20px] md:rounded-[24px]">
           <Image
             src={`${avatar.avatar}?format=webp&quality=80&width=300`}
             sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
             fill
             alt="image"
-            priority
-            decoding="async"
-            fetchPriority="high"
+            loading="lazy"
             className="object-cover"
           />
           <div className="relative z-[2] transition-all duration-300 group-hover:mb-[50px] ">
@@ -79,8 +71,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
             </button>
           </div>
         </div>
-        : <FavoritesGirlsSkeleton />
-      }
+
     </div>
   );
 };

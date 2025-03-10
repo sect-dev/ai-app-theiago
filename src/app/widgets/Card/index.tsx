@@ -8,18 +8,13 @@ import {Character} from "@/app/shared/api/types";
 import {useRouter} from "next/navigation";
 import {getMessageSize, mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
 import {startConversation} from "@/app/shared/api/mesages";
-import {useInView} from "react-intersection-observer";
-import CardSkeleton from "@/app/widgets/Card/CardSkeleton";
 
 interface ComponentProps {
   avatar: Character
 }
 
 const Card:FC<ComponentProps> = ({avatar}) => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.2,
-  });
+
 
   const { setSelectedCard, setCharacters } = useSelectedCardStore();
   const navigate = useRouter()
@@ -40,9 +35,8 @@ const Card:FC<ComponentProps> = ({avatar}) => {
   };
 
   return (
-    <div ref={ref} className="w-full">
-      {inView
-        ?  <button
+    <div  className="w-full">
+       <button
           onClick={() => handleClick(avatar)}
           className={clsx("flex card items-end w-full group text-left relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {})}
         >
@@ -90,8 +84,7 @@ const Card:FC<ComponentProps> = ({avatar}) => {
             </div>
           </div>
         </button>
-        : <CardSkeleton />
-      }
+
     </div>
   );
 };
