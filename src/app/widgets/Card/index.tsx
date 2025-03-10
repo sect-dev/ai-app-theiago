@@ -44,10 +44,10 @@ const Card:FC<ComponentProps> = ({avatar}) => {
       {inView
         ?  <button
           onClick={() => handleClick(avatar)}
-          className={clsx("flex card items-end group text-left relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {})}
+          className={clsx("flex card items-end w-full group text-left relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {})}
         >
           <Image
-            src={`${avatar.avatar}?format=webp&quality=80`}
+            src={`${avatar.avatar}?format=webp&quality=80&v=1`}
             fill
             sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
             alt="image"
