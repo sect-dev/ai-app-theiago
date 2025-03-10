@@ -5,7 +5,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
-  FacebookAuthProvider
+  FacebookAuthProvider, signInAnonymously
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
@@ -121,6 +121,22 @@ export const signInWithFacebook = async () => {
     }
 
     return { success: false, message: "An error occurred while authorizing by X" }
+  }
+};
+
+export const signInAnonymouslyHandler = async () => {
+  try {
+    const userCredential = await signInAnonymously(auth);
+    const user = userCredential.user;
+
+    // Сохраняем токен или UID, если это нужно
+    localStorage.setItem("uid", user.uid);
+
+    console.log("Анонимный пользователь:", user);
+    return user;
+  } catch (error) {
+    console.error("Ошибка анонимной авторизации:", error);
+    throw error;
   }
 };
 

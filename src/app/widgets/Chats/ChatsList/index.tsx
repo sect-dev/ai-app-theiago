@@ -55,7 +55,7 @@ const ChatsList = () => {
           })
           : <div className="space-y-[14px]">
             {
-              Array.from({length: 4}).map((_,index) => <ChatsListItemSkeleton />)
+              Array.from({length: 4}).map((_,index) => <ChatsListItemSkeleton key={index} />)
             }
             </div>
         }

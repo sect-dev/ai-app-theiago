@@ -11,8 +11,13 @@ interface ComponentProps {
   url: string;
   text: string
 }
+
+interface CustomHTMLVideoElement extends HTMLVideoElement {
+  _setIsPlaying?: (isPlaying: boolean) => void;
+}
+
 const VideoPlayer: FC<ComponentProps> = ({ url, text }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<CustomHTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showText, setShowText] = useState(false);
   const { currentPlaying, setCurrentPlaying, currentPlayingVideo, setCurrentPlayingVideo } = useMediaStore();
@@ -22,7 +27,7 @@ const VideoPlayer: FC<ComponentProps> = ({ url, text }) => {
 
     if (currentPlayingVideo && currentPlayingVideo !== videoRef.current) {
       currentPlayingVideo.pause();
-      (currentPlayingVideo as any)._setIsPlaying?.(false);
+      (currentPlayingVideo as CustomHTMLVideoElement)._setIsPlaying?.(false);
     }
 
     if (isPlaying) {
@@ -34,7 +39,7 @@ const VideoPlayer: FC<ComponentProps> = ({ url, text }) => {
       setIsPlaying(true);
       setCurrentPlaying('video');
       setCurrentPlayingVideo(videoRef.current);
-      (videoRef.current as any)._setIsPlaying = setIsPlaying;
+      (videoRef.current as CustomHTMLVideoElement)._setIsPlaying = setIsPlaying;
     }
   };
 
