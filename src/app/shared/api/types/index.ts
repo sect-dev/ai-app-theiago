@@ -78,7 +78,7 @@ export interface Character {
 
 export interface Message {
   text: string;
-  type: "text" | "image" | "video" | "audio";
+  type: "text" | "image" | "video" | "audio" | "audio_paywall" | "video_paywall" | "text_paywall" | "image_paywall";
   url?: string;
   sender: "user" | "bot";
 }
