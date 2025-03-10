@@ -13,6 +13,7 @@ import {Character, Message, PreparedAvatar} from "@/app/shared/api/types";
 import ChatsMessageText from "@/app/widgets/Chats/ChatsMessages/ChatsMessageText";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import SuggestionAnswer from "@/app/widgets/SuggestionAnswer";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface FormData {
   message: string;
@@ -33,6 +34,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[] | null>([]);
   const { setTokens,characters,setCharacters } = useSelectedCardStore();
+  const {user} = useAuthStore()
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const {
@@ -87,7 +89,6 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   };
 
   const onSubmit = async (data: FormData) => {
-    // Добавляем сообщение пользователя в чат
     const userMessage: Message = { text: data.message, type: "text", sender: "user" };
     const updatedMessages = [...(messages ?? []), userMessage];
     setMessages(updatedMessages);
@@ -96,7 +97,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 
     setLoading(true);
     const params = {
-      userId: "8d9b409fe5287d5b",
+      userId: user?.uid ?? 'id',
       message: data.message,
       characterId: characterInfo?.id.toString() ?? '',
     };
@@ -145,7 +146,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
       <div>
         {!loading && (
           <div className={clsx("transition-opacity duration-300",{"opacity-0 pointer-events-none absolute": loading})}>
-            <SuggestionAnswer waitingMessage={loading} userId="8d9b409fe5287d5b" characterId={characterInfo?.id ?? null} onSelectMessage={handleSelectMessage}/>
+            <SuggestionAnswer waitingMessage={loading} userId={user?.uid ?? 'id'} characterId={characterInfo?.id ?? null} onSelectMessage={handleSelectMessage}/>
           </div>
         )}
         <form onSubmit={handleSubmit(onSubmit)} className="relative flex gap-[8px]">

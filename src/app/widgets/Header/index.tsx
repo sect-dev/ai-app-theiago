@@ -8,7 +8,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
 
 const Header = () => {
-  const { user, loading, setUser } = useAuthStore();
+  const { user, loading } = useAuthStore();
   const [menuModal, setMenuModal] = useState(false);
   const { setAuthModal } = useSelectedCardStore();
 
@@ -45,7 +45,7 @@ const Header = () => {
             </Link>
           </div>
 
-          {loading ? <div className="animate-pulse block main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " /> : user ? (
+          {loading ? <div className="animate-pulse block main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " /> : !user?.isAnonymous ? (
             <button
               onClick={handleSignOut}
               className="animate-fadeIn relative gradient-border logo-gradient flex items-center justify-center gap-[8px] w-[64px] h-[24px]"

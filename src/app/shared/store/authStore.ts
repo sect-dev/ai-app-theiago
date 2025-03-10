@@ -24,7 +24,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     if (firebaseUser.isAnonymous) {
       localStorage.setItem("uid", firebaseUser.uid);
       localStorage.setItem("tempToken", token);
-      setUser(null);
+      setUser(firebaseUser);
     } else {
       localStorage.removeItem("uid");
       localStorage.removeItem("tempToken");

@@ -27,19 +27,19 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
       {/* Видео сообщение */}
       {messages?.map((msg, index) => {
         {/* Video-message */}
-        if(msg.type === "video")  {
+        if(msg.type === "video" || msg.type === "video_paywall")  {
           return (
             <VideoPlayer key={index} url={msg.url ?? ''} text={msg.text ?? ''} />
           )
         }
         {/* Audio-message */}
-        if(msg.type === "audio") {
+        if(msg.type === "audio" || msg.type === "audio_paywall") {
           return  (
             <AudioPlayer key={index} audioUrl={msg.url ?? ''} text={msg.text} />
           )
         }
         {/* Image-message */}
-        if(msg.type === "image") {
+        if(msg.type === "image" || msg.type === "image_paywall") {
           return  (
             <div key={index} className="relative w-[240px] h-[300px] overflow-hidden rounded-[20px] rounded-bl-none">
               <Image
