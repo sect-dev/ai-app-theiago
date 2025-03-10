@@ -26,14 +26,14 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
 
   return (
     <>
-      <div className="animate-fadeIn flex flex-wrap gap-[8px]">
+      <div className="photos-container animate-fadeIn flex flex-wrap gap-[8px]">
         {content.map((photo, i) => {
           const isAvailable = i <= 1
           if(i > 1) {
             return (
               <div
                 key={photo}
-                className={clsx("gradient-border relative pointer-events-none animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-[48%] h-[157px] cursor-pointer before:rounded-[12px] before:z-[2] before:opacity-0", {
+                className={clsx("gradient-border relative pointer-events-none animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-full h-[157px] cursor-pointer md:h-[190px] before:rounded-[12px] before:z-[2] before:opacity-0", {
                   "hover:before:opacity-100 pointer-events-auto": !isAvailable
                 })}
                 onClick={() =>  setAuthModal({modalType:"register",isAuthModalActive:true})}
@@ -51,7 +51,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
           return (
             <div
               key={photo}
-              className={clsx("gradient-border relative pointer-events-none animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-[48%] h-[157px] cursor-pointer before:rounded-[12px] before:z-[2] before:opacity-0", {
+              className={clsx("gradient-border relative pointer-events-none animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-full h-[157px] cursor-pointer md:h-[190px] before:rounded-[12px] before:z-[2] before:opacity-0", {
                 "hover:before:opacity-100 pointer-events-auto": isAvailable
               })}
               onClick={() =>  setOpen(true)}

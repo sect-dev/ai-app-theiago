@@ -17,7 +17,7 @@ const tabsCaptions = [
 
 const ChatsInfoSkeleton = () => {
   return (
-    <div className={clsx("bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-width duration-300", {})}>
+    <div className={clsx("bg-[#121423] max-h-[calc(100vh-57px)] overflow-auto rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-width duration-300", {})}>
       <div className="relative bg-[#1F2237] flex items-end p-[20px] h-[293px] rounded-tl-[8px] rounded-tr-[24px] overflow-hidden">
         <div className="relative z-[5] space-y-[8px]">
           <div className="animate-pulse bg-[#121423] w-[80px] h-[20px] rounded-[9px]" />

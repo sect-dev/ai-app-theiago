@@ -36,7 +36,7 @@ const Page = async ({params}:ComponentProps) => {
         <div className="w-full">
           <div className="flex gap-[12px] md:px-[8px] md:flex-col">
             <div className="md:hidden w-full max-w-[260px]">
-              <ChatsList />
+              <ChatsListSkeleton />
             </div>
             <div className="w-full space-y-[8px]">
               <ChatHeaderSkeleton />

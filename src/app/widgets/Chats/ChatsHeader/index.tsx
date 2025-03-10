@@ -19,15 +19,19 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
   const navigate = useRouter()
 
   const handleBack = () => {
-    setMobileInfoOpen(false)
+    setMobileChatOpen(false)
     navigate.push('/chats')
+  }
+
+  const handleInfoOpen = () => {
+    setMobileInfoOpen(true)
   }
 
   return (
     <div className={clsx("animate-fadeIn flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px] transition-transform duration-300 md:rounded-[16px] md:py-[14px] md:px-[12px]", {})}>
-      <button onClick={handleBack} className="flex items-center gap-[12px]">
+      <div className="flex items-center gap-[10px]">
         <div
-          onClick={() => setMobileChatOpen(false)}
+          onClick={handleBack}
           className="hidden size-[28px] rounded-[8px] bg-[#191B2C] flex items-center justify-center md:flex"
         >
           <Image
@@ -37,25 +41,27 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
             alt="icon back"
           />
         </div>
-        <div className="flex items-center gap-[12px]">
-          <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
-          <Image
-            src={avatar ?? ''}
-            fill
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 42px"
-            alt="nicole image"
-            className="object-cover object-top"
-          />
-        </span>
-          <div className="text-left">
-            <p className="font-medium text-[17px] tracking-[-0.04em] mb-[2px]">{name}</p>
-            <p className="flex items-center gap-[4px] font-medium max-w-[125px] ">
-              <span className="block rounded-full bg-[#4DCF9F] size-[4px]" />
-              <span className="text-[12px] opacity-50 line-clamp-1 tracking-[-0.04em]">Online</span>
-            </p>
+        <div onClick={handleInfoOpen} className="flex items-center gap-[12px]">
+          <div className="flex items-center gap-[12px]">
+            <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
+              <Image
+                src={avatar ?? ''}
+                fill
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 42px"
+                alt="nicole image"
+                className="object-cover object-top"
+              />
+            </span>
+            <div className="text-left">
+              <p className="font-medium text-[17px] tracking-[-0.04em] mb-[2px]">{name}</p>
+              <p className="flex items-center gap-[4px] font-medium max-w-[125px] ">
+                <span className="block rounded-full bg-[#4DCF9F] size-[4px]" />
+                <span className="text-[12px] opacity-50 line-clamp-1 tracking-[-0.04em]">Online</span>
+              </p>
+            </div>
           </div>
         </div>
-      </button>
+      </div>
       <div className="flex items-center gap-[8px]">
         {tokens
           ? <button className="block main-gradient h-[24px] rounded-[15px] px-[12px]">

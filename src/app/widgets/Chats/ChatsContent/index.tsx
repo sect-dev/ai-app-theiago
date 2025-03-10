@@ -5,6 +5,7 @@ import ChatsMessages from "@/app/widgets/Chats/ChatsMessages";
 import {Character} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import clsx from "clsx";
+import {useParams} from "next/navigation";
 
 interface ComponentProps {
   characterInfo: Character | null
@@ -12,17 +13,18 @@ interface ComponentProps {
 }
 
 const ChatsContent:FC<ComponentProps> = ({token, characterInfo}) => {
-  const { setTokens,setMobileChatOpen, isMobileChatOpen } = useSelectedCardStore();
+  const { setTokens, setMobileChatOpen, isMobileChatOpen } = useSelectedCardStore();
+  const params = useParams()
 
   useEffect(() => {
     setTokens(token)
-    if (window.innerWidth < 520) {
+    if (params.id && window.innerWidth < 520) {
       setMobileChatOpen(true)
     }
   },[])
 
   return (
-    <div className={clsx("w-full space-y-[8px] transition-all duration-300 md:absolute md:h-full md:left-0 md:top-0 md:w-full md:-translate-x-[-105%]", {
+    <div className={clsx("w-full space-y-[8px] transition-all duration-300 md:absolute md:h-full md:left-0 md:top-0 md:w-full md:-translate-x-[105%]", {
       "md:!translate-x-0": isMobileChatOpen
     })}>
       <ChatsHeader avatar={characterInfo?.avatar ?? null} name={characterInfo?.name ?? null} />
