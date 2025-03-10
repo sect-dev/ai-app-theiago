@@ -25,7 +25,11 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {
         disableOnInteraction: true,
       }}
       modules={[Autoplay,FreeMode]}
-      lazy={true}
+      lazy={{
+        enabled: true,
+        loadPrevNext: true,
+        loadPrevNextAmount: 2,
+      }}
     >
       {avatars?.map(avatar => {
         return (
