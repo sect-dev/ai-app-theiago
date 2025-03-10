@@ -6,7 +6,6 @@ import clsx from "clsx";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
-import ChatsInfoSkeleton from "@/app/widgets/Chats/ChatInfo/ChatsInfoSkeleton";
 
 interface ComponentProps {
   content: string[] | null;

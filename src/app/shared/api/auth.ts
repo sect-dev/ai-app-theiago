@@ -169,13 +169,13 @@ export const signInAnonymouslyHandler = async () => {
   }
 };
 
-export const registerAnonymousUser = async (): Promise<string | null> => {
+export const registerAnonymousUser = async (): Promise<void> => {
   try {
     await apiClient.get('/register_anonymous_web_user');
     return;
   } catch (error) {
     console.error('Ошибка при регистрации анонимного пользователя:', error);
-    return null;
+    return;
   }
 };
 

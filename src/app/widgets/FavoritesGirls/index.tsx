@@ -2,7 +2,6 @@
 import React, {FC} from 'react';
 import FavoritesGirlsCard from "@/app/widgets/FavoritesGirls/FavoritesGirlsCard";
 import {Character} from "@/app/shared/api/types";
-import FavoritesGirlsSkeleton from "@/app/widgets/FavoritesGirls/FavoritesGirlsSkeleton";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode,Autoplay } from 'swiper/modules';
 // Import Swiper styles
