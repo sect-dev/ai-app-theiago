@@ -14,6 +14,7 @@ import ChatsMessageText from "@/app/widgets/Chats/ChatsMessages/ChatsMessageText
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import SuggestionAnswer from "@/app/widgets/SuggestionAnswer";
 import {useAuthStore} from "@/app/shared/store/authStore";
+import TextareaAutosize from "react-textarea-autosize";
 
 interface FormData {
   message: string;
@@ -154,18 +155,20 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
             <SuggestionAnswer waitingMessage={loading} userId={user?.uid ?? 'id'} characterId={characterInfo?.id ?? null} onSelectMessage={handleSelectMessage}/>
           </div>
         )}
-        <form onSubmit={handleSubmit(onSubmit)} className="relative flex gap-[8px]">
+        <form onSubmit={handleSubmit(onSubmit)} className="relative flex gap-[8px] items-end">
           {showModal && <ChatsMessageModal onSelectMessage={handleSelectMessage} closeModal={() => setShowModal(false)} />}
           <div className="relative w-full">
-            <textarea
+            <TextareaAutosize
               {...register("message", { required: "Поле обязательно для заполнения" })}
               ref={(e) => {
                 register("message").ref(e);
                 textAreaRef.current = e;
               }}
               id="message"
-              className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.5em] h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px] sm:pr-[30px] sm:text-[16px] "
+              className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.5em] min-h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px] sm:pr-[30px] sm:text-[16px] "
               placeholder="Your message here"
+              minRows={1}
+              maxRows={3}
               onFocus={() => setIsTextareaFocused(true)}
               onBlur={() => setIsTextareaFocused(false)}
               onKeyDown={(e) => {
@@ -177,7 +180,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
                 }
               }}
             />
-            <div className="flex items-center gap-[10px] absolute right-[20px] top-1/2 -translate-y-1/2 ">
+            <div className="flex items-center gap-[10px] absolute right-[20px] top-1/2 -translate-y-1/2 sm:right-[10px]">
               {messageValue &&
                 <button
                   onClick={onReset}
