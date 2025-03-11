@@ -76,10 +76,12 @@ export interface Character {
   top_horizontal_list_position: number;
 }
 
+type UrlType = string | { en: string };
+
 export interface Message {
   text: string;
   type: "text" | "image" | "video" | "audio" | "audio_paywall" | "video_paywall" | "text_paywall" | "image_paywall";
-  url?: string;
+  url?: UrlType;
   sender: "user" | "bot";
 }
 

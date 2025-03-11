@@ -28,24 +28,27 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
       {messages?.map((msg, index) => {
         {/* Video-message */}
         if(msg.type === "video" || msg.type === "video_paywall")  {
+          const url = typeof msg.url === "string" ? msg.url : msg.url?.en ?? '';
           return (
-            <VideoPlayer key={index} url={msg.url ?? ''} text={msg.text ?? ''} />
+            <VideoPlayer key={index} url={url ?? ''} text={msg.text ?? ''} />
           )
         }
         {/* Audio-message */}
         if(msg.type === "audio" || msg.type === "audio_paywall") {
+          const url = typeof msg.url === "string" ? msg.url : msg.url?.en ?? '';
           return  (
-            <AudioPlayer key={index} audioUrl={msg.url ?? ''} text={msg.text} />
+            <AudioPlayer key={index} audioUrl={url} text={msg.text} />
           )
         }
         {/* Image-message */}
         if(msg.type === "image" || msg.type === "image_paywall") {
+          const src = typeof msg.url === "string" ? msg.url : msg.url?.en ?? '';
           return  (
             <div key={index} className="relative w-[240px] h-[300px] overflow-hidden rounded-[20px] rounded-bl-none">
               <Image
                 sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 240px"
                 fill
-                src={msg.url ?? ''}
+                src={src}
                 alt="image"
                 className="object-cover object-top"
               />
