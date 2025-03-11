@@ -33,6 +33,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[] | null>([]);
+  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
   const { setTokens,characters,setCharacters } = useSelectedCardStore();
   const {user} = useAuthStore()
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -43,7 +44,8 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     reset,
     setValue,
     setFocus,
-    watch
+    watch,
+    resetField
   } = useForm<FormData>();
 
   useEffect(() => {
@@ -133,7 +135,10 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     setFocus("message")
   };
 
-  const onReset = () => reset();
+  const onReset = () => {
+    resetField('message')
+    setFocus("message");
+  };
 
   const messageValue = watch("message");
 
@@ -152,49 +157,54 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="relative flex gap-[8px]">
           {showModal && <ChatsMessageModal onSelectMessage={handleSelectMessage} closeModal={() => setShowModal(false)} />}
           <div className="relative w-full">
-          <textarea
-            {...register("message", { required: "Поле обязательно для заполнения" })}
-            ref={(e) => {
-              register("message").ref(e);
-              textAreaRef.current = e;
-            }}
-            id="message"
-            className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.5em] h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px] sm:text-[16px] "
-            placeholder="Your message here"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                if (messageValue?.trim() && !loading) {
-                  handleSubmit(onSubmit)();
+            <textarea
+              {...register("message", { required: "Поле обязательно для заполнения" })}
+              ref={(e) => {
+                register("message").ref(e);
+                textAreaRef.current = e;
+              }}
+              id="message"
+              className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.5em] h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px] sm:text-[16px] "
+              placeholder="Your message here"
+              onFocus={() => setIsTextareaFocused(true)}
+              onBlur={() => setIsTextareaFocused(false)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  if (messageValue?.trim() && !loading) {
+                    handleSubmit(onSubmit)();
+                  }
                 }
+              }}
+            />
+            <div className="flex items-center gap-[10px] absolute right-[20px] top-1/2 -translate-y-1/2 ">
+              {messageValue &&
+                <button
+                  onClick={onReset}
+                  className={"animate-fadeIn"}
+                >
+                  <Image
+                    src={IconClose.src}
+                    width={IconClose.width}
+                    height={IconClose.height}
+                    alt="clean form"
+                  />
+                </button>
               }
-            }}
-          />
-            <button
-              onClick={handleModal}
-              type="button"
-              className={clsx("absolute right-[20px] top-1/2 -translate-y-1/2 bg-[#121423] rounded-[9px] flex items-center gap-[6px] h-[24px] px-[9px]", {
-                "gradient-border": showModal
-              })}
-            >
-              <Image src={showModal ? IconUploadGradient : IconUpload.src} width={IconUpload.width} height={IconUpload.height} alt="upload photos" className="size-[14px]" />
-              <span className={clsx("font-medium text-[12px]", {
-                "logo-gradient": showModal
-              })}> Send photo</span>
-            </button>
-            {messageValue &&
               <button
-                onClick={onReset}
-                className="animate-fadeIn absolute right-[130px] top-1/2 -translate-y-1/2"
+                onClick={handleModal}
+                type="button"
+                className={clsx("bg-[#121423] rounded-[9px] flex items-center gap-[6px] h-[24px] px-[9px] transition-opacity duration-300", {
+                  "gradient-border": showModal,
+                  "hidden": isTextareaFocused || messageValue
+                })}
               >
-                <Image
-                  src={IconClose.src}
-                  width={IconClose.width}
-                  height={IconClose.height}
-                  alt="clean form"
-                />
+                <Image src={showModal ? IconUploadGradient : IconUpload.src} width={IconUpload.width} height={IconUpload.height} alt="upload photos" className="size-[14px]" />
+                <span className={clsx("font-medium text-[12px]", {
+                  "logo-gradient": showModal
+                })}> Send photo</span>
               </button>
-            }
+            </div>
           </div>
           <button
             type="submit"
