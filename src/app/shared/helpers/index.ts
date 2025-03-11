@@ -5,14 +5,20 @@ export const saveCharacterToLocalStorage = (avatar: Character, messages: Message
     const storedIds = localStorage.getItem("chatStartedCharacters");
     const characters: PreparedAvatar[] = storedIds ? JSON.parse(storedIds) : [];
     const currentTime = new Date();
+
     const startImage = messages.find(item => item.type === 'image')
+
+    const startImageUrl = typeof startImage?.url === "string" 
+      ? startImage.url 
+      : startImage?.url?.en ?? '';
+
     if (!characters.some(a => a.id === avatar.id)) {
       const newCharacter = {
         id: avatar.id,
         image: avatar.avatar,
         listMsgs: messages,
         name: avatar.name,
-        photos: startImage?.url ? [startImage.url] : [],
+        photos: startImageUrl ? [startImageUrl] : [],
         videos: [],
         lastMessageTime: currentTime,
         startPhotosCount: 0
