@@ -17,13 +17,14 @@ const LastMessage:FC<ComponentProps> = ({message}) => {
   }
 
   if(message.type === 'image') {
+    const src = typeof message.url === "string" ? message.url : message.url?.en ?? '';
     return (
       <>
         <div className="relative size-[16px] overflow-hidden rounded-[4px]">
           <Image
             sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 16px"
             fill
-            src={message.url ?? ''}
+            src={src}
             alt="image"
             className="object-cover object-top"
           />
