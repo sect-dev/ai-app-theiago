@@ -201,7 +201,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
                 type="button"
                 className={clsx("bg-[#121423] rounded-[9px] flex items-center gap-[6px] h-[24px] px-[9px] transition-opacity duration-300", {
                   "gradient-border": showModal,
-                  "hidden": isTextareaFocused || messageValue
+                  "md:hidden": isTextareaFocused || messageValue
                 })}
               >
                 <Image src={showModal ? IconUploadGradient : IconUpload.src} width={IconUpload.width} height={IconUpload.height} alt="upload photos" className="size-[14px]" />

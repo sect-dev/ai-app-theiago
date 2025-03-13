@@ -43,7 +43,12 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
     });
 
     return () => {
-      wavesurferRef.current?.destroy();
+      if(wavesurferRef.current) {
+        wavesurferRef.current.pause();
+        wavesurferRef.current.destroy();
+        wavesurferRef.current?.destroy();
+      }
+      setCurrentPlaying(null);
     };
   }, [audioUrl]);
 
