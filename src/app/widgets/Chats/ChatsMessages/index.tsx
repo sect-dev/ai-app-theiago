@@ -72,16 +72,18 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
       character.lastMessageTime = currentTime;
 
       newMessages.forEach((message) => {
-        if (message.sender === "bot" && message.type === "image" && message.url) {
+        if (message.sender === "bot" && (message.type === "image" || message.type === "image_paywall") && message.url) {
+          const url = typeof message.url === "string" ? message.url : message.url?.en ?? '';
           character.photos = character.photos || [];
-          if (!character.photos.includes(message.url)) {
-            character.photos.unshift(message.url);
+          if (!character.photos.includes(url)) {
+            character.photos.unshift(url);
           }
         }
-        if (message.type === "video") {
+        if (message.sender === "bot" && (message.type === "video" || message.type === "video_paywall") && message.url) {
           character.videos = character.videos || [];
-          if (!character.videos.includes(message.url)) {
-            character.videos.unshift(message.url);
+          const url = typeof message.url === "string" ? message.url : message.url?.en ?? '';
+          if (!character.videos.includes(url)) {
+            character.videos.unshift(url);
           }
         }
       });

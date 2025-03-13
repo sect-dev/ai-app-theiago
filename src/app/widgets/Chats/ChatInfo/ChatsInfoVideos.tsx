@@ -15,7 +15,7 @@ const ChatsInfoVideos:FC<ComponentProps> = ({content}) => {
   }
 
   return (
-    <div className="animate-fadeIn flex gap-[8px]">
+    <div className="animate-fadeIn flex flex-wrap gap-[8px]">
       {content.map(video => {
         return (
           <div key={video} className="relative animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-[48%] h-[157px]">
