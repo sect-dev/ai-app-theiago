@@ -24,7 +24,7 @@ const PaymentModal = () => {
               <div className="relative sm:size-full">
                 <button
                   onClick={() => setPaymentModal(false)}
-                  className="absolute z-[10] left-[20px] top-[80px] flex items-center justify-center  bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px]"
+                  className="absolute z-[10] left-[20px] top-[35px] flex items-center justify-center  bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px]"
                 >
                   <Image
                     src={IconClose.src}
