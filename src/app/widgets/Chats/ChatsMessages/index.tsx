@@ -15,6 +15,7 @@ import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import SuggestionAnswer from "@/app/widgets/SuggestionAnswer";
 import {useAuthStore} from "@/app/shared/store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface FormData {
   message: string;
@@ -35,8 +36,9 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[] | null>([]);
   const [isTextareaFocused, setIsTextareaFocused] = useState(false);
-  const { setTokens,characters,setCharacters } = useSelectedCardStore();
+  const {characters,setCharacters } = useSelectedCardStore();
   const {user} = useAuthStore()
+  const {setTokens} = usePaymentStore()
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const {

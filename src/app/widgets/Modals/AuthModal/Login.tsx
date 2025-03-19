@@ -8,7 +8,6 @@ import IconDiscord from '@/../public/images/icons/icon-discord.webp';
 import IconX from '@/../public/images/icons/icon-x.webp';
 import Link from "next/link";
 import clsx from "clsx";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import Spinner from "@/app/widgets/Spinner";
 import {
   signInWithEmailAndPasswordHandler,
@@ -16,6 +15,7 @@ import {
   signInWithGoogle,
 } from "@/app/shared/api/auth";
 import {authErrorMessages} from "@/app/shared/conts";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface FormData {
   email: string;
@@ -27,7 +27,7 @@ interface AuthError {
 }
 
 const Login = () => {
-  const {setAuthModal} = useSelectedCardStore()
+  const {setAuthModal} = useAuthStore()
   const [loading,setLoading] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string | null>(null);

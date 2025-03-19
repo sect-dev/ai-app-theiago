@@ -8,6 +8,7 @@ import IconStars from '@/../public/images/icons/icon-stars.svg';
 import Link from "next/link";
 
 import clsx from "clsx";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 const navigationData = [
   {
@@ -33,6 +34,7 @@ interface ComponentProps {
 }
 
 const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
+  const {setPaymentModal} = usePaymentStore()
   const isChatPage = pathname?.includes('chats')
   return (
     <ul className="space-y-[4px] text-gray md:bg-[#121423] md:flex md:space-y-0 md:overflow-hidden md:h-[56px] md:w-[128px] md:rounded-[24px] md:backdrop-blur-[10px] md:bg-opacity-50 ">
@@ -62,12 +64,13 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
           </li>
         )
       })}
-      <li className={clsx("cursor-pointer font-semibold text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] h-[40px] main-gradient text-white md:hidden", {
-        "!px-0 !py-0": isChatPage
-      })}>
-        <span className={clsx("relative z-[5] h-full flex items-center  gap-[8px]", {
-          "justify-center": isChatPage
+      <li>
+        <button onClick={() => setPaymentModal(true)} className={clsx("cursor-pointer block w-full font-semibold text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] h-[40px] main-gradient text-white md:hidden", {
+          "!px-0 !py-0": isChatPage
         })}>
+          <span className={clsx("relative z-[5] h-full flex items-center  gap-[8px]", {
+            "justify-center": isChatPage
+          })}>
           <Image
             src={IconStars.src}
             width={IconStars.width}
@@ -75,8 +78,10 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
             alt="Subscription icon"
             className="size-[20px]"
           />
-          {!isChatPage && <span>Subscription</span>}
+            {!isChatPage && <span>Subscription</span>}
         </span>
+        </button>
+
       </li>
     </ul>
   );

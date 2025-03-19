@@ -8,6 +8,7 @@ import clsx from "clsx";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import IconBack from "@/../public/images/icons/icon-back.svg";
 import {useRouter} from "next/navigation";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
   avatar: string | null
@@ -15,7 +16,8 @@ interface ComponentProps {
 }
 
 const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
-  const { tokens, setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen } = useSelectedCardStore();
+  const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen } = useSelectedCardStore();
+  const{ tokens } = usePaymentStore()
   const navigate = useRouter()
 
   const handleBack = () => {

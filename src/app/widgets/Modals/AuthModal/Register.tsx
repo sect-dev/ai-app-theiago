@@ -7,11 +7,11 @@ import IconGoogle from '@/../public/images/icons/icon-google.svg'
 import IconDiscord from '@/../public/images/icons/icon-discord.webp';
 import IconX from '@/../public/images/icons/icon-x.webp';
 import clsx from "clsx";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import {signUpWithEmailAndPassword} from "@/app/shared/api/auth";
 import Spinner from "@/app/widgets/Spinner";
 import Link from "next/link";
 import {authErrorMessages} from "@/app/shared/conts";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface FormData {
   email: string;
@@ -22,7 +22,7 @@ interface AuthError {
 }
 
 const Register = () => {
-  const {setAuthModal} = useSelectedCardStore();
+  const {setAuthModal} = useAuthStore();
   const [loading,setLoading] = useState<boolean>(false)
   const [authError, setAuthError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);

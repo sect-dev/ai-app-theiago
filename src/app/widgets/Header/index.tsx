@@ -2,15 +2,13 @@
 import React, { useState } from 'react';
 import Link from "next/link";
 import clsx from "clsx";
-import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
 
 const Header = () => {
-  const { user, loading } = useAuthStore();
+  const { user, loading, setAuthModal } = useAuthStore();
   const [menuModal, setMenuModal] = useState(false);
-  const { setAuthModal } = useSelectedCardStore();
 
   const handleSignOut = async () => {
     try {
@@ -54,7 +52,7 @@ const Header = () => {
             </button>
           ) : (
             <button
-              onClick={() => setAuthModal({ modalType: "login", isAuthModalActive: true })}
+              onClick={() => setAuthModal({ modalType: "register", isAuthModalActive: true })}
               className="animate-fadeIn main-gradient px-[12px] h-[24px] font-bold text-[12px] rounded-[8px] md:px-[12px] md:h-[27px] md:text-[14px]"
             >
               <span className="relative z-[5]">Sign in</span>

@@ -32,7 +32,7 @@ export const signUpWithEmailAndPassword = async (email: string, password: string
       }
 
       const setUser = useAuthStore.getState().setUser;
-      const { setAuthModal } = useSelectedCardStore.getState();
+      const { setAuthModal } = useAuthStore.getState();
 
       setAuthModal({ modalType: null, isAuthModalActive: false });
       setUser(user);

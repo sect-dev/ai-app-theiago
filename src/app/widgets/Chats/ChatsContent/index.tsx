@@ -6,6 +6,7 @@ import {Character} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import {useParams} from "next/navigation";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
   characterInfo: Character | null
@@ -13,7 +14,8 @@ interface ComponentProps {
 }
 
 const ChatsContent:FC<ComponentProps> = ({token, characterInfo}) => {
-  const { setTokens, setMobileChatOpen, isMobileChatOpen } = useSelectedCardStore();
+  const { setMobileChatOpen, isMobileChatOpen } = useSelectedCardStore();
+  const { setTokens } = usePaymentStore()
   const params = useParams()
 
   useEffect(() => {

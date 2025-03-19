@@ -3,10 +3,10 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import ImageModal from '@/../public/images/img/image-modal.webp';
 import clsx from "clsx";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import Spinner from "@/app/widgets/Spinner";
 import {resetPasswordHandler} from "@/app/shared/api/auth";
 import Link from "next/link";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface FormData {
   email: string;
@@ -14,7 +14,7 @@ interface FormData {
 }
 
 const ForgotPassword = () => {
-  const {setAuthModal} = useSelectedCardStore()
+  const {setAuthModal} = useAuthStore()
   const [loading,setLoading] = useState<boolean>(false)
   const [result,setResult] = useState<string>('')
   const { register, reset, handleSubmit, formState: { errors } } = useForm<FormData>();

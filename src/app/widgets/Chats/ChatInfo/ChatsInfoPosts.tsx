@@ -5,7 +5,7 @@ import ImageLock from "@/../public/images/icons/icon-lock.svg";
 import clsx from "clsx";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface ComponentProps {
   content: string[] | null;
@@ -14,7 +14,7 @@ interface ComponentProps {
 const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(2);
-  const {setAuthModal} = useSelectedCardStore()
+  const {setAuthModal} = useAuthStore()
 
   if (!content || content.length === 0) {
     return (

@@ -7,17 +7,23 @@ interface AuthState {
   user: User | null;
   loading: boolean;
   setUser: (user: User | null) => void;
+  isAuthModalActive: boolean
+  modalType: "login" | "register" | "forgotPass" | null,
+  setAuthModal: (value: { modalType: "login" | "register" | "forgotPass" | null; isAuthModalActive: boolean }) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   loading: true,
+  isAuthModalActive: false,
+  modalType: "register",
   setUser: (user: User | null) => set({ user, loading: false }),
+  setAuthModal: (value: { modalType: "login" | "register" | "forgotPass" | null; isAuthModalActive: boolean }) => set({modalType: value.modalType, isAuthModalActive:value.isAuthModalActive}),
 }));
 
 onAuthStateChanged(auth, async (firebaseUser) => {
   const setUser = useAuthStore.getState().setUser;
-  const { setAuthModal } = useSelectedCardStore.getState();
+  const { setAuthModal } = useAuthStore.getState();
 
   if (firebaseUser) {
     const token = await firebaseUser.getIdToken();

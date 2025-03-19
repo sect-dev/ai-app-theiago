@@ -9,6 +9,7 @@ import clsx from "clsx";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import AuthModal from "@/app/widgets/Modals/AuthModal";
 import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
+import PaymentModal from "@/app/widgets/Modals/PaymentModal";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { isMobileChatOpen } = useSelectedCardStore();
@@ -43,6 +44,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
       <AuthModal />
+      <PaymentModal />
     </DefaultLayout>
   );
 };

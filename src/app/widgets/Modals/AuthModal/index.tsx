@@ -2,14 +2,14 @@
 import React from 'react';
 import Image from "next/image";
 import { Dialog, DialogPanel } from '@headlessui/react'
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import Login from "@/app/widgets/Modals/AuthModal/Login";
 import Register from "@/app/widgets/Modals/AuthModal/Register";
 import IconClose from "@/../public/images/icons/icon-modal-close.svg";
 import ForgotPassword from "@/app/widgets/Modals/AuthModal/ForgotPassword";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 const AuthModal = () => {
-  const {isAuthModalActive, modalType, setAuthModal} = useSelectedCardStore()
+  const {isAuthModalActive, modalType, setAuthModal} = useAuthStore()
 
   const renderContent = () => {
     switch (modalType) {
