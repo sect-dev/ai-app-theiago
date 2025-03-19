@@ -1,11 +1,17 @@
-import React from 'react';
+'use client'
+import React, {useState} from 'react';
 import Image from "next/image";
 import IconAlert from '@/../public/images/icons/icon-alert.svg';
 import IconCheck from '@/../public/images/icons/icon-check.svg';
+import CountDownTimer from "@/app/widgets/CountDownTimer";
 
 const PaymentDiscountBanner = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  if (!isVisible) return null;
+
   return (
-    <div className="bg-[#191B2C] banner-bg w-full py-[5px] ">
+    <div className="animate-fadeIn relative bg-[#191B2C] banner-bg w-full py-[5px] ">
       <div className="flex justify-center items-center gap-[8px]">
         <Image
           src={IconAlert.src}
@@ -25,6 +31,7 @@ const PaymentDiscountBanner = () => {
           />
           <span className="uppercase text-[12px] font-bai-jamjuree font-semibold">code312</span>
         </div>
+        <CountDownTimer setIsVisible={setIsVisible} isVisible={isVisible} />
       </div>
     </div>
   );
