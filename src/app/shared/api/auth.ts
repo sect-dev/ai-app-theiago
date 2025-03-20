@@ -107,7 +107,8 @@ export const signInWithGoogle = async () => {
     return user
   } catch (error) {
     const firebaseError = error as FirebaseError;
-    
+
+
     if (firebaseError.code) {
       return {
         success: false,
