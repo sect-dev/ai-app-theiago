@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/firebase";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface AuthState {
   user: User | null;

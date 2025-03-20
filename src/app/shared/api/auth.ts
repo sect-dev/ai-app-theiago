@@ -5,14 +5,17 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
-  FacebookAuthProvider, signInAnonymously, linkWithCredential, EmailAuthProvider
+  FacebookAuthProvider,
+  signInAnonymously,
+  linkWithCredential,
+  EmailAuthProvider,
+  TwitterAuthProvider
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
 import {FirebaseUser} from "@/app/shared/api/types/auth";
 import {apiClient} from "@/app/shared/api/index";
 import {useAuthStore} from "@/app/shared/store/authStore";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 export const signUpWithEmailAndPassword = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
@@ -72,6 +75,7 @@ export const signInWithEmailAndPasswordHandler = async (email: string, password:
     throw error;
   }
 };
+
 export const resetPasswordHandler = async (email: string) => {
   const auth = getAuth();
   try {
@@ -150,6 +154,37 @@ export const signInWithFacebook = async () => {
     return { success: false, message: "An error occurred while authorizing by X" }
   }
 };
+
+export const signInWithX = async () => {
+  const provider = new TwitterAuthProvider();
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const credential = TwitterAuthProvider.credentialFromResult(result);
+    const accessToken = credential?.accessToken;
+
+    const user = result.user;
+    if(accessToken) {
+      localStorage.setItem("accessToken", accessToken);
+      return user
+    }
+    return user
+  } catch (error) {
+    const firebaseError = error as FirebaseError;
+
+    if (firebaseError.code) {
+      return {
+        success: false,
+        errorCode: firebaseError.code,
+        errorMessage: firebaseError.message,
+        email: firebaseError.customData?.email || null,
+        credential: TwitterAuthProvider.credentialFromError(firebaseError),
+      };
+    }
+
+    return { success: false, message: "An error occurred while authorizing by Twitter" }
+  }
+}
 
 export const signInAnonymouslyHandler = async () => {
   try {

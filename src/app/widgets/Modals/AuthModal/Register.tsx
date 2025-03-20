@@ -7,7 +7,7 @@ import IconGoogle from '@/../public/images/icons/icon-google.svg'
 import IconDiscord from '@/../public/images/icons/icon-discord.webp';
 import IconX from '@/../public/images/icons/icon-x.webp';
 import clsx from "clsx";
-import {signUpWithEmailAndPassword} from "@/app/shared/api/auth";
+import {signInWithX, signInWithFacebook, signInWithGoogle, signUpWithEmailAndPassword} from "@/app/shared/api/auth";
 import Spinner from "@/app/widgets/Spinner";
 import Link from "next/link";
 import {authErrorMessages} from "@/app/shared/conts";
@@ -43,6 +43,30 @@ const Register = () => {
       setLoading(false)
     }
   };
+
+  const onGoogleSignInHandler = async () => {
+    try {
+      await signInWithGoogle()
+    } catch (error) {
+      console.log('error',error)
+    }
+  }
+
+  const onFacebookSignInHandler = async () => {
+    try {
+      await signInWithFacebook()
+    } catch (error) {
+      console.log('error',error)
+    }
+  }
+
+  const onXSignInHandler = async () => {
+    try {
+      await signInWithX()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="flex justify-between rounded-[24px] overflow-hidden sm:h-full">
@@ -110,7 +134,10 @@ const Register = () => {
         <div className="flex flex-col justify-center items-center gap-[24px]">
           <p className=" font-medium text-[16px] text-[#B5B5B5]">or continue with</p>
           <div className="flex gap-[20px]">
-            <button className="transition-transform duration-300 hover:scale-[1.025]">
+            <button
+              onClick={onFacebookSignInHandler}
+              className="transition-transform duration-300 hover:scale-[1.025]"
+            >
               <Image
                 src={IconX.src}
                 width={IconX.width}
@@ -118,7 +145,10 @@ const Register = () => {
                 alt="icon X"
               />
             </button>
-            <button className="transition-transform duration-300 hover:scale-[1.025]">
+            <button
+              onClick={onXSignInHandler}
+              className="transition-transform duration-300 hover:scale-[1.025]"
+            >
               <Image
                 src={IconDiscord.src}
                 width={IconDiscord.width}
@@ -126,7 +156,10 @@ const Register = () => {
                 alt="icon discord"
               />
             </button>
-            <button className="transition-transform duration-300 hover:scale-[1.025]">
+            <button
+              onClick={onGoogleSignInHandler}
+              className="transition-transform duration-300 hover:scale-[1.025]"
+            >
               <Image
                 src={IconGoogle.src}
                 width={IconGoogle.width}

@@ -43,7 +43,7 @@ const Header = () => {
             </Link>
           </div>
 
-          {loading ? <div className="animate-pulse block main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " /> : !user?.isAnonymous ? (
+          {loading ? <div className="animate-pulse block main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " /> : (user && !user?.isAnonymous) ? (
             <button
               onClick={handleSignOut}
               className="animate-fadeIn relative gradient-border logo-gradient flex items-center justify-center gap-[8px] w-[64px] h-[24px]"

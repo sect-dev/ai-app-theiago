@@ -52,13 +52,13 @@ const Login = () => {
     }
   };
 
-  // const onGoogleSignInHandler = async () => {
-  //   try {
-  //     await signInWithGoogle()
-  //   } catch (error) {
-  //     console.log('error',error)
-  //   }
-  // }
+  const onGoogleSignInHandler = async () => {
+    try {
+      await signInWithGoogle()
+    } catch (error) {
+      console.log('error',error)
+    }
+  }
 
   const onFacebookSignInHandler = async () => {
     try {
@@ -188,7 +188,7 @@ const Login = () => {
               />
             </button>
             <button
-              onClick={signInWithGoogle}
+              onClick={onGoogleSignInHandler}
               className="transition-transform duration-300 hover:scale-[1.025]"
             >
               <Image
