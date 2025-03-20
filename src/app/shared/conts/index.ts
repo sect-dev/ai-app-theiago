@@ -1,0 +1,24 @@
+export const authErrorMessages: Record<string, string> = {
+  "auth/invalid-credential": "Invalid email or password. Please try again.",
+  "auth/user-not-found": "No user found with this email.",
+  "auth/wrong-password": "Incorrect password. Please try again.",
+  "auth/email-already-in-use": "This email is already registered.",
+  "auth/weak-password": "Password is too weak. Use at least 6 characters.",
+  "auth/too-many-requests": "Too many login attempts. Please try again later.",
+  "auth/network-request-failed": "Network error. Check your internet connection.",
+  "auth/user-disabled": "This account has been disabled.",
+  "auth/invalid-email": "Invalid email format. Please check your input.",
+  "auth/missing-password": "Please enter a password.",
+};
+
+export const registerErrorMessages: Record<string, string> = {
+  "auth/email-already-in-use": "This email is already registered. Try logging in instead.",
+  "auth/weak-password": "Password is too weak. Use at least 6 characters.",
+  "auth/invalid-email": "Invalid email format. Please check your input.",
+  "auth/missing-password": "Please enter a password.",
+  "auth/missing-email": "Please enter an email address.",
+  "auth/operation-not-allowed": "Registration is currently disabled. Please contact support.",
+  "auth/network-request-failed": "Network error. Check your internet connection.",
+  "auth/too-many-requests": "Too many attempts. Please try again later.",
+  "auth/internal-error": "An internal error occurred. Please try again later.",
+};
