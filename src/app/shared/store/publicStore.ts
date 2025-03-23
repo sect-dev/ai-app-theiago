@@ -11,6 +11,7 @@ interface SelectedCardState {
   selectedCard: Character | null;
   selectedTag: string | null;
   characterInfoCollapse: boolean
+  isQrModalActive: boolean
   characters: PreparedAvatar[] | null;
   isMobileChatOpen: boolean
   isMobileInfoOpen: boolean
@@ -20,6 +21,7 @@ interface SelectedCardState {
   setInfoCollapse:(value:boolean) => void
   setMobileChatOpen:(value: boolean) => void
   setMobileInfoOpen:(value: boolean) => void
+  setQrModal: (isQrModalActive:boolean) => void,
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
@@ -31,6 +33,7 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     characterInfoCollapse: false,
     isMobileChatOpen: false,
     isMobileInfoOpen: false,
+    isQrModalActive: false,
     characters: initialCharacters,
     setSelectedCard: (card) => set({ selectedCard: card }),
     setSelectedTag: (tag) => set({ selectedTag: tag }),
@@ -38,5 +41,6 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     setInfoCollapse:(characterInfoCollapse) => set({characterInfoCollapse}),
     setMobileChatOpen:(isMobileChatOpen: boolean) => set({isMobileChatOpen}),
     setMobileInfoOpen:(isMobileInfoOpen: boolean) => set({isMobileInfoOpen}),
+    setQrModal: (isQrModalActive:boolean) => set({ isQrModalActive}),
   };
 });
