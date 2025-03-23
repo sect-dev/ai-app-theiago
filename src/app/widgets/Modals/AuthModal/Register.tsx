@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import ImageModal from '@/../public/images/img/image-modal.webp';
 import IconEye from '@/../public/images/icons/icon-eye.svg';
 import IconGoogle from '@/../public/images/icons/icon-google.svg'
-import IconDiscord from '@/../public/images/icons/icon-discord.webp';
+import IconFacebook from '@/../public/images/icons/icon-fb.webp';
 import IconX from '@/../public/images/icons/icon-x.webp';
 import clsx from "clsx";
 import {signInWithX, signInWithFacebook, signInWithGoogle, signUpWithEmailAndPassword} from "@/app/shared/api/auth";
@@ -135,7 +135,7 @@ const Register = () => {
           <p className=" font-medium text-[16px] text-[#B5B5B5]">or continue with</p>
           <div className="flex gap-[20px]">
             <button
-              onClick={onFacebookSignInHandler}
+              onClick={onXSignInHandler}
               className="transition-transform duration-300 hover:scale-[1.025]"
             >
               <Image
@@ -146,13 +146,13 @@ const Register = () => {
               />
             </button>
             <button
-              onClick={onXSignInHandler}
+              onClick={onFacebookSignInHandler}
               className="transition-transform duration-300 hover:scale-[1.025]"
             >
               <Image
-                src={IconDiscord.src}
-                width={IconDiscord.width}
-                height={IconDiscord.height}
+                src={IconFacebook.src}
+                width={IconFacebook.width}
+                height={IconFacebook.height}
                 alt="icon discord"
               />
             </button>
