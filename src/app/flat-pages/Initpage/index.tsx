@@ -45,7 +45,7 @@ const Initpage = () => {
            <div className="space-y-[12px]">
              {genderData.map(item => {
                return (
-                 <div className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px]">
+                 <div key={item.id} className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px]">
                    <Image
                      src={item.image.src}
                      width={item.image.width}

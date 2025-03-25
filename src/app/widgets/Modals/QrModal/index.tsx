@@ -53,7 +53,7 @@ const QrModal = () => {
                       height={IconCamera.height}
                       alt="icon camera"
                     />
-                    <p>Scan the code with your phone's camera to download!</p>
+                    <p>Scan the code with your phone&apos;s camera to download!</p>
                   </div>
                 </div>
                 <div className="w-full h-hull relative sm:hidden">

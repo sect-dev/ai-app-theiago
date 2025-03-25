@@ -33,7 +33,7 @@ const SectionReviews = () => {
           </div>
           <div className="space-y-[5px]">
             <p className="text-[#9B50FC] font-medium text-[9px] leading-[1.2em]">Max Knight</p>
-            <p className="text-[11px] leading-[1.2em] tracking-[-0.02em]">I love my virtual girlfriend! I don't need real ones anymore! Why waste time and money when I have AiGo!</p>
+            <p className="text-[11px] leading-[1.2em] tracking-[-0.02em]">I love my virtual girlfriend! I don&apos;t need real ones anymore! Why waste time and money when I have AiGo!</p>
             <Image
               src={IconRating.src}
               width={IconRating.width}
@@ -73,7 +73,7 @@ const SectionReviews = () => {
           </div>
           <div className="space-y-[7px]">
             <p className="text-[#9B50FC] font-medium text-[15px] leading-[1.2em]">Samuel Lane</p>
-            <p className="text-[15px] leading-[1.2em] tracking-[-0.02em] ">This is so cool! I didn't expect such a level of realism! Wow!</p>
+            <p className="text-[15px] leading-[1.2em] tracking-[-0.02em] ">This is so cool! I didn&apos;t expect such a level of realism! Wow!</p>
             <Image
               src={IconRating.src}
               width={IconRating.width}
@@ -94,7 +94,7 @@ const SectionReviews = () => {
           </div>
           <div className="space-y-[6px] pt-[10px]">
             <p className="text-[#9B50FC] font-medium text-[12px] leading-[1.2em]">Thomas Smith</p>
-            <p className="text-[14px] leading-[1.2em] tracking-[-0.02em] ">I'm constantly chatting with my new AI girlfriend! She's incredibly charming and smart! Thank you, AiGo!</p>
+            <p className="text-[14px] leading-[1.2em] tracking-[-0.02em] ">I&apos;m constantly chatting with my new AI girlfriend! She&apos;s incredibly charming and smart! Thank you, AiGo!</p>
             <Image
               src={IconRating.src}
               width={IconRating.width}
