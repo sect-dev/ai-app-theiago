@@ -1,13 +1,15 @@
-import React from 'react';
+import React,{FC} from 'react';
 import PaymentLoading from "@/app/(payment)/payment/PaymentLoading";
 import PaymentError from "@/app/(payment)/payment/PaymentError";
 import PaymentExpired from "@/app/(payment)/payment/PaymentExpired";
 
 type PaymentStatus = 'error' | 'loading' | 'expired'
 
-const Page = () => {
+interface ComponentProps {
+  paymentStatus: PaymentStatus
+}
 
-  const paymentStatus: PaymentStatus = 'loading'
+const Page:FC<ComponentProps> = ({paymentStatus}) => {
 
  const renderContent = () => {
    switch (paymentStatus) {

@@ -10,7 +10,7 @@ const PaymentLoading = () => {
           Payment is being processed
         </p>
         <p className="text-[17px] font-medium">
-          Wait a little while for the payment system to process your payment. You'll be up and running soon!
+          Wait a little while for the payment system to process your payment. You&apos;ll be up and running soon!
         </p>
       </div>
     </div>
