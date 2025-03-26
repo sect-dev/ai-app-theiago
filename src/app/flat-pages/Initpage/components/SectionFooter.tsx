@@ -15,7 +15,7 @@ const SectionFooter = () => {
           type="checkbox"
           defaultChecked
           name="ssd"
-          className={clsx('shrink-0 border border-[#8E59FF] before:!rounded-[5px] rounded-[8px] size-[26px] cursor-pointer appearance-none border-[#5E56E7] bg-transparent checked:bg-[url("/images/icons/payment/check.svg")] bg-[3px] bg-center bg-no-repeat', {
+          className={clsx('shrink-0 border border-[#8E59FF] before:!rounded-[5px] rounded-[8px] size-[26px] cursor-pointer appearance-none border-[#5E56E7] bg-transparent checked:bg-[url("/images/icons/paywall/check.svg")] bg-[3px] bg-center bg-no-repeat', {
           })}
         />
         <p className="text-left text-[#6D6D6D] leading-[1.2em] font-medium text-[12px] tracking-[-0.04em]">

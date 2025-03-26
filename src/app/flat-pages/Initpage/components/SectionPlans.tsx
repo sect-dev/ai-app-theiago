@@ -84,7 +84,7 @@ const SectionPlans = () => {
             <div
               onClick={() => setSelectedPrice(item)}
               key={item.id}
-              className={clsx("init-page-gradient-border relative before:z-[1] before:rounded-[16px] before:opacity-0 hover:before:opacity-100 cursor-pointer bg-[#2B2D44] rounded-[16px] p-[16px] hover:shadow-card-shadow fm:rounded-[4.27vw] fm:before:rounded-[4.27vw] fm:p-[4.27vw]", {
+              className={clsx("paywall-page-gradient-border relative before:z-[1] before:rounded-[16px] before:opacity-0 hover:before:opacity-100 cursor-pointer bg-[#2B2D44] rounded-[16px] p-[16px] hover:shadow-card-shadow fm:rounded-[4.27vw] fm:before:rounded-[4.27vw] fm:p-[4.27vw]", {
                 "before:opacity-100 shadow-card-shadow": selectedPrice.id === item.id
               })}
             >
