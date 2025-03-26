@@ -47,20 +47,20 @@ const advantagesData: advantagesData[] = [
 
 const SectionAdvantages = () => {
   return (
-    <div className="flex gap-[10px] py-[24px] shrink-0 w-full font-bai-jamjuree flex-wrap bg-[#191B2C] rounded-[32px]">
+    <div className="flex gap-[10px] py-[24px] shrink-0 w-full font-bai-jamjuree flex-wrap bg-[#191B2C] rounded-[32px] fm:flex-col fm:pt-0 fm:gap-[2.13vw] fm:bg-transparent fm:rounded-[8.53vw]">
       {advantagesData.map(item => {
         return(
           <div
             style={{ background: item.bg }}
             key={item.id}
-            className={clsx("p-[15px] rounded-[12px] w-[48%] sm:w-full sm:rounded-[32px]", {
-              "rounded-tl-[32px] sm:rounded-br-[12px]": item.id === 1,
-              "rounded-tr-[32px] sm:rounded-bl-[12px]": item.id === 2,
-              "rounded-bl-[32px] sm:rounded-br-[12px]": item.id === 3,
-              "rounded-br-[32px] sm:rounded-bl-[12px]": item.id === 4,
+            className={clsx("p-[15px] rounded-[12px] w-[48%] fm:w-full fm:rounded-[8.53vw] fm:p-[4.27vw]", {
+              "rounded-tl-[32px] fm:rounded-br-[3.20vw]": item.id === 1,
+              "rounded-tr-[32px] fm:rounded-bl-[3.20vw]": item.id === 2,
+              "rounded-bl-[32px] fm:rounded-br-[3.20vw]": item.id === 3,
+              "rounded-br-[32px] fm:rounded-bl-[3.20vw]": item.id === 4,
             })}
           >
-            <div className="p-[5px] rounded-[12px] bg-[#121423] size-[44px] flex items-center justify-center mb-[12px]">
+            <div className="p-[5px] rounded-[12px] bg-[#121423] size-[44px] flex items-center justify-center mb-[12px] fm:p-[1.33vw] fm:rounded-[3.20vw] fm:size-[11.73vw] fm:mb-[3.20vw]">
               <Image
                 src={item.image.src}
                 width={item.image.width}
@@ -69,8 +69,8 @@ const SectionAdvantages = () => {
                 className=""
               />
             </div>
-            <p className="text-[20px] font-bold mb-[7px] tracking-[-0.04em]">{item.title}</p>
-            <p className="text-[14px] font-semibold tracking-[-0.04em] leading-[1.2em]">{item.description}</p>
+            <p className="text-[20px] font-bold mb-[7px] tracking-[-0.04em] fm:mb-[1.87vw] fm:text-[5.33vw]">{item.title}</p>
+            <p className="text-[14px] font-semibold tracking-[-0.04em] leading-[1.2em] fm:text-[3.73vw]">{item.description}</p>
           </div>
         )
       })}

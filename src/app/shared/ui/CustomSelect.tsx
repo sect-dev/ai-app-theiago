@@ -26,7 +26,7 @@ export const CustomSelect = ({ options, value, onChange }: CustomSelectProps) =>
   return (
     <div className="relative w-full">
       <div
-        className="bg-[#21233A] font-bai-jamjuree text-[0.972vw] px-[1.042vw] py-[0.942vw] w-full rounded-[1.111vw] placeholder:text-[0.972vw] xxl:text-[14px] xxl:placeholder:text-[14px] xxl:rounded-[16px] xxl:py-[15px] xxl:px-[15px] lg:placeholder:text-[1.367vw] lg:text-[1.367vw] lg:px-[1.465vw] lg:py-[1.365vw] md:px-[1.765vw] md:py-[1.665vw] md:placeholder:text-[1.667vw] md:text-[1.667vw] sm:placeholder:text-[3.889vw] sm:rounded-[4.444vw] sm:text-[3.889vw] sm:py-[3.567vw] sm:px-[4.167vw]"
+        className="bg-[#21233A] font-bai-jamjuree flex items-center  px-[14px] text-[14px] placeholder:text-[14px] h-[48px] w-full rounded-[16px] fm:text-[3.73vw] fm:placeholder:text-[3.73vw] fm:px-[3.73vw] fm:rounded-[4.27vw] fm:h-[12.80vw]"
         onClick={() => setIsOpen(!isOpen)}
       >
         {value ? <span>{selectedOption?.label}</span> : <span className="opacity-[50%]">Country</span>}
@@ -40,11 +40,11 @@ export const CustomSelect = ({ options, value, onChange }: CustomSelectProps) =>
       </div>
 
       {isOpen && (
-        <div className="absolute left-0 top-full mt-2 w-full bg-[#21233A] space-y-[0.833vw] rounded-[1.111vw] p-[0.972vw] z-10 xxl:space-y-[8px] lg:p-[1.367vw] lg:rounded-[1.563vw] lg:space-y-[1.172vw] md:p-[1.967vw] md:rounded-[1.963vw] md:space-y-[1.572vw] sm:space-y-[3.333vw] sm:p-[3.889vw]">
+        <div className="absolute left-0 top-full mt-2 w-full bg-[#21233A] space-y-[12px] rounded-[16px] p-[12px] z-[20] fm:p-[3.20vw] fm:rounded-[4.27vw] fm:space-y-[3.20vw]">
           {options.map(option => (
             <div
               key={option.value}
-              className="text-[1.111vw] cursor-pointer transition-all duration-300 hover:text-[#8F5AFF] xxl:text-[12px] lg:text-[1.563vw] md:text-[1.963vw] sm:text-[3.889vw]"
+              className="text-[14px] cursor-pointer transition-all duration-300 hover:text-[#8F5AFF] fm:text-[3.73vw]"
               onClick={() => handleOptionClick(option.value)}
             >
               {option.label}

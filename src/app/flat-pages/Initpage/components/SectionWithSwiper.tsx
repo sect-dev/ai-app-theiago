@@ -17,7 +17,7 @@ const SectionWithSwiper = () => {
   return (
     <Swiper
       slidesPerView={1.2}
-      spaceBetween={10}
+      spaceBetween={12}
       modules={[Navigation]}
       navigation={{
         nextEl: '.swiper-button-next',
@@ -25,7 +25,7 @@ const SectionWithSwiper = () => {
       }}
 
     >
-      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden">
+      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
         <Image
           src={ImageGirl.src}
           width={ImageGirl.width}
@@ -33,7 +33,7 @@ const SectionWithSwiper = () => {
           alt=""
         />
       </SwiperSlide>
-      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden">
+      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
         <Image
           src={ImageGirl2.src}
           width={ImageGirl2.width}
@@ -41,7 +41,7 @@ const SectionWithSwiper = () => {
           alt=""
         />
       </SwiperSlide>
-      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden">
+      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
         <Image
           src={ImageGirl.src}
           width={ImageGirl.width}

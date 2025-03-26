@@ -40,14 +40,14 @@ const data:IData[] = [
 
 const SectionSelect = () => {
   return (
-    <div className="mb-[17px] pt-[20px]">
-      <h2 className="text-[28px] font-bold sm:text-[9.07vw] leading-[1.2em] fm:mx-auto fm:max-w-full sm:text-[34px] fm:text-center fm:uppercase">Get your girlfriend</h2>
-      <div className="grid grid-cols-[repeat(2,minmax(160px,1fr))] gap-[12px] pt-[25px]">
+    <div className="mb-[17px] pt-[20px] fm:mb-[4.36vw] fm:pt-[4.36vw]">
+      <h2 className="text-[28px] font-bold sm:text-[9.07vw] leading-[1.2em] fm:mx-auto fm:max-w-full fm:text-[8.72vw] fm:text-center fm:uppercase">Get your girlfriend</h2>
+      <div className="grid grid-cols-[repeat(2,minmax(160px,1fr))] gap-[12px] pt-[25px] fm:gap-[5.13vw] fm:pt-[6.41vw]">
         {data.map(item => {
           return (
             <div
               key={item.id}
-              className="init-page-select-card bg-[#2B2D44] relative overflow-hidden flex gap-[10px] items-center p-[4px] rounded-[16px] fm:flex-col fm:w-full fm:h-[200px] fm:before:!opacity-100 fm:bg-transparent"
+              className="init-page-select-card bg-[#2B2D44] relative overflow-hidden flex gap-[10px] items-center p-[4px] rounded-[16px] fm:p-[2.56vw] fm:flex-col fm:w-full fm:h-[51.28vw] fm:before:!opacity-100 fm:bg-transparent"
             >
               <div className="size-[84px] rounded-[16px] overflow-hidden fm:size-full">
                 <Image
@@ -59,8 +59,8 @@ const SectionSelect = () => {
                 />
               </div>
               <div className="flex flex-col fm:flex-row fm:gap-[3px] fm:z-[12] fm:absolute fm:left-1/2 fm:bottom-[10px] fm:-translate-x-1/2">
-                <p className="text-[14px] font-semibold mb-[4px]">{item.title}</p>
-                <p className="text-[14px] font-bold">{item.subtitle}</p>
+                <p className="text-[14px] font-semibold mb-[4px] fm:text-[3.59vw]">{item.title}</p>
+                <p className="text-[14px] font-bold fm:text-[3.59vw]">{item.subtitle}</p>
               </div>
             </div>
           )
