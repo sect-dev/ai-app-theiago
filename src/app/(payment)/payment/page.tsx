@@ -5,10 +5,6 @@ import PaymentExpired from "@/app/(payment)/payment/PaymentExpired";
 
 type PaymentStatus = 'error' | 'loading' | 'expired'
 
-interface ComponentProps {
-  paymentStatus: PaymentStatus
-}
-
 const renderContent = (status: PaymentStatus) => {
   switch (status) {
     case "loading":
