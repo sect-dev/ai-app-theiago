@@ -4,6 +4,7 @@ import SidebarBanner from "@/app/widgets/Sidebar/SidebarBanner";
 import Image from "next/image";
 import Link from "next/link";
 import IconDownload from '@/../public/images/icons/icon-download.svg';
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface ComponentProps {
   isChatPage: boolean
@@ -11,7 +12,7 @@ interface ComponentProps {
 }
 
 const Sidebar:FC<ComponentProps> = ({isChatPage,pathname}) => {
-
+  const {setQrModal} = useSelectedCardStore()
   return (
     <div className="w-full h-[calc(100vh-46px)] pt-[15px] pb-[24px]">
       <div className="container h-full">
@@ -19,8 +20,8 @@ const Sidebar:FC<ComponentProps> = ({isChatPage,pathname}) => {
           <SidebarMenu pathname={pathname} />
           <div className="space-y-[12px]">
             {!isChatPage && <SidebarBanner/>}
-            <Link
-              href="https://google.com"
+            <button
+              onClick={() => setQrModal(true)}
               className="flex items-center rounded-[12px] gap-[8px] py-[12px] px-[16px] bg-[#121423] font-semibold text-[14px] tracking-[-0.01vw] transition-bg duration-300 hover:bg-[#2E335B]">
               <Image
                 src={IconDownload.src}
@@ -29,7 +30,7 @@ const Sidebar:FC<ComponentProps> = ({isChatPage,pathname}) => {
                 alt="download app"
               />
               {!isChatPage && <span className="animate-fadeIn">Download App</span>}
-            </Link>
+            </button>
           </div>
         </div>
       </div>

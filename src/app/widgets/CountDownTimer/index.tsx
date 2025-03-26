@@ -1,14 +1,16 @@
 'use client';
 import {FC, useEffect, useRef, useState} from 'react';
+import clsx from "clsx";
 
 const COUNTDOWN_DURATION = 5 * 60 * 1000;
 
 interface ComponentProps {
   isVisible: boolean
   setIsVisible: (value: boolean) => void
+  className?:string
 }
 
-const CountDownTimer:FC<ComponentProps> = ({isVisible,setIsVisible}) => {
+const CountDownTimer:FC<ComponentProps> = ({isVisible,setIsVisible, className}) => {
   const [timeLeft, setTimeLeft] = useState<number>(COUNTDOWN_DURATION);
   const timerStartedRef = useRef(false);
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -72,8 +74,8 @@ const CountDownTimer:FC<ComponentProps> = ({isVisible,setIsVisible}) => {
   if (!isVisible) return null;
 
   return (
-    <div ref={observerRef} className="relative flex justify-center items-center bg-[#191B2C] overflow-hidden countdown-bg px-[12px] h-[24px] rounded-[7px]">
-      <span className="relative z-[5] text-[12px] font-bold text-[#F80C2B]">{formatTime(timeLeft)}</span>
+    <div ref={observerRef} className={clsx("relative flex justify-center text-[#F80C2B] text-[12px] items-center bg-[#191B2C] overflow-hidden countdown-bg px-[12px] h-[24px] rounded-[7px]", className)}>
+      <span className="relative z-[5]  font-bold ">{formatTime(timeLeft)}</span>
     </div>
   );
 };
