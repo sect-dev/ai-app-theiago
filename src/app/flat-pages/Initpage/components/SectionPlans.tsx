@@ -32,8 +32,6 @@ const SectionPlans:FC<ComponentProps> = ({paymentPlans}) => {
     }
   }, [])
 
-
-
   const paymentHandle = async (planId: string) => {
     startTransition(() => {
       router.push(

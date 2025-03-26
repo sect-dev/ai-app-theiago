@@ -21,9 +21,13 @@ const renderContent = (status: PaymentStatus) => {
       return <PaymentLoading />
   }
 }
+interface ComponentProps {
+  params: Promise<{ paymentStatus: PaymentStatus; }>;
+}
 
-const Page:FC<ComponentProps> = ({paymentStatus}) => {
-
+export default async function Page({ params }: ComponentProps) {
+  const { paymentStatus } = await params;
+  
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="bg-[#121423] rounded-[24px] py-[25px] px-[25px] w-[370px] mx-auto">
@@ -32,5 +36,3 @@ const Page:FC<ComponentProps> = ({paymentStatus}) => {
     </div>
   );
 };
-
-export default Page;
