@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
 import ImageMain from '../../../../public/images/img/initpage/image-init.webp';
 import IconGender from '@/../public/images/icons/icon-gender.svg';
@@ -11,6 +11,7 @@ import SectionReviews from "@/app/flat-pages/Initpage/components/SectionReviews"
 import SectionAdvantages from "@/app/flat-pages/Initpage/components/SectionAdvantages";
 import SectionPlans from "@/app/flat-pages/Initpage/components/SectionPlans";
 import PaymentDiscountBanner from "@/app/widgets/Payment/PaymentDiscountBanner";
+import {PaymentPlan} from "@/app/shared/api/payment";
 
 const genderData = [
   {text: 'Calm introvert with charming personality', id: 2, image: IconGender},
@@ -18,7 +19,12 @@ const genderData = [
   {text: 'Will behave XXX', id: 4, image: IconGender},
 ]
 
-const Initpage = () => {
+interface ComponentProps {
+  paymentPlans: PaymentPlan[]
+}
+
+const Initpage:FC<ComponentProps> = ({paymentPlans}) => {
+
   return (
    <div>
      <div className="fm:hidden">
@@ -65,7 +71,7 @@ const Initpage = () => {
              <PaymentDiscountBanner isMobileVersion />
            </div>
            <SectionAdvantages />
-           <SectionPlans />
+           <SectionPlans paymentPlans={paymentPlans} />
            <SectionReviews />
            <div className="space-y-[20px] pt-[10px] fm:space-y-[5.33vw]">
              <button className="bg-white w-full text-[#121423] h-[50px] text-[20px] font-medium rounded-[8px] flex items-center justify-center gap-[4px] fm:rounded-[2.13vw] fm:text-[5.33vw] fm:h-[13.33vw]">

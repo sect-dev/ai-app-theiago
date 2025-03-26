@@ -53,7 +53,7 @@ export const signUpWithEmailAndPassword = async (email: string, password: string
       return user;
     }
   } catch (error) {
-    console.error("Ошибка регистрации:", error);
+    console.error("Registration error:", error);
     throw error;
   }
 };
@@ -71,7 +71,7 @@ export const signInWithEmailAndPasswordHandler = async (email: string, password:
 
     return user;
   } catch (error) {
-    console.error("Ошибка авторизации:", error);
+    console.error("Authorization error:", error);
     throw error;
   }
 };
@@ -86,7 +86,7 @@ export const resetPasswordHandler = async (email: string) => {
     if (error instanceof Error) {
       return { success: false, message: error.message };
     }
-    return { success: false, message: "Произошла неизвестная ошибка" };
+    return { success: false, message: "An unknown error occurred" };
   }
 };
 
@@ -200,7 +200,7 @@ export const signInAnonymouslyHandler = async () => {
       return;
     }
   } catch (error) {
-    console.error("Ошибка анонимной авторизации:", error);
+    console.error("Anonymous authorization error:", error);
     throw error;
   }
 };
@@ -210,7 +210,7 @@ export const registerAnonymousUser = async (): Promise<void> => {
     await apiClient.get('/register_anonymous_web_user');
     return;
   } catch (error) {
-    console.error('Ошибка при регистрации анонимного пользователя:', error);
+    console.error('Error registering anonymous user:', error);
     return;
   }
 };

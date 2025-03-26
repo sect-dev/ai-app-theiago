@@ -1,9 +1,12 @@
 import React from 'react';
 import Initpage from "@/app/flat-pages/Initpage";
+import {getPaymentPlans} from "@/app/shared/api/payment";
 
-const Page = () => {
+const Page = async () => {
+  const paymentPlans = await getPaymentPlans()
+
   return (
-    <Initpage />
+    <Initpage paymentPlans={paymentPlans} />
   );
 };
 
