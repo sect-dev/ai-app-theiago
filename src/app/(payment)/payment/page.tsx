@@ -9,25 +9,25 @@ interface ComponentProps {
   paymentStatus: PaymentStatus
 }
 
-const Page:FC<ComponentProps> = ({paymentStatus}) => {
+const renderContent = (status: PaymentStatus) => {
+  switch (status) {
+    case "loading":
+      return <PaymentLoading />
+    case "error":
+      return <PaymentError />
+    case "expired":
+      return <PaymentExpired />
+    default:
+      return <PaymentLoading />
+  }
+}
 
- const renderContent = () => {
-   switch (paymentStatus) {
-     case "loading":
-       return <PaymentLoading />
-     case "error":
-       return <PaymentError />
-     case "expired":
-       return <PaymentExpired />
-     default:
-       return <PaymentLoading />
-   }
- }
+const Page:FC<ComponentProps> = ({paymentStatus}) => {
 
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="bg-[#121423] rounded-[24px] py-[25px] px-[25px] w-[370px] mx-auto">
-        {renderContent()}
+        {renderContent(paymentStatus)}
       </div>
     </div>
   );
