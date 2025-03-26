@@ -72,7 +72,7 @@ const Initpage = () => {
                Pay with
                <span className="text-[23px] font-semibold tracking-[-0.015em]  fm:text-[6.13vw]">Pay</span>
              </button>
-             <button className="rounded-full w-full h-[50px] text-[#121423] flex items-center justify-center gap-[12px] gap-[4px]l bg-[#FFC43A] text-[14px] font-semibold fm:gap-[3.20vw] fm:text-[3.73vw] fm:rounded-[2.13vw] fm:h-[13.33vw]">
+             <button className="rounded-full w-full h-[50px] text-[#121423] flex items-center justify-center gap-[12px] gap-[4px]l bg-[#FFC43A] text-[14px] font-semibold fm:gap-[3.20vw] fm:text-[3.73vw]  fm:h-[13.33vw]">
                <Image
                  src={IconPaypal.src}
                  width={IconPaypal.width}
