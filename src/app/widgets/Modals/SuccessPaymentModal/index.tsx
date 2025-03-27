@@ -63,7 +63,7 @@ const SuccessPaymentModal = () => {
   }
 
   return (
-    <Dialog open={isSuccessPaymentModalActive} as="div" className="relative z-10 focus:outline-none" onClose={() => setSuccessPaymentModal(false)}>
+    <Dialog open={isSuccessPaymentModalActive} as="div" className="relative z-[50] focus:outline-none" onClose={() => setSuccessPaymentModal(false)}>
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto font-lato">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel

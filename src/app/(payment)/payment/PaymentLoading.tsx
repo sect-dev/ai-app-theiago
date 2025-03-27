@@ -1,7 +1,27 @@
-import React from 'react';
+'use client'
+import React, {FC, useEffect} from 'react';
 import Spinner from "@/app/widgets/Spinner";
+import {PaymentStatus} from "@/app/(payment)/payment/page";
+import {useRouter} from "next/navigation";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
-const PaymentLoading = () => {
+interface ComponentProps {
+  status: PaymentStatus
+}
+
+const PaymentLoading:FC<ComponentProps> = ({status}) => {
+  const navigate = useRouter();
+  const {setSuccessPaymentModal} = usePaymentStore()
+
+  useEffect(() => {
+    if(status === 'success') {
+      setTimeout(() => {
+        navigate.push('/')
+        setSuccessPaymentModal(true)
+      }, 1000)
+    }
+  }, [])
+
   return (
     <div className="py-[25px]">
       <Spinner className="border-[#007AFF] border-t-transparent border-[6px] rounded-[12px] w-[90px] h-[90px] mx-auto" />
