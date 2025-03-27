@@ -6,7 +6,7 @@ import {useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
-  status: PaymentStatus
+  status: PaymentStatus | null
 }
 
 const PaymentLoading:FC<ComponentProps> = ({status}) => {
