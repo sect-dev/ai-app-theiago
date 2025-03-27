@@ -1,5 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
 import React, {FC, useEffect} from 'react';
 import Spinner from "@/app/widgets/Spinner";
 import {PaymentStatus} from "@/app/(payment)/payment/page";
@@ -7,7 +6,7 @@ import {useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
-  status: PaymentStatus | null
+  status?: PaymentStatus | null
 }
 
 const PaymentLoading:FC<ComponentProps> = ({status}) => {
@@ -15,7 +14,7 @@ const PaymentLoading:FC<ComponentProps> = ({status}) => {
   const {setSuccessPaymentModal} = usePaymentStore()
 
   useEffect(() => {
-    if(status === 'success') {
+    if(status && status === 'success') {
       setTimeout(() => {
         navigate.push('/')
         setSuccessPaymentModal(true)
