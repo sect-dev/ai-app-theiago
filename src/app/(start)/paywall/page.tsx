@@ -1,28 +1,15 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import Initpage from "@/app/flat-pages/Initpage";
-import { getPaymentPlans } from "@/app/shared/api/payment";
-import { getCharacterInfoById } from "@/app/shared/api";
-import Spinner from '@/app/widgets/Spinner';
+import {getPaymentPlans} from "@/app/shared/api/payment";
+import {getCharacterInfoById} from "@/app/shared/api";
 
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
-const Page = async ({ searchParams }: PageProps) => {
-  const resolvedSearchParams = await searchParams;
-  const character_id = Array.isArray(resolvedSearchParams.character_id) 
-    ? resolvedSearchParams.character_id[0]
-    : resolvedSearchParams.character_id;
-
-  const [paymentPlans, character] = await Promise.all([
-    getPaymentPlans(),
-    getCharacterInfoById(character_id ?? '8')
-  ]);
+const Page = async ({searchParams}) => {
+  const {character_id} = await searchParams;
+  const paymentPlans = await getPaymentPlans()
+  const character = await getCharacterInfoById(character_id ?? '8');
 
   return (
-    <Suspense fallback={<Spinner />}>
-      <Initpage paymentPlans={paymentPlans} character={character} />
-    </Suspense>
+    <Initpage paymentPlans={paymentPlans} character={character} />
   );
 };
 
