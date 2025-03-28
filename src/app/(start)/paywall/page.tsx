@@ -1,16 +1,29 @@
 import React from 'react';
 import Initpage from "@/app/flat-pages/Initpage";
-import {getPaymentPlans} from "@/app/shared/api/payment";
-import {getCharacterInfoById} from "@/app/shared/api";
+import { getPaymentPlans } from "@/app/shared/api/payment";
+import { getCharacterInfoById } from "@/app/shared/api";
 
-const Page = async ({searchParams}:{searchParams:Promise<{character_id: string}>}) => {
-  const {character_id} = await searchParams;
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-  const paymentPlans = await getPaymentPlans()
-  const character = await getCharacterInfoById(character_id ?? '8');
+const Page = async ({ searchParams }: PageProps) => {
+  const resolvedParams = await searchParams;
+  const character_id = Array.isArray(resolvedParams.character_id)
+    ? resolvedParams.character_id[0]
+    : resolvedParams.character_id ?? '8';
+
+  const [paymentPlans, character] = await Promise.all([
+    getPaymentPlans(),
+    getCharacterInfoById(character_id)
+  ]);
 
   return (
-    <Initpage paymentPlans={paymentPlans} character={character} />
+    <div className="flex items-center justify-center h-screen">
+      <div className="bg-[#121423] rounded-[24px] py-[25px] px-[25px] w-[370px] mx-auto">
+        <Initpage paymentPlans={paymentPlans} character={character} />
+      </div>
+    </div>
   );
 };
 
