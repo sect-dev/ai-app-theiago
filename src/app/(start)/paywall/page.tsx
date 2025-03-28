@@ -1,26 +1,21 @@
-'use client'
-import React, { Suspense } from 'react'
+import React from 'react'
 import Initpage from "@/app/flat-pages/Initpage"
-import { useSearchParams } from "next/navigation"
 import { getPaymentPlans } from "@/app/shared/api/payment"
 import { getCharacterInfoById } from "@/app/shared/api"
-import Spinner from '@/app/widgets/Spinner'
 
-const InitpageContent = () => {
-  const searchParams = useSearchParams()
-  const character_id = searchParams.get('character_id') || '8'
+const Page = async ({ searchParams }: { searchParams: Record<string, string> }) => {
+  const character_id = searchParams.character_id || '8'
+  const [paymentPlans, character] = await Promise.all([
+    getPaymentPlans(),
+    getCharacterInfoById(character_id)
+  ])
 
-  const paymentPlans = React.use(getPaymentPlans())
-  const character = React.use(getCharacterInfoById(character_id))
-
-  return <Initpage paymentPlans={paymentPlans} character={character} />
-}
-
-const Page = () => {
   return (
-    <Suspense fallback={<Spinner />}>
-      <InitpageContent />
-    </Suspense>
+    <div className="flex items-center justify-center h-screen">
+      <div className="bg-[#121423] rounded-[24px] py-[25px] px-[25px] w-[370px] mx-auto">
+        <Initpage paymentPlans={paymentPlans} character={character} />
+      </div>
+    </div>
   )
 }
 
