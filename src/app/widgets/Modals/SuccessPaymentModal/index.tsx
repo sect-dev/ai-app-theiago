@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Image from "next/image";
 import {Dialog, DialogPanel} from "@headlessui/react";
-import IconClose from "@/../public/images/icons/icon-modal-close.svg";
+// import IconClose from "@/../public/images/icons/icon-modal-close.svg";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
 import clsx from "clsx";
 import Spinner from "@/app/widgets/Spinner";
@@ -11,31 +11,47 @@ import IconGoogle from "@/../public/images/icons/icon-google.svg";
 import ImageModal from "@/../public/images/img/image-modal.webp";
 import ImageSuccess from '@/../public/images/img/payment/image-success.webp';
 import {
+  handleEmailLinkAuth,
   signInWithFacebook,
   signInWithGoogle,
   signInWithX
 } from "@/app/shared/api/auth";
-import {authErrorMessages} from "@/app/shared/conts";
+// import {authErrorMessages} from "@/app/shared/conts";
 import {useForm} from "react-hook-form";
-import Link from "next/link";
+import notification from "@/app/widgets/Notification";
 
 interface FormData {
   email: string;
 }
 
-interface AuthError {
-  code: string;
-}
+// interface AuthError {
+//   code: string;
+// }
 
 const SuccessPaymentModal = () => {
   const {isSuccessPaymentModalActive, setSuccessPaymentModal} = usePaymentStore()
-  // const [loading,setLoading] = useState<boolean>(false)
+  const [loading,setLoading] = useState<boolean>(false)
   // const [authError, setAuthError] = useState<string | null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
 
   const onSubmit = async (data: FormData) => {
     console.log('data',data)
+    setLoading(true)
+    try {
+      const resp = await handleEmailLinkAuth(data.email)
+      console.log('resp',resp)
+      notification.open({
+        title: 'Message sent',
+        description: 'We have sent you an email to confirm your address',
+      });
+    } catch (error) {
+      console.log('error',error)
+    } finally {
+      setLoading(false)
+    }
+
+
   };
 
   const onGoogleSignInHandler = async () => {
@@ -70,22 +86,30 @@ const SuccessPaymentModal = () => {
             transition
             className="w-full h-screen flex items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
           >
-            <div className="w-screen h-full flex items-center justify-center flex-col pt-[45px]">
-              <div className="w-[690px] h-[550px] mx-auto relative sm:size-full">
-                <button
-                  onClick={() => setSuccessPaymentModal(false)}
-                  className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px]"
-                >
+            <div className="w-screen h-full flex items-center justify-center flex-col pt-[45px] sm:pt-0">
+              <div className="w-[690px] h-[550px] mx-auto relative sm:bg-[#121423] sm:size-full">
+                <div className="hidden relative w-full h-[400px] sm:block success-payment-bg">
                   <Image
-                    src={IconClose.src}
-                    width={IconClose.width}
-                    height={IconClose.height}
-                    alt="icon close"
+                    src={ImageModal.src}
+                    fill
+                    alt="image modal"
+                    className="object-cover"
                   />
-                </button>
-                <div className="flex justify-between rounded-[24px] overflow-hidden sm:h-full">
-                  <div className="w-full bg-[#121423] p-[20px] sm:flex sm:flex-col sm:items-center sm:justify-center sm:h-full">
-                    <div className="font-bai-jamjuree mb-[24px] space-y-[8px]">
+                </div>
+                {/*<button*/}
+                {/*  onClick={() => setSuccessPaymentModal(false)}*/}
+                {/*  className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px]"*/}
+                {/*>*/}
+                {/*  <Image*/}
+                {/*    src={IconClose.src}*/}
+                {/*    width={IconClose.width}*/}
+                {/*    height={IconClose.height}*/}
+                {/*    alt="icon close"*/}
+                {/*  />*/}
+                {/*</button>*/}
+                <div className="flex justify-between bg-[#121423] rounded-[24px] overflow-hidden  sm:overflow-visible sm:h-auto">
+                  <div className="w-full  p-[20px] sm:relative sm:z-[5] sm:flex sm:flex-col sm:items-center sm:mt-[-200px] sm:justify-center sm:h-full">
+                    <div className="font-bai-jamjuree mb-[24px] space-y-[8px] sm:w-full">
                       <Image
                         src={ImageSuccess.src}
                         width={ImageSuccess.width}
@@ -111,7 +135,7 @@ const SuccessPaymentModal = () => {
                           })}
                         />
                         <p className="font-bai-jamjuree pt-[8px] px-[8px] text-[12px] font-medium opacity-50 leading-[1.2em]">This email will be used to login to your account. You can change it</p>
-                        {errors.email && <p className="text-[#BD0000] text-[12px] absolute right-0 top-0">{errors.email.message}</p>}
+                        {errors.email && <p className="text-[#BD0000] text-[12px] absolute right-0 top-[-20px]">{errors.email.message}</p>}
                       </div>
 
                       {/*  Отображение ошибки авторизации */}
@@ -121,11 +145,11 @@ const SuccessPaymentModal = () => {
                       {/* Кнопка отправки */}
                       <button
                         type="submit"
-                        // disabled={loading}
+                        disabled={loading}
                         className="w-full main-gradient flex items-center justify-center gap-[10px] text-[20px] h-[40px] font-bold rounded-[12px] disabled:bg-none disabled:bg-[#778899] disabled:pointer-events-none"
                       >
                         <span className="relative z-[5]">Sign in</span>
-                        {/* {loading && <Spinner/>} */}
+                         {loading && <Spinner/>}
                       </button>
                     </form>
                     <div className="flex flex-col justify-center items-center gap-[24px]">
@@ -174,10 +198,10 @@ const SuccessPaymentModal = () => {
                       alt="image modal"
                       className="object-cover"
                     />
-                    <Link href="/" className="font-bold block text-[34px] tracking-[0.04em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]">
+                    <button className="font-bold block text-[34px] tracking-[0.04em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]">
                       <span className="logo-gradient ">Ai</span>
                       <span className="">Go</span>
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>

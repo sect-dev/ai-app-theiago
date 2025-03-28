@@ -1,12 +1,17 @@
 import React from 'react';
 import Initpage from "@/app/flat-pages/Initpage";
 import {getPaymentPlans} from "@/app/shared/api/payment";
+import {getCharacterInfoById} from "@/app/shared/api";
 
-const Page = async () => {
+
+
+const Page = async ({searchParams}:{searchParams: Promise<{ [key: string]: string | string[] | undefined }>}) => {
+  const {character_id} = await searchParams;
   const paymentPlans = await getPaymentPlans()
+  const character = await getCharacterInfoById(character_id ?? '8');
 
   return (
-    <Initpage paymentPlans={paymentPlans} />
+    <Initpage paymentPlans={paymentPlans} character={character} />
   );
 };
 

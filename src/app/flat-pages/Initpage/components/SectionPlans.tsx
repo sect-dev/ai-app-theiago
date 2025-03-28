@@ -1,13 +1,13 @@
 'use client'
-import React, {FC, useEffect, useState, useTransition} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Image from "next/image";
 import clsx from "clsx";
 import ImageArrow from "@/../public/images/icons/icon-payment-arrow.svg";
 import IconExpand from '@/../public/images/icons/icon-expand-white.svg';
 import {PaymentPlan} from "@/app/shared/api/payment";
 import {calculateCostPerDay} from "@/app/shared/helpers";
-import {useRouter} from "next/navigation";
-import Spinner from "@/app/widgets/Spinner";
+import Link from "next/link";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 const additionalInfo = [
   '💬 Unlimited dialogues on any topics',
@@ -22,9 +22,8 @@ interface ComponentProps {
 }
 
 const SectionPlans:FC<ComponentProps> = ({paymentPlans}) => {
+  const {setPlan} = usePaymentStore()
   const [selectedPrice,setSelectedPrice] = useState<PaymentPlan | null>(null)
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
 
   useEffect(() => {
     if(paymentPlans && paymentPlans.length > 0) {
@@ -32,12 +31,9 @@ const SectionPlans:FC<ComponentProps> = ({paymentPlans}) => {
     }
   }, [])
 
-  const paymentHandle = async (planId: string) => {
-    startTransition(() => {
-      router.push(
-        `https://production-payments.theaigo.com:8000/pre_subscription_purchase?name=${planId}&utm_source=utm_source&utm_medium=utm_medium&utm_campaign=utm_campaign&utm_content=utm_content&utm_term=utm_term`
-      )
-    })
+  const paymentHandle = async (item: PaymentPlan) => {
+    setSelectedPrice(item)
+    setPlan(item.id ?? '3_months_premium_access')
   };
 
   return (
@@ -51,7 +47,7 @@ const SectionPlans:FC<ComponentProps> = ({paymentPlans}) => {
           const discountPriceWithoutFirstLetter = discountPricePerDay.toString().split('.')[1]
           return (
             <div
-              onClick={() => setSelectedPrice(item)}
+              onClick={() => paymentHandle(item)}
               key={item.id}
               className={clsx("init-page-gradient-border relative before:z-[1] before:rounded-[16px] before:opacity-0 hover:before:opacity-100 cursor-pointer bg-[#2B2D44] rounded-[16px] p-[16px] hover:shadow-card-shadow fm:rounded-[4.27vw] fm:before:rounded-[4.27vw] fm:p-[4.27vw]", {
                 "before:opacity-100 shadow-card-shadow": selectedPrice?.id === item.id
@@ -117,16 +113,13 @@ const SectionPlans:FC<ComponentProps> = ({paymentPlans}) => {
                         )
                       })}
                     </ul>
-
-                    <button
-                      onClick={() => paymentHandle(item?.id ?? "3_months_premium_access")}
-                      disabled={isPending}
+                    <Link
+                      href="#form"
                       className="relative flex items-center justify-center gap-[5px] overflow-hidden bg-button-gradient disabled:opacity-50 rounded-[24px] w-full h-[60px] text-white text-center fm:h-[16vw] fm:rounded-[6.40vw]"
                     >
                       <span className="uppercase  font-bold font-noto text-[14px] fm:text-[3.73vw]">get your girlfriend</span>
-                      {isPending && <Spinner />}
                       <span className="bg-white-gradient  animate-[moveRight_4.25s_ease-in_infinite_forwards] block rotate-[20deg] size-[125px] absolute -left-1/2 top-1/2 -translate-y-1/2" />
-                    </button>
+                    </Link>
                     <p className="text-center font-bold text-center text-[12px] pt-[12px] fm:pt-[3.20vw] fm:text-[3.20vw]">🔥 65,756 people received a girlfriend this week. 🔥</p>
                   </div>
                 )}

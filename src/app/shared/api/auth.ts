@@ -9,7 +9,7 @@ import {
   signInAnonymously,
   linkWithCredential,
   EmailAuthProvider,
-  TwitterAuthProvider
+  TwitterAuthProvider, isSignInWithEmailLink, signInWithEmailLink, sendSignInLinkToEmail
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
@@ -196,7 +196,7 @@ export const signInAnonymouslyHandler = async () => {
       const token = await user.getIdToken();
       localStorage.setItem("uid", user.uid);
       localStorage.setItem("tempToken", token);
-      await registerAnonymousUser();
+      await registerAnonymousUser(token);
       return;
     }
   } catch (error) {
@@ -205,9 +205,9 @@ export const signInAnonymouslyHandler = async () => {
   }
 };
 
-export const registerAnonymousUser = async (): Promise<void> => {
+export const registerAnonymousUser = async (token:string): Promise<void> => {
   try {
-    await apiClient.get('/register_anonymous_web_user');
+    await apiClient.get(`/register_anonymous_web_user?token=${token}`);
     return;
   } catch (error) {
     console.error('Error registering anonymous user:', error);
@@ -216,4 +216,67 @@ export const registerAnonymousUser = async (): Promise<void> => {
 };
 
 
+export const handleEmailLinkAuth = async (
+  email?: string,
+): Promise<FirebaseUser | { success: boolean; message?: string }> => {
 
+  const currentSearchParams = new URLSearchParams(window.location.search);
+
+  const redirectUrl = `${window.location.origin}${window.location.pathname}?${currentSearchParams.toString()}`;
+
+  if (isSignInWithEmailLink(auth, window.location.href)) {
+    try {
+      let userEmail = email || window.localStorage.getItem('emailForSignIn');
+      if (!userEmail) {
+        userEmail = prompt('Пожалуйста, введите ваш email для подтверждения') || '';
+        if (!userEmail) throw new Error("Email required");
+      }
+
+      const currentUser = auth.currentUser;
+      let userCredential;
+
+      if (currentUser?.isAnonymous) {
+        const credential = EmailAuthProvider.credentialWithLink(userEmail, window.location.href);
+        userCredential = await linkWithCredential(currentUser, credential);
+      } else {
+        userCredential = await signInWithEmailLink(auth, userEmail, window.location.href);
+      }
+
+      const user = userCredential.user as FirebaseUser;
+      user.accessToken = (userCredential.user as FirebaseUser).stsTokenManager.accessToken;
+
+      if (user.accessToken) {
+        localStorage.setItem("accessToken", user.accessToken);
+        localStorage.removeItem("emailForSignIn");
+      }
+
+      const { setUser, setAuthModal } = useAuthStore.getState();
+      setAuthModal({ modalType: null, isAuthModalActive: false });
+      setUser(user);
+
+      return user;
+    } catch (error) {
+      console.error("Email link auth error:", error);
+      throw error;
+    }
+  }
+
+  if (!email) throw new Error("Email is required");
+
+  try {
+    const actionCodeSettings = {
+      url: redirectUrl,
+      handleCodeInApp: true,
+    };
+
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    window.localStorage.setItem('emailForSignIn', email);
+
+    return {
+      success: true,
+      message: "Ссылка для входа отправлена на ваш email"
+    };
+  } catch (error) {
+    console.error("Email link sending error:", error);
+  }
+};

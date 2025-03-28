@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
 import ImageGirl from '../../../../../public/images/img/initpage/image-init1.webp';
 import ArrowNav from '@/../public/images/icons/arrow-gradient.svg';
@@ -12,8 +12,11 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import clsx from "clsx";
 
+interface ComponentProps {
+  images: string[] | null
+}
 
-const SectionWithSwiper = () => {
+const SectionWithSwiper:FC<ComponentProps> = ({images}) => {
   return (
     <Swiper
       slidesPerView={1.2}
@@ -25,30 +28,18 @@ const SectionWithSwiper = () => {
       }}
 
     >
-      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
-        <Image
-          src={ImageGirl.src}
-          width={ImageGirl.width}
-          height={ImageGirl.height}
-          alt=""
-        />
-      </SwiperSlide>
-      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
-        <Image
-          src={ImageGirl2.src}
-          width={ImageGirl2.width}
-          height={ImageGirl2.height}
-          alt=""
-        />
-      </SwiperSlide>
-      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
-        <Image
-          src={ImageGirl.src}
-          width={ImageGirl.width}
-          height={ImageGirl.height}
-          alt=""
-        />
-      </SwiperSlide>
+      {images && images?.map(item => {
+        return (
+          <SwiperSlide key={item} className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
+            <Image
+              src={item}
+              fill
+              alt="images"
+              className="object-cover"
+            />
+          </SwiperSlide>
+        )
+      })}
       <div
         role="button"
         aria-label="Prev Slide"

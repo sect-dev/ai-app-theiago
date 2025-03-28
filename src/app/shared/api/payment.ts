@@ -1,8 +1,9 @@
 import axios  from "axios";
+import { Plan } from "../store/paymentStore";
 
 export interface PaymentPlan {
   currency: string;
-  id?: string
+  id?: Plan
   interval_unit: 'month' | 'year' | 'week' | 'day';
   interval_length: number;
   amount_initial: number;
