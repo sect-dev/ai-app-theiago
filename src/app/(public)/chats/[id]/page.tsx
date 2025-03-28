@@ -11,7 +11,7 @@ import ChatInfo from "@/app/widgets/Chats/ChatInfo";
 const fetchCharacterInfo = React.cache(getCharacterInfoById);
 
 const CharacterContent = async ({ id }: { id: string }) => {
-  const characterInfo = await fetchCharacterInfo(+id);
+  const characterInfo = await fetchCharacterInfo(id);
   const token = await getTokensInfo('8d9b409fe5287d5b')
 
   return (
