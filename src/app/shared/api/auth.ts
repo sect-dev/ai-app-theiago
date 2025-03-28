@@ -9,7 +9,7 @@ import {
   signInAnonymously,
   linkWithCredential,
   EmailAuthProvider,
-  TwitterAuthProvider, isSignInWithEmailLink, signInWithEmailLink, sendSignInLinkToEmail
+  TwitterAuthProvider, isSignInWithEmailLink, signInWithEmailLink, sendSignInLinkToEmail, AuthError
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
@@ -277,6 +277,11 @@ export const handleEmailLinkAuth = async (
       message: "Ссылка для входа отправлена на ваш email"
     };
   } catch (error) {
-    console.error("Email link sending error:", error);
-  }
+    const firebaseError = error as AuthError;
+    console.error("Email link sending error:", firebaseError);
+    return {
+      success: false,
+      message: firebaseError.message || "Ошибка отправки ссылки"
+    };
+    }
 };
