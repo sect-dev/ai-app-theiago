@@ -4,8 +4,15 @@ import { getPaymentPlans } from "@/app/shared/api/payment";
 import { getCharacterInfoById } from "@/app/shared/api";
 import Spinner from '@/app/widgets/Spinner';
 
-const Page = async ({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) => {
-  const { character_id } = searchParams;
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+const Page = async ({ searchParams }: PageProps) => {
+  const resolvedSearchParams = await searchParams;
+  const character_id = Array.isArray(resolvedSearchParams.character_id) 
+    ? resolvedSearchParams.character_id[0]
+    : resolvedSearchParams.character_id;
 
   const [paymentPlans, character] = await Promise.all([
     getPaymentPlans(),
@@ -13,7 +20,7 @@ const Page = async ({ searchParams }: { searchParams: { [key: string]: string | 
   ]);
 
   return (
-    <Suspense fallback={<Spinner/>}>
+    <Suspense fallback={<Spinner />}>
       <Initpage paymentPlans={paymentPlans} character={character} />
     </Suspense>
   );
