@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     formats: ["image/webp"],
     unoptimized: true,
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 };
 
 export default nextConfig;
