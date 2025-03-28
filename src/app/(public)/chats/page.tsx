@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Chatspage from "@/app/flat-pages/Chatspage";
+import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
 
 const Page = () => {
   return (
-    <Chatspage />
+    <Suspense fallback={<ChatsListSkeleton />}>
+      <Chatspage />
+    </Suspense>
   );
 };
 
