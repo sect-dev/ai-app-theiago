@@ -32,15 +32,16 @@ const SuccessPayment = () => {
   const characterImage = selectedCard ? selectedCard.avatar : ImageDefault
 
   const onSubmit = async (data: FormData) => {
-    console.log('data',data)
     setLoading(true)
     try {
       const resp = await handleEmailLinkAuth(data.email)
-      console.log('resp',resp)
-      notification.open({
-        title: 'Message sent',
-        description: 'We have sent you an email to confirm your address',
-      });
+      if(resp && resp?.success) {
+        notification.open({
+          title: 'Message sent',
+          type: 'success',
+          description: 'We have sent you an email to confirm your address',
+        });
+      }
     } catch (error) {
       console.log('error',error)
     } finally {

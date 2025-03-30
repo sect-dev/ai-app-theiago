@@ -32,7 +32,7 @@ const SectionWithSwiper:FC<ComponentProps> = ({images,className,slidesPerView= 1
     >
       {images && images?.map(item => {
         return (
-          <SwiperSlide key={item} className={clsx("rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]",className)}>
+          <SwiperSlide key={item} className={clsx(" overflow-hidden ",className)}>
             <Image
               src={item}
               fill

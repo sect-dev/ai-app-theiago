@@ -29,7 +29,7 @@ const SuccessPaymentModal = () => {
             className="w-full h-screen flex items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
           >
             <div className="w-screen h-full flex items-center justify-center flex-col pt-[45px] sm:pt-0">
-              <div className="w-[690px] h-[550px] mx-auto relative sm:bg-[#121423] sm:size-full">
+              <div className="w-[690px] h-[550px] mx-auto relative sm:overflow-hidden sm:bg-[#121423] sm:size-full">
                 <div className="hidden relative w-full h-[400px] sm:block success-payment-bg">
                   <Image
                     src={ImageModal.src}
@@ -38,9 +38,7 @@ const SuccessPaymentModal = () => {
                     className="object-cover"
                   />
                 </div>
-                <div>
-                  {renderContent()}
-                </div>
+                {renderContent()}
               </div>
             </div>
           </DialogPanel>

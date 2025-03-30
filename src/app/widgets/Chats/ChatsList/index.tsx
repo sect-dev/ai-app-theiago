@@ -16,7 +16,7 @@ const ChatsList = () => {
   }
   return (
     <div
-      className={clsx("animate-fadeIn shrink-0 h-[calc(100%-24px)] w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-all duration-300 md:!rounded-[16px] md:opacity-0 md:max-w-full", {
+      className={clsx("animate-fadeIn shrink-0 w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-all duration-300 md:!rounded-[16px] md:opacity-0 md:max-w-full", {
         "!max-w-[82px] ": collapse,
         "!opacity-0": isMobileChatOpen
       })}>
@@ -35,7 +35,7 @@ const ChatsList = () => {
           />
         </button>
       </div>
-      <div>
+      <div className="max-h-[50vh] overflow-y-auto sm:max-h-[100vh]">
         {(characters && characters?.length > 0)
           ? characters
             ?.slice()

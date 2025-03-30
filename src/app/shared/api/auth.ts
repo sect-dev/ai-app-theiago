@@ -9,11 +9,14 @@ import {
   signInAnonymously,
   linkWithCredential,
   EmailAuthProvider,
-  TwitterAuthProvider, isSignInWithEmailLink, signInWithEmailLink, sendSignInLinkToEmail, AuthError
+  TwitterAuthProvider,
+  sendSignInLinkToEmail,
+  AuthError,
+  fetchSignInMethodsForEmail
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
-import {FirebaseUser} from "@/app/shared/api/types/auth";
+import {EmailLinkAuthResponse, FirebaseUser} from "@/app/shared/api/types/auth";
 import {apiClient} from "@/app/shared/api/index";
 import {useAuthStore} from "@/app/shared/store/authStore";
 
@@ -218,49 +221,12 @@ export const registerAnonymousUser = async (token:string): Promise<void> => {
 
 export const handleEmailLinkAuth = async (
   email?: string,
-): Promise<FirebaseUser | { success: boolean; message?: string }> => {
+): Promise<EmailLinkAuthResponse> => {
 
   const currentSearchParams = new URLSearchParams(window.location.search);
   currentSearchParams.set('action', 'auth_success');
 
   const redirectUrl = `${window.location.origin}${window.location.pathname}?${currentSearchParams.toString()}`;
-
-  if (isSignInWithEmailLink(auth, window.location.href)) {
-    try {
-      let userEmail = email || window.localStorage.getItem('emailForSignIn');
-      if (!userEmail) {
-        userEmail = prompt('Пожалуйста, введите ваш email для подтверждения') || '';
-        if (!userEmail) throw new Error("Email required");
-      }
-
-      const currentUser = auth.currentUser;
-      let userCredential;
-
-      if (currentUser?.isAnonymous) {
-        const credential = EmailAuthProvider.credentialWithLink(userEmail, window.location.href);
-        userCredential = await linkWithCredential(currentUser, credential);
-      } else {
-        userCredential = await signInWithEmailLink(auth, userEmail, window.location.href);
-      }
-
-      const user = userCredential.user as FirebaseUser;
-      user.accessToken = (userCredential.user as FirebaseUser).stsTokenManager.accessToken;
-
-      if (user.accessToken) {
-        localStorage.setItem("accessToken", user.accessToken);
-        localStorage.removeItem("emailForSignIn");
-      }
-
-      const { setUser, setAuthModal } = useAuthStore.getState();
-      setAuthModal({ modalType: null, isAuthModalActive: false });
-      setUser(user);
-
-      return user;
-    } catch (error) {
-      console.error("Email link auth error:", error);
-      throw error;
-    }
-  }
 
   if (!email) throw new Error("Email is required");
 

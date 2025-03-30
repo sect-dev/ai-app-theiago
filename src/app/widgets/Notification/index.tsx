@@ -4,11 +4,13 @@ import IconNotification from '@/../public/images/icons/icon-notificaton-check.sv
 import { createRoot } from 'react-dom/client';
 import Link from 'next/link';
 import './styles.css'
+import clsx from "clsx";
 
 interface NotificationConfig {
   title: string;
   description: string;
   link?: string;
+  type?: 'success' | 'error'
 }
 
 interface ReactRootContainerElement extends HTMLElement {
@@ -23,7 +25,7 @@ interface ReactRootContainerElement extends HTMLElement {
 //   description: 'Вы успешно авторизировались',
 // });
 
-const Notification: React.FC<NotificationConfig> = ({ title, description, link }) => {
+const Notification: React.FC<NotificationConfig> = ({ title, description, link, type }) => {
   const onClose = () => {
     const notificationElement = document.getElementById('notification') as ReactRootContainerElement | null;
     if (notificationElement) {
@@ -38,7 +40,10 @@ const Notification: React.FC<NotificationConfig> = ({ title, description, link }
   };
 
   return (
-    <div className="notification fixed top-[5vw] right-[5vw]  z-[200] w-[20vw] animate-fadeIn rounded-[1.042vw] sm:top-[5vw] sm:right-1/2 sm:translate-x-1/2 sm:h-[30vw] sm:w-[90vw] sm:rounded-[3.56vw]">
+    <div className={clsx("notification fixed top-[5vw] right-[5vw]  z-[200] w-[20vw] animate-fadeIn rounded-[1.042vw] sm:top-[5vw] sm:right-1/2 sm:translate-x-1/2 sm:h-[30vw] sm:w-[90vw] sm:rounded-[3.56vw]", {
+      'success': type === 'success',
+      'error': type === 'error'
+    })}>
       <div className="relative size-full p-[1.04vw] sm:p-[5.56vw]">
         <div className="relative z-[1] flex gap-[10px]">
           <div className="size-[1.46vw] sm:size-[8.33vw]">
@@ -84,7 +89,7 @@ const notification = {
     document.body.appendChild(div);
 
     const root = createRoot(div);
-    root.render(<Notification title={config.title} description={config.description} link={config.link ?? ''} />);
+    root.render(<Notification title={config.title} description={config.description} link={config.link ?? ''} type={config.type ?? 'success'} />);
 
     setTimeout(() => {
       const notificationElement = document.getElementById('notification');

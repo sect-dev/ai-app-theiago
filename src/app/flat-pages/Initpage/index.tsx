@@ -28,9 +28,6 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
 
   return (
    <div>
-     <div className="fm:hidden">
-       <PaymentDiscountBanner />
-     </div>
      <div className="animate-fadeIn w-full mx-auto max-w-[840px] pt-[24px] fm:pt-0">
        <div className="flex gap-[16px] fm:flex-col">
          <div className="w-full max-w-[365px] fm:order-[-1] fm:max-w-full">
@@ -44,7 +41,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
            </div>
            <div className="relative mt-[-100px] z-[5] pl-[15px] fm:hidden">
              <p className="text-[28px] font-bold text-center mb-[15px]">Get closer to her</p>
-             <SectionWithSwiper images={character?.listImage ?? null} />
+             <SectionWithSwiper className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]" images={character?.listImage ?? null} />
            </div>
          </div>
          <div className="bg-[#191B2C] py-[15px] overflow-x-hidden rounded-[32px] order-[-1] max-w-[475px] px-[20px] fm:relative fm:z-[10] fm:mt-[-225px] fm:bg-transparent fm:max-w-full">
