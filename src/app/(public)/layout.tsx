@@ -4,34 +4,15 @@ import DefaultLayout from "@/app/widgets/Layout/DefaultLayout";
 import Header from "@/app/widgets/Header";
 import Sidebar from "@/app/widgets/Sidebar";
 import SidebarMenu from "@/app/widgets/Sidebar/SidebarMenu";
-import {usePathname, useSearchParams} from "next/navigation";
+import {usePathname} from "next/navigation";
 import clsx from "clsx";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
-import AuthModal from "@/app/widgets/Modals/AuthModal";
-import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
-import PaymentModal from "@/app/widgets/Modals/PaymentModal";
-import QrModal from "@/app/widgets/Modals/QrModal";
-import SuccessPaymentModal from "@/app/widgets/Modals/SuccessPaymentModal";
-import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import ModalsProvider from "@/app/providers/ModalsProvider";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const searchParams = useSearchParams();
   const { isMobileChatOpen } = useSelectedCardStore();
-  const {setSuccessPaymentModal} = usePaymentStore()
   const pathname = usePathname();
   const isChatPage = pathname?.includes('chats');
-
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const action = searchParams.get('action')
-
-    if(action && action === 'subscription_success') {
-      setSuccessPaymentModal(true)
-    }
-    if (!accessToken) {
-      signInAnonymouslyHandler();
-    }
-  }, []);
 
   return (
     <DefaultLayout>
@@ -53,10 +34,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
          {children}
         </div>
       </div>
-      <AuthModal />
-      <PaymentModal />
-      <SuccessPaymentModal />
-      <QrModal />
+      <ModalsProvider />
     </DefaultLayout>
   );
 };
