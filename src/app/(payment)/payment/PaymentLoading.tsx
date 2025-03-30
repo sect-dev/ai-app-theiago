@@ -17,7 +17,7 @@ const PaymentLoading:FC<ComponentProps> = ({status}) => {
     if(status && status === 'success') {
       setTimeout(() => {
         navigate.push('/')
-        setSuccessPaymentModal(true)
+        setSuccessPaymentModal({isSuccessPaymentModalActive:true,successPaymentModalType:"subscription_success"})
       }, 1000)
     }
   }, [])
