@@ -15,7 +15,7 @@ interface SelectedCardState {
   characters: PreparedAvatar[] | null;
   isMobileChatOpen: boolean
   isMobileInfoOpen: boolean
-  setSelectedCard: (avatar: Character) => void;
+  setSelectedCard: (avatar: Character | null) => void;
   setSelectedTag: (tag: string | null) => void;
   setCharacters: (characters: PreparedAvatar[] | null) => void;
   setInfoCollapse:(value:boolean) => void

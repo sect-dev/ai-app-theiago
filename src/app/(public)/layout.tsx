@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect} from 'react';
+import React from 'react';
 import DefaultLayout from "@/app/widgets/Layout/DefaultLayout";
 import Header from "@/app/widgets/Header";
 import Sidebar from "@/app/widgets/Sidebar";

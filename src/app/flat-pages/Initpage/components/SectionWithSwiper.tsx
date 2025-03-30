@@ -14,12 +14,14 @@ import clsx from "clsx";
 
 interface ComponentProps {
   images: string[] | null
+  className?: string
+  slidesPerView?: number | 'auto'
 }
 
-const SectionWithSwiper:FC<ComponentProps> = ({images}) => {
+const SectionWithSwiper:FC<ComponentProps> = ({images,className,slidesPerView= 1.2}) => {
   return (
     <Swiper
-      slidesPerView={1.2}
+      slidesPerView={slidesPerView ?? 'auto'}
       spaceBetween={12}
       modules={[Navigation]}
       navigation={{
@@ -30,7 +32,7 @@ const SectionWithSwiper:FC<ComponentProps> = ({images}) => {
     >
       {images && images?.map(item => {
         return (
-          <SwiperSlide key={item} className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
+          <SwiperSlide key={item} className={clsx("rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]",className)}>
             <Image
               src={item}
               fill

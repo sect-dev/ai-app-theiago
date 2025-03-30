@@ -15,12 +15,13 @@ export const getCharactersList = async () => {
   }
 }
 
-export const getCharacterInfoById = async (id:string | string[]) => {
+export const getCharacterInfoById = async (id: string) => {
   try {
     const response = await apiClient.get(`/character_info?id=${id}`);
-    if(response.data) {
-      return response.data
-    }
+    return JSON.parse(JSON.stringify(response.data));
+    // if(response.data) {
+    //   return response.data
+    // }
   } catch (error) {
     console.log(error)
   }

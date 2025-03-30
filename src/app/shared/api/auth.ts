@@ -221,6 +221,7 @@ export const handleEmailLinkAuth = async (
 ): Promise<FirebaseUser | { success: boolean; message?: string }> => {
 
   const currentSearchParams = new URLSearchParams(window.location.search);
+  currentSearchParams.set('action', 'auth_success');
 
   const redirectUrl = `${window.location.origin}${window.location.pathname}?${currentSearchParams.toString()}`;
 

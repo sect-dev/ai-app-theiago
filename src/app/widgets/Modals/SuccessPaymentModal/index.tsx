@@ -1,85 +1,27 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Image from "next/image";
 import {Dialog, DialogPanel} from "@headlessui/react";
-// import IconClose from "@/../public/images/icons/icon-modal-close.svg";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
-import clsx from "clsx";
-import Spinner from "@/app/widgets/Spinner";
-import IconX from "@/../public/images/icons/icon-x.webp";
-import IconFacebook from "@/../public/images/icons/icon-fb.webp";
-import IconGoogle from "@/../public/images/icons/icon-google.svg";
 import ImageModal from "@/../public/images/img/image-modal.webp";
-import ImageSuccess from '@/../public/images/img/payment/image-success.webp';
-import {
-  handleEmailLinkAuth,
-  signInWithFacebook,
-  signInWithGoogle,
-  signInWithX
-} from "@/app/shared/api/auth";
-// import {authErrorMessages} from "@/app/shared/conts";
-import {useForm} from "react-hook-form";
-import notification from "@/app/widgets/Notification";
-
-interface FormData {
-  email: string;
-}
-
-// interface AuthError {
-//   code: string;
-// }
+import SuccessPayment from "@/app/widgets/Modals/SuccessPaymentModal/SuccessPayment";
+import SuccessAuth from "@/app/widgets/Modals/SuccessPaymentModal/SuccessAuth";
 
 const SuccessPaymentModal = () => {
-  const {isSuccessPaymentModalActive, setSuccessPaymentModal} = usePaymentStore()
-  const [loading,setLoading] = useState<boolean>(false)
-  // const [authError, setAuthError] = useState<string | null>(null);
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const {isSuccessPaymentModalActive, successPaymentModalType, setSuccessPaymentModal} = usePaymentStore()
 
-
-  const onSubmit = async (data: FormData) => {
-    console.log('data',data)
-    setLoading(true)
-    try {
-      const resp = await handleEmailLinkAuth(data.email)
-      console.log('resp',resp)
-      notification.open({
-        title: 'Message sent',
-        description: 'We have sent you an email to confirm your address',
-      });
-    } catch (error) {
-      console.log('error',error)
-    } finally {
-      setLoading(false)
-    }
-
-
-  };
-
-  const onGoogleSignInHandler = async () => {
-    try {
-      await signInWithGoogle()
-    } catch (error) {
-      console.log('error',error)
-    }
-  }
-
-  const onXSignInHandler = async () => {
-    try {
-      await signInWithX()
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const onFacebookSignInHandler = async () => {
-    try {
-      await signInWithFacebook()
-    } catch (error) {
-      console.log('error',error)
+  const renderContent = () => {
+    switch (successPaymentModalType){
+      case 'subscription_success':
+        return <SuccessPayment />
+      case 'auth_success':
+        return <SuccessAuth />
+      default:
+        return <SuccessPayment />
     }
   }
 
   return (
-    <Dialog open={isSuccessPaymentModalActive} as="div" className="relative z-[50] focus:outline-none" onClose={() => setSuccessPaymentModal(false)}>
+    <Dialog open={isSuccessPaymentModalActive} as="div" className="relative z-[50] focus:outline-none" onClose={() => setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})}>
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto font-lato">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
@@ -96,113 +38,8 @@ const SuccessPaymentModal = () => {
                     className="object-cover"
                   />
                 </div>
-                {/*<button*/}
-                {/*  onClick={() => setSuccessPaymentModal(false)}*/}
-                {/*  className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px]"*/}
-                {/*>*/}
-                {/*  <Image*/}
-                {/*    src={IconClose.src}*/}
-                {/*    width={IconClose.width}*/}
-                {/*    height={IconClose.height}*/}
-                {/*    alt="icon close"*/}
-                {/*  />*/}
-                {/*</button>*/}
-                <div className="flex justify-between bg-[#121423] rounded-[24px] overflow-hidden  sm:overflow-visible sm:h-auto">
-                  <div className="w-full  p-[20px] sm:relative sm:z-[5] sm:flex sm:flex-col sm:items-center sm:mt-[-200px] sm:justify-center sm:h-full">
-                    <div className="font-bai-jamjuree mb-[24px] space-y-[8px] sm:w-full">
-                      <Image
-                        src={ImageSuccess.src}
-                        width={ImageSuccess.width}
-                        height={ImageSuccess.height}
-                        alt="image success"
-                      />
-                      <p className="leading-[1.2em] font-semibold text-[20px]">Payment was successful!  🎉</p>
-                      <p className="text-[14px] font-medium">Sign up to activate your subscription</p>
-                    </div>
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-[24px] pb-[32px] mb-[32px] border-b border-b-[#3A3F63] sm:w-full">
-                      {/* Поле Email */}
-                      <div className="relative">
-                        <input
-                          id="email"
-                          type="email"
-                          placeholder="Input your E-mail"
-                          className={clsx("w-full bg-[#191B2C] px-[16px] rounded-[12px] h-[48px] text-[14px] border border-transparent font-medium leading-[1.5em] transition-all duration-300  focus:border-[#049AEF] placeholder-text:opacity-50 focus:outline-none focus:outline-none outline-offset-0 focus:outline-offset-0", {
-                            "!border-[#BD0000]": errors.email
-                          })}
-                          {...register("email", {
-                            required: "Email обязателен",
-                            pattern: { value: /^\S+@\S+\.\S+$/, message: "Некорректный email" }
-                          })}
-                        />
-                        <p className="font-bai-jamjuree pt-[8px] px-[8px] text-[12px] font-medium opacity-50 leading-[1.2em]">This email will be used to login to your account. You can change it</p>
-                        {errors.email && <p className="text-[#BD0000] text-[12px] absolute right-0 top-[-20px]">{errors.email.message}</p>}
-                      </div>
-
-                      {/*  Отображение ошибки авторизации */}
-                      {/* {authError && <p className="text-[#BD0000] text-[14px]">{authError}</p>} */}
-
-
-                      {/* Кнопка отправки */}
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full main-gradient flex items-center justify-center gap-[10px] text-[20px] h-[40px] font-bold rounded-[12px] disabled:bg-none disabled:bg-[#778899] disabled:pointer-events-none"
-                      >
-                        <span className="relative z-[5]">Sign in</span>
-                         {loading && <Spinner/>}
-                      </button>
-                    </form>
-                    <div className="flex flex-col justify-center items-center gap-[24px]">
-                      <p className=" font-medium text-[16px] text-[#B5B5B5]">or continue with</p>
-                      <div className="flex gap-[20px]">
-                        <button
-                          onClick={onXSignInHandler}
-                          className="transition-transform duration-300 hover:scale-[1.025]"
-                        >
-                          <Image
-                            src={IconX.src}
-                            width={IconX.width}
-                            height={IconX.height}
-                            alt="icon X"
-                          />
-                        </button>
-                        <button
-                          onClick={onFacebookSignInHandler}
-                          className="transition-transform duration-300 hover:scale-[1.025]"
-                        >
-                          <Image
-                            src={IconFacebook.src}
-                            width={IconFacebook.width}
-                            height={IconFacebook.height}
-                            alt="icon discord"
-                          />
-                        </button>
-                        <button
-                          onClick={onGoogleSignInHandler}
-                          className="transition-transform duration-300 hover:scale-[1.025]"
-                        >
-                          <Image
-                            src={IconGoogle.src}
-                            width={IconGoogle.width}
-                            height={IconGoogle.height}
-                            alt="icon google"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full h-hull relative sm:hidden">
-                    <Image
-                      src={ImageModal.src}
-                      fill
-                      alt="image modal"
-                      className="object-cover"
-                    />
-                    <button className="font-bold block text-[34px] tracking-[0.04em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]">
-                      <span className="logo-gradient ">Ai</span>
-                      <span className="">Go</span>
-                    </button>
-                  </div>
+                <div>
+                  {renderContent()}
                 </div>
               </div>
             </div>

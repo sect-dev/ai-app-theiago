@@ -25,7 +25,7 @@ interface ComponentProps {
 }
 
 const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
-
+  console.log('character',character)
   return (
    <div>
      <div className="fm:hidden">
@@ -47,7 +47,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
              <SectionWithSwiper images={character?.listImage ?? null} />
            </div>
          </div>
-         <div className="bg-[#191B2C] py-[15px] rounded-[32px] order-[-1] max-w-[475px] px-[20px] fm:relative fm:z-[10] fm:mt-[-225px] fm:bg-transparent fm:max-w-full">
+         <div className="bg-[#191B2C] py-[15px] overflow-x-hidden rounded-[32px] order-[-1] max-w-[475px] px-[20px] fm:relative fm:z-[10] fm:mt-[-225px] fm:bg-transparent fm:max-w-full">
            <SectionSelect />
            <div className="space-y-[12px] fm:space-y-[3.08vw]">
              {genderData.map(item => {

@@ -4,25 +4,17 @@ import { getPaymentPlans } from "@/app/shared/api/payment";
 import { getCharacterInfoById } from "@/app/shared/api";
 
 interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  const resolvedParams = await searchParams;
-  const character_id = Array.isArray(resolvedParams.character_id)
-    ? resolvedParams.character_id[0]
-    : resolvedParams.character_id ?? '8';
-
-  const [paymentPlans, character] = await Promise.all([
-    getPaymentPlans(),
-    getCharacterInfoById(character_id)
-  ]);
+  const {character_id} = await searchParams;
+  const paymentPlans =  await getPaymentPlans();
+  const character = await getCharacterInfoById(character_id ?? '8')
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-[#121423] rounded-[24px] py-[25px] px-[25px] w-[370px] mx-auto">
-        <Initpage paymentPlans={paymentPlans} character={character} />
-      </div>
+    <div className="bg-[#121423] rounded-[24px] p-[25px] fmLbg-transparent fm:p-0">
+      <Initpage paymentPlans={paymentPlans} character={character} />
     </div>
   );
 };
