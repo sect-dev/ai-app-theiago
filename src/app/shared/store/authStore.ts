@@ -26,7 +26,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 onAuthStateChanged(auth, async (firebaseUser) => {
   const setUser = useAuthStore.getState().setUser;
   const { setAuthModal } = useAuthStore.getState();
-  let email = localStorage.getItem('emailForSignIn');
+  const email = localStorage.getItem('emailForSignIn');
   if (isSignInWithEmailLink(auth, window.location.href)) {
     try {
       const result = await signInWithEmailLink(auth, email ?? '', window.location.href);
