@@ -218,11 +218,7 @@ export const registerAnonymousUser = async (token:string): Promise<void> => {
   }
 };
 
-
-export const handleEmailLinkAuth = async (
-  email?: string,
-): Promise<EmailLinkAuthResponse> => {
-
+export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuthResponse> => {
   const currentSearchParams = new URLSearchParams(window.location.search);
   currentSearchParams.set('action', 'auth_success');
 
@@ -252,3 +248,12 @@ export const handleEmailLinkAuth = async (
     };
     }
 };
+
+export const registerUserAfterPayment = async (email: string | null, url:string, token:string,) => {
+  try {
+    const response = await apiClient.get(`/register_paid_web_user?${url}&email=${email}&token=${token}`);
+    console.log('response',response)
+  } catch (error) {
+    console.log('error',error)
+  }
+}

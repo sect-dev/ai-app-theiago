@@ -22,12 +22,12 @@ const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    const emailForSignIn = localStorage.getItem("emailForSignIn");
+    // const emailForSignIn = localStorage.getItem("emailForSignIn");
     if(characterId) {
       const selectedCharacter = avatars.find(item => +item.id === +characterId) || null
       setSelectedCard(selectedCharacter ?? null)
     }
-    if(emailForSignIn && (action && action === 'subscription_success' || action === 'auth_success')) {
+    if((action && action === 'subscription_success' || action === 'auth_success')) {
       return setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
     }
     if (!accessToken) {

@@ -4,6 +4,7 @@ import { auth } from "@/firebase";
 import notification from "@/app/widgets/Notification";
 import {useSearchParams} from "next/navigation";
 import {FirebaseUser} from "@/app/shared/api/types/auth";
+import {registerUserAfterPayment} from "@/app/shared/api/auth";
 
 interface AuthState {
   user: User | null;
@@ -32,6 +33,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       const result = await signInWithEmailLink(auth, email ?? '', window.location.href);
       const user = result.user as FirebaseUser
       if(result) {
+        await registerUserAfterPayment(email,window.location.href, user.accessToken)
         localStorage.removeItem("uid");
         localStorage.removeItem("tempToken");
         localStorage.removeItem("emailForSignIn");
@@ -40,11 +42,11 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         return window.history.replaceState({}, document.title, window.location.pathname);
       }
     } catch (error) {
-      notification.open({
-        title: 'Error',
-        description: 'Your account is already registered',
-        type: 'error',
-      });
+      // notification.open({
+      //   title: 'Error',
+      //   description: 'Your account is already registered',
+      //   type: 'error',
+      // });
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }
