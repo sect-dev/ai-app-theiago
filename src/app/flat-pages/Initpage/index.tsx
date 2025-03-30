@@ -25,7 +25,7 @@ interface ComponentProps {
 }
 
 const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
-  console.log('character',character)
+
   return (
    <div>
      <div className="fm:hidden">
