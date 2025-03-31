@@ -8,9 +8,11 @@ import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithS
 import {startConversation} from "@/app/shared/api/mesages";
 import {mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
 import {useRouter} from "next/navigation";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 const SuccessAuth = () => {
   const {selectedCard,setCharacters} = useSelectedCardStore()
+  const {setSuccessPaymentModal} = usePaymentStore()
   const navigate = useRouter();
   const characterImage = selectedCard ? selectedCard.avatar : ImageDefault
 
@@ -24,6 +26,7 @@ const SuccessAuth = () => {
         const preparedCharacters = saveCharacterToLocalStorage(selectedCard,startChatMessages)
         setCharacters(preparedCharacters ?? null)
       }
+      setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
     } catch (error) {
       console.log(error)
     }
