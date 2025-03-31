@@ -5,6 +5,7 @@ import notification from "@/app/widgets/Notification";
 import {useSearchParams} from "next/navigation";
 import {FirebaseUser} from "@/app/shared/api/types/auth";
 import {registerUserAfterPayment} from "@/app/shared/api/auth";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface AuthState {
   user: User | null;
@@ -26,6 +27,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 onAuthStateChanged(auth, async (firebaseUser) => {
   const setUser = useAuthStore.getState().setUser;
+  const {setSuccessPaymentModal} = usePaymentStore.getState();
   const { setAuthModal } = useAuthStore.getState();
   const email = localStorage.getItem('emailForSignIn');
   if (isSignInWithEmailLink(auth, window.location.href)) {
@@ -50,8 +52,28 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }
+
   if (firebaseUser) {
     const token = await firebaseUser.getIdToken();
+
+    const isSocialLogin = firebaseUser.providerData.some(provider =>
+      provider.providerId === 'google.com' ||
+      provider.providerId === 'facebook.com' ||
+      provider.providerId === 'twitter.com'
+    );
+    // Если пользователь вошел через Google и есть параметр subscription_success в URL
+    if (isSocialLogin && window.location.search.includes('action=subscription_success')) {
+      const newUrl = window.location.href.replace(
+        'action=subscription_success',
+        'action=auth_success'
+      );
+      setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:"auth_success"})
+      localStorage.setItem("accessToken", token);
+      localStorage.removeItem("emailForSignIn");
+
+      return window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     if (firebaseUser.isAnonymous) {
       localStorage.setItem("uid", firebaseUser.uid);
       localStorage.setItem("tempToken", token);
