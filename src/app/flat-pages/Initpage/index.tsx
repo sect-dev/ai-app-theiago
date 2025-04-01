@@ -11,7 +11,7 @@ import SectionAdvantages from "@/app/flat-pages/Initpage/components/SectionAdvan
 import SectionPlans from "@/app/flat-pages/Initpage/components/SectionPlans";
 import PaymentDiscountBanner from "@/app/widgets/Payment/PaymentDiscountBanner";
 import {PaymentPlan} from "@/app/shared/api/payment";
-import {Character} from "@/app/shared/api/types";
+import { CharacterByConstructor} from "@/app/shared/api/types";
 
 const genderData = [
   {text: 'Calm introvert with charming personality', id: 2, image: IconGender},
@@ -21,7 +21,7 @@ const genderData = [
 
 interface ComponentProps {
   paymentPlans: PaymentPlan[]
-  character: Character | null
+  character: CharacterByConstructor | null
 }
 
 const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
@@ -33,7 +33,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
          <div className="w-full max-w-[365px] fm:order-[-1] fm:max-w-full">
            <div className="relative init-page-main h-[490px] fm:h-[120vw] sm:h-[150vw]">
              <Image
-               src={character?.avatar ?? ''}
+               src={character?.extra.avatar ?? ''}
                fill
                alt="image"
                className="object-cover rounded-[32px] fm:rounded-none"
@@ -41,11 +41,13 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
            </div>
            <div className="relative mt-[-100px] z-[5] pl-[15px] fm:hidden">
              <p className="text-[28px] font-bold text-center mb-[15px]">Get closer to her</p>
-             <SectionWithSwiper className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]" images={character?.listImage ?? null} />
+             <SectionWithSwiper className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]" images={character?.extra.listProfilePhoto ?? null} />
            </div>
          </div>
          <div className="bg-[#191B2C] py-[15px] overflow-x-hidden rounded-[32px] order-[-1] max-w-[475px] px-[20px] fm:relative fm:z-[10] fm:mt-[-225px] fm:bg-transparent fm:max-w-full">
-           <SectionSelect />
+           {character && (
+             <SectionSelect character={character}/>
+           )}
            <div className="space-y-[12px] fm:space-y-[3.08vw]">
              {genderData.map(item => {
                return (
@@ -63,7 +65,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
              })}
            </div>
            <div className="hidden fm:pt-[24px] fm:block">
-             <SectionWithSwiper images={character?.listImage ?? null} />
+             <SectionWithSwiper images={character?.extra.listProfilePhoto ?? null} />
            </div>
            <div className="hidden fm:py-[24px] fm:block">
              <PaymentDiscountBanner isMobileVersion />

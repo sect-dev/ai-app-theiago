@@ -1,11 +1,8 @@
 'use client'
 import React, {FC} from 'react';
 import Image from "next/image";
-import ImageGirl from '../../../../../public/images/img/initpage/image-init1.webp';
 import ArrowNav from '@/../public/images/icons/arrow-gradient.svg';
-import ImageGirl2 from '../../../../../public/images/img/initpage/image-init2.webp';
 import {Swiper, SwiperSlide} from "swiper/react";
-import { Swiper as SwiperRef } from "swiper";
 import { Navigation } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
