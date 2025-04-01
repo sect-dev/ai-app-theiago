@@ -30,7 +30,6 @@ export const getCharacterInfoById = async (id: string) => {
 export const getCharacterInfoByConstructor = async (id:string) => {
   try {
     const response = await apiClient.get(`/constructor_character_basic_info?character_id=${id}`)
-    console.log('response',JSON.parse(JSON.stringify(response.data)))
     return JSON.parse(JSON.stringify(response.data));
   } catch (error) {
     console.log('error',error)

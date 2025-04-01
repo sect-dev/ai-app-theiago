@@ -31,8 +31,8 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
     `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/2.png`,
     `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/3.png`,
     `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/4.png`,
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/5.png`,
   ]
-  console.log('swiperImages',swiperImages)
   return (
    <div>
      <div className="animate-fadeIn w-full mx-auto max-w-[840px] pt-[24px] fm:pt-0">
@@ -72,7 +72,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
              })}
            </div>
            <div className="hidden fm:pt-[24px] fm:block">
-             <SectionWithSwiper images={character?.extra.listProfilePhoto ?? null} />
+             <SectionWithSwiper images={swiperImages ?? null} />
            </div>
            <div className="hidden fm:py-[24px] fm:block">
              <PaymentDiscountBanner isMobileVersion />
