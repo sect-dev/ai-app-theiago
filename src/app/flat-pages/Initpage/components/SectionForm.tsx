@@ -10,7 +10,7 @@ const SectionForm = () => {
 
   return (
     <div id="form" className="py-[20px] space-y-[24px] fm:py-[5.33vw] sm:space-y-[6.40vw]">
-      <div className="w-full h-[800px] rounded-[20px] overflow-hidden">
+      <div className="w-full h-[1040px] rounded-[20px] overflow-hidden">
         <iframe
           width="100%"
           height="100%"
