@@ -6,6 +6,7 @@ import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 const SectionForm = () => {
   const {selectedPlan} = usePaymentStore()
+  const currentSearchParams = new URLSearchParams(window.location.search);
 
   return (
     <div id="form" className="py-[20px] space-y-[24px] fm:py-[5.33vw] sm:space-y-[6.40vw]">
@@ -13,7 +14,7 @@ const SectionForm = () => {
         <iframe
           width="100%"
           height="100%"
-          src={`https://production-payments.theaigo.com:8000/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&utm_source=utm_source&utm_medium=utm_medium&utm_campaign=utm_campaign&utm_content=utm_content&utm_term=utm_term`}
+          src={`https://production-payments.theaigo.com:8000/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${currentSearchParams}`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen

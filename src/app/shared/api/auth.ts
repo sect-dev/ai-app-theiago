@@ -249,10 +249,10 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
     }
 };
 
-export const registerUserAfterPayment = async (email: string | null, url:string, token:string,) => {
+export const registerUserAfterPayment = async (email: string | null, token: string) => {
   try {
-    const response = await apiClient.get(`/register_paid_web_user?${url}&email=${email}&token=${token}`);
-    console.log('response',response)
+    const currentSearchParams = new URLSearchParams(window.location.search);
+    await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
   } catch (error) {
     console.log('error',error)
   }
