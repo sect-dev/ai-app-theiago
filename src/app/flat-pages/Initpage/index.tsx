@@ -25,7 +25,14 @@ interface ComponentProps {
 }
 
 const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
-
+  const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated'
+  const swiperImages = [
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/1.png`,
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/2.png`,
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/3.png`,
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/4.png`,
+  ]
+  console.log('swiperImages',swiperImages)
   return (
    <div>
      <div className="animate-fadeIn w-full mx-auto max-w-[840px] pt-[24px] fm:pt-0">
@@ -41,7 +48,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
            </div>
            <div className="relative mt-[-100px] z-[5] pl-[15px] fm:hidden">
              <p className="text-[28px] font-bold text-center mb-[15px]">Get closer to her</p>
-             <SectionWithSwiper className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]" images={character?.extra.listProfilePhoto ?? null} />
+             <SectionWithSwiper className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]" images={swiperImages ?? null} />
            </div>
          </div>
          <div className="bg-[#191B2C] py-[15px] overflow-x-hidden rounded-[32px] order-[-1] max-w-[475px] px-[20px] fm:relative fm:z-[10] fm:mt-[-225px] fm:bg-transparent fm:max-w-full">
