@@ -2,7 +2,7 @@ import {apiClient} from "@/app/shared/api/index";
 import {cookies} from "next/headers";
 
 export const getCharactersList = async () => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('accessToken')?.value || cookieStore.get('tempToken')?.value;
 
   try {
