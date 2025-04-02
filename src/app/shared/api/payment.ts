@@ -49,7 +49,7 @@ export const getTokenPackageInfo = async (): Promise<StrictTokenPackage[] | null
     const response = await axios.get<Record<string, StrictTokenPackage>>(
       'https://production-payments.theaigo.com:8000/products?place=tokens-paywall'
     );
-    const data = response.data as StrictTokenPackage[];
+    const data = response.data
     return Object.values(data);
   } catch (error) {
     console.error('Error:', error instanceof Error ? error.message : 'Unknown error');
