@@ -25,6 +25,7 @@ interface ComponentProps {
 }
 
 const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
+  console.log('character',character)
   const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated'
   const swiperImages = [
     `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/1.png`,
@@ -40,7 +41,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
          <div className="w-full max-w-[365px] fm:order-[-1] fm:max-w-full">
            <div className="relative init-page-main h-[490px] fm:h-[120vw] sm:h-[150vw]">
              <Image
-               src={character?.extra.avatar ?? ''}
+               src={character?.extra.imageZero ?? ''}
                fill
                alt="image"
                className="object-cover rounded-[32px] fm:rounded-none"

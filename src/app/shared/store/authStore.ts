@@ -5,6 +5,7 @@ import { auth } from "@/firebase";
 import {FirebaseUser} from "@/app/shared/api/types/auth";
 import {registerUserAfterPayment} from "@/app/shared/api/auth";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {deleteCookie, setCookie} from "cookies-next";
 
 interface AuthState {
   user: User | null;
@@ -38,7 +39,9 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         localStorage.removeItem("uid");
         localStorage.removeItem("tempToken");
         localStorage.removeItem("emailForSignIn");
+        deleteCookie('tempToken')
         localStorage.setItem("accessToken", user.accessToken);
+        setCookie('accessToken',user.accessToken)
         setUser(user);
         return window.history.replaceState({}, document.title, window.location.pathname);
       }
@@ -76,12 +79,15 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     if (firebaseUser.isAnonymous) {
       localStorage.setItem("uid", firebaseUser.uid);
       localStorage.setItem("tempToken", token);
+      setCookie('tempToken',token)
       setUser(firebaseUser);
     } else {
       localStorage.removeItem("uid");
       localStorage.removeItem("tempToken");
       localStorage.removeItem("emailForSignIn");
+      deleteCookie('tempToken')
       localStorage.setItem("accessToken", token);
+      setCookie('accessToken',token)
       setAuthModal({ modalType: null, isAuthModalActive: false });
       setUser(firebaseUser);
     }
@@ -90,7 +96,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     localStorage.removeItem("tempToken");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("emailForSignIn");
+    deleteCookie('accessToken')
     setUser(null);
   }
 });
-

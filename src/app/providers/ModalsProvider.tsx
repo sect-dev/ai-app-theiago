@@ -8,11 +8,12 @@ const AuthModal = dynamic(() => import('@/app/widgets/Modals/AuthModal'), { ssr:
 const PaymentModal = dynamic(() => import('@/app/widgets/Modals/PaymentModal'), { ssr: false })
 const QrModal = dynamic(() => import('@/app/widgets/Modals/QrModal'), { ssr: false })
 const SuccessPaymentModal = dynamic(() => import('@/app/widgets/Modals/SuccessPaymentModal'), { ssr: false })
+const TokensModal = dynamic(() => import('@/app/widgets/Modals/TokensModal'), { ssr: false })
 
 export default function ModalsProvider() {
   const { isAuthModalActive } = useAuthStore()
   const { isQrModalActive } = useSelectedCardStore()
-  const { isPaymentModalActive, isSuccessPaymentModalActive } = usePaymentStore()
+  const { isPaymentModalActive, isSuccessPaymentModalActive, isTokensModalActive } = usePaymentStore()
 
   return (
     <>
@@ -20,6 +21,7 @@ export default function ModalsProvider() {
       {isPaymentModalActive && <PaymentModal />}
       {isSuccessPaymentModalActive && <SuccessPaymentModal />}
       {isQrModalActive && <QrModal />}
+      {isTokensModalActive && <TokensModal />}
     </>
   )
 }

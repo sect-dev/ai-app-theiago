@@ -44,7 +44,7 @@ const Card:FC<ComponentProps> = ({avatar}) => {
       })}
     >
       <Image
-        src={`${avatar.avatar}?format=webp&quality=95&width=400`}
+        src={`${avatar.avatar}?format=webp&quality=95&width=600`}
         fill
         sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
         alt="image"

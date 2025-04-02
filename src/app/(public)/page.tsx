@@ -1,8 +1,8 @@
 import React from 'react';
 import HomePage from "@/app/flat-pages/Homepage";
-import {getCharactersList} from "@/app/shared/api";
 import {Character} from "@/app/shared/api/types";
 import {PaymentModalType} from "@/app/shared/store/paymentStore";
+import {getCharactersList} from "@/app/shared/api/characters";
 
 interface PageProps {
   searchParams: Promise<{ action: PaymentModalType | null, character_id: string | null }>;
