@@ -14,7 +14,14 @@ import IconFacebook from "@/../public/images/icons/icon-fb.webp";
 import IconGoogle from "@/../public/images/icons/icon-google.svg";
 import ImageDefault from '@/../public/images/img/payment/image-no-char-id.webp';
 
-import {handleEmailLinkAuth, signInWithFacebook, signInWithGoogle, signInWithX} from "@/app/shared/api/auth";
+import {
+  handleEmailLinkAuth,
+  registerUserAfterPayment,
+  signInWithFacebook,
+  signInWithGoogle,
+  signInWithX
+} from "@/app/shared/api/auth";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface FormData {
   email: string;
@@ -25,16 +32,20 @@ interface FormData {
 // }
 
 const SuccessPayment = () => {
-  const {selectedCard} = useSelectedCardStore()
+  const {charFromPaywall} = useSelectedCardStore()
+  const {user} = useAuthStore()
+  const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
   const [loading,setLoading] = useState<boolean>(false)
   // const [authError, setAuthError] = useState<string | null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
-  const characterImage = selectedCard ? selectedCard.avatar : ImageDefault
-
+  const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
+  console.log('user',user)
   const onSubmit = async (data: FormData) => {
     setLoading(true)
     try {
       const resp = await handleEmailLinkAuth(data.email)
+      const x = await registerUserAfterPayment('test@mail.ru', 'xx')
+      console.log('x',x)
       if(resp && resp?.success) {
         notification.open({
           title: 'Message sent',
@@ -47,8 +58,6 @@ const SuccessPayment = () => {
     } finally {
       setLoading(false)
     }
-
-
   };
 
   const onGoogleSignInHandler = async () => {

@@ -1,16 +1,21 @@
 import { create } from "zustand";
-import {Character, PreparedAvatar} from "@/app/shared/api/types";
+import {Character, CharacterByConstructor, PreparedAvatar} from "@/app/shared/api/types";
 
-const loadCharactersFromLocalStorage = (): PreparedAvatar[] | null => {
-  if (typeof window === "undefined") return null;
+const loadCharactersFromLocalStorage = (): { mainChar: PreparedAvatar[] | null, tempChar: CharacterByConstructor | null } => {
+  if (typeof window === "undefined") return { mainChar: null, tempChar: null };
   const storedCharacters = localStorage.getItem("chatStartedCharacters");
-  return storedCharacters ? JSON.parse(storedCharacters) : null;
+  const storedCharFromPaywall = localStorage.getItem('charFromPaywall')
+  return {
+    mainChar: storedCharacters ? JSON.parse(storedCharacters) : null,
+    tempChar: storedCharFromPaywall? JSON.parse(storedCharFromPaywall) : null
+  }
 };
 
 interface SelectedCardState {
   selectedCard: Character | null;
   selectedTag: string | null;
   characterInfoCollapse: boolean
+  charFromPaywall: CharacterByConstructor | null
   isQrModalActive: boolean
   characters: PreparedAvatar[] | null;
   isMobileChatOpen: boolean
@@ -22,6 +27,7 @@ interface SelectedCardState {
   setMobileChatOpen:(value: boolean) => void
   setMobileInfoOpen:(value: boolean) => void
   setQrModal: (isQrModalActive:boolean) => void,
+  setPaywallCharacter: (value: CharacterByConstructor | null) => void
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
@@ -34,7 +40,8 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     isMobileChatOpen: false,
     isMobileInfoOpen: false,
     isQrModalActive: false,
-    characters: initialCharacters,
+    characters: initialCharacters.mainChar,
+    charFromPaywall: initialCharacters.tempChar,
     setSelectedCard: (card) => set({ selectedCard: card }),
     setSelectedTag: (tag) => set({ selectedTag: tag }),
     setCharacters: (characters) => set({ characters }),
@@ -42,5 +49,6 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     setMobileChatOpen:(isMobileChatOpen: boolean) => set({isMobileChatOpen}),
     setMobileInfoOpen:(isMobileInfoOpen: boolean) => set({isMobileInfoOpen}),
     setQrModal: (isQrModalActive:boolean) => set({ isQrModalActive}),
+    setPaywallCharacter: (charFromPaywall) => set({charFromPaywall})
   };
 });

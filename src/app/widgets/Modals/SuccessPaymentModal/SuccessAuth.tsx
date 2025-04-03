@@ -9,28 +9,33 @@ import {startConversation} from "@/app/shared/api/mesages";
 import {mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
 import {useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {useAuthStore} from "@/app/shared/store/authStore";
+import {useForm} from "react-hook-form";
 
 const SuccessAuth = () => {
-  const {selectedCard,setCharacters} = useSelectedCardStore()
-  const {setSuccessPaymentModal} = usePaymentStore()
+  const {charFromPaywall,setCharacters} = useSelectedCardStore();
+  const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
+  const {user} = useAuthStore();
+  const {setSuccessPaymentModal} = usePaymentStore();
   const navigate = useRouter();
-  const characterImage = selectedCard ? selectedCard.avatar : ImageDefault
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
 
-  const handleStartChat = async () => {
-    try {
-      if(selectedCard) {
-        const startChat = await startConversation({userId: 'id', characterId: selectedCard?.id.toString() ?? null})
-        const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-
-        navigate.replace(`/chats/${selectedCard?.id}`);
-        const preparedCharacters = saveCharacterToLocalStorage(selectedCard,startChatMessages)
-        setCharacters(preparedCharacters ?? null)
-      }
-      setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const handleStartChat = async () => {
+  //   try {
+  //     if(charFromPaywall) {
+  //       const startChat = await startConversation({userId: user.uid ?? 'id', characterId: charFromPaywall?.id.toString() ?? null})
+  //       const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
+  //
+  //       navigate.replace(`/chats/${charFromPaywall?.id}`);
+  //       const preparedCharacters = saveCharacterToLocalStorage(selectedCard,startChatMessages)
+  //       setCharacters(preparedCharacters ?? null)
+  //     }
+  //     setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   return (
     <div className="flex justify-between bg-[#121423] rounded-[24px] overflow-hidden  sm:overflow-visible sm:h-auto">
@@ -56,7 +61,7 @@ const SuccessAuth = () => {
           className="object-cover"
         />
         <p className="font-semibold font-bai-jamjuree block leading-[1.2em] text-[20px] max-w-[70%] tracking-[0.01em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]">
-          {selectedCard?.name} is eager to talk with you!
+          {charFromPaywall?.name} is eager to talk with you!
         </p>
       </div>
       <div className="w-full  p-[20px] sm:relative sm:z-[5] sm:flex sm:flex-col sm:items-center sm:mt-[-200px] sm:justify-center sm:h-full">
@@ -72,11 +77,15 @@ const SuccessAuth = () => {
         <div>
           <p className="text-[#B5B5B5] font-medium text-[16px]">Look at me!</p>
           <div className="pt-[12px] mb-[24px] max-w-[300px]">
-            <SectionWithSwiper className="!h-[166px] fm:!h-[55.87vw] !rounded-[12px]" slidesPerView={2.2} images={selectedCard?.listImage ?? null} />
+            <SectionWithSwiper
+              className="!h-[166px] fm:!h-[55.87vw] !rounded-[12px]"
+              slidesPerView={2.2}
+              character={charFromPaywall ?? null}
+            />
           </div>
           <button
-            onClick={handleStartChat}
-            className="main-gradient w-full text-[15px] h-[40px] rounded-[12px]"
+            // onClick={handleStartChat}
+            className="main-gradient w-=ull text-[15px] h-[40px] rounded-[12px]"
           >
             <span className="relative z-[5]">Start chat</span>
           </button>

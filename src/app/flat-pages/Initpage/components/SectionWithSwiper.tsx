@@ -8,14 +8,23 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import clsx from "clsx";
+import {CharacterByConstructor} from "@/app/shared/api/types";
 
 interface ComponentProps {
-  images: string[] | null
+  character: CharacterByConstructor | null
   className?: string
   slidesPerView?: number | 'auto'
 }
 
-const SectionWithSwiper:FC<ComponentProps> = ({images,className,slidesPerView= 1.2}) => {
+const SectionWithSwiper:FC<ComponentProps> = ({character,className,slidesPerView= 1.2}) => {
+
+  const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated'
+  const images = [
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/2.png`,
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/3.png`,
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/4.png`,
+  ]
+
   return (
     <Swiper
       slidesPerView={slidesPerView ?? 'auto'}
@@ -27,7 +36,7 @@ const SectionWithSwiper:FC<ComponentProps> = ({images,className,slidesPerView= 1
       }}
 
     >
-      {images && images?.map(item => {
+      {images && images?.map((item) => {
         return (
           <SwiperSlide key={item} className={clsx(" overflow-hidden ",className)}>
             <Image

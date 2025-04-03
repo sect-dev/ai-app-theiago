@@ -1,4 +1,5 @@
-import React, {FC} from 'react';
+'use client'
+import React, {FC, useEffect} from 'react';
 import Image from "next/image";
 import IconGender from '@/../public/images/icons/icon-gender.svg';
 import IconPaypal from '@/../public/images/icons/payment/icon-paypal.svg';
@@ -25,15 +26,14 @@ interface ComponentProps {
 }
 
 const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
-  console.log('character',character)
-  const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated'
-  const swiperImages = [
-    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/1.png`,
-    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/2.png`,
-    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/3.png`,
-    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/4.png`,
-    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/5.png`,
-  ]
+  const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
+
+  const mainImage = `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/1.png`;
+  console.log('mainImage',mainImage)
+  useEffect(() => {
+    localStorage.setItem('charFromPaywall', JSON.stringify(character))
+  }, [])
+
   return (
    <div>
      <div className="animate-fadeIn w-full mx-auto max-w-[840px] pt-[24px] fm:pt-0">
@@ -41,7 +41,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
          <div className="w-full max-w-[365px] fm:order-[-1] fm:max-w-full">
            <div className="relative init-page-main h-[490px] fm:h-[120vw] sm:h-[150vw]">
              <Image
-               src={character?.extra.imageZero ?? ''}
+               src={mainImage ?? ''}
                fill
                alt="image"
                className="object-cover rounded-[32px] fm:rounded-none"
@@ -49,7 +49,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
            </div>
            <div className="relative mt-[-100px] z-[5] pl-[15px] fm:hidden">
              <p className="text-[28px] font-bold text-center mb-[15px]">Get closer to her</p>
-             <SectionWithSwiper className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]" images={swiperImages ?? null} />
+             <SectionWithSwiper className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]" character={character ?? null} />
            </div>
          </div>
          <div className="bg-[#191B2C] py-[15px] overflow-x-hidden rounded-[32px] order-[-1] max-w-[475px] px-[20px] fm:relative fm:z-[10] fm:mt-[-225px] fm:bg-transparent fm:max-w-full">
@@ -73,7 +73,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
              })}
            </div>
            <div className="hidden fm:pt-[24px] fm:block">
-             <SectionWithSwiper images={swiperImages ?? null} />
+             <SectionWithSwiper character={character ?? null} />
            </div>
            <div className="hidden fm:py-[24px] fm:block">
              <PaymentDiscountBanner isMobileVersion />

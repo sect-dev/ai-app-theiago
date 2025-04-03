@@ -9,6 +9,7 @@ import {useRouter} from "next/navigation";
 import {getMessageSize, mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
 import {startConversation} from "@/app/shared/api/mesages";
 import Spinner from "@/app/widgets/Spinner";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface ComponentProps {
   avatar: Character
@@ -17,12 +18,13 @@ interface ComponentProps {
 const Card:FC<ComponentProps> = ({avatar}) => {
   const [isPending, startTransition] = useTransition();
   const { setSelectedCard, setCharacters } = useSelectedCardStore();
+  const {user} = useAuthStore()
   const navigate = useRouter()
 
   const handleClick = async (avatar: Character) => {
     setSelectedCard(avatar);
     try {
-      const startChat = await startConversation({userId: 'id', characterId: avatar.id.toString()})
+      const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: avatar.id.toString()})
       const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
 
       startTransition(() => {
