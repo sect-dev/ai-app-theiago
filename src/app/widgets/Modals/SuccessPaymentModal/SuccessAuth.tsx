@@ -23,12 +23,12 @@ const SuccessAuth = () => {
     try {
       if(charFromPaywall && allCharacters) {
         const selectedCharacter = allCharacters.find(item => +item.id === +charFromPaywall.character_id)
-        console.log('selectedCharacter',selectedCharacter)
+      
         const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
         const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
 
         navigate.replace(`/chats/${charFromPaywall?.character_id}`);
-        const preparedCharacters = saveCharacterToLocalStorage(selectedCharacter,startChatMessages)
+        const preparedCharacters = selectedCharacter && saveCharacterToLocalStorage(selectedCharacter,startChatMessages)
         setCharacters(preparedCharacters ?? null)
       }
       setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
