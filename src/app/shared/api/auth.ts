@@ -250,12 +250,12 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
 };
 
 export const registerUserAfterPayment = async (email: string | null, token: string) => {
-  const tempToken = localStorage.getItem('tempToken')
-  const accessToken = localStorage.getItem('accessToken')
-  const tokenn = accessToken ? accessToken : tempToken
+  // const tempToken = localStorage.getItem('tempToken')
+  // const accessToken = localStorage.getItem('accessToken')
+  // const tokenn = accessToken ? accessToken : tempToken
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
-    await apiClient.get(`/register_paid_web_user?token=${tokenn}&${currentSearchParams}&email=${email}`);
+    await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
   } catch (error) {
     console.log('error',error)
   }

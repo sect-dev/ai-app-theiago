@@ -39,13 +39,12 @@ const SuccessPayment = () => {
   // const [authError, setAuthError] = useState<string | null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
-  console.log('user',user)
+
   const onSubmit = async (data: FormData) => {
     setLoading(true)
     try {
       const resp = await handleEmailLinkAuth(data.email)
-      const x = await registerUserAfterPayment('test@mail.ru', 'xx')
-      console.log('x',x)
+
       if(resp && resp?.success) {
         notification.open({
           title: 'Message sent',

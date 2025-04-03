@@ -34,6 +34,8 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     try {
       const result = await signInWithEmailLink(auth, email ?? '', window.location.href);
       const user = result.user as FirebaseUser
+      console.log('user',user)
+      console.log('result',result)
       if(result) {
         await registerUserAfterPayment(email, user.accessToken)
         localStorage.removeItem("uid");
@@ -43,6 +45,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         localStorage.setItem("accessToken", user.accessToken);
         setCookie('accessToken',user.accessToken)
         setUser(user);
+        console.log('1')
         return window.history.replaceState({}, document.title, window.location.pathname);
       }
     } catch (error) {
