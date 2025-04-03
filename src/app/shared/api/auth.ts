@@ -250,8 +250,8 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
 };
 
 export const registerUserAfterPayment = async (email: string | null, token: string) => {
-  const tempToken = localStorage.get('tempToken')
-  const accessToken = localStorage.get('accessToken')
+  const tempToken = localStorage.getItem('tempToken')
+  const accessToken = localStorage.getItem('accessToken')
   const tokenn = accessToken ? accessToken : tempToken
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
