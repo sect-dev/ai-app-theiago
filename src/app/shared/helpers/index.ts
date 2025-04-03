@@ -1,4 +1,4 @@
-import {Character, Message, PreparedAvatar} from "@/app/shared/api/types";
+import {Character, CharacterByConstructor, Message, PreparedAvatar} from "@/app/shared/api/types";
 
 export const saveCharacterToLocalStorage = (avatar: Character, messages: Message[]) => {
   if (typeof window !== "undefined") {
@@ -16,6 +16,38 @@ export const saveCharacterToLocalStorage = (avatar: Character, messages: Message
       const newCharacter = {
         id: avatar.id,
         image: avatar.avatar,
+        listMsgs: messages,
+        name: avatar.name,
+        photos: startImageUrl ? [startImageUrl] : [],
+        videos: [],
+        lastMessageTime: currentTime,
+        startPhotosCount: 0
+      };
+      characters.push(newCharacter);
+    }
+    localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
+    return characters
+  }
+};
+
+export const saveCharacterToLocalStorageFromConstructor = (avatar: CharacterByConstructor, messages: Message[]) => {
+  if (typeof window !== "undefined") {
+    const storedIds = localStorage.getItem("chatStartedCharacters");
+    const characters: PreparedAvatar[] = storedIds ? JSON.parse(storedIds) : [];
+    const currentTime = new Date();
+    const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
+    const mainImage = `${baseUrl}/${avatar?.style}/${avatar?.ethnicity}/${avatar?.body_type}/1.png`;
+
+    const startImage = messages.find(item => item.type === 'image')
+
+    const startImageUrl = typeof startImage?.url === "string"
+      ? startImage.url
+      : startImage?.url?.en ?? '';
+
+    if (!characters.some(a => +a.id === +avatar.character_id)) {
+      const newCharacter = {
+        id: +avatar.character_id,
+        image: mainImage,
         listMsgs: messages,
         name: avatar.name,
         photos: startImageUrl ? [startImageUrl] : [],

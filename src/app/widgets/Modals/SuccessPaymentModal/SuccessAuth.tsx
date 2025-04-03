@@ -6,7 +6,11 @@ import ImageDecor1 from '@/../public/images/icons/payment/icon-decor1.png';
 import ImageDecor2 from '@/../public/images/icons/payment/icon-decor2.png';
 import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
 import {startConversation} from "@/app/shared/api/mesages";
-import {mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
+import {
+  mapBackendMessagesToMessages,
+  saveCharacterToLocalStorage,
+  saveCharacterToLocalStorageFromConstructor
+} from "@/app/shared/helpers";
 import {useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
 import {useAuthStore} from "@/app/shared/store/authStore";
@@ -18,17 +22,15 @@ const SuccessAuth = () => {
   const {setSuccessPaymentModal} = usePaymentStore();
   const navigate = useRouter();
   const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
-  console.log('allCharacters',allCharacters)
+
   const handleStartChat = async () => {
     try {
       if(charFromPaywall && allCharacters) {
-        const selectedCharacter = allCharacters.find(item => +item.id === +charFromPaywall.character_id)
-      
         const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
         const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
 
         navigate.replace(`/chats/${charFromPaywall?.character_id}`);
-        const preparedCharacters = selectedCharacter && saveCharacterToLocalStorage(selectedCharacter,startChatMessages)
+        const preparedCharacters = saveCharacterToLocalStorageFromConstructor(charFromPaywall,startChatMessages)
         setCharacters(preparedCharacters ?? null)
       }
       setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
