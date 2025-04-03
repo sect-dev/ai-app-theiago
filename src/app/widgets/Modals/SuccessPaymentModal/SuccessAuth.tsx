@@ -21,13 +21,15 @@ const SuccessAuth = () => {
   console.log('allCharacters',allCharacters)
   const handleStartChat = async () => {
     try {
-      if(charFromPaywall) {
+      if(charFromPaywall && allCharacters) {
+        const selectedCharacter = allCharacters.find(item => +item.id === +charFromPaywall.character_id)
+        console.log('selectedCharacter',selectedCharacter)
         const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
         const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
 
         navigate.replace(`/chats/${charFromPaywall?.character_id}`);
-        // const preparedCharacters = saveCharacterToLocalStorage(selectedCard,startChatMessages)
-        // setCharacters(preparedCharacters ?? null)
+        const preparedCharacters = saveCharacterToLocalStorage(selectedCharacter,startChatMessages)
+        setCharacters(preparedCharacters ?? null)
       }
       setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
     } catch (error) {
@@ -82,7 +84,7 @@ const SuccessAuth = () => {
             />
           </div>
           <button
-            // onClick={handleStartChat}
+            onClick={handleStartChat}
             className="main-gradient block w-full text-[15px] h-[40px] rounded-[12px]"
           >
             <span className="relative z-[5]">Start chat</span>
