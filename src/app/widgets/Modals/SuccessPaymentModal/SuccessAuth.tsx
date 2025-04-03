@@ -22,12 +22,12 @@ const SuccessAuth = () => {
   const handleStartChat = async () => {
     try {
       if(charFromPaywall) {
-        const startChat = await startConversation({userId: user.uid ?? 'id', characterId: charFromPaywall?.id.toString() ?? null})
+        const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
         const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
 
-        navigate.replace(`/chats/${charFromPaywall?.id}`);
-        const preparedCharacters = saveCharacterToLocalStorage(selectedCard,startChatMessages)
-        setCharacters(preparedCharacters ?? null)
+        navigate.replace(`/chats/${charFromPaywall?.character_id}`);
+        // const preparedCharacters = saveCharacterToLocalStorage(selectedCard,startChatMessages)
+        // setCharacters(preparedCharacters ?? null)
       }
       setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
     } catch (error) {
