@@ -15,22 +15,24 @@ interface ComponentProps {
 
 const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
   const {setSuccessPaymentModal} = usePaymentStore()
-  const {setSelectedCard} = useSelectedCardStore()
+  const {setSelectedCard, setAllCharacters} = useSelectedCardStore()
   const favoriteAvatars = avatars.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position)
   const simpleAvatars = avatars.filter(item => item.tags).filter(item => !item.top_horizontal_list_position).sort((a,b) => a.position - b.position)
   const tags: string[] = Array.from(new Set(simpleAvatars.flatMap(avatar => avatar.tags ?? [])));
-  console.log('avatars',avatars)
+
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
+    const tempToken = localStorage.getItem("tempToken");
     // const emailForSignIn = localStorage.getItem("emailForSignIn");
     if(characterId) {
       const selectedCharacter = avatars.find(item => +item.id === +characterId) || null
       setSelectedCard(selectedCharacter ?? null)
+      setAllCharacters(avatars)
     }
     if((action && action === 'subscription_success' || action === 'auth_success')) {
       return setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
     }
-    if (!accessToken) {
+    if (!accessToken && !tempToken) {
       signInAnonymouslyHandler();
     }
   }, []);

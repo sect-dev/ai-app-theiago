@@ -29,7 +29,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
   const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
 
   const mainImage = `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/1.png`;
-  console.log('mainImage',mainImage)
+
   useEffect(() => {
     localStorage.setItem('charFromPaywall', JSON.stringify(character))
   }, [])

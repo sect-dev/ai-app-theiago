@@ -13,6 +13,7 @@ const loadCharactersFromLocalStorage = (): { mainChar: PreparedAvatar[] | null, 
 
 interface SelectedCardState {
   selectedCard: Character | null;
+  allCharacters: Character[] | null
   selectedTag: string | null;
   characterInfoCollapse: boolean
   charFromPaywall: CharacterByConstructor | null
@@ -28,6 +29,7 @@ interface SelectedCardState {
   setMobileInfoOpen:(value: boolean) => void
   setQrModal: (isQrModalActive:boolean) => void,
   setPaywallCharacter: (value: CharacterByConstructor | null) => void
+  setAllCharacters: (value: Character[] | null) => void
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
@@ -35,6 +37,7 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
 
   return {
     selectedCard: null,
+    allCharacters: null,
     selectedTag: null,
     characterInfoCollapse: false,
     isMobileChatOpen: false,
@@ -49,6 +52,7 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     setMobileChatOpen:(isMobileChatOpen: boolean) => set({isMobileChatOpen}),
     setMobileInfoOpen:(isMobileInfoOpen: boolean) => set({isMobileInfoOpen}),
     setQrModal: (isQrModalActive:boolean) => set({ isQrModalActive}),
-    setPaywallCharacter: (charFromPaywall) => set({charFromPaywall})
+    setPaywallCharacter: (charFromPaywall) => set({charFromPaywall}),
+    setAllCharacters: (allCharacters: Character[] | null) => set({allCharacters})
   };
 });

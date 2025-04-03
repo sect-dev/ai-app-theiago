@@ -10,32 +10,30 @@ import {mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/s
 import {useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
 import {useAuthStore} from "@/app/shared/store/authStore";
-import {useForm} from "react-hook-form";
 
 const SuccessAuth = () => {
-  const {charFromPaywall,setCharacters} = useSelectedCardStore();
+  const {charFromPaywall,setCharacters,allCharacters} = useSelectedCardStore();
   const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
   const {user} = useAuthStore();
   const {setSuccessPaymentModal} = usePaymentStore();
   const navigate = useRouter();
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
+  console.log('allCharacters',allCharacters)
+  const handleStartChat = async () => {
+    try {
+      if(charFromPaywall) {
+        const startChat = await startConversation({userId: user.uid ?? 'id', characterId: charFromPaywall?.id.toString() ?? null})
+        const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
 
-  // const handleStartChat = async () => {
-  //   try {
-  //     if(charFromPaywall) {
-  //       const startChat = await startConversation({userId: user.uid ?? 'id', characterId: charFromPaywall?.id.toString() ?? null})
-  //       const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-  //
-  //       navigate.replace(`/chats/${charFromPaywall?.id}`);
-  //       const preparedCharacters = saveCharacterToLocalStorage(selectedCard,startChatMessages)
-  //       setCharacters(preparedCharacters ?? null)
-  //     }
-  //     setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+        navigate.replace(`/chats/${charFromPaywall?.id}`);
+        const preparedCharacters = saveCharacterToLocalStorage(selectedCard,startChatMessages)
+        setCharacters(preparedCharacters ?? null)
+      }
+      setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="flex justify-between bg-[#121423] rounded-[24px] overflow-hidden  sm:overflow-visible sm:h-auto">
@@ -85,7 +83,7 @@ const SuccessAuth = () => {
           </div>
           <button
             // onClick={handleStartChat}
-            className="main-gradient w-=ull text-[15px] h-[40px] rounded-[12px]"
+            className="main-gradient block w-full text-[15px] h-[40px] rounded-[12px]"
           >
             <span className="relative z-[5]">Start chat</span>
           </button>
