@@ -76,6 +76,40 @@ export interface Character {
   top_horizontal_list_position: number;
 }
 
+export interface CharacterByConstructor {
+  created_at: number;
+  name: string;
+  style: string;
+  hair_color: string;
+  body_type: string;
+  ethnicity: string;
+  breast_type: string;
+  butt_type: string;
+  occupation: string;
+  legs_clothing: string;
+  age: string;
+  receive_voice_messages: boolean;
+  voice_type: string;
+  personality: string;
+  topics_of_interests: string[];
+  receive_video_messages: boolean;
+  explicit_content: boolean;
+  generation_complete: boolean;
+  extra: {
+    avatar: string;
+    sdName: string;
+    imageZero: string;
+    audioHello: {
+      [key: string]: string;
+    };
+    character_age: number;
+    final_occupation: string;
+    generation_start: number;
+    listProfilePhoto: string[];
+  };
+  character_id: string;
+}
+
 type UrlType = string | { en: string };
 
 export interface Message {

@@ -9,11 +9,14 @@ import {
   signInAnonymously,
   linkWithCredential,
   EmailAuthProvider,
-  TwitterAuthProvider
+  TwitterAuthProvider,
+  sendSignInLinkToEmail,
+  AuthError,
+  fetchSignInMethodsForEmail
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
-import {FirebaseUser} from "@/app/shared/api/types/auth";
+import {EmailLinkAuthResponse, FirebaseUser} from "@/app/shared/api/types/auth";
 import {apiClient} from "@/app/shared/api/index";
 import {useAuthStore} from "@/app/shared/store/authStore";
 
@@ -53,7 +56,7 @@ export const signUpWithEmailAndPassword = async (email: string, password: string
       return user;
     }
   } catch (error) {
-    console.error("Ошибка регистрации:", error);
+    console.error("Registration error:", error);
     throw error;
   }
 };
@@ -71,7 +74,7 @@ export const signInWithEmailAndPasswordHandler = async (email: string, password:
 
     return user;
   } catch (error) {
-    console.error("Ошибка авторизации:", error);
+    console.error("Authorization error:", error);
     throw error;
   }
 };
@@ -86,7 +89,7 @@ export const resetPasswordHandler = async (email: string) => {
     if (error instanceof Error) {
       return { success: false, message: error.message };
     }
-    return { success: false, message: "Произошла неизвестная ошибка" };
+    return { success: false, message: "An unknown error occurred" };
   }
 };
 
@@ -196,24 +199,64 @@ export const signInAnonymouslyHandler = async () => {
       const token = await user.getIdToken();
       localStorage.setItem("uid", user.uid);
       localStorage.setItem("tempToken", token);
-      await registerAnonymousUser();
+      await registerAnonymousUser(token);
       return;
     }
   } catch (error) {
-    console.error("Ошибка анонимной авторизации:", error);
+    console.error("Anonymous authorization error:", error);
     throw error;
   }
 };
 
-export const registerAnonymousUser = async (): Promise<void> => {
+export const registerAnonymousUser = async (token:string): Promise<void> => {
   try {
-    await apiClient.get('/register_anonymous_web_user');
+    await apiClient.get(`/register_anonymous_web_user?token=${token}`);
     return;
   } catch (error) {
-    console.error('Ошибка при регистрации анонимного пользователя:', error);
+    console.error('Error registering anonymous user:', error);
     return;
   }
 };
 
+export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuthResponse> => {
+  const currentSearchParams = new URLSearchParams(window.location.search);
+  currentSearchParams.set('action', 'auth_success');
 
+  const redirectUrl = `${window.location.origin}${window.location.pathname}?${currentSearchParams.toString()}`;
 
+  if (!email) throw new Error("Email is required");
+
+  try {
+    const actionCodeSettings = {
+      url: redirectUrl,
+      handleCodeInApp: true,
+    };
+
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    window.localStorage.setItem('emailForSignIn', email);
+
+    return {
+      success: true,
+      message: "Ссылка для входа отправлена на ваш email"
+    };
+  } catch (error) {
+    const firebaseError = error as AuthError;
+    console.error("Email link sending error:", firebaseError);
+    return {
+      success: false,
+      message: firebaseError.message || "Ошибка отправки ссылки"
+    };
+    }
+};
+
+export const registerUserAfterPayment = async (email: string | null, token: string) => {
+  const tempToken = localStorage.getItem('tempToken')
+  const accessToken = localStorage.getItem('accessToken')
+  const tokenn = accessToken ? accessToken : tempToken
+  try {
+    const currentSearchParams = new URLSearchParams(window.location.search);
+    await apiClient.get(`/register_paid_web_user?token=${tokenn}&${currentSearchParams}&email=${email}`);
+  } catch (error) {
+    console.log('error',error)
+  }
+}

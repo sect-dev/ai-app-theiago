@@ -71,3 +71,8 @@ export const mapBackendMessagesToMessages = (backendMessages: BackendMessage[]):
     return message;
   });
 };
+
+export function calculateCostPerDay(totalCost: number, daysCount: number): number {
+  const costPerDay = totalCost / daysCount;
+  return parseFloat(costPerDay.toFixed(2));
+}

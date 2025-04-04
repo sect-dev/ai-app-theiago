@@ -1,17 +1,18 @@
 import React, { Suspense } from "react";
 import ChatsList from "@/app/widgets/Chats/ChatsList";
-import {getCharacterInfoById, getTokensInfo} from "@/app/shared/api";
 import ChatHeaderSkeleton from "@/app/widgets/Chats/ChatsHeader/ChatHeaderSkeleton";
 import ChatsMessagesSkeleton from "@/app/widgets/Chats/ChatsMessages/ChatsMessagesSkeleton";
 import ChatsInfoSkeleton from "@/app/widgets/Chats/ChatInfo/ChatsInfoSkeleton";
 import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
 import ChatsContent from "@/app/widgets/Chats/ChatsContent";
 import ChatInfo from "@/app/widgets/Chats/ChatInfo";
+import {getCharacterInfoById} from "@/app/shared/api/characters";
+import {getTokensInfo} from "@/app/shared/api/payment";
 
 const fetchCharacterInfo = React.cache(getCharacterInfoById);
 
 const CharacterContent = async ({ id }: { id: string }) => {
-  const characterInfo = await fetchCharacterInfo(+id);
+  const characterInfo = await fetchCharacterInfo(id);
   const token = await getTokensInfo('8d9b409fe5287d5b')
 
   return (

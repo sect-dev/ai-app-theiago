@@ -1,22 +1,33 @@
 'use client'
-import React from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
-import ImageGirl from '../../../../../public/images/img/initpage/image-init1.webp';
 import ArrowNav from '@/../public/images/icons/arrow-gradient.svg';
-import ImageGirl2 from '../../../../../public/images/img/initpage/image-init2.webp';
 import {Swiper, SwiperSlide} from "swiper/react";
-import { Swiper as SwiperRef } from "swiper";
 import { Navigation } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import clsx from "clsx";
+import {CharacterByConstructor} from "@/app/shared/api/types";
 
+interface ComponentProps {
+  character: CharacterByConstructor | null
+  className?: string
+  slidesPerView?: number | 'auto'
+}
 
-const SectionWithSwiper = () => {
+const SectionWithSwiper:FC<ComponentProps> = ({character,className,slidesPerView= 1.2}) => {
+
+  const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated'
+  const images = [
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/2.png`,
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/3.png`,
+    `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/4.png`,
+  ]
+
   return (
     <Swiper
-      slidesPerView={1.2}
+      slidesPerView={slidesPerView ?? 'auto'}
       spaceBetween={12}
       modules={[Navigation]}
       navigation={{
@@ -25,30 +36,18 @@ const SectionWithSwiper = () => {
       }}
 
     >
-      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
-        <Image
-          src={ImageGirl.src}
-          width={ImageGirl.width}
-          height={ImageGirl.height}
-          alt=""
-        />
-      </SwiperSlide>
-      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
-        <Image
-          src={ImageGirl2.src}
-          width={ImageGirl2.width}
-          height={ImageGirl2.height}
-          alt=""
-        />
-      </SwiperSlide>
-      <SwiperSlide className="rounded-[24px] !h-[320px] overflow-hidden fm:!h-[85.87vw]">
-        <Image
-          src={ImageGirl.src}
-          width={ImageGirl.width}
-          height={ImageGirl.height}
-          alt=""
-        />
-      </SwiperSlide>
+      {images && images?.map((item) => {
+        return (
+          <SwiperSlide key={item} className={clsx(" overflow-hidden ",className)}>
+            <Image
+              src={item}
+              fill
+              alt="images"
+              className="object-cover"
+            />
+          </SwiperSlide>
+        )
+      })}
       <div
         role="button"
         aria-label="Prev Slide"

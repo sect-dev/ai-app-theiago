@@ -17,6 +17,7 @@ interface ComponentProps {
 
 const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
   const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen } = useSelectedCardStore();
+  const {setTokensModal} = usePaymentStore()
   const{ tokens } = usePaymentStore()
   const navigate = useRouter()
 
@@ -27,6 +28,10 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
 
   const handleInfoOpen = () => {
     setMobileInfoOpen(true)
+  }
+
+  const getTokensHandle = () => {
+    setTokensModal(true)
   }
 
   return (
@@ -66,24 +71,27 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
       </div>
       <div className="flex items-center gap-[8px]">
         {tokens
-          ? <button className="block main-gradient h-[24px] rounded-[15px] px-[12px]">
-            <span className="relative z-[5] flex items-center">
-              <Image
-                src={IcnPlus.src}
-                width={IcnPlus.width}
-                height={IcnPlus.height}
-                alt="plus image"
-                className="size-[8px]"
-              />
-              <span className="text-[12px] font-bold pl-[8px] pr-[4px]">{tokens}</span>
-              <Image
-                src={IcnCoins.src}
-                width={IcnCoins.width}
-                height={IcnCoins.height}
-                alt="coins image"
-              />
-          </span>
-          </button>
+          ? <button
+              onClick={getTokensHandle}
+              className="block main-gradient h-[24px] rounded-[15px] px-[12px]"
+            >
+              <span className="relative z-[5] flex items-center">
+                <Image
+                  src={IcnPlus.src}
+                  width={IcnPlus.width}
+                  height={IcnPlus.height}
+                  alt="plus image"
+                  className="size-[8px]"
+                />
+                <span className="text-[12px] font-bold pl-[8px] pr-[4px]">{tokens}</span>
+                <Image
+                  src={IcnCoins.src}
+                  width={IcnCoins.width}
+                  height={IcnCoins.height}
+                  alt="coins image"
+                />
+            </span>
+            </button>
           : <span className="animate-pulse block bg-main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " />
         }
         <button

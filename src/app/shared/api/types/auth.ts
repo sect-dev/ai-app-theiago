@@ -26,3 +26,13 @@ export interface FirebaseUser extends User {
   apiKey: string;
   appName: string;
 }
+
+export type EmailLinkAuthResponse = 
+  | { 
+      success: true;
+      message: string;
+    }
+  | {
+      success: false;
+      message: string;
+    };
