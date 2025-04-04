@@ -47,7 +47,7 @@ const PaymentDiscountBanner:FC<ComponentProps> = ({isMobileVersion}) => {
           "pt-[6.40vw] mt-[3.20vw] gap-[2.13vw] border-t border-[#8E59FF]": isMobileVersion
         })}>
           <div className={clsx("flex items-center h-[24px] gap-[4px] bg-[#121423] px-[7px] rounded-[7px]", {
-            "order-[2] h-[12vw] px-[3.20vw] !bg-[#121423] rounded-[1.87vw] w-[46.13vw]": isMobileVersion
+            "order-[2] !h-[12vw] px-[3.20vw] !bg-[#121423] !rounded-[1.87vw] w-[46.13vw]": isMobileVersion
           })}>
             <Image
               src={IconCheck.src}

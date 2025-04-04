@@ -1,16 +1,39 @@
-import React, {FC} from 'react';
+'use client'
+import React, {FC, useEffect} from 'react';
 import FavoritesGirls from "@/app/widgets/FavoritesGirls";
-import {Character, IAvatar} from "@/app/shared/api/types";
+import {Character} from "@/app/shared/api/types";
 import CardsList from "@/app/widgets/CardsList";
+import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
+import {PaymentModalType, usePaymentStore} from "@/app/shared/store/paymentStore";
+import { useSelectedCardStore } from '@/app/shared/store/publicStore';
 
 interface ComponentProps {
   avatars: Character[]
+  action: PaymentModalType | null
+  characterId: string | null
 }
 
-const HomePage:FC<ComponentProps> = ({avatars}) => {
+const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
+  const {setSuccessPaymentModal} = usePaymentStore()
+  const {setSelectedCard} = useSelectedCardStore()
   const favoriteAvatars = avatars.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position)
   const simpleAvatars = avatars.filter(item => item.tags).filter(item => !item.top_horizontal_list_position).sort((a,b) => a.position - b.position)
   const tags: string[] = Array.from(new Set(simpleAvatars.flatMap(avatar => avatar.tags ?? [])));
+  console.log('avatars',avatars)
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    // const emailForSignIn = localStorage.getItem("emailForSignIn");
+    if(characterId) {
+      const selectedCharacter = avatars.find(item => +item.id === +characterId) || null
+      setSelectedCard(selectedCharacter ?? null)
+    }
+    if((action && action === 'subscription_success' || action === 'auth_success')) {
+      return setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
+    }
+    if (!accessToken) {
+      signInAnonymouslyHandler();
+    }
+  }, []);
 
   return (
     <div className="animate-fadeIn">

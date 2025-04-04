@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import Chatspage from "@/app/flat-pages/Chatspage";
 
 const Page = () => {

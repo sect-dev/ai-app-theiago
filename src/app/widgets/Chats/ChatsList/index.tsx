@@ -1,24 +1,32 @@
 'use client'
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Image from "next/image";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import clsx from "clsx";
 import ChatsListItem from "@/app/widgets/Chats/ChatsList/ChatsListItem";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import ChatsListItemSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListItemSkeleton";
+import {useParams} from "next/navigation";
 
 const ChatsList = () => {
   const {characters,isMobileChatOpen} = useSelectedCardStore()
+  const params = useParams()
   const [collapse, setCollapse] = useState<boolean>(false)
+  const [mounted,setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  },[])
 
   const handleCollapse = () => {
     setCollapse(!collapse)
   }
   return (
     <div
-      className={clsx("animate-fadeIn shrink-0 h-[calc(100%-24px)] w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-all duration-300 md:!rounded-[16px] md:opacity-0 md:max-w-full", {
+      className={clsx("animate-fadeIn shrink-0 w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-all duration-300 md:!rounded-[16px] md:opacity-0 md:max-w-full", {
         "!max-w-[82px] ": collapse,
-        "!opacity-0": isMobileChatOpen
+        "!opacity-0": isMobileChatOpen,
+        "h-full": params.id
       })}>
       <div className="flex items-center justify-between px-[20px] mb-[9px]">
         {!collapse && <p className="animate-fadeIn text-[17px] font-medium">Chats</p>}
@@ -35,8 +43,8 @@ const ChatsList = () => {
           />
         </button>
       </div>
-      <div>
-        {(characters && characters?.length > 0)
+      <div className="max-h-[50vh] overflow-y-auto sm:max-h-[100vh]">
+        {mounted && (characters && characters?.length > 0)
           ? characters
             ?.slice()
             .sort((a, b) => +new Date(b.lastMessageTime) - +new Date(a.lastMessageTime))

@@ -43,7 +43,7 @@ const SectionReviews = () => {
             />
           </div>
         </div>
-        <div className="rounded-[10px] shadow-[1.65px_16.84px_16.84px_0px_rgba(0,0,0,0.17)] ml-[-25px] mt-[-50px] p-[10px] bg-[#2B2D44] max-w-[200px] flex gap-[15px] fm:ml-[-13vw]  fm:rounded-[2.67vw] fm:max-w-[53.33vw] fm:gap-[2.67vw] fm:p-[2.67vw]">
+        <div className="rounded-[10px] shadow-[1.65px_16.84px_16.84px_0px_rgba(0,0,0,0.17)] ml-[-25px] mt-[-50px] p-[10px] bg-[#2B2D44] max-w-[200px] flex gap-[15px] fm:ml-[-15vw]  fm:rounded-[2.67vw] fm:max-w-[53.33vw] fm:gap-[2.67vw] fm:p-[2.67vw]">
           <div className="relative shrink-0 rounded-full overflow-hidden size-[25px] fm:size-[6.67vw]">
             <Image
               src={ImageReview2.src}
@@ -64,7 +64,7 @@ const SectionReviews = () => {
             />
           </div>
         </div>
-        <div className="rounded-[10px] shadow-[3.96px_37.97px_22.78px_0px_rgba(0,0,0,0.1)] mt-[12px] ml-[-25px] p-[10px] bg-[#2B2D44] max-w-[350px] fm:rounded-[2.67vw] flex gap-[15px] fm:mt-[3.20vw] fm:p-[2.67vw] fm:max-w-[94.67vw] fm:ml-[-18vw]">
+        <div className="rounded-[10px] shadow-[3.96px_37.97px_22.78px_0px_rgba(0,0,0,0.1)] mt-[12px] ml-[-25px] p-[10px] bg-[#2B2D44] max-w-[350px] fm:rounded-[2.67vw] flex gap-[15px] fm:mt-[3.20vw] fm:p-[2.67vw] fm:max-w-[94.67vw] fm:ml-[-22vw]">
           <div className="relative shrink-0 rounded-full overflow-hidden size-[44px] fm:size-[11.73vw]">
             <Image
               src={ImageReview3.src}

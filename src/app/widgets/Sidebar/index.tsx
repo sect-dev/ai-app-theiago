@@ -22,7 +22,7 @@ const Sidebar:FC<ComponentProps> = ({isChatPage,pathname}) => {
             {!isChatPage && <SidebarBanner/>}
             <button
               onClick={() => setQrModal(true)}
-              className="flex items-center rounded-[12px] gap-[8px] py-[12px] px-[16px] bg-[#121423] font-semibold text-[14px] tracking-[-0.01vw] transition-bg duration-300 hover:bg-[#2E335B]">
+              className="flex items-center w-full rounded-[12px] gap-[8px] py-[12px] px-[16px] bg-[#121423] font-semibold text-[14px] tracking-[-0.01vw] transition-bg duration-300 hover:bg-[#2E335B]">
               <Image
                 src={IconDownload.src}
                 width={IconDownload.width}
