@@ -3,6 +3,7 @@ import React from 'react';
 import Image from "next/image";
 import IconMoneyback from '@/../public/images/icons/payment/icon-moneyback.svg';
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import Spinner from "@/app/widgets/Spinner";
 
 const SectionForm = () => {
   const {selectedPlan} = usePaymentStore()
@@ -10,8 +11,12 @@ const SectionForm = () => {
 
   return (
     <div id="form" className="py-[20px] space-y-[24px] fm:py-[5.33vw] sm:space-y-[6.40vw]">
-      <div className="w-full h-[1040px] rounded-[20px] overflow-hidden">
+      <div className="relative w-full h-[1040px] bg-white rounded-[20px] overflow-hidden">
+        <div className="absolute left-0 top-0 w-full h-full flex items-center justify-center">
+          <Spinner className="w-8 h-8" />
+        </div>
         <iframe
+          loading="eager"
           width="100%"
           height="100%"
           src={`https://production-payments.theaigo.com:8000/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${currentSearchParams}`}

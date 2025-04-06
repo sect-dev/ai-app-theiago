@@ -44,7 +44,7 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
         if(msg.type === "image" || msg.type === "image_paywall") {
           const src = typeof msg.url === "string" ? msg.url : msg.url?.en ?? '';
           return  (
-            <div key={index} className="relative w-[240px] h-[300px] overflow-hidden rounded-[20px] rounded-bl-none">
+            <div key={index} className="relative w-[240px] h-[350px] overflow-hidden rounded-[20px] rounded-bl-none">
               <Image
                 sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 240px"
                 fill

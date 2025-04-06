@@ -120,7 +120,7 @@ export interface Message {
 }
 
 export interface PreparedAvatar {
-  id: number,
+  id: number | string,
   image: string,
   listMsgs: Message[]
   name: string

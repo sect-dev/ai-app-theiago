@@ -1,5 +1,5 @@
 //General
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Image from "next/image";
 import clsx from "clsx";
 import {useForm} from "react-hook-form";
@@ -16,12 +16,18 @@ import ImageDefault from '@/../public/images/img/payment/image-no-char-id.webp';
 
 import {
   handleEmailLinkAuth,
-  registerUserAfterPayment,
   signInWithFacebook,
   signInWithGoogle,
   signInWithX
 } from "@/app/shared/api/auth";
 import {useAuthStore} from "@/app/shared/store/authStore";
+import {startConversation} from "@/app/shared/api/mesages";
+import {
+  mapBackendMessagesToMessages,
+  saveCharacterToLocalStorage,
+} from "@/app/shared/helpers";
+import {apiClient} from "@/app/shared/api";
+import {Character} from "@/app/shared/api/types";
 
 interface FormData {
   email: string;
@@ -32,13 +38,30 @@ interface FormData {
 // }
 
 const SuccessPayment = () => {
-  const {charFromPaywall} = useSelectedCardStore()
+  const {charFromPaywall,setCharacters} = useSelectedCardStore()
+  const [charInfo,setCharInfo] = useState<Character | null>(null)
   const {user} = useAuthStore()
   const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
   const [loading,setLoading] = useState<boolean>(false)
   // const [authError, setAuthError] = useState<string | null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
+
+  const getCharacterInfoById = async (id: string) => {
+    try {
+      const response = await apiClient.get(`/character_info?id=${id}`);
+      const result = JSON.parse(JSON.stringify(response.data))
+      return setCharInfo(result)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if(charFromPaywall?.character_id) {
+      getCharacterInfoById(charFromPaywall?.character_id ?? '')
+    }
+  }, [])
 
   const onSubmit = async (data: FormData) => {
     setLoading(true)
@@ -51,6 +74,14 @@ const SuccessPayment = () => {
           type: 'success',
           description: 'We have sent you an email to confirm your address',
         });
+
+        const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
+
+        const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
+        const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages)
+
+        setCharacters(preparedCharacters ?? null)
+
       }
     } catch (error) {
       console.log('error',error)

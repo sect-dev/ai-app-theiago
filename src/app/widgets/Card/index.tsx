@@ -26,12 +26,11 @@ const Card:FC<ComponentProps> = ({avatar}) => {
     try {
       const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: 'constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10'})
       const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-      console.log('startChat',startChat)
-      // startTransition(() => {
-      //   navigate.push(`/chats/${avatar.id}`);
-      // })
+      startTransition(() => {
+        navigate.push(`/chats/${avatar.id}`);
+      })
       const preparedCharacters = saveCharacterToLocalStorage(avatar,startChatMessages)
-      // setCharacters(preparedCharacters ?? null)
+      setCharacters(preparedCharacters ?? null)
     } catch (error) {
       console.log(error)
     }

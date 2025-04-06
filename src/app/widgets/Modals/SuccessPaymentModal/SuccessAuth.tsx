@@ -1,38 +1,27 @@
-import React from 'react';
+import React, {useTransition} from 'react';
 import Image from "next/image";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import ImageDefault from "@/../public/images/img/payment/image-no-char-id.webp";
 import ImageDecor1 from '@/../public/images/icons/payment/icon-decor1.png';
 import ImageDecor2 from '@/../public/images/icons/payment/icon-decor2.png';
 import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
-import {startConversation} from "@/app/shared/api/mesages";
-import {
-  mapBackendMessagesToMessages,
-  saveCharacterToLocalStorage,
-  saveCharacterToLocalStorageFromConstructor
-} from "@/app/shared/helpers";
 import {useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
-import {useAuthStore} from "@/app/shared/store/authStore";
+import Spinner from "@/app/widgets/Spinner";
 
 const SuccessAuth = () => {
-  const {charFromPaywall,setCharacters,allCharacters} = useSelectedCardStore();
+  const {charFromPaywall} = useSelectedCardStore();
+  const [isPending,setIsPending] = useTransition()
   const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
-  const {user} = useAuthStore();
   const {setSuccessPaymentModal} = usePaymentStore();
   const navigate = useRouter();
   const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
 
   const handleStartChat = async () => {
     try {
-      if(charFromPaywall && allCharacters) {
-        const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
-        const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-
-        navigate.replace(`/chats/${charFromPaywall?.character_id}`);
-        const preparedCharacters = saveCharacterToLocalStorageFromConstructor(charFromPaywall,startChatMessages)
-        setCharacters(preparedCharacters ?? null)
-      }
+      setIsPending(() => {
+        navigate.push(`/chats/${charFromPaywall?.character_id}`);
+      })
       setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
     } catch (error) {
       console.log(error)
@@ -87,9 +76,11 @@ const SuccessAuth = () => {
           </div>
           <button
             onClick={handleStartChat}
-            className="main-gradient block w-full text-[15px] h-[40px] rounded-[12px]"
+            disabled={isPending}
+            className="main-gradient flex justify-center items-center gap-[5px] w-full text-[15px] h-[40px] rounded-[12px]"
           >
             <span className="relative z-[5]">Start chat</span>
+            {isPending && <Spinner />}
           </button>
         </div>
       </div>

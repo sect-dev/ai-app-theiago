@@ -6,7 +6,7 @@ import {Message} from "@/app/shared/api/types";
 import LastMessage from "@/app/widgets/Chats/ChatsList/LastMessage";
 
 interface ComponentProps {
-  id: number
+  id: number | string
   collapse: boolean
   image: string
   name: string
@@ -18,7 +18,7 @@ const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessa
   const router = useRouter()
   const params = useParams()
 
-  const handleChatChange = (chatId: number) => {
+  const handleChatChange = (chatId: number | string) => {
     router.push(`/chats/${chatId}`);
   }
 
