@@ -32,7 +32,7 @@ const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
       setAllCharacters(avatars)
     }
     if((action && action === 'subscription_success' || action === 'auth_success')) {
-      return setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
+      setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
     }
     if (!accessToken && !tempToken) {
       console.log('1')
