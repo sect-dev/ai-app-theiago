@@ -55,7 +55,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }
-
+  console.log('firebaseUser',firebaseUser)
   if (firebaseUser) {
     const token = await firebaseUser.getIdToken();
 
