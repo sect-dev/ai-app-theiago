@@ -21,8 +21,9 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
   const params = useParams();
   const{ tokens } = usePaymentStore();
   const navigate = useRouter();
-  const currentCharacter = characters && characters?.find(item => +item.id === +params.id)
+  const currentCharacter = (characters) && characters?.find(item => item.id.toString() === params.id?.toString())
   const currentTokens = (tokens || tokens === 0) ? tokens : currentCharacter?.tokens
+  
   const handleBack = () => {
     setMobileChatOpen(false)
     navigate.push('/chats')
