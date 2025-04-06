@@ -252,8 +252,8 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
 export const registerUserAfterPayment = async (email: string | null, token: string) => {
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
-    const result = await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
-    console.log('result',result)
+    await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
+
   } catch (error) {
     console.log('error',error)
   }

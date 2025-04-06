@@ -74,12 +74,13 @@ const SuccessPayment = () => {
           type: 'success',
           description: 'We have sent you an email to confirm your address',
         });
-
+        console.log('user',user)
+        console.log('charFromPaywall',charFromPaywall)
         const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
-
+        console.log('startChat',startChat)
         const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
         const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages)
-
+        console.log('preparedCharacters',preparedCharacters)
         setCharacters(preparedCharacters ?? null)
 
       }
