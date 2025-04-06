@@ -14,6 +14,7 @@ import {StrictTokenPackage} from "@/app/shared/api/types/payment";
 import TokenPackages from "@/app/widgets/TokenPackages";
 import TokenPackagesSkeleton from "@/app/widgets/TokenPackages/TokenPackagesSkeleton";
 import {PreparedAvatar} from "@/app/shared/api/types";
+import clsx from "clsx";
 
 const TokensModal = () => {
   const params = useParams()
@@ -104,7 +105,9 @@ const TokensModal = () => {
                     <div className="w-full  p-[20px] sm:relative sm:z-[5] sm:flex sm:flex-col sm:items-center sm:mt-[-200px] sm:justify-center sm:h-full">
                       <div className="font-bai-jamjuree mb-[24px] pb-[24px] border-b border-b-[#3A3F63] space-y-[8px] sm:w-full sm:space-y-[2.13vw]">
                         <div className="mb-[16px] space-y-[12px]">
-                          <div className="flex text-[12px] rounded-[12px] w-fit font-bold px-[12px] h-[24px] bg-light-red-gradient font-bai-jamjuree items-center gap-[4px]">
+                          <div className={clsx("flex text-[12px] rounded-[12px] w-fit font-bold px-[12px] h-[24px] bg-main-gradient font-bai-jamjuree items-center gap-[4px]",{
+                            "!bg-light-red-gradient": tokens === 0
+                          })}>
                             {tokens}
                             <Image
                               src={IcnCoins.src}
@@ -113,7 +116,12 @@ const TokensModal = () => {
                               alt="coins image"
                             />
                           </div>
-                          <p className="leading-[1.2em] font-semibold text-[20px] sm:text-[5.33vw]">You’re out of tokens!</p>
+                          <p className="leading-[1.2em] font-semibold text-[20px] sm:text-[5.33vw]">
+                            {tokens === 0
+                              ? <span>You’re out of tokens!</span>
+                              : <span>You’re running out of tokens</span>
+                            }
+                          </p>
                           <p className="text-[#B5B5B5] text-[16px] max-w-[80%]  font-medium sm:text-[4.27vw]">You can purchase tokens here to continue</p>
                         </div>
                         <ul className="space-y-[8px] font-medium tracking-[-0,04em] sm:space-y-[2.13vw]">
@@ -126,7 +134,7 @@ const TokensModal = () => {
                       <div>
                         <p className="text-[#B5B5B5] font-medium text-[16px]">Choose package</p>
                         <div className="pt-[12px] mb-[24px] max-w-[300px]">
-                          {tokenPackages
+                          {(tokenPackages && !loading)
                             ? <TokenPackages tokenPackages={tokenPackages} />
                             : <TokenPackagesSkeleton />
                           }

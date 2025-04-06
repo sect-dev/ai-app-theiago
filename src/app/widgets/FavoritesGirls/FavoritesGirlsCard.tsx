@@ -1,39 +1,17 @@
 'use client'
-import React, {FC, useTransition} from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
 import {Character} from "@/app/shared/api/types";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
-import {useRouter} from "next/navigation";
-import {mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
-import {startConversation} from "@/app/shared/api/mesages";
 import Spinner from "@/app/widgets/Spinner";
 import clsx from "clsx";
-import {useAuthStore} from "@/app/shared/store/authStore";
+import {useStartChat} from "@/app/shared/hooks/useStartChat";
 
 interface ComponentProps {
   avatar: Character
 }
 
 const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
-  const [isPending, startTransition] = useTransition();
-  const {user} = useAuthStore();
-  const {setSelectedCard,setCharacters} = useSelectedCardStore();
-  const navigate = useRouter()
-
-  const handleClick = async (avatar: Character) => {
-    setSelectedCard(avatar);
-    try {
-      const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: avatar.id.toString()})
-      const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-      startTransition(() => {
-        navigate.push(`/chats/${avatar.id}`);
-      })
-      const preparedCharacters = saveCharacterToLocalStorage(avatar,startChatMessages)
-      setCharacters(preparedCharacters ?? null)
-    } catch (error) {
-      console.log(error)
-    }
-  };
+  const { handleStartChat, isPending } = useStartChat();
 
   return (
     <div  className="size-full">
@@ -63,7 +41,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
           </div>
           <div className="absolute left-1/2 -bottom-[40px] z-[10] w-full px-[16px] -translate-x-1/2 transition-all duration-300 group-hover:bottom-[12px] ">
             <button
-              onClick={() => handleClick(avatar)}
+              onClick={() => handleStartChat(avatar)}
               className={clsx("main-gradient cursor-pointer w-full  text-[14px] rounded-[12px] h-[40px] font-semibold text-white",{
                 "before:opacity-100 pointer-events-none": isPending
               })}

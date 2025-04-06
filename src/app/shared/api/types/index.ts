@@ -128,6 +128,7 @@ export interface PreparedAvatar {
   videos: string[]
   lastMessageTime: Date
   startPhotosCount: number
+  tokens: number
 }
 
 export interface MessageResponse {

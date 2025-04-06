@@ -33,10 +33,10 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   if (isSignInWithEmailLink(auth, window.location.href)) {
     try {
       const result = await signInWithEmailLink(auth, email ?? '', window.location.href);
-      const user = result.user as FirebaseUser
+      const user = result.user as FirebaseUser;
 
       if(result) {
-        await registerUserAfterPayment(email, user.accessToken)
+        await registerUserAfterPayment(email, user.accessToken);
         localStorage.removeItem("uid");
         localStorage.removeItem("tempToken");
         localStorage.removeItem("emailForSignIn");
@@ -55,7 +55,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }
-  console.log('firebaseUser',firebaseUser)
   if (firebaseUser) {
     const token = await firebaseUser.getIdToken();
 

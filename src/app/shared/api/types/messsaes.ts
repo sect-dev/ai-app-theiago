@@ -45,4 +45,5 @@ export interface StartResponse {
     timestamp: number;
     nsfw: boolean;
   }>;
+  tokens_remaining: number
 }

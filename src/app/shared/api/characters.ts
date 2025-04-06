@@ -1,10 +1,9 @@
-import {apiClient} from "@/app/shared/api/index";
+import {apiClient, getCurrentToken} from "@/app/shared/api/index";
 import {cookies} from "next/headers";
 
 export const getCharactersList = async () => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('accessToken')?.value || cookieStore.get('tempToken')?.value;
-  console.log('token',token)
+  const token = await getCurrentToken()
+
   try {
     const response = await apiClient.get(`/characters_list_full?token=${token}`)
     if(response.data) {

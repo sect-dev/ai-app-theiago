@@ -1,45 +1,23 @@
 'use client'
-import React, {FC, useTransition} from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
-import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import IconMessage from '@/../public/images/icons/icon-message.svg';
 import clsx from "clsx";
 import {Character} from "@/app/shared/api/types";
-import {useRouter} from "next/navigation";
-import {getMessageSize, mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
-import {startConversation} from "@/app/shared/api/mesages";
+import {getMessageSize} from "@/app/shared/helpers";
 import Spinner from "@/app/widgets/Spinner";
-import {useAuthStore} from "@/app/shared/store/authStore";
+import {useStartChat} from "@/app/shared/hooks/useStartChat";
 
 interface ComponentProps {
   avatar: Character
 }
 
 const Card:FC<ComponentProps> = ({avatar}) => {
-  const [isPending, startTransition] = useTransition();
-  const { setSelectedCard, setCharacters } = useSelectedCardStore();
-  const {user} = useAuthStore()
-  const navigate = useRouter()
-
-  const handleClick = async (avatar: Character) => {
-    setSelectedCard(avatar);
-    try {
-      const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: 'constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10'})
-      const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-      startTransition(() => {
-        navigate.push(`/chats/${avatar.id}`);
-      })
-      const preparedCharacters = saveCharacterToLocalStorage(avatar,startChatMessages)
-      setCharacters(preparedCharacters ?? null)
-    } catch (error) {
-      console.log(error)
-    }
-
-  };
+  const { handleStartChat, isPending } = useStartChat();
 
   return (
     <button
-      onClick={() => handleClick(avatar)}
+      onClick={() => handleStartChat(avatar)}
       className={clsx("flex card items-end w-full group text-left relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {
         "pointer-events-none": isPending
       })}

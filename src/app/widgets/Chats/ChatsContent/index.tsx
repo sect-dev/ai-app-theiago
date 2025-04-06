@@ -6,20 +6,16 @@ import {Character} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import {useParams} from "next/navigation";
-import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
   characterInfo: Character | null
-  token: number
 }
 
-const ChatsContent:FC<ComponentProps> = ({token, characterInfo}) => {
+const ChatsContent:FC<ComponentProps> = ({characterInfo}) => {
   const { setMobileChatOpen, isMobileChatOpen } = useSelectedCardStore();
-  const { setTokens } = usePaymentStore()
   const params = useParams()
 
   useEffect(() => {
-    setTokens(token)
     if (params.id && window.innerWidth < 1020) {
       setMobileChatOpen(true)
     }

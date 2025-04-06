@@ -28,17 +28,15 @@ import {
 } from "@/app/shared/helpers";
 import {apiClient} from "@/app/shared/api";
 import {Character} from "@/app/shared/api/types";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface FormData {
   email: string;
 }
 
-// interface AuthError {
-//   code: string;
-// }
-
 const SuccessPayment = () => {
   const {charFromPaywall,setCharacters} = useSelectedCardStore()
+  const {setTokens} = usePaymentStore();
   const [charInfo,setCharInfo] = useState<Character | null>(null)
   const {user} = useAuthStore()
   const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
@@ -74,15 +72,12 @@ const SuccessPayment = () => {
           type: 'success',
           description: 'We have sent you an email to confirm your address',
         });
-        console.log('user',user)
-        console.log('charFromPaywall',charFromPaywall)
         const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
-        console.log('startChat',startChat)
         const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-        const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages)
-        console.log('preparedCharacters',preparedCharacters)
+        const tokens = startChat?.tokens_remaining
+        const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens ?? 0)
         setCharacters(preparedCharacters ?? null)
-
+        setTokens(tokens ?? 0)
       }
     } catch (error) {
       console.log('error',error)

@@ -7,7 +7,7 @@ import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import IconBack from "@/../public/images/icons/icon-back.svg";
-import {useRouter} from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
@@ -15,12 +15,14 @@ interface ComponentProps {
   name: string | null
 }
 
-const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
-  const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen } = useSelectedCardStore();
-  const {setTokensModal} = usePaymentStore()
-  const{ tokens } = usePaymentStore()
-  const navigate = useRouter()
-
+const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
+  const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen, characters } = useSelectedCardStore();
+  const {setTokensModal} = usePaymentStore();
+  const params = useParams();
+  const{ tokens } = usePaymentStore();
+  const navigate = useRouter();
+  const currentCharacter = characters && characters?.find(item => +item.id === +params.id)
+  const currentTokens = (tokens || tokens === 0) ? tokens : currentCharacter?.tokens
   const handleBack = () => {
     setMobileChatOpen(false)
     navigate.push('/chats')
@@ -70,30 +72,27 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name = 0}) => {
         </div>
       </div>
       <div className="flex items-center gap-[8px]">
-        {tokens
-          ? <button
-              onClick={getTokensHandle}
-              className="block main-gradient h-[24px] rounded-[15px] px-[12px]"
-            >
-              <span className="relative z-[5] flex items-center">
-                <Image
-                  src={IcnPlus.src}
-                  width={IcnPlus.width}
-                  height={IcnPlus.height}
-                  alt="plus image"
-                  className="size-[8px]"
-                />
-                <span className="text-[12px] font-bold pl-[8px] pr-[4px]">{tokens}</span>
-                <Image
-                  src={IcnCoins.src}
-                  width={IcnCoins.width}
-                  height={IcnCoins.height}
-                  alt="coins image"
-                />
+         <button
+           onClick={getTokensHandle}
+           className="block main-gradient h-[24px] rounded-[15px] px-[12px]"
+          >
+           <span className="relative z-[5] flex items-center">
+              <Image
+                src={IcnPlus.src}
+                width={IcnPlus.width}
+                height={IcnPlus.height}
+                alt="plus image"
+                className="size-[8px]"
+              />
+              <span className="text-[12px] font-bold pl-[8px] pr-[4px]">{currentTokens}</span>
+              <Image
+                src={IcnCoins.src}
+                width={IcnCoins.width}
+                height={IcnCoins.height}
+                alt="coins image"
+              />
             </span>
-            </button>
-          : <span className="animate-pulse block bg-main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " />
-        }
+         </button>
         <button
           onClick={() => setInfoCollapse(false)}
           className={clsx("hidden animate-fadeIn z-[5] flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]", {

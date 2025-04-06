@@ -1,0 +1,42 @@
+'use client'
+import { useRouter } from "next/navigation";
+import { useTransition } from 'react';
+import { Character } from "@/app/shared/api/types";
+import { startConversation } from "@/app/shared/api/mesages";
+import { mapBackendMessagesToMessages, saveCharacterToLocalStorage } from "@/app/shared/helpers";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import {useAuthStore} from "@/app/shared/store/authStore";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
+
+export const useStartChat = () => {
+  const [isPending, startTransition] = useTransition();
+  const { setSelectedCard, setCharacters } = useSelectedCardStore();
+  const { user } = useAuthStore();
+  const { setTokens } = usePaymentStore();
+  const router = useRouter();
+
+  const handleStartChat = async (avatar: Character) => {
+    setSelectedCard(avatar);
+    try {
+      const startChat = await startConversation({
+        userId: user?.uid ?? 'id',
+        characterId: avatar.id.toString()
+      });
+
+      const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? []);
+      const tokens = startChat?.tokens_remaining;
+
+      startTransition(() => {
+        router.push(`/chats/${avatar.id}`);
+      });
+
+      const preparedCharacters = saveCharacterToLocalStorage(avatar, startChatMessages, tokens);
+      setCharacters(preparedCharacters ?? null);
+      setTokens(tokens ?? 0);
+    } catch (error) {
+      console.error("Failed to start chat:", error);
+    }
+  };
+
+  return { handleStartChat, isPending };
+};

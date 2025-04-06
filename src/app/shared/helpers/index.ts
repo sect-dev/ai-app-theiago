@@ -1,6 +1,6 @@
-import {Character, CharacterByConstructor, Message, PreparedAvatar} from "@/app/shared/api/types";
+import {Character, Message, PreparedAvatar} from "@/app/shared/api/types";
 
-export const saveCharacterToLocalStorage = (avatar: Character | null, messages: Message[]) => {
+export const saveCharacterToLocalStorage = (avatar: Character | null, messages: Message[],tokens: number) => {
   if (typeof window !== "undefined") {
     const storedIds = localStorage.getItem("chatStartedCharacters");
     const characters: PreparedAvatar[] = storedIds ? JSON.parse(storedIds) : [];
@@ -21,7 +21,8 @@ export const saveCharacterToLocalStorage = (avatar: Character | null, messages: 
         photos: startImageUrl ? [startImageUrl] : [],
         videos: [],
         lastMessageTime: currentTime,
-        startPhotosCount: 0
+        startPhotosCount: 0,
+        tokens
       };
       characters.push(newCharacter);
     }

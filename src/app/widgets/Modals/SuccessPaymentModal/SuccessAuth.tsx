@@ -10,13 +10,13 @@ import {usePaymentStore} from "@/app/shared/store/paymentStore";
 import Spinner from "@/app/widgets/Spinner";
 
 const SuccessAuth = () => {
-  const {charFromPaywall} = useSelectedCardStore();
+  const {charFromPaywall,characters} = useSelectedCardStore();
   const [isPending,setIsPending] = useTransition()
   const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
   const {setSuccessPaymentModal} = usePaymentStore();
   const navigate = useRouter();
   const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
-
+  const currentCharacter = characters && characters?.find(item => item.id === charFromPaywall?.character_id)
   const handleStartChat = async () => {
     try {
       setIsPending(() => {
@@ -72,6 +72,7 @@ const SuccessAuth = () => {
               className="!h-[166px] fm:!h-[55.87vw] !rounded-[12px]"
               slidesPerView={2.2}
               character={charFromPaywall ?? null}
+              imagesList={currentCharacter?.photos ?? ['']}
             />
           </div>
           <button

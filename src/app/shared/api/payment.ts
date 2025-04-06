@@ -1,7 +1,7 @@
 import axios  from "axios";
 import { Plan } from "../store/paymentStore";
 import {apiClient} from "@/app/shared/api/index";
-import {StrictTokenPackage, StrictTokenPackages} from "@/app/shared/api/types/payment";
+import {StrictTokenPackage} from "@/app/shared/api/types/payment";
 
 export interface PaymentPlan {
   currency: string;

@@ -12,7 +12,6 @@ import {
   TwitterAuthProvider,
   sendSignInLinkToEmail,
   AuthError,
-  fetchSignInMethodsForEmail
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
@@ -194,7 +193,6 @@ export const signInAnonymouslyHandler = async () => {
   try {
     const userCredential = await signInAnonymously(auth);
     const user = userCredential.user;
-    console.log('user',user)
     if (user.uid && user.isAnonymous) {
       const token = await user.getIdToken();
       localStorage.setItem("uid", user.uid);

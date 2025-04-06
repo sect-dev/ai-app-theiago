@@ -23,9 +23,6 @@ const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     const tempToken = localStorage.getItem("tempToken");
-    // const emailForSignIn = localStorage.getItem("emailForSignIn");
-    console.log('tempToken',tempToken)
-    console.log('accessToken',accessToken)
     if(characterId) {
       const selectedCharacter = avatars.find(item => +item.id === +characterId) || null
       setSelectedCard(selectedCharacter ?? null)
@@ -35,7 +32,6 @@ const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
       setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
     }
     if (!accessToken && !tempToken) {
-      console.log('1')
       signInAnonymouslyHandler();
     }
   }, []);
