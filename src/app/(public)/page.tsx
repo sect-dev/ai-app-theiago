@@ -12,7 +12,7 @@ const Page = async ({ searchParams }: PageProps) => {
   const {action,character_id} = await searchParams;
   const charactersList = await getCharactersList();
   const charactersListData = Object.values(charactersList ?? {}) as Character[];
-
+  console.log('charactersListData',charactersListData)
   return (
     <HomePage avatars={charactersListData} action={action} characterId={character_id ?? null} />
   );

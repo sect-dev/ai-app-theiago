@@ -34,6 +34,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     try {
       const result = await signInWithEmailLink(auth, email ?? '', window.location.href);
       const user = result.user as FirebaseUser
+      console.log('resul signInwithEmailLink',result)
       if(result) {
         await registerUserAfterPayment(email, user.accessToken)
         localStorage.removeItem("uid");
