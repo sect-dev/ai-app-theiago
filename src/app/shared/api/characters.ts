@@ -1,5 +1,4 @@
 import {apiClient, getCurrentToken} from "@/app/shared/api/index";
-import {cookies} from "next/headers";
 
 export const getCharactersList = async () => {
   const token = await getCurrentToken()

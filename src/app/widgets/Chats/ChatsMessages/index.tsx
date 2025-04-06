@@ -38,7 +38,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const [isTextareaFocused, setIsTextareaFocused] = useState(false);
   const {characters,setCharacters } = useSelectedCardStore();
   const {user} = useAuthStore()
-  const {setTokens} = usePaymentStore()
+  const {setTokens,tokens} = usePaymentStore()
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const {
@@ -72,7 +72,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
       const character = characters[characterIndex];
       character.listMsgs = newMessages;
       character.lastMessageTime = currentTime;
-
+      character.tokens = tokens
       newMessages.forEach((message) => {
         if (message.sender === "bot" && (message.type === "image" || message.type === "image_paywall") && message.url) {
           const url = typeof message.url === "string" ? message.url : message.url?.en ?? '';
@@ -121,7 +121,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         setMessages(updatedWithBotMessages);
         saveMessagesToLocalStorage(updatedWithBotMessages);
 
-        setTokens(response?.tokens_remaining || null)
+        setTokens(response?.tokens_remaining || 0)
       }
     } catch (error) {
       console.error("Ошибка отправки сообщения:", error);

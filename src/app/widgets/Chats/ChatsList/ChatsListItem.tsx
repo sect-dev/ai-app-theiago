@@ -30,7 +30,7 @@ const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessa
       key={id}
       onClick={() => handleChatChange(id)}
       className={clsx("flex w-full  transition-bg duration-300 px-[20px] py-[6px] md:px-[16px] md:w-full", {
-        "bg-[#0680E642]": (params?.id && +id === +params?.id)
+        "bg-[#0680E642]": (params?.id && id.toString() === params?.id.toString())
       })}
     >
        <span className="flex w-full items-center gap-[8px] md:w-full">

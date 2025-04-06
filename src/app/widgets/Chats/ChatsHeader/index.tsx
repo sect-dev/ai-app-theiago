@@ -1,5 +1,5 @@
 'use client'
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import Image from "next/image";
 import IcnPlus from "@/../public/images/icons/icon-plus.svg";
 import IcnCoins from "@/../public/images/icons/icon-coins.svg";
@@ -9,6 +9,8 @@ import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import IconBack from "@/../public/images/icons/icon-back.svg";
 import {useParams, useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {getTokensInfo} from "@/app/shared/api/payment";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface ComponentProps {
   avatar: string | null
@@ -18,12 +20,12 @@ interface ComponentProps {
 const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
   const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen, characters } = useSelectedCardStore();
   const {setTokensModal} = usePaymentStore();
+  const {user} = useAuthStore()
   const params = useParams();
-  const{ tokens } = usePaymentStore();
   const navigate = useRouter();
   const currentCharacter = (characters) && characters?.find(item => item.id.toString() === params.id?.toString())
-  const currentTokens = (tokens || tokens === 0) ? tokens : currentCharacter?.tokens
-  
+  const currentTokens = currentCharacter?.tokens
+
   const handleBack = () => {
     setMobileChatOpen(false)
     navigate.push('/chats')

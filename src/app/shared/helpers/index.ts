@@ -12,13 +12,15 @@ export const saveCharacterToLocalStorage = (avatar: Character | null, messages: 
       ? startImage.url 
       : startImage?.url?.en ?? '';
 
+      const photos = [...(avatar?.listProfilePhoto || []), startImageUrl].filter(Boolean);
+
     if (!characters.some(a => a.id === avatar?.id)) {
       const newCharacter = {
         id: avatar?.id ?? '',
         image: avatar?.avatar ?? '',
         listMsgs: messages,
         name: avatar?.name ?? '',
-        photos: startImageUrl ? [startImageUrl] : [],
+        photos,
         videos: [],
         lastMessageTime: currentTime,
         startPhotosCount: 0,

@@ -7,12 +7,12 @@ import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
 import ChatsContent from "@/app/widgets/Chats/ChatsContent";
 import ChatInfo from "@/app/widgets/Chats/ChatInfo";
 import {getCharacterInfoById} from "@/app/shared/api/characters";
+import {getTokensInfo} from "@/app/shared/api/payment";
 
 const fetchCharacterInfo = React.cache(getCharacterInfoById);
 
 const CharacterContent = async ({ id }: { id: string }) => {
   const characterInfo = await fetchCharacterInfo(id);
-
   return (
     <>
       <ChatsList />

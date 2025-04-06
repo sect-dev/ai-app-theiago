@@ -8,8 +8,8 @@ interface PaymentState {
   isSuccessPaymentModalActive: boolean
   successPaymentModalType: PaymentModalType
   selectedPlan: Plan
-  tokens: number | null
-  setTokens: (tokens: number | null) => void;
+  tokens: number
+  setTokens: (tokens: number | 0) => void;
   isTokensModalActive: boolean
   setPaymentModal: (value: boolean ) => void;
   setSuccessPaymentModal: (value: {
@@ -26,7 +26,7 @@ export const usePaymentStore = create<PaymentState>((set) => ({
   isTokensModalActive: false,
   selectedPlan: '3_months_premium_access',
   successPaymentModalType: 'subscription_success',
-  tokens: null,
+  tokens: 0,
   setTokens:(tokens) => set({tokens}),
   setPaymentModal: (isPaymentModalActive:boolean) => set({ isPaymentModalActive}),
   setSuccessPaymentModal: ({ isSuccessPaymentModalActive, successPaymentModalType }) =>

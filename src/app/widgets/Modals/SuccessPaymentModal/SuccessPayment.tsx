@@ -37,21 +37,24 @@ interface FormData {
 const SuccessPayment = () => {
   const {charFromPaywall,setCharacters} = useSelectedCardStore()
   const {setTokens} = usePaymentStore();
-  const [charInfo,setCharInfo] = useState<Character | null>(null)
   const {user} = useAuthStore()
-  const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
   const [loading,setLoading] = useState<boolean>(false)
+  const [charInfo,setCharInfo] = useState<Character | null>(null)
+  const [characterLoading, setCharacterLoading] = useState<boolean>(false)
   // const [authError, setAuthError] = useState<string | null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
-  const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
+  const characterImage = charInfo ? charInfo.avatar : ImageDefault.src;
 
   const getCharacterInfoById = async (id: string) => {
     try {
+      setCharacterLoading(true)
       const response = await apiClient.get(`/character_info?id=${id}`);
       const result = JSON.parse(JSON.stringify(response.data))
       return setCharInfo(result)
     } catch (error) {
       console.log(error)
+    } finally {
+      setCharacterLoading(false)
     }
   }
 
@@ -74,8 +77,8 @@ const SuccessPayment = () => {
         });
         const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
         const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-        const tokens = startChat?.tokens_remaining
-        const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens ?? 0)
+        const tokens = startChat?.tokens_remaining || 0
+        const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens)
         setCharacters(preparedCharacters ?? null)
         setTokens(tokens ?? 0)
       }
@@ -196,16 +199,16 @@ const SuccessPayment = () => {
         </div>
       </div>
       <div className="w-full h-hull relative sm:hidden">
-        <Image
-          src={characterImage}
-          fill
-          alt="image modal"
-          className="object-cover"
-        />
-        <button className="font-bold block text-[34px] tracking-[0.04em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]">
-          <span className="logo-gradient ">Ai</span>
-          <span className="">Go</span>
-        </button>
+        {characterLoading
+          ? <div className="animate-pulse size-full bg-[#2B2D44]" />
+          :  <Image
+              src={characterImage}
+              fill
+              alt="image modal"
+              className="object-cover animate-fadeIn"
+            />
+        }
+
       </div>
     </div>
   );

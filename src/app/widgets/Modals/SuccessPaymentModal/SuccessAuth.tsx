@@ -12,11 +12,11 @@ import Spinner from "@/app/widgets/Spinner";
 const SuccessAuth = () => {
   const {charFromPaywall,characters} = useSelectedCardStore();
   const [isPending,setIsPending] = useTransition()
-  const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
   const {setSuccessPaymentModal} = usePaymentStore();
   const navigate = useRouter();
-  const characterImage = charFromPaywall ? `${baseUrl}/${charFromPaywall?.style}/${charFromPaywall?.ethnicity}/${charFromPaywall?.body_type}/1.png` : ImageDefault;
-  const currentCharacter = characters && characters?.find(item => item.id === charFromPaywall?.character_id)
+  const currentCharacter = characters && characters?.find(item => item.id === charFromPaywall?.character_id);
+  const characterImage = currentCharacter ? currentCharacter?.image : ImageDefault.src;
+
   const handleStartChat = async () => {
     try {
       setIsPending(() => {
