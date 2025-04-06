@@ -30,7 +30,7 @@ export const useStartChat = () => {
         router.push(`/chats/${avatar.id}`);
       });
 
-      const preparedCharacters = saveCharacterToLocalStorage(avatar, startChatMessages, tokens);
+      const preparedCharacters = saveCharacterToLocalStorage(avatar, startChatMessages, tokens ?? 0);
       setCharacters(preparedCharacters ?? null);
       setTokens(tokens ?? 0);
     } catch (error) {
