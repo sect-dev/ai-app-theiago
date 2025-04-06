@@ -67,7 +67,7 @@ const SuccessAuth = () => {
         </div>
         <div>
           <p className="text-[#B5B5B5] font-medium text-[16px]">Look at me!</p>
-          <div className="pt-[12px] mb-[24px] max-w-[300px]">
+          <div className="pt-[12px] mb-[24px] max-w-[320px]">
             <SectionWithSwiper
               className="!h-[166px] fm:!h-[55.87vw] !rounded-[12px]"
               slidesPerView={2.2}

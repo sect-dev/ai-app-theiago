@@ -52,7 +52,7 @@ const Header = () => {
             </button>
           ) : (
             <button
-              onClick={() => setAuthModal({ modalType: "register", isAuthModalActive: true })}
+              onClick={() => setAuthModal({ modalType: "login", isAuthModalActive: true })}
               className="animate-fadeIn main-gradient px-[12px] h-[24px] font-bold text-[12px] rounded-[8px] md:px-[12px] md:h-[27px] md:text-[14px]"
             >
               <span className="relative z-[5]">Sign in</span>
