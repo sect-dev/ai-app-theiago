@@ -9,6 +9,7 @@ import Link from "next/link";
 
 import clsx from "clsx";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 const navigationData = [
   {
@@ -31,11 +32,21 @@ const navigationData = [
 
 interface ComponentProps {
   pathname?: string
+  setIsMenuOpen: (value:boolean) => void
 }
 
-const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
-  const {setPaymentModal} = usePaymentStore()
-  const isChatPage = pathname?.includes('chats')
+const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
+  const {setPaymentModal} = usePaymentStore();
+  const {setMobileChatOpen} = useSelectedCardStore()
+  const isChatPage = pathname?.includes('chats');
+
+  const handeClick = () => {
+    setIsMenuOpen(false)
+    if(isChatPage) {
+      setMobileChatOpen(false)
+    }
+  }
+
   return (
     <ul className="space-y-[4px] text-gray">
       {navigationData.map(item => {
@@ -43,7 +54,7 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
         const image = checkUrl ? item.activeIcon : item.icon
         return (
           <li key={item.id} className="group [&>*:a]:rounded-t-[4px]">
-            <Link href={item.href} className={clsx("flex items-center pl-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",item.className,{
+            <Link onClick={handeClick} href={item.href} className={clsx("flex items-center pl-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",item.className,{
               "!pl-0 justify-center": isChatPage
             })}>
               <Image

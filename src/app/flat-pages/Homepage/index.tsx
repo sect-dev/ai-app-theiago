@@ -37,7 +37,7 @@ const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
   }, []);
 
   return (
-    <div className="animate-fadeIn">
+    <div className="animate-fadeIn overflow-y-auto h-[calc(100vh-60px)]">
       <div className="container !px-0">
         <div className="space-y-[8px] sm:space-y-0">
           <FavoritesGirls avatars={favoriteAvatars} />

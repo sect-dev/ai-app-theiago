@@ -23,15 +23,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           "max-w-[75px] md:max-w-[203px]": isChatPage,
           "!translate-x-0": isMenuOpen
         })}>
-          <Sidebar isChatPage={isChatPage} pathname={pathname} />
+          <Sidebar setIsMenuOpen={setIsMenuOpen} isChatPage={isChatPage} pathname={pathname} />
         </div>
         <div className={clsx("hidden animate-fadeIn absolute left-1/2 bottom-[5vw] -translate-x-1/2 z-[10] md:block md:rounded-[24px] md:backdrop-blur-[10px] md:bg-opacity-50 md:bg-[#121423]", {
           "!hidden": isMobileChatOpen || isMenuOpen
         })}>
           <MobileNav isMenuOpen={isMenuOpen} pathname={pathname} />
         </div>
-        <div className={clsx("ml-auto transition-width duration-300  w-[calc(100vw-203px)] md:w-full", {
-          "w-[calc(100vw-75px)] md:h-[100vh]": isChatPage
+        <div className={clsx("ml-auto transition-width duration-300 w-[calc(100vw-203px)] md:w-full", {
+          "w-[calc(100vw-75px)]": isChatPage
         })}>
          {children}
         </div>

@@ -1,5 +1,5 @@
 'use client'
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
 import IcnPlus from "@/../public/images/icons/icon-plus.svg";
 import IcnCoins from "@/../public/images/icons/icon-coins.svg";
@@ -9,8 +9,6 @@ import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import IconBack from "@/../public/images/icons/icon-back.svg";
 import {useParams, useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
-import {getTokensInfo} from "@/app/shared/api/payment";
-import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface ComponentProps {
   avatar: string | null
@@ -20,7 +18,6 @@ interface ComponentProps {
 const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
   const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen, characters } = useSelectedCardStore();
   const {setTokensModal} = usePaymentStore();
-  const {user} = useAuthStore()
   const params = useParams();
   const navigate = useRouter();
   const currentCharacter = (characters) && characters?.find(item => item.id.toString() === params.id?.toString())
@@ -40,7 +37,7 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
   }
 
   return (
-    <div className={clsx("animate-fadeIn flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px] transition-transform duration-300 md:rounded-[16px] md:py-[14px] md:px-[12px]", {})}>
+    <div className={clsx("animate-fadeIn shrink-0 flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px] transition-transform duration-300 md:shrink-0 md:rounded-[16px] md:py-[14px] md:px-[12px]", {})}>
       <div className="flex items-center gap-[10px]">
         <div
           onClick={handleBack}

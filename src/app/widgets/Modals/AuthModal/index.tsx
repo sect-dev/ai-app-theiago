@@ -35,7 +35,7 @@ const AuthModal = () => {
             <div className="w-[690px] h-[550px] mx-auto relative sm:size-full">
               <button
                 onClick={() => setAuthModal({ modalType: null, isAuthModalActive: false })}
-                className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px]"
+                className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:top-[70px] sm:right-auto sm:left-[20px]"
               >
                 <Image
                   src={IconClose.src}

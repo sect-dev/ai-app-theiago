@@ -5,15 +5,16 @@ import SidebarBanner from "@/app/widgets/Sidebar/SidebarBanner";
 interface ComponentProps {
   isChatPage: boolean
   pathname: string
+  setIsMenuOpen: (value:boolean) => void
 }
 
-const Sidebar:FC<ComponentProps> = ({isChatPage,pathname}) => {
+const Sidebar:FC<ComponentProps> = ({isChatPage,pathname,setIsMenuOpen}) => {
   // const {setQrModal} = useSelectedCardStore()
   return (
     <div className="w-full h-[calc(100vh-46px)] pt-[15px] pb-[24px]">
       <div className="container h-full">
         <div className="flex flex-col justify-between gap-[0.5vw] h-full">
-          <SidebarMenu pathname={pathname} />
+          <SidebarMenu setIsMenuOpen={setIsMenuOpen} pathname={pathname} />
           <div className="space-y-[12px]">
             {!isChatPage && <SidebarBanner/>}
             {/*<button*/}
