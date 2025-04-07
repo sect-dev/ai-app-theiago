@@ -18,6 +18,7 @@ import { auth } from "@/firebase";
 import {EmailLinkAuthResponse, FirebaseUser} from "@/app/shared/api/types/auth";
 import {apiClient} from "@/app/shared/api/index";
 import {useAuthStore} from "@/app/shared/store/authStore";
+import axios from "axios";
 
 export const signUpWithEmailAndPassword = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
@@ -254,5 +255,14 @@ export const registerUserAfterPayment = async (email: string | null, token: stri
 
   } catch (error) {
     console.log('error',error)
+  }
+}
+
+export const getEmailByOrderNumber = async (orderId:string) => {
+  try {
+    const resp = await axios.get(`https://production-payments.theaigo.com:8000/email_by_order_number?order_number=${orderId}`);
+    return resp.data
+  } catch (error) {
+    console.log(error)
   }
 }

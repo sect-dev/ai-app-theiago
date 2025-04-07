@@ -15,6 +15,7 @@ import IconGoogle from "@/../public/images/icons/icon-google.svg";
 import ImageDefault from '@/../public/images/img/payment/image-no-char-id.webp';
 
 import {
+  getEmailByOrderNumber,
   handleEmailLinkAuth,
   signInWithFacebook,
   signInWithGoogle,
@@ -29,6 +30,8 @@ import {
 import {apiClient} from "@/app/shared/api";
 import {Character} from "@/app/shared/api/types";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {useSearchParams} from "next/navigation";
+import IconClose from "../../../../../public/images/icons/icon-close.svg";
 
 interface FormData {
   email: string;
@@ -36,14 +39,17 @@ interface FormData {
 
 const SuccessPayment = () => {
   const {charFromPaywall,setCharacters} = useSelectedCardStore()
+  const searchParams = useSearchParams();
+  const orderNumber = searchParams.get('order_number');
   const {setTokens} = usePaymentStore();
   const {user} = useAuthStore()
   const [loading,setLoading] = useState<boolean>(false)
   const [charInfo,setCharInfo] = useState<Character | null>(null)
   const [characterLoading, setCharacterLoading] = useState<boolean>(false)
   // const [authError, setAuthError] = useState<string | null>(null);
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm<FormData>();
   const characterImage = charInfo ? charInfo.avatar : ImageDefault.src;
+  const messageValue = watch("email");
 
   const getCharacterInfoById = async (id: string) => {
     try {
@@ -58,9 +64,19 @@ const SuccessPayment = () => {
     }
   }
 
+  const getUserEmail = async (orderId:string) => {
+    try {
+      const response = await getEmailByOrderNumber(orderId);
+      setValue('email',response)
+    } catch (error) {
+      console.log('error',error)
+    }
+  }
+
   useEffect(() => {
     if(charFromPaywall?.character_id) {
       getCharacterInfoById(charFromPaywall?.character_id ?? '')
+      getUserEmail(orderNumber ?? '')
     }
   }, [])
 
@@ -81,6 +97,7 @@ const SuccessPayment = () => {
         const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens)
         setCharacters(preparedCharacters ?? null)
         setTokens(tokens ?? 0)
+        reset()
       }
     } catch (error) {
       console.log('error',error)
@@ -128,26 +145,45 @@ const SuccessPayment = () => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-[24px] pb-[32px] mb-[32px] border-b border-b-[#3A3F63] sm:w-full">
           {/* Поле Email */}
+
           <div className="relative">
-            <input
-              id="email"
-              type="email"
-              placeholder="Input your E-mail"
-              className={clsx("w-full bg-[#191B2C] px-[16px] rounded-[12px] h-[48px] text-[14px] border border-transparent font-medium leading-[1.5em] transition-all duration-300  focus:border-[#049AEF] placeholder-text:opacity-50 focus:outline-none focus:outline-none outline-offset-0 focus:outline-offset-0", {
-                "!border-[#BD0000]": errors.email
-              })}
-              {...register("email", {
-                required: "Email обязателен",
-                pattern: { value: /^\S+@\S+\.\S+$/, message: "Некорректный email" }
-              })}
-            />
-            <p className="font-bai-jamjuree pt-[8px] px-[8px] text-[12px] font-medium opacity-50 leading-[1.2em]">This email will be used to login to your account. You can change it</p>
-            {errors.email && <p className="text-[#BD0000] text-[12px] absolute right-0 top-[-20px]">{errors.email.message}</p>}
-          </div>
+              {characterLoading
+                ? <div className="animate-pulse w-full bg-[#191B2C] px-[16px] rounded-[12px] h-[48px]" />
+                : <div className="relative">
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Input your E-mail"
+                    className={clsx("w-full animate-fadeIn delay-300 bg-[#191B2C] px-[16px] pr-[32px] rounded-[12px] h-[48px] text-[14px] border border-transparent font-medium leading-[1.5em] transition-all duration-300  focus:border-[#049AEF] placeholder-text:opacity-50 focus:outline-none focus:outline-none outline-offset-0 focus:outline-offset-0", {
+                      "!border-[#BD0000]": errors.email
+                    })}
+                    {...register("email", {
+                      required: "Email обязателен",
+                      pattern: { value: /^\S+@\S+\.\S+$/, message: "Некорректный email" }
+                    })}
+                  />
+                  {messageValue &&
+                    <button
+                      onClick={() => reset()}
+                      className={"animate-fadeIn absolute right-[10px] top-1/2 -translate-y-1/2"}
+                    >
+                      <Image
+                        src={IconClose.src}
+                        width={IconClose.width}
+                        height={IconClose.height}
+                        alt="clean form"
+                      />
+                    </button>
+                  }
+                </div>
+              }
+
+              <p className="font-bai-jamjuree pt-[8px] px-[8px] text-[12px] font-medium opacity-50 leading-[1.2em]">This email will be used to login to your account. You can change it</p>
+              {errors.email && <p className="text-[#BD0000] text-[12px] absolute right-0 top-[-20px]">{errors.email.message}</p>}
+            </div>
 
           {/*  Отображение ошибки авторизации */}
           {/* {authError && <p className="text-[#BD0000] text-[14px]">{authError}</p>} */}
-
 
           {/* Кнопка отправки */}
           <button
@@ -208,7 +244,6 @@ const SuccessPayment = () => {
               className="object-cover animate-fadeIn"
             />
         }
-
       </div>
     </div>
   );

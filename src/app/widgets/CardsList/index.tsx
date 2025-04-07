@@ -27,7 +27,7 @@ const CardsList:FC<ComponentProps> = ({avatars,tags}) => {
           : <Tags tags={tags} />
         }
       </div>
-      <div className="gap-[16px] cards-list">
+      <div className="gap-[16px] cards-list sm:gap-[8px]">
         {filteredAvatars.map(avatar => <Card key={avatar.id} avatar={avatar} />)}
       </div>
     </>
