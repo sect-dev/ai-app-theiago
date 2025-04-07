@@ -1,9 +1,6 @@
 import React, {FC} from 'react';
 import SidebarMenu from "@/app/widgets/Sidebar/SidebarMenu";
 import SidebarBanner from "@/app/widgets/Sidebar/SidebarBanner";
-import Image from "next/image";
-import IconDownload from '@/../public/images/icons/icon-download.svg';
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface ComponentProps {
   isChatPage: boolean
@@ -11,7 +8,7 @@ interface ComponentProps {
 }
 
 const Sidebar:FC<ComponentProps> = ({isChatPage,pathname}) => {
-  const {setQrModal} = useSelectedCardStore()
+  // const {setQrModal} = useSelectedCardStore()
   return (
     <div className="w-full h-[calc(100vh-46px)] pt-[15px] pb-[24px]">
       <div className="container h-full">

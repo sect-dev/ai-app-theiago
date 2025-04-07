@@ -37,13 +37,13 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
   const {setPaymentModal} = usePaymentStore()
   const isChatPage = pathname?.includes('chats')
   return (
-    <ul className="space-y-[4px] text-gray">
+    <ul className="space-y-[4px] text-gray md:flex md:space-y-0 md:overflow-hidden md:h-[56px] md:w-[128px]  ">
       {navigationData.map(item => {
         const checkUrl = item.href === "/" ? pathname === "/" : pathname?.startsWith(item.href);
         const image = checkUrl ? item.activeIcon : item.icon
         return (
-          <li key={item.id} className="group [&>*:a]:rounded-t-[4px]">
-            <Link href={item.href} className={clsx("flex items-center pl-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",item.className,{
+          <li key={item.id} className="group md:size-full [&>*:a]:rounded-t-[4px]">
+            <Link href={item.href} className={clsx("flex items-center pl-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B] md:hover:bg-transparent md:bg-transparent md:justify-center md:size-full md:rounded-none md:gap-0 md:text-[10px] md:flex-col md:pl-0",item.className,{
               "!pl-0 justify-center": isChatPage
             })}>
               <Image
@@ -53,22 +53,22 @@ const SidebarMenu:FC<ComponentProps> = ({pathname}) => {
                 alt="Explore icon"
                 className="size-[20px]"
               />
-                <span
-                  className={clsx("animate-fadeIn text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]", {
-                    "logo-gradient transition-all duration-300": checkUrl,
-                    "hidden md:!block": isChatPage,
-                  })}>
+              <span
+                className={clsx("animate-fadeIn text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]", {
+                  "logo-gradient transition-all duration-300": checkUrl,
+                  "hidden md:!block": isChatPage,
+                })}>
                   {item.title}
                 </span>
-          </Link>
+            </Link>
           </li>
         )
       })}
       <li>
-        <button onClick={() => setPaymentModal(true)} className={clsx("cursor-pointer block w-full font-semibold text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] h-[40px] main-gradient text-white ", {
+        <button onClick={() => setPaymentModal(true)} className={clsx("cursor-pointer block w-full font-semibold text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] h-[40px] main-gradient text-white md:hidden", {
           "!px-0 !py-0": isChatPage
         })}>
-          <span className={clsx("relative z-[5] h-full flex items-center gap-[8px]", {
+          <span className={clsx("relative z-[5] h-full flex items-center  gap-[8px]", {
             "justify-center": isChatPage
           })}>
           <Image

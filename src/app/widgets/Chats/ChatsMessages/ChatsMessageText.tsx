@@ -45,7 +45,7 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, loading]);
-  console.log('1')
+
   return (
     <>
       {/* Видео сообщение */}

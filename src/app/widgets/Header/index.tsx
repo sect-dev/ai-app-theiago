@@ -1,14 +1,18 @@
 'use client'
-import React, { useState } from 'react';
+import React, {FC, useState} from 'react';
 import Link from "next/link";
 import clsx from "clsx";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
 
-const Header = () => {
+interface ComponentProps {
+  isMenuOpen: boolean
+  setIsMenuOpen: (value) => void
+}
+
+const Header:FC<ComponentProps> = ({isMenuOpen, setIsMenuOpen}) => {
   const { user, loading, setAuthModal } = useAuthStore();
-  const [menuModal, setMenuModal] = useState(false);
 
   const handleSignOut = async () => {
     try {
@@ -24,17 +28,17 @@ const Header = () => {
         <div className="flex justify-between items-center font-bai-jamjuree">
           <div className="flex items-center gap-[14px]">
             <button
-              onClick={() => setMenuModal(!menuModal)}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="flex-col h-[12px] w-[18px] gap-[4px] hidden md:flex"
             >
               <span className={clsx('block h-[2px] w-full rounded-[5px] bg-white transition-transform duration-300', {
-                'origin-[2px] rotate-[45deg] sm:origin-[0.356vw]': menuModal,
+                'origin-[2px] rotate-[45deg] sm:origin-[0.356vw]': isMenuOpen,
               })} />
               <span className={clsx('block h-[2px] w-full rounded-[5px] bg-white transition-opacity duration-300', {
-                'opacity-0': menuModal,
+                'opacity-0': isMenuOpen,
               })} />
               <span className={clsx('block h-[2px] w-full rounded-[5px] bg-white transition-transform duration-300', {
-                'origin-[1px] rotate-[-45deg] sm:origin-[0.565vw]': menuModal,
+                'origin-[1px] rotate-[-45deg] sm:origin-[0.565vw]': isMenuOpen,
               })} />
             </button>
             <Link href="/" className="font-bold block text-[20px] tracking-[0.04em] sm:text-[5.33vw] ">
@@ -43,7 +47,7 @@ const Header = () => {
             </Link>
           </div>
 
-          {loading ? <div className="animate-pulse block main-gradient h-[24px] w-[72px] flex items-center rounded-[15px] " /> : (user && !user?.isAnonymous) ? (
+          {loading ? <div className="animate-pulse block main-gradient h-[27px] w-[72px] flex items-center rounded-[8px] " /> : (user && !user?.isAnonymous) ? (
             <button
               onClick={handleSignOut}
               className="animate-fadeIn relative gradient-border logo-gradient flex items-center justify-center gap-[8px] w-[64px] h-[24px]"
