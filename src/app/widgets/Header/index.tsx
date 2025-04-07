@@ -8,7 +8,7 @@ import { auth } from "@/firebase";
 
 interface ComponentProps {
   isMenuOpen: boolean
-  setIsMenuOpen: (value) => void
+  setIsMenuOpen: (value:boolean) => void
 }
 
 const Header:FC<ComponentProps> = ({isMenuOpen, setIsMenuOpen}) => {
