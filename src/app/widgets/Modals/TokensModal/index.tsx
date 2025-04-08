@@ -17,18 +17,20 @@ import {PreparedAvatar} from "@/app/shared/api/types";
 import clsx from "clsx";
 
 const TokensModal = () => {
-  const params = useParams()
-  const { isTokensModalActive, setTokensModal, tokens} = usePaymentStore()
-  const [tokenPackages, setTokenPackages] = useState<StrictTokenPackage[] | null>()
-  const [characterImage, setCharacterImage] = useState('')
   const {characters} = useSelectedCardStore()
-  const [loading,setLoading] = useState(false)
+  const params = useParams();
+  const { isTokensModalActive, setTokensModal, tokens} = usePaymentStore();
+  const [tokenPackages, setTokenPackages] = useState<StrictTokenPackage[] | null>();
+  const [characterImage, setCharacterImage] = useState('');
+  const [loading,setLoading] = useState(false);
+  const [selectedPackage,setSelectedPackage] = useState<string>('')
 
   const getTokenPackages = async () => {
     setLoading(true)
     try {
       const resp = await getTokenPackageInfo()
       if(resp) {
+        setSelectedPackage(resp[1].description)
         return setTokenPackages(resp)
       }
     } catch(error) {
@@ -52,6 +54,14 @@ const TokensModal = () => {
     }
   }, [])
 
+  const buyTokensHandler = () => {
+    try {
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const image = characterImage ? characterImage : ImageModal.src
   return (
     <Dialog open={isTokensModalActive} as="div" className="relative z-[50] focus:outline-none" onClose={() => setTokensModal(false)}>
@@ -61,8 +71,8 @@ const TokensModal = () => {
             transition
             className="w-full h-screen flex items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
           >
-            <div className="w-screen h-full flex items-center justify-center flex-col pt-[45px] sm:pt-0">
-              <div className="w-[690px] h-[550px] mx-auto relative sm:overflow-hidden sm:bg-[#121423] sm:size-full">
+            <div className="w-screen h-full flex items-center justify-center flex-col ">
+              <div className="w-[690px] h-[550px] mx-auto relative sm:overflow-x-hidden sm:bg-[#121423] sm:size-full">
                 <div className="hidden relative w-full h-[400px] sm:block success-payment-bg">
                   <Image
                     src={image}
@@ -71,10 +81,10 @@ const TokensModal = () => {
                     className="object-cover"
                   />
                 </div>
-                <div className="relative">
+                <div className="relative sm:static">
                   <button
                     onClick={() => setTokensModal(false)}
-                    className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:top-[-50px]"
+                    className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px] sm:top-[20px]"
                   >
                     <Image
                       src={IconClose.src}
@@ -89,7 +99,7 @@ const TokensModal = () => {
                       width={ImageDecor1.width}
                       height={ImageDecor1.height}
                       alt="icon"
-                      className="absolute left-[-50px] top-[-50px] z-[10]"
+                      className="block absolute left-[-50px] top-[-50px] z-[10] sm:hidden"
                     />
                     <div className="w-full h-hull relative sm:hidden">
                       <Image
@@ -133,18 +143,20 @@ const TokensModal = () => {
                       </div>
                       <div>
                         <p className="text-[#B5B5B5] font-medium text-[16px]">Choose package</p>
-                        <div className="pt-[12px] mb-[24px] max-w-[300px]">
+                        <div className="mt-[-10px]">
                           {(tokenPackages && !loading)
-                            ? <TokenPackages tokenPackages={tokenPackages} />
+                            ? <TokenPackages tokenPackages={tokenPackages} setSelectedPackage={setSelectedPackage} selectedPackage={selectedPackage} />
                             : <TokenPackagesSkeleton />
                           }
                           {/*<SectionWithSwiper className="!h-[166px] fm:!h-[55.87vw] !rounded-[12px]" slidesPerView={2.2} images={selectedCard?.listImage ?? null} />*/}
                         </div>
                         <button
                           // onClick={handleStartChat}
-                          className="main-gradient w-full text-[15px] h-[60px] rounded-[24px]"
+                          disabled={(!tokenPackages && loading)}
+                          className="main-gradient overflow-hidden w-full h-[60px] rounded-[24px] disabled:opacity-50 disabled:pointer-events-none"
                         >
-                          <span className="relative z-[5]">Buy tokens</span>
+                          <span className="relative z-[5] text-[15px] font-bold">Buy tokens</span>
+                          <span className="bg-white-gradient animate-[moveRight_4.25s_ease-in_infinite_forwards] block rotate-[20deg] size-[125px] absolute -left-1/2 top-1/2 -translate-y-1/2" />
                         </button>
                       </div>
                     </div>

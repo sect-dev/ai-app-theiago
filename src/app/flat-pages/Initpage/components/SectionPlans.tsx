@@ -117,7 +117,7 @@ const SectionPlans:FC<ComponentProps> = ({paymentPlans}) => {
                       href="#form"
                       className="relative flex items-center justify-center gap-[5px] overflow-hidden bg-button-gradient disabled:opacity-50 rounded-[24px] w-full h-[60px] text-white text-center fm:h-[16vw] fm:rounded-[6.40vw]"
                     >
-                      <span className="uppercase  font-bold font-noto text-[14px] fm:text-[3.73vw]">get your girlfriend</span>
+                      <span className="uppercase  font-bold font-noto-sans text-[14px] fm:text-[3.73vw]">get your girlfriend</span>
                       <span className="bg-white-gradient  animate-[moveRight_4.25s_ease-in_infinite_forwards] block rotate-[20deg] size-[125px] absolute -left-1/2 top-1/2 -translate-y-1/2" />
                     </Link>
                     <p className="text-center font-bold text-center text-[12px] pt-[12px] fm:pt-[3.20vw] fm:text-[3.20vw]">🔥 65,756 people received a girlfriend this week. 🔥</p>

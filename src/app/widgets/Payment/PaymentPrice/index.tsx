@@ -118,7 +118,7 @@ const PaymentPrice = () => {
             )
           })}
         </div>
-        <button className="relative main-gradient overflow-hidden w-full h-[60px] font-bold font-noto text-[14px] text-center rounded-[24px]">
+        <button className="relative main-gradient overflow-hidden w-full h-[60px] font-bold font-noto-sans text-[14px] text-center rounded-[24px]">
           <span className="relative z-[5]">Start your relationships</span>
           <span className="bg-white-gradient animate-[moveRight_4.25s_ease-in_infinite_forwards] block rotate-[20deg] size-[125px] absolute -left-1/2 top-1/2 -translate-y-1/2" />
         </button>
