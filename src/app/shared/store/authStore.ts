@@ -29,6 +29,10 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   const {setSuccessPaymentModal} = usePaymentStore.getState();
   const { setAuthModal } = useAuthStore.getState();
   const email = localStorage.getItem('emailForSignIn');
+  const cleanLocalStorage = () => {
+    localStorage.removeItem("tempToken");
+    localStorage.removeItem("emailForSignIn");
+  }
   if (isSignInWithEmailLink(auth, window.location.href)) {
     try {
       const result = await signInWithEmailLink(auth, email ?? '', window.location.href);
@@ -36,25 +40,17 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
       if(result) {
         await registerUserAfterPayment(email, user.accessToken);
-        localStorage.removeItem("uid");
-        localStorage.removeItem("tempToken");
-        localStorage.removeItem("emailForSignIn");
+        cleanLocalStorage()
         localStorage.setItem("accessToken", user.accessToken);
         setUser(user);
         return window.history.replaceState({}, document.title, window.location.pathname);
       }
     } catch (error) {
-      // notification.open({
-      //   title: 'Error',
-      //   description: 'Your account is already registered',
-      //   type: 'error',
-      // });
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }
   if (firebaseUser) {
     const token = await firebaseUser.getIdToken();
-
     const isSocialLogin = firebaseUser.providerData.some(provider =>
       provider.providerId === 'google.com' ||
       provider.providerId === 'facebook.com' ||
@@ -69,30 +65,25 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         await registerUserAfterPayment(email, token);
         setSuccessPaymentModal({isSuccessPaymentModalActive: true, successPaymentModalType: "auth_success"});
 
+        cleanLocalStorage()
         localStorage.setItem("accessToken", token);
-        localStorage.removeItem("emailForSignIn");
 
         window.history.replaceState({}, document.title, newUrl);
       }
     }
 
     if (firebaseUser.isAnonymous) {
-      localStorage.setItem("uid", firebaseUser.uid);
       localStorage.setItem("tempToken", token);
       setUser(firebaseUser);
     } else {
-      localStorage.removeItem("uid");
-      localStorage.removeItem("tempToken");
-      localStorage.removeItem("emailForSignIn");
+      cleanLocalStorage()
       localStorage.setItem("accessToken", token);
       setAuthModal({ modalType: null, isAuthModalActive: false });
       setUser(firebaseUser);
     }
   } else {
-    localStorage.removeItem("uid");
-    localStorage.removeItem("tempToken");
+    cleanLocalStorage()
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("emailForSignIn");
     setUser(null);
   }
 });

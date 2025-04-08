@@ -5,6 +5,8 @@ import IconCoins from '@/../public/images/icons/payment/icon-coins.webp';
 import IconCoinsPackage from '@/../public/images/icons/payment/icon-coins-package.webp';
 import clsx from "clsx";
 import {Swiper, SwiperSlide} from "swiper/react";
+// Import Swiper styles
+import 'swiper/css';
 import { Navigation } from 'swiper/modules';
 import ArrowNav from "@/../public/images/icons/arrow-gradient-blue.svg";
 

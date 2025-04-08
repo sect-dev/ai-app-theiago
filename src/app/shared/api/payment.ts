@@ -56,3 +56,12 @@ export const getTokenPackageInfo = async (): Promise<StrictTokenPackage[] | null
     return null;
   }
 };
+
+export const buyTokens =  async(name: string,userId: string,email: string) => {
+  try {
+    const response = await apiClient.get(`https://production-payments.theaigo.com:8000/tokens_purchase?name=${name}&user_id=${userId}&email=${email}`)
+    return response.data
+  } catch (error){
+    console.log(error)
+  }
+}

@@ -1,3 +1,4 @@
+'use client'
 import React, {useEffect, useState} from 'react';
 import Image from "next/image";
 import {Dialog, DialogPanel} from "@headlessui/react";
@@ -7,7 +8,7 @@ import ImageDecor1 from "@/../public/images/icons/payment/icon-decor1.png";
 // import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import IcnCoins from "@/../public/images/icons/icon-coins.svg";
-import {getTokenPackageInfo} from "@/app/shared/api/payment";
+import {buyTokens, getTokenPackageInfo} from "@/app/shared/api/payment";
 import {useParams} from "next/navigation";
 import IconClose from "@/../public/images/icons/icon-modal-close.svg";
 import {StrictTokenPackage} from "@/app/shared/api/types/payment";
@@ -15,14 +16,19 @@ import TokenPackages from "@/app/widgets/TokenPackages";
 import TokenPackagesSkeleton from "@/app/widgets/TokenPackages/TokenPackagesSkeleton";
 import {PreparedAvatar} from "@/app/shared/api/types";
 import clsx from "clsx";
+import {useAuthStore} from "@/app/shared/store/authStore";
+import notification from "@/app/widgets/Notification";
+import Spinner from "@/app/widgets/Spinner";
 
 const TokensModal = () => {
   const {characters} = useSelectedCardStore()
   const params = useParams();
   const { isTokensModalActive, setTokensModal, tokens} = usePaymentStore();
+  const {user} = useAuthStore()
   const [tokenPackages, setTokenPackages] = useState<StrictTokenPackage[] | null>();
   const [characterImage, setCharacterImage] = useState('');
   const [loading,setLoading] = useState(false);
+  const [tokenPaymentLoading,setTokenPaymentLoading] = useState<boolean>(false)
   const [selectedPackage,setSelectedPackage] = useState<string>('')
 
   const getTokenPackages = async () => {
@@ -54,11 +60,23 @@ const TokensModal = () => {
     }
   }, [])
 
-  const buyTokensHandler = () => {
+  const buyTokensHandler = async () => {
     try {
-
+      setTokenPaymentLoading(true)
+      const packageName = selectedPackage.split(' ').join('_')
+      if((user && !user?.email) || !user) {
+        return notification.open({
+          title: 'Error',
+          type: 'error',
+          description: 'To buy tokens, you need to authorize',
+        });
+      }
+      const resp = await buyTokens(packageName, user.uid, user?.email ?? '')
+      console.log('resp',resp)
     } catch (error) {
       console.log(error)
+    } finally {
+      setTokenPaymentLoading(false)
     }
   }
 
@@ -151,11 +169,12 @@ const TokensModal = () => {
                           {/*<SectionWithSwiper className="!h-[166px] fm:!h-[55.87vw] !rounded-[12px]" slidesPerView={2.2} images={selectedCard?.listImage ?? null} />*/}
                         </div>
                         <button
-                          // onClick={handleStartChat}
-                          disabled={(!tokenPackages && loading)}
-                          className="main-gradient overflow-hidden w-full h-[60px] rounded-[24px] disabled:opacity-50 disabled:pointer-events-none"
+                          onClick={buyTokensHandler}
+                          disabled={(!tokenPackages && loading) || tokenPaymentLoading}
+                          className="main-gradient flex items-center justify-center gap-[5px] overflow-hidden w-full h-[60px] rounded-[24px] disabled:opacity-50 disabled:pointer-events-none"
                         >
                           <span className="relative z-[5] text-[15px] font-bold">Buy tokens</span>
+                          {tokenPaymentLoading && <Spinner />}
                           <span className="bg-white-gradient animate-[moveRight_4.25s_ease-in_infinite_forwards] block rotate-[20deg] size-[125px] absolute -left-1/2 top-1/2 -translate-y-1/2" />
                         </button>
                       </div>
