@@ -1,19 +1,11 @@
+'use client'
 //General
 import React, {useEffect, useState} from 'react';
 import Image from "next/image";
+import {useSearchParams} from "next/navigation";
 import clsx from "clsx";
 import {useForm} from "react-hook-form";
-import ImageSuccess from "@/../public/images/img/payment/image-success.webp";
-//Components
-import notification from "@/app/widgets/Notification";
-import Spinner from "@/app/widgets/Spinner";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
-//Images
-import IconX from "@/../public/images/icons/icon-x.webp";
-import IconFacebook from "@/../public/images/icons/icon-fb.webp";
-import IconGoogle from "@/../public/images/icons/icon-google.svg";
-import ImageDefault from '@/../public/images/img/payment/image-no-char-id.webp';
-
+//API
 import {
   getEmailByOrderNumber,
   handleEmailLinkAuth,
@@ -21,7 +13,6 @@ import {
   signInWithGoogle,
   signInWithX
 } from "@/app/shared/api/auth";
-import {useAuthStore} from "@/app/shared/store/authStore";
 import {startConversation} from "@/app/shared/api/mesages";
 import {
   mapBackendMessagesToMessages,
@@ -29,20 +20,30 @@ import {
 } from "@/app/shared/helpers";
 import {apiClient} from "@/app/shared/api";
 import {Character} from "@/app/shared/api/types";
+//Components
+import notification from "@/app/widgets/Notification";
+import Spinner from "@/app/widgets/Spinner";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import {useAuthStore} from "@/app/shared/store/authStore";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
-import {useSearchParams} from "next/navigation";
-import IconClose from "../../../../../public/images/icons/icon-close.svg";
+//Images
+import IconX from "@/../public/images/icons/icon-x.webp";
+import IconFacebook from "@/../public/images/icons/icon-fb.webp";
+import IconGoogle from "@/../public/images/icons/icon-google.svg";
+import ImageDefault from '@/../public/images/img/payment/image-no-char-id.webp';
+import ImageSuccess from "@/../public/images/img/payment/image-success.webp";
+import IconClose from "@/../public/images/icons/icon-close.svg";
+
 
 interface FormData {
   email: string;
 }
 
 const SuccessPayment = () => {
-  const {charFromPaywall,setCharacters} = useSelectedCardStore()
+  const {charFromPaywall} = useSelectedCardStore()
   const searchParams = useSearchParams();
   const orderNumber = searchParams.get('order_number');
-  const {setTokens} = usePaymentStore();
-  const {user} = useAuthStore()
+
   const [loading,setLoading] = useState<boolean>(false)
   const [charInfo,setCharInfo] = useState<Character | null>(null)
   const [characterLoading, setCharacterLoading] = useState<boolean>(false)
@@ -91,12 +92,7 @@ const SuccessPayment = () => {
           type: 'success',
           description: 'We have sent you an email to confirm your address',
         });
-        const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charFromPaywall?.character_id.toString() ?? null})
-        const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-        const tokens = startChat?.tokens_remaining || 0
-        const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens)
-        setCharacters(preparedCharacters ?? null)
-        setTokens(tokens ?? 0)
+
         reset()
       }
     } catch (error) {
