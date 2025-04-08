@@ -62,15 +62,18 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     );
     // Если пользователь вошел через Google и есть параметр subscription_success в URL
     if (isSocialLogin && window.location.search.includes('action=subscription_success')) {
-      const newUrl = window.location.href.replace(
-        'action=subscription_success',
-        'action=auth_success'
-      );
-      setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:"auth_success"})
-      localStorage.setItem("accessToken", token);
-      localStorage.removeItem("emailForSignIn");
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('action') === 'subscription_success') {
+        params.set('action', 'auth_success');
+        const newUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
+        await registerUserAfterPayment(email, token);
+        setSuccessPaymentModal({isSuccessPaymentModalActive: true, successPaymentModalType: "auth_success"});
 
-      return window.history.replaceState({}, document.title, window.location.pathname);
+        localStorage.setItem("accessToken", token);
+        localStorage.removeItem("emailForSignIn");
+
+        window.history.replaceState({}, document.title, newUrl);
+      }
     }
 
     if (firebaseUser.isAnonymous) {

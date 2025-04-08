@@ -124,7 +124,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         setTokens(response?.tokens_remaining || 0)
       }
     } catch (error) {
-      console.error("Ошибка отправки сообщения:", error);
+      console.error("Error sending message:", error);
     } finally {
       setLoading(false);
     }

@@ -39,7 +39,7 @@ export const getTokensInfo = async (userId:string) => {
     const response = await apiClient.get(`/user_tokens?user_id=${userId}`)
     return response.data
   } catch (error) {
-    console.error("Ошибка при отправке сообщения:", error);
+    console.error("Error sending message:", error);
     return null;
   }
 }

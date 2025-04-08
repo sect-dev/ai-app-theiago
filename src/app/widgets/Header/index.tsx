@@ -18,7 +18,7 @@ const Header:FC<ComponentProps> = ({isMenuOpen, setIsMenuOpen}) => {
     try {
       await signOut(auth);
     } catch (error) {
-      console.error("Ошибка выхода из системы:", error);
+      console.error("Logout error:", error);
     }
   };
 

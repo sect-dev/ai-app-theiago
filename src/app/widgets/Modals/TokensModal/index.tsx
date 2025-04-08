@@ -40,7 +40,7 @@ const TokensModal = () => {
       setLoading(false)
     }
   }
-  console.log('tokenPackages',tokenPackages)
+
   useEffect(() => {
     getTokenPackages()
     if (params?.id && characters) {

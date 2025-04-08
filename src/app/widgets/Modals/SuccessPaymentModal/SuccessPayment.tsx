@@ -34,7 +34,6 @@ import ImageDefault from '@/../public/images/img/payment/image-no-char-id.webp';
 import ImageSuccess from "@/../public/images/img/payment/image-success.webp";
 import IconClose from "@/../public/images/icons/icon-close.svg";
 
-
 interface FormData {
   email: string;
 }
@@ -89,7 +88,7 @@ const SuccessPayment = () => {
       if(resp && resp?.success) {
         notification.open({
           title: 'Message sent',
-          type: 'success',
+          type: 'error',
           description: 'We have sent you an email to confirm your address',
         });
 

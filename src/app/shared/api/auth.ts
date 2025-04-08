@@ -236,7 +236,7 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
 
     return {
       success: true,
-      message: "Ссылка для входа отправлена на ваш email"
+      message: "The login link has been sent to your email."
     };
   } catch (error) {
     const firebaseError = error as AuthError;

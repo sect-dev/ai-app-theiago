@@ -27,7 +27,7 @@ export const generateUserText = async (userId: string | null,characterId: number
     );
     return response.data;
   } catch (error) {
-    console.error("Ошибка при запросе к API:", error);
+    console.error("Error while requesting API:", error);
     return null;
   }
 };
@@ -51,7 +51,7 @@ export const sendMessage = async (params:SendMessageParam):Promise<SendMessageRe
     });
     return response.data;
   } catch (error) {
-    console.error("Ошибка при отправке сообщения:", error);
+    console.error("Error sending message:", error);
     return null;
   }
 };
@@ -77,7 +77,7 @@ export const startConversation = async ({userId,characterId}: { userId: string |
     const response = await apiClient.post<StartResponse>("/build_web_response", payload);
     return response.data;
   } catch (error) {
-    console.error("Ошибка при запросе к API:", error);
+    console.error("Error while requesting API:", error);
     return null;
   }
 };
