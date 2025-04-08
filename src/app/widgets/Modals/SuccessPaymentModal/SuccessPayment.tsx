@@ -88,7 +88,7 @@ const SuccessPayment = () => {
       if(resp && resp?.success) {
         notification.open({
           title: 'Message sent',
-          type: 'error',
+          type: 'success',
           description: 'We have sent you an email to confirm your address',
         });
 
