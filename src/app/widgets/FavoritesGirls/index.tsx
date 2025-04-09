@@ -27,12 +27,6 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {
         delay: 5500,
         disableOnInteraction: true,
       }}
-      lazy={{
-        enabled: true,
-        loadPrevNext: true,
-        loadPrevNextAmount: 2,
-        loadOnTransitionStart: true
-      }}
       modules={[Autoplay,FreeMode,Navigation]}
       navigation={{
         nextEl: '.swiper-button-next',
