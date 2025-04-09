@@ -1,82 +1,47 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import Image from "next/image";
 import ImageArrow from '@/../public/images/icons/icon-payment-arrow.svg';
 import IconMoney from '@/../public/images/icons/icon-money.svg';
 import clsx from "clsx";
+import {PaymentPlan} from "@/app/shared/api/payment";
+import {calculateCostPerDay} from "@/app/shared/helpers";
 
-interface PriceData {
-  title: string
-  description?: string
-  fullPrice: string
-  discountPrice: string
-  fullPricePerDay: string
-  discountPricePerDay: string
-  id: number
-  currency: string
-  isPopular: boolean
+interface ComponentProps {
+  plans: PaymentPlan[] | null
 }
 
-const priceData:PriceData[] = [
-  {
-    title: "1-Week Trial",
-    description: "4-week relationships",
-    fullPrice: "59,99",
-    discountPrice: "29,99",
-    fullPricePerDay: "8,79",
-    discountPricePerDay: "0,19",
-    id: 1,
-    currency: "usd",
-    isPopular: false
-  },
-  {
-    title: "4-Week Relationships",
-    fullPrice: "59,99",
-    discountPrice: "29,99",
-    fullPricePerDay: "8,79",
-    discountPricePerDay: "0,19",
-    id: 2,
-    currency: "usd",
-    isPopular: true
-  },
-  {
-    title: "12-Week Relationships",
-    fullPrice: "59,99",
-    discountPrice: "29,99",
-    fullPricePerDay: "8,79",
-    discountPricePerDay: "0,19",
-    id: 3,
-    currency: "usd",
-    isPopular: false
-  }
-]
-
-const PaymentPrice = () => {
-  const [selectedPrice,setSelectedPrice] = useState<PriceData>(priceData[1])
+const PaymentPrice:FC<ComponentProps> = ({plans}) => {
+  const currentPlan = plans ? plans[1] : null
+  const [selectedPrice,setSelectedPrice] = useState<PaymentPlan | null>(currentPlan)
 
   return (
     <div className="space-y-[8px]">
-      <div className="bg-[#191B2C] h-[415px] shrink-0 w-[375px] p-[20px] rounded-[32px]">
+      <div className="bg-[#191B2C] h-[505px] shrink-0 w-[375px] p-[20px] rounded-[32px]">
         <div className="space-y-[12px] mb-[24px]">
-          {priceData.map(item => {
-            const firstLetterDiscountPrice = item.discountPricePerDay.split(',')[0]
-            const discountPriceWithoutFirstLetter = item.discountPricePerDay.split(',')[1]
+          {plans && plans.map(item => {
+            const days = item.interval_length * 30
+            const fullPricePerDay = calculateCostPerDay(+item.amount_recurring, days)
+            const discountPricePerDay = calculateCostPerDay(+item.amount_initial, days)
+            const firstLetterDiscountPrice = fullPricePerDay.toString().split('.')[0]
+            const discountPriceWithoutFirstLetter = discountPricePerDay.toString().split('.')[1]
+
             return (
               <div
                 onClick={() => setSelectedPrice(item)}
                 key={item.id}
                 className={clsx("gradient-border relative before:z-[1] before:rounded-[16px] before:opacity-0 hover:before:opacity-100 cursor-pointer bg-[#2B2D44] rounded-[16px] p-[16px] hover:shadow-card-shadow", {
-                  "before:opacity-100 shadow-card-shadow": selectedPrice.id === item.id
+                  "before:opacity-100 shadow-card-shadow": selectedPrice?.id === item.id
                 })}
               >
                 <div className={clsx("flex items-center justify-between ", {
-                  "pt-[12px]": item.isPopular
+                  "pt-[12px]": (item.id === selectedPrice?.id)
                 })}>
                   <div>
-                    <p className="font-semibold leading-[1.5em] text-[16px]">{item.title}</p>
-                    {item.description && <p className="text-[11px] opacity-40 font-asap leading-[1.3em]">{item.description}</p>}
+                    <p className="font-semibold leading-[1.5em] text-[16px]">{item.interval_length} {item.interval_unit}</p>
+                    {/*{item.description && <p className="text-[11px] opacity-40 font-asap leading-[1.3em]">{item.description}</p>}*/}
                     <div className="flex items-center gap-[4px] text-[12px] font-asap">
                       <p className="relative">
-                        <span className="uppercase opacity-40">{item.currency} {item.fullPrice}</span>
+                        <span className="uppercase opacity-40">{item.currency} {item.amount_recurring}</span>
                         <span className="w-full absolute bg-main-gradient h-[2px] z-[5] left-0 top-1/2 -translate-y-1/2" />
                       </p>
                       <Image
@@ -86,7 +51,7 @@ const PaymentPrice = () => {
                         alt="arrow"
                       />
                       <p>
-                        <span className="uppercase opacity-40">{item.currency} {item.discountPrice}</span>
+                        <span className="uppercase opacity-40">{item.currency} {item.amount_initial}</span>
                       </p>
                     </div>
                   </div>
@@ -94,7 +59,7 @@ const PaymentPrice = () => {
                     <p className="flex items-center gap-[4px] ">
                       <span className="text-[12px] font-semibold uppercase">{item.currency}</span>
                       <span className="relative text-[12px]">
-                    <span className="opacity-40">{item.fullPricePerDay}</span>
+                    <span className="opacity-40">{fullPricePerDay}</span>
                     <span className="w-full absolute bg-main-gradient h-[2px] z-[5] left-0 top-1/2 -translate-y-1/2" />
                   </span>
                     </p>
@@ -107,7 +72,7 @@ const PaymentPrice = () => {
                     </p>
                   </div>
                 </div>
-                {(item.isPopular && item.id === selectedPrice.id) && (
+                {(item.id === selectedPrice?.id) && (
                   <div className="absolute animate-fadeIn w-full h-[17px] left-0 top-0 flex items-center justify-center rounded-t-[16px] bg-main-gradient">
                     <span className="uppercase font-bold text-[11px]">
                       most popular
