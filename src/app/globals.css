@@ -287,6 +287,18 @@ body {
   .cards-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .chats-suggestion-modal:before {
+    content: '';
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    z-index: -1;
+    pointer-events: none;
+  }
 }
 
 @media screen and (max-width: 380px) {
