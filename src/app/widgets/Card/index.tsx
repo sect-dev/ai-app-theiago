@@ -53,7 +53,7 @@ const Card:FC<ComponentProps> = ({avatar}) => {
     >
       {isVisible && (
         <Image
-          src={`${avatar.avatar}?format=webp&quality=95&width=600`}
+          src={`${avatar.avatar}?format=webp&quality=85&width=500`}
           fill
           sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
           alt="image"

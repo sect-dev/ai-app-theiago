@@ -17,11 +17,11 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
     <div  className="size-full">
      <div className="card-shadow card overflow-hidden cursor-grab group animate-fadeIn flex items-end relative p-[12px] h-full rounded-[20px] md:rounded-[24px]">
           <Image
-            src={`${avatar.avatar}?format=webp&quality=95&width=600`}
+            src={`${avatar.avatar}?format=webp&quality=85&width=600&height=660`}
             sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
             fill
             alt="image"
-            loading="lazy"
+            loading="eager"
             className="object-cover swiper-lazy"
           />
           <div className="relative z-[2] transition-all duration-300 group-hover:mb-[50px] ">
