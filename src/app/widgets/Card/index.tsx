@@ -1,5 +1,5 @@
 'use client'
-import React, {FC} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import Image from "next/image";
 import IconMessage from '@/../public/images/icons/icon-message.svg';
 import clsx from "clsx";
@@ -14,22 +14,53 @@ interface ComponentProps {
 
 const Card:FC<ComponentProps> = ({avatar}) => {
   const { handleStartChat, isPending } = useStartChat();
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '200px',
+        threshold: 0.1
+      }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
 
   return (
     <button
+      ref={cardRef}
       onClick={() => handleStartChat(avatar)}
       className={clsx("flex card items-end w-full group text-left relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {
         "pointer-events-none": isPending
       })}
     >
-      <Image
-        src={`${avatar.avatar}?format=webp&quality=95&width=600`}
-        fill
-        sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
-        alt="image"
-        className="object-cover"
-        loading="lazy"
-      />
+      {isVisible && (
+        <Image
+          src={`${avatar.avatar}?format=webp&quality=95&width=600`}
+          fill
+          sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
+          alt="image"
+          className="object-cover"
+          priority={false}
+        />
+      )}
       <span className="flex bg-[#3B3E5E59] backdrop-blur-[3px] bg-opacity-20 text-[12px] font-medium px-[4px] rounded-[8px] h-[18px] items-center gap-[4px] absolute right-[20px] top-[16px]">
     <Image
       src={IconMessage.src}

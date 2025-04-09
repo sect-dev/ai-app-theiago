@@ -27,6 +27,12 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {
         delay: 5500,
         disableOnInteraction: true,
       }}
+      lazy={{
+        enabled: true,
+        loadPrevNext: true,
+        loadPrevNextAmount: 2,
+        loadOnTransitionStart: true
+      }}
       modules={[Autoplay,FreeMode,Navigation]}
       navigation={{
         nextEl: '.swiper-button-next',
@@ -35,7 +41,7 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {
     >
       {avatars?.map(avatar => {
         return (
-          <SwiperSlide key={avatar.id} className="!w-[300px] !h-[330px] mr-[12px]">
+          <SwiperSlide key={avatar.id} className="!w-[300px] !h-[330px]  mr-[12px]">
             <FavoritesGirlsCard avatar={avatar} />
           </SwiperSlide>
         )

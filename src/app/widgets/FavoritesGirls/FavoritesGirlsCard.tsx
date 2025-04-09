@@ -22,7 +22,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
             fill
             alt="image"
             loading="lazy"
-            className="object-cover"
+            className="object-cover swiper-lazy"
           />
           <div className="relative z-[2] transition-all duration-300 group-hover:mb-[50px] ">
             <div className="flex items-center gap-[4px] mb-[8px] font-semibold font-semibold ">
