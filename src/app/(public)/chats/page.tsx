@@ -16,28 +16,28 @@ const Page = () => {
   const [characterInfo,setCharacterInfo] = useState<Character | null>(null)
   const [loading,setLoading] = useState<boolean>(true)
 
-  const getCharacterInfo = async (id) => {
+  const getCharacterInfo = async (id:string) => {
     try {
       setLoading(true)
       if(id) {
         const response = await getCharacterInfoById(id);
         if(response) {
-          setCharacterInfo(response)
-          setSelectedCharacterId(response.id)
+          setCharacterInfo(response);
+          setSelectedCharacterId(response.id);
         }
       } else {
         const chats = localStorage.getItem('chatStartedCharacters')
         if(chats) {
-          const chatStartedCharacters = JSON.parse(localStorage.getItem('chatStartedCharacters'));
+          const chatStartedCharacters = JSON.parse(chats);
           const lastChatId = chatStartedCharacters[chatStartedCharacters.length - 1].id;
           const response = await getCharacterInfoById(lastChatId);
 
           if(response) {
             setCharacterInfo(response)
-            setSelectedCharacterId(response.id)
+            setSelectedCharacterId(response.id);
           }
         } else {
-          setSelectedCharacterId(null)
+          setSelectedCharacterId(null);
         }
       }
     } catch (error) {
@@ -48,7 +48,8 @@ const Page = () => {
   }
 
   useEffect(() => {
-    getCharacterInfo(selectedCharacterId)
+    const id = selectedCharacterId ? selectedCharacterId?.toString() : '';
+    getCharacterInfo(id)
   }, [selectedCharacterId])
 
 
