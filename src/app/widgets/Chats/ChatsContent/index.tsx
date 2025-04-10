@@ -5,28 +5,33 @@ import ChatsMessages from "@/app/widgets/Chats/ChatsMessages";
 import {Character} from "@/app/shared/api/types";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import clsx from "clsx";
-import {useParams} from "next/navigation";
+import ChatHeaderSkeleton from "@/app/widgets/Chats/ChatsHeader/ChatHeaderSkeleton";
+import ChatsMessagesSkeleton from "@/app/widgets/Chats/ChatsMessages/ChatsMessagesSkeleton";
 
 interface ComponentProps {
   characterInfo: Character | null
 }
 
 const ChatsContent:FC<ComponentProps> = ({characterInfo}) => {
-  const { setMobileChatOpen, isMobileChatOpen } = useSelectedCardStore();
-  const params = useParams()
-
+  const { setMobileChatOpen, isMobileChatOpen, selectedCharacterId } = useSelectedCardStore();
   useEffect(() => {
-    if (params.id && window.innerWidth < 1020) {
+    if (selectedCharacterId && window.innerWidth < 1020) {
       setMobileChatOpen(true)
     }
-  },[])
+  },[selectedCharacterId])
 
   return (
     <div className={clsx("w-full space-y-[8px] transition-all duration-300 md:absolute md:h-full md:left-0 md:top-0 md:w-full md:-translate-x-[105%]", {
-      "md:!translate-x-0": isMobileChatOpen
+      "md:!translate-x-0 md:delay-500": isMobileChatOpen
     })}>
-      <ChatsHeader avatar={characterInfo?.avatar ?? null} name={characterInfo?.name ?? null} />
-      <ChatsMessages characterInfo={characterInfo} />
+      {characterInfo
+        ? <ChatsHeader avatar={characterInfo?.avatar ?? null} name={characterInfo?.name ?? null} />
+        : <ChatHeaderSkeleton />
+      }
+      {characterInfo
+        ? <ChatsMessages characterInfo={characterInfo} />
+        : <ChatsMessagesSkeleton />
+      }
     </div>
   );
 };

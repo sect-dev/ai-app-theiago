@@ -15,7 +15,7 @@ import {apiClient} from "@/app/shared/api";
 import {Character} from "@/app/shared/api/types";
 
 const SuccessAuth = () => {
-  const {charFromPaywall,setCharacters} = useSelectedCardStore();
+  const {charFromPaywall,setCharacters, setSelectedCharacterId} = useSelectedCardStore();
   const searchParams = useSearchParams()
   const characterId = searchParams.get('character_id')
   const {user} = useAuthStore()
@@ -49,14 +49,15 @@ const SuccessAuth = () => {
   const handleStartChat = async () => {
     try {
       setLoading(true)
-      const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charInfo?.id.toString() ?? null})
+      const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: characterId ?? null})
       const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
       const tokens = startChat?.tokens_remaining || 0
       const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens)
+      setSelectedCharacterId(characterId)
       setCharacters(preparedCharacters ?? null)
       setTokens(tokens ?? 0)
       setIsPending(() => {
-        navigate.push(`/chats/${charInfo?.id}`);
+        navigate.push(`/chats`);
       })
       setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})
     } catch (error) {
@@ -131,7 +132,7 @@ const SuccessAuth = () => {
           </div>
           <button
             onClick={handleStartChat}
-            disabled={isPending || loading || characterLoading}
+            disabled={isPending || loading || characterLoading || !characterId}
             className="main-gradient flex justify-center items-center gap-[5px] w-full text-[15px] h-[40px] rounded-[12px] disabled:opacity-50 disabled:pointer-events-none"
           >
             <span className="relative z-[5]">Start chat</span>

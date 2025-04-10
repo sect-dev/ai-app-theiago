@@ -10,13 +10,13 @@ import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 export const useStartChat = () => {
   const [isPending, startTransition] = useTransition();
-  const { setSelectedCard, setCharacters } = useSelectedCardStore();
+  const { setSelectedCharacterId, setCharacters } = useSelectedCardStore();
   const { user } = useAuthStore();
   const { setTokens } = usePaymentStore();
   const router = useRouter();
 
   const handleStartChat = async (avatar: Character) => {
-    setSelectedCard(avatar);
+    setSelectedCharacterId(avatar.id);
     try {
       const startChat = await startConversation({
         userId: user?.uid ?? 'id',
@@ -27,7 +27,7 @@ export const useStartChat = () => {
       const tokens = startChat?.tokens_remaining;
 
       startTransition(() => {
-        router.push(`/chats/${avatar.id}`);
+        router.push(`/chats`);
       });
 
       const preparedCharacters = saveCharacterToLocalStorage(avatar, startChatMessages, tokens ?? 0);

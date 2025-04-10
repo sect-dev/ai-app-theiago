@@ -12,8 +12,7 @@ const loadCharactersFromLocalStorage = (): { mainChar: PreparedAvatar[] | null, 
 };
 
 interface SelectedCardState {
-  selectedCard: Character | null;
-  allCharacters: Character[] | null
+  selectedCharacterId: number | string | null;
   selectedTag: string | null;
   characterInfoCollapse: boolean
   charFromPaywall: CharacterByConstructor | null
@@ -21,7 +20,7 @@ interface SelectedCardState {
   characters: PreparedAvatar[] | null;
   isMobileChatOpen: boolean
   isMobileInfoOpen: boolean
-  setSelectedCard: (avatar: Character | null) => void;
+  setSelectedCharacterId: (id: number | string | null) => void;
   setSelectedTag: (tag: string | null) => void;
   setCharacters: (characters: PreparedAvatar[] | null) => void;
   setInfoCollapse:(value:boolean) => void
@@ -29,15 +28,13 @@ interface SelectedCardState {
   setMobileInfoOpen:(value: boolean) => void
   setQrModal: (isQrModalActive:boolean) => void,
   setPaywallCharacter: (value: CharacterByConstructor | null) => void
-  setAllCharacters: (value: Character[] | null) => void
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
   const initialCharacters = loadCharactersFromLocalStorage();
 
   return {
-    selectedCard: null,
-    allCharacters: null,
+    selectedCharacterId: null,
     selectedTag: null,
     characterInfoCollapse: false,
     isMobileChatOpen: false,
@@ -45,7 +42,7 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     isQrModalActive: false,
     characters: initialCharacters.mainChar,
     charFromPaywall: initialCharacters.tempChar,
-    setSelectedCard: (card) => set({ selectedCard: card }),
+    setSelectedCharacterId: (id) => set({ selectedCharacterId: id }),
     setSelectedTag: (tag) => set({ selectedTag: tag }),
     setCharacters: (characters) => set({ characters }),
     setInfoCollapse:(characterInfoCollapse) => set({characterInfoCollapse}),
@@ -53,6 +50,5 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     setMobileInfoOpen:(isMobileInfoOpen: boolean) => set({isMobileInfoOpen}),
     setQrModal: (isQrModalActive:boolean) => set({ isQrModalActive}),
     setPaywallCharacter: (charFromPaywall) => set({charFromPaywall}),
-    setAllCharacters: (allCharacters: Character[] | null) => set({allCharacters})
   };
 });
