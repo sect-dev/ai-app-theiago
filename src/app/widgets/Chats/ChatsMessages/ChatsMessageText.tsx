@@ -42,7 +42,9 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
 
   useEffect(() => {
     if(messages && messages?.length > 2) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      },350)
     }
   }, [messages, loading]);
 

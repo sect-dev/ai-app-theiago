@@ -11,16 +11,15 @@ interface ComponentProps {
   onSelectMessage: (text: string) => void;
   userId: string | null
   characterId: number | null
-  waitingMessage: boolean
 }
 
-const SuggestionAnswer:FC<ComponentProps> = ({onSelectMessage,userId = 'id',characterId, waitingMessage}) => {
+const SuggestionAnswer:FC<ComponentProps> = ({onSelectMessage,userId = 'id',characterId}) => {
   const [answer, setAnswer] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     getRandomAnswer()
-  }, [waitingMessage])
+  }, [])
 
   const getRandomAnswer = async () => {
     try {

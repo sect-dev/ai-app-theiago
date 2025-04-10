@@ -21,12 +21,7 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {
     <div className="bg-[#121423] p-[24px] rounded-l-[24px] md:p-[16px] md:rounded-none">
       <p className="text-[20px] font-semibold tracking-[0.02vw] mb-[16px] sm:hidden">They crave to chat with you!</p>
      <Swiper
-      slidesPerView={1}
-      breakpoints={{
-        768: {
-          slidesPerView: "auto",
-        }
-      }}
+      slidesPerView={"auto"}
       freeMode={true}
       autoplay={{
         delay: 5500,

@@ -119,14 +119,14 @@ const TokensModal = () => {
                       alt="icon"
                       className="block absolute left-[-50px] top-[-50px] z-[10] sm:hidden"
                     />
-                    <div className="w-full h-hull relative sm:hidden">
+                    <div className="w-full card h-hull relative sm:hidden">
                       <Image
                         src={image}
                         fill
                         alt="image modal"
                         className="object-cover"
                       />
-                      <p className="font-semibold font-bai-jamjuree block leading-[1.2em] text-[20px] max-w-[70%] tracking-[0.01em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]">
+                      <p className="font-semibold z-[10] font-bai-jamjuree block leading-[1.2em] text-[20px] max-w-[70%] tracking-[0.01em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]">
                         She is already miss you
                       </p>
                     </div>

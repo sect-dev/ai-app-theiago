@@ -24,7 +24,7 @@ const LastMessage:FC<ComponentProps> = ({message}) => {
           <Image
             sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 16px"
             fill
-            src={src}
+            src={`${src}?width=50`}
             alt="image"
             className="object-cover object-top"
           />
