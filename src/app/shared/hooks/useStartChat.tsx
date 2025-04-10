@@ -39,7 +39,7 @@ export const useStartChat = () => {
     }
   };
 
-  const handleClick = async (avatar) => {
+  const handleClick = async (avatar:Character) => {
     setIsLoading(true);
     await handleStartChat(avatar);
     setIsLoading(false);
