@@ -145,6 +145,7 @@ export interface SendMessageResponse {
   character_id: string;
   response: MessageResponse[];
   tokens_remaining: number;
+  is_premium: boolean
 }
 
 export interface SendMessageParam {

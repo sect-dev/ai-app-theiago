@@ -1,6 +1,6 @@
 'use client'
 import { useRouter } from "next/navigation";
-import { useTransition } from 'react';
+import {useState, useTransition} from 'react';
 import { Character } from "@/app/shared/api/types";
 import { startConversation } from "@/app/shared/api/mesages";
 import { mapBackendMessagesToMessages, saveCharacterToLocalStorage } from "@/app/shared/helpers";
@@ -12,6 +12,7 @@ export const useStartChat = () => {
   const [isPending, startTransition] = useTransition();
   const { setSelectedCharacterId, setCharacters } = useSelectedCardStore();
   const { user } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
   const { setTokens } = usePaymentStore();
   const router = useRouter();
 
@@ -38,5 +39,11 @@ export const useStartChat = () => {
     }
   };
 
-  return { handleStartChat, isPending };
+  const handleClick = async (avatar) => {
+    setIsLoading(true);
+    await handleStartChat(avatar);
+    setIsLoading(false);
+  };
+
+  return { handleClick, isLoading };
 };

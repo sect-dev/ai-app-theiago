@@ -12,11 +12,11 @@ const LastMessage:FC<ComponentProps> = ({message}) => {
     return <p className="text-[12px] font-medium line-clamp-1 tracking-[-0.04em] text-[#0680E6]">Audio</p>
   }
 
-  if(message.type === 'video') {
+  if(message.type === 'video' || message.type === 'video_paywall') {
     return <p className="text-[12px] font-medium line-clamp-1 tracking-[-0.04em] text-[#0680E6]">Video</p>
   }
 
-  if(message.type === 'image') {
+  if(message.type === 'image' || message.type === 'image_paywall') {
     const src = typeof message.url === "string" ? message.url : message.url?.en ?? '';
     return (
       <>

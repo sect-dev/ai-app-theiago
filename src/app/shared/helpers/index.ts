@@ -79,3 +79,14 @@ export function calculateCostPerDay(totalCost: number, daysCount: number): numbe
   const costPerDay = totalCost / daysCount;
   return parseFloat(costPerDay.toFixed(2));
 }
+
+export const checkPremiumSubscription = (isPremium: boolean) => {
+  const premium = isPremium ? '1' : '0';
+  if (typeof window !== "undefined") {
+    const hasPremium = localStorage.getItem('hasPremium');
+    if(hasPremium === premium) {
+      return
+    }
+    return localStorage.setItem('hasPremium', premium)
+  }
+}

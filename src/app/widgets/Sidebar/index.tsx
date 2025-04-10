@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import SidebarMenu from "@/app/widgets/Sidebar/SidebarMenu";
 import SidebarBanner from "@/app/widgets/Sidebar/SidebarBanner";
 
@@ -10,13 +10,23 @@ interface ComponentProps {
 
 const Sidebar:FC<ComponentProps> = ({isChatPage,pathname,setIsMenuOpen}) => {
   // const {setQrModal} = useSelectedCardStore()
+  const [isPremium, setIsPremium] = useState<boolean>(false);
+
+  useEffect(() => {
+    const isPremium =  localStorage.getItem('hasPremium')
+    if(isPremium){
+      const value = isPremium === '1'
+      setIsPremium(value);
+    }
+  }, []);
+
   return (
     <div className="w-full h-[calc(100vh-46px)] pt-[15px] pb-[24px]">
       <div className="container h-full">
         <div className="flex flex-col justify-between gap-[0.5vw] h-full">
           <SidebarMenu setIsMenuOpen={setIsMenuOpen} pathname={pathname} />
           <div className="space-y-[12px]">
-            {!isChatPage && <SidebarBanner/>}
+            {(!isChatPage && !isPremium) && <SidebarBanner/>}
             {/*<button*/}
             {/*  onClick={() => setQrModal(true)}*/}
             {/*  className="flex items-center w-full rounded-[12px] gap-[8px] py-[12px] px-[16px] bg-[#121423] font-semibold text-[14px] tracking-[-0.01vw] transition-bg duration-300 hover:bg-[#2E335B]">*/}

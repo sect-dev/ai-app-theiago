@@ -1,6 +1,7 @@
 import {SendMessageParam, SendMessageResponse} from "@/app/shared/api/types";
 import {ApiResponse, GenerateUserTextPayload, StartRequest, StartResponse} from "@/app/shared/api/types/messsaes";
 import {apiClient, getCurrentToken} from "@/app/shared/api/index";
+import {checkPremiumSubscription} from "@/app/shared/helpers";
 
 export const generateUserText = async (userId: string | null,characterId: number | null): Promise<ApiResponse | null> => {
   const token = await getCurrentToken()
@@ -25,7 +26,11 @@ export const generateUserText = async (userId: string | null,characterId: number
       "/build_web_response",
       payload
     );
-    return response.data;
+    if(response.data) {
+      checkPremiumSubscription(response.data.is_premium)
+      return response.data;
+    }
+    return null;
   } catch (error) {
     console.error("Error while requesting API:", error);
     return null;
@@ -49,7 +54,11 @@ export const sendMessage = async (params:SendMessageParam):Promise<SendMessageRe
       },
       token
     });
-    return response.data;
+    if(response.data) {
+      checkPremiumSubscription(response.data.is_premium)
+      return response.data;
+    }
+    return null;
   } catch (error) {
     console.error("Error sending message:", error);
     return null;
@@ -75,7 +84,11 @@ export const startConversation = async ({userId,characterId}: { userId: string |
 
   try {
     const response = await apiClient.post<StartResponse>("/build_web_response", payload);
-    return response.data;
+    if(response.data) {
+      checkPremiumSubscription(response.data.is_premium)
+      return response.data;
+    }
+    return null;
   } catch (error) {
     console.error("Error while requesting API:", error);
     return null;
