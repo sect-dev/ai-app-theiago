@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import Image from "next/image";
 import ImageEmptyChat from '@/../public/images/img/img-no-chat.svg';
 import Link from "next/link";
-import ChatsList from "@/app/widgets/Chats/ChatsList";
+// import ChatsList from "@/app/widgets/Chats/ChatsList";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import ChatsListSkeleton from "@/app/widgets/Chats/ChatsList/ChatsListSkeleton";
 
@@ -41,9 +41,9 @@ const Chatspage = () => {
     );
   }
 
-  if (characters && mounded) {
-    return <ChatsList/>
-  }
+  // if (characters && mounded) {
+  //   return <ChatsList/>
+  // }
 
   return <ChatsListSkeleton />
 
