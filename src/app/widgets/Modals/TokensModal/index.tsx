@@ -72,7 +72,7 @@ const TokensModal = () => {
         });
       }
       const resp = await buyTokens(packageName, user.uid, user?.email ?? '')
-      console.log('resp',resp)
+
     } catch (error) {
       console.log(error)
     } finally {

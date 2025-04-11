@@ -24,11 +24,11 @@ export const saveCharacterToLocalStorage = (avatar: Character | null, messages: 
         videos: [],
         lastMessageTime: currentTime,
         startPhotosCount: 0,
-        tokens
       };
       characters.push(newCharacter);
     }
     localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
+    localStorage.setItem("tokens", JSON.stringify(tokens));
     return characters
   }
 };

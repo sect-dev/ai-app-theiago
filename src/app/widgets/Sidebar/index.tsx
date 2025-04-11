@@ -15,7 +15,7 @@ const Sidebar:FC<ComponentProps> = ({isChatPage,pathname,setIsMenuOpen}) => {
   useEffect(() => {
     const isPremium =  localStorage.getItem('hasPremium')
     if(isPremium){
-      const value = isPremium === '1'
+      const value = isPremium === '1';
       setIsPremium(value);
     }
   }, []);

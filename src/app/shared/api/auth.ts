@@ -16,7 +16,7 @@ import {
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
 import {EmailLinkAuthResponse, FirebaseUser} from "@/app/shared/api/types/auth";
-import {apiClient} from "@/app/shared/api/index";
+import {apiClient, getCurrentToken} from "@/app/shared/api/index";
 import {useAuthStore} from "@/app/shared/store/authStore";
 import axios from "axios";
 
@@ -249,10 +249,11 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
 };
 
 export const registerUserAfterPayment = async (email: string | null, token: string) => {
+  const token2 = await getCurrentToken()
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
-    await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
-
+    const x = await apiClient.get(`/register_paid_web_user?token=${token2}&${currentSearchParams}&email=${email}`);
+    console.log('x',x)
   } catch (error) {
     console.log('error',error)
   }

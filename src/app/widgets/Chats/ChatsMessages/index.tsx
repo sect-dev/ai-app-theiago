@@ -60,7 +60,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     }
   }, [characterInfo]);
 
-  const saveMessagesToLocalStorage = (newMessages: Message[]) => {
+  const saveMessagesToLocalStorage = (newMessages: Message[], tokens?: number) => {
     if (!characterInfo) return;
     const storedData = localStorage.getItem("chatStartedCharacters");
     const characters = storedData ? JSON.parse(storedData) : [];
@@ -72,7 +72,6 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
       const character = characters[characterIndex];
       character.listMsgs = newMessages;
       character.lastMessageTime = currentTime;
-      character.tokens = tokens
       newMessages.forEach((message) => {
         if (message.sender === "bot" && (message.type === "image" || message.type === "image_paywall") && message.url) {
           const url = typeof message.url === "string" ? message.url : message.url?.en ?? '';
@@ -92,6 +91,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     }
 
     localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
+    localStorage.setItem('tokens', JSON.stringify(tokens))
     setCharacters(characters)
   };
 
@@ -119,8 +119,8 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         }));
         const updatedWithBotMessages = [...updatedMessages, ...botMessages];
         setMessages(updatedWithBotMessages);
-        saveMessagesToLocalStorage(updatedWithBotMessages);
-
+        saveMessagesToLocalStorage(updatedWithBotMessages, response?.tokens_remaining);
+        console.log('response',response)
         setTokens(response?.tokens_remaining || 0)
       }
     } catch (error) {

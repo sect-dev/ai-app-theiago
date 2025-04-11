@@ -7,7 +7,6 @@ import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 import IconBack from "@/../public/images/icons/icon-back.svg";
-import {useParams, useRouter} from "next/navigation";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
@@ -16,11 +15,8 @@ interface ComponentProps {
 }
 
 const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
-  const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen, characters } = useSelectedCardStore();
-  const {setTokensModal} = usePaymentStore();
-  const params = useParams();
-  const currentCharacter = (characters) && characters?.find(item => item.id.toString() === params.id?.toString())
-  const currentTokens = currentCharacter?.tokens || 0
+  const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen, characters, selectedCharacterId } = useSelectedCardStore();
+  const {setTokensModal, tokens} = usePaymentStore();
 
   const handleBack = () => {
     setMobileChatOpen(false)
@@ -82,7 +78,7 @@ const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
                 alt="plus image"
                 className="size-[8px]"
               />
-              <span className="text-[12px] font-bold pl-[8px] pr-[4px]">{currentTokens}</span>
+              <span className="text-[12px] font-bold pl-[8px] pr-[4px]">{tokens}</span>
               <Image
                 src={IcnCoins.src}
                 width={IcnCoins.width}
