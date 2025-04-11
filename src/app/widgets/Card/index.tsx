@@ -1,5 +1,5 @@
 'use client'
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
 import IconMessage from '@/../public/images/icons/icon-message.svg';
 import clsx from "clsx";
@@ -7,7 +7,6 @@ import {Character} from "@/app/shared/api/types";
 import {getMessageSize} from "@/app/shared/helpers";
 import Spinner from "@/app/widgets/Spinner";
 import {useStartChat} from "@/app/shared/hooks/useStartChat";
-import CardSkeleton from "@/app/widgets/Card/CardSkeleton";
 
 interface ComponentProps {
   avatar: Character
@@ -15,56 +14,9 @@ interface ComponentProps {
 
 const Card: FC<ComponentProps> = ({avatar}) => {
   const {handleClick, isLoading} = useStartChat();
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const cardRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkIfMobile();
-
-    window.addEventListener('resize', checkIfMobile);
-
-    if (!isMobile) {
-      setIsVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        root: null,
-        rootMargin: '200px',
-        threshold: 0.1
-      }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      window.removeEventListener('resize', checkIfMobile);
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
-    };
-  }, [isMobile]);
-
-  const shouldShowContent = !isMobile || isVisible;
-
-  return shouldShowContent ?
-    (
+  return(
       <button
-        ref={cardRef}
         onClick={() => handleClick(avatar)}
         className={clsx("flex card items-end w-full group text-left relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]", {
           "pointer-events-none": isLoading
@@ -127,8 +79,6 @@ const Card: FC<ComponentProps> = ({avatar}) => {
         </>
       </button>
     )
-    : (<CardSkeleton ref={cardRef}/>)
-
 };
 
 export default Card;

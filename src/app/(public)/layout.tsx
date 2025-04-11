@@ -1,12 +1,16 @@
 'use client'
 import React, {useState} from 'react';
+import dynamic from "next/dynamic";
 import DefaultLayout from "@/app/widgets/Layout/DefaultLayout";
 import Header from "@/app/widgets/Header";
 import Sidebar from "@/app/widgets/Sidebar";
 import {usePathname} from "next/navigation";
 import clsx from "clsx";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
-import ModalsProvider from "@/app/providers/ModalsProvider";
+const ModalsProvider = dynamic(() => import('@/app/providers/ModalsProvider'), {
+  loading: () => <p>Загрузка...</p>,
+  ssr: false,
+});
 import MobileNav from "@/app/widgets/Sidebar/MobileNav";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

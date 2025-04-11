@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["cdn.aigo.sect.dev"],
     formats: ["image/webp"],
-    unoptimized: true,
+    // unoptimized: true,
   }
 };
 
