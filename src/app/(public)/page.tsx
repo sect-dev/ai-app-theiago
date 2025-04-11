@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import HomePage from "@/app/flat-pages/Homepage";
 import { Character } from "@/app/shared/api/types";
 import { PaymentModalType } from "@/app/shared/store/paymentStore";
@@ -9,13 +9,11 @@ import { useSearchParams } from 'next/navigation';
 import FavoritesGirlsSkeleton from "@/app/widgets/FavoritesGirls/FavoritesGirlsSkeleton";
 import CardSkeleton from "@/app/widgets/Card/CardSkeleton";
 import TagsSkeleton from "@/app/widgets/Tags/TagsSkeleton";
-import Tags from "@/app/widgets/Tags";
 
-const Page = () => {
-  const searchParams = useSearchParams();
+const PageContent = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const searchParams = useSearchParams();
   const action = searchParams.get('action') as PaymentModalType | null;
 
   useEffect(() => {
@@ -67,6 +65,18 @@ const Page = () => {
   }
 
   return <HomePage avatars={characters} action={action} />;
+};
+
+const Page = () => {
+  return (
+    <Suspense fallback={
+      <div className="h-[calc(100vh-60px)] flex items-center justify-center">
+        Loading...
+      </div>
+    }>
+      <PageContent />
+    </Suspense>
+  );
 };
 
 export default Page;
