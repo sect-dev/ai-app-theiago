@@ -1,6 +1,5 @@
 import React, { ForwardedRef, forwardRef } from 'react';
 
-
 const CardSkeleton = forwardRef<HTMLButtonElement>((_, ref: ForwardedRef<HTMLButtonElement>) => {
   return (
     <>
@@ -19,5 +18,7 @@ const CardSkeleton = forwardRef<HTMLButtonElement>((_, ref: ForwardedRef<HTMLBut
     </>
   );
 });
+
+CardSkeleton.displayName = 'CardSkeleton';
 
 export default CardSkeleton;
