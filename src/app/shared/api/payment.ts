@@ -34,16 +34,6 @@ export const getPaymentPlans = async (): Promise<PaymentPlan[]> => {
   }
 }
 
-export const getTokensInfo = async (userId:string) => {
-  try {
-    const response = await apiClient.get(`/user_tokens?user_id=${userId}`)
-    return response.data
-  } catch (error) {
-    console.error("Error sending message:", error);
-    return null;
-  }
-}
-
 export const getTokenPackageInfo = async (): Promise<StrictTokenPackage[] | null> => {
   try {
     const response = await axios.get<Record<string, StrictTokenPackage>>(
@@ -59,7 +49,7 @@ export const getTokenPackageInfo = async (): Promise<StrictTokenPackage[] | null
 
 export const buyTokens =  async(name: string,userId: string,email: string) => {
   try {
-    const response = await apiClient.get(`https://production-payments.theaigo.com:8000/tokens_purchase?name=${name}&user_id=${userId}&email=${email}`)
+    const response = await axios.get(`https://production-payments.theaigo.com:8000/tokens_purchase?name=${name}&user_id=${userId}&email=${email}`)
     return response.data
   } catch (error){
     console.log(error)

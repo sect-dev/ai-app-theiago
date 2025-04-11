@@ -1,9 +1,9 @@
-import React, { ForwardedRef, forwardRef } from 'react';
+import React from 'react';
 
-const CardSkeleton = forwardRef<HTMLButtonElement>((_, ref: ForwardedRef<HTMLButtonElement>) => {
+const CardSkeleton = () => {
   return (
     <>
-      <button ref={ref} className="skeleton-shadow flex items-end relative p-[16px] h-[386px] pointer-events-none rounded-[20px] overflow-hidden md:p-[12px] sm:h-[270px]">
+      <div className="skeleton-shadow flex items-end relative p-[16px] h-[386px] pointer-events-none rounded-[20px] overflow-hidden md:p-[12px] sm:h-[270px]">
         <div className="relative z-[2]">
           <div className="flex items-center gap-[2px] mb-[8px]">
             <div className="rounded-[9px] w-[45px] animate-pulse h-[18px] bg-skeleton " />
@@ -14,10 +14,10 @@ const CardSkeleton = forwardRef<HTMLButtonElement>((_, ref: ForwardedRef<HTMLBut
             <p className="bg-skeleton rounded-[8px] animate-pulse w-[110px] h-[14px] " />
           </div>
         </div>
-      </button>
+      </div>
     </>
   );
-});
+}
 
 CardSkeleton.displayName = 'CardSkeleton';
 
