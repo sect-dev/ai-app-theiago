@@ -1,9 +1,9 @@
 import React from 'react';
 
-const CardSkeleton = () => {
+const CardSkeleton = ({ref}) => {
   return (
     <>
-      <div className="skeleton-shadow flex items-end relative p-[16px] h-[386px] rounded-[20px] overflow-hidden md:p-[12px] sm:h-[270px]">
+      <div ref={ref} className="skeleton-shadow flex items-end relative p-[16px] h-[386px] rounded-[20px] overflow-hidden md:p-[12px] sm:h-[270px]">
         <div className="relative z-[2]">
           <div className="flex items-center gap-[2px] mb-[8px]">
             <div className="rounded-[9px] w-[45px] animate-pulse h-[18px] bg-skeleton " />

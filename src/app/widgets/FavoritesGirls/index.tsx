@@ -1,22 +1,25 @@
 'use client'
-import React, {FC} from 'react';
+import React, {FC, useRef, useState} from 'react';
 import Image from "next/image";
 import FavoritesGirlsCard from "@/app/widgets/FavoritesGirls/FavoritesGirlsCard";
 import {Character} from "@/app/shared/api/types";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { type Swiper as SwiperRef } from "swiper"
 import { FreeMode,Autoplay,Navigation } from 'swiper/modules';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import clsx from "clsx";
 import ArrowNav from "@/../public/images/icons/arrow-gradient-blue.svg";
+import FavoritesGirlsSkeleton from "@/app/widgets/FavoritesGirls/FavoritesGirlsSkeleton";
 
 interface ComponentProps {
   avatars: Character[]
 }
 
 const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {
-
+  const swiperRef = useRef<SwiperRef>(null)
+  const [swiperLoaded,setSwiperLoaded] = useState<boolean>(false)
   return (
     <div className="bg-[#121423] p-[24px] rounded-l-[24px] md:p-[16px] md:rounded-none">
       <p className="text-[20px] font-semibold tracking-[0.02vw] mb-[16px] sm:hidden">They crave to chat with you!</p>
@@ -27,19 +30,27 @@ const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {
         delay: 5500,
         disableOnInteraction: true,
       }}
+      onSwiper={(swiper) => {
+        swiperRef.current = swiper
+        setSwiperLoaded(true)
+      }}
       modules={[Autoplay,FreeMode,Navigation]}
       navigation={{
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       }}
     >
-      {avatars?.map((avatar,index) => {
-        return (
-          <SwiperSlide key={avatar.id} className="!w-[300px] !h-[330px]  mr-[12px]">
-            <FavoritesGirlsCard avatar={avatar} />
-          </SwiperSlide>
-        )
-      })}
+       {swiperLoaded
+         ? avatars?.map((avatar,index) => {
+           return (
+             <SwiperSlide key={avatar.id} className="!w-[300px] !h-[330px]  mr-[12px]">
+               <FavoritesGirlsCard avatar={avatar} />
+             </SwiperSlide>
+           )
+         })
+         : <div className="flex gap-[12px]">{Array.from({length:6}).map((_,index) =>  <FavoritesGirlsSkeleton key={index} />)}</div>
+       }
+
        <div
          role="button"
          aria-label="Next Slide"
