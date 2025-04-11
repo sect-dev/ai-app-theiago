@@ -20,7 +20,7 @@ const HomePage:FC<ComponentProps> = ({avatars,action}) => {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     const tempToken = localStorage.getItem("tempToken");
-    if((action && action === 'subscription_success' || action === 'auth_success')) {
+    if(avatars && (action && action === 'subscription_success' || action === 'auth_success')) {
       setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
     }
     if (!accessToken && !tempToken) {

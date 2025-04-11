@@ -42,6 +42,7 @@ const SuccessPayment = () => {
   const {charFromPaywall} = useSelectedCardStore()
   const searchParams = useSearchParams();
   const orderNumber = searchParams.get('order_number');
+  const characterId = searchParams.get('character_id');
 
   const [loading,setLoading] = useState<boolean>(false)
   const [charInfo,setCharInfo] = useState<Character | null>(null)
@@ -74,8 +75,9 @@ const SuccessPayment = () => {
   }
 
   useEffect(() => {
-    if(charFromPaywall?.character_id) {
-      getCharacterInfoById(charFromPaywall?.character_id ?? '')
+    const charId = characterId ? characterId : charFromPaywall?.character_id
+    if(charId) {
+      getCharacterInfoById(charId ?? '')
       getUserEmail(orderNumber ?? '')
     }
   }, [])

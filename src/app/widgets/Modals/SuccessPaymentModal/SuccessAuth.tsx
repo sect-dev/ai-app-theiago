@@ -17,7 +17,6 @@ import {Character} from "@/app/shared/api/types";
 const SuccessAuth = () => {
   const {charFromPaywall,setCharacters, setSelectedCharacterId} = useSelectedCardStore();
   const searchParams = useSearchParams()
-  const characterId = searchParams.get('character_id')
   const {user} = useAuthStore()
   const [loading,setLoading] = useState(false)
   const [isPending,setIsPending] = useTransition()
@@ -26,6 +25,7 @@ const SuccessAuth = () => {
   const [characterLoading, setCharacterLoading] = useState<boolean>(false)
   const navigate = useRouter();
   const characterImage = charInfo ? charInfo?.avatar : ImageDefault.src;
+  const characterId = charFromPaywall ? charFromPaywall.character_id : searchParams.get('character_id')
 
   const getCharacterInfoById = async (id: string) => {
     try {
@@ -49,11 +49,11 @@ const SuccessAuth = () => {
   const handleStartChat = async () => {
     try {
       setLoading(true)
-      const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: characterId ?? null})
+      const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charInfo?.id.toString() ?? null})
       const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
       const tokens = startChat?.tokens_remaining || 0
       const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens)
-      setSelectedCharacterId(characterId)
+      setSelectedCharacterId(charInfo?.id.toString() ?? '')
       setCharacters(preparedCharacters ?? null)
       setTokens(tokens ?? 0)
       setIsPending(() => {
