@@ -20,6 +20,7 @@ import {EmailLinkAuthResponse, FirebaseUser} from "@/app/shared/api/types/auth";
 import {apiClient, getCurrentToken} from "@/app/shared/api/index";
 import {useAuthStore} from "@/app/shared/store/authStore";
 import axios from "axios";
+import {clearAccessTokenCookie} from "@/app/shared/helpers";
 
 export const signUpWithEmailAndPassword = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
@@ -98,6 +99,7 @@ export const signOutUser = async () => {
   try {
     await signOut(auth);
     localStorage.clear();
+    clearAccessTokenCookie();
   } catch (error) {
     console.log(error)
   }

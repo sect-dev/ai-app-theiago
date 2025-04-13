@@ -5,11 +5,12 @@ import ImageEmptyChat from "../../../../public/images/img/img-no-chat.svg";
 import ChatsList from "@/app/widgets/Chats/ChatsList";
 import ChatsContent from "@/app/widgets/Chats/ChatsContent";
 import ChatInfo from "@/app/widgets/Chats/ChatInfo";
-import {getCharacterInfoById} from "@/app/shared/api/characters";
+
 import Link from "next/link";
 import ChatsInfoSkeleton from "@/app/widgets/Chats/ChatInfo/ChatsInfoSkeleton";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import {Character} from "@/app/shared/api/types";
+import {getCharacterInfoById} from "@/app/shared/api/getCharacterById";
 
 const Page = () => {
   const {selectedCharacterId,setSelectedCharacterId} = useSelectedCardStore()

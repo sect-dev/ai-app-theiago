@@ -79,3 +79,12 @@ export function calculateCostPerDay(totalCost: number, daysCount: number): numbe
   const costPerDay = totalCost / daysCount;
   return parseFloat(costPerDay.toFixed(2));
 }
+
+export const setAccessTokenCookie = (token: string) => {
+  const maxAge = 3600;
+  document.cookie = `accessToken=${token}; path=/; max-age=${maxAge}; secure; samesite=strict`;
+};
+
+export const clearAccessTokenCookie = () => {
+  document.cookie = `accessToken=; path=/; max-age=0`;
+};
