@@ -39,7 +39,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       const user = result.user as FirebaseUser;
 
       if(result) {
-        await registerUserAfterPayment(email, user.accessToken);
+        await registerUserAfterPayment(email);
         cleanLocalStorage()
         localStorage.setItem("accessToken", user.accessToken);
         setUser(user);
@@ -62,7 +62,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       if (params.get('action') === 'subscription_success') {
         params.set('action', 'auth_success');
         const newUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
-        await registerUserAfterPayment(email, token);
+        await registerUserAfterPayment(email);
         setSuccessPaymentModal({isSuccessPaymentModalActive: true, successPaymentModalType: "auth_success"});
 
         cleanLocalStorage()
