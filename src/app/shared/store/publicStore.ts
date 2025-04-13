@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import {CharacterByConstructor, PreparedAvatar} from "@/app/shared/api/types";
+import {Character, CharacterByConstructor, PreparedAvatar} from "@/app/shared/api/types";
 
 const loadCharactersFromLocalStorage = (): { mainChar: PreparedAvatar[] | null, tempChar: CharacterByConstructor | null, premium: boolean | null } => {
   if (typeof window === "undefined") return { mainChar: null, tempChar: null, premium: null };
@@ -20,6 +20,7 @@ interface SelectedCardState {
   selectedTag: string | null;
   characterInfoCollapse: boolean
   charFromPaywall: CharacterByConstructor | null
+  charactersList: Character[] | null
   isQrModalActive: boolean
   characters: PreparedAvatar[] | null;
   isMobileChatOpen: boolean
@@ -33,6 +34,7 @@ interface SelectedCardState {
   setQrModal: (isQrModalActive:boolean) => void,
   setPaywallCharacter: (value: CharacterByConstructor | null) => void
   setIsPremium: (value: boolean) => void
+  setCharactersList: (value: Character[] | null) => void
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
@@ -45,6 +47,7 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     characterInfoCollapse: false,
     isMobileChatOpen: false,
     isMobileInfoOpen: false,
+    charactersList: null,
     isQrModalActive: false,
     characters: initialCharacters.mainChar,
     charFromPaywall: initialCharacters.tempChar,
@@ -56,6 +59,7 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
     setMobileInfoOpen:(isMobileInfoOpen: boolean) => set({isMobileInfoOpen}),
     setQrModal: (isQrModalActive:boolean) => set({ isQrModalActive}),
     setPaywallCharacter: (charFromPaywall) => set({charFromPaywall}),
-    setIsPremium: (isPremium: boolean) => set({isPremium})
+    setIsPremium: (isPremium: boolean) => set({isPremium}),
+    setCharactersList: (charactersList: Character[] | null) => set({charactersList})
   };
 });

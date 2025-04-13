@@ -6,15 +6,15 @@ import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import Tags from "@/app/widgets/Tags";
 
 interface ComponentProps {
-  avatars: Character[]
+  avatars: Character[] | null
   tags: string[]
 }
 
 const CardsList:FC<ComponentProps> = ({avatars,tags}) => {
   const { selectedTag } = useSelectedCardStore();
 
-  const filteredAvatars = selectedTag
-    ? avatars.filter(avatar => avatar.tags.includes(selectedTag))
+  const filteredAvatars = (selectedTag && avatars)
+    ? avatars?.filter(avatar => avatar.tags.includes(selectedTag))
     : avatars;
 
   return (
@@ -24,7 +24,7 @@ const CardsList:FC<ComponentProps> = ({avatars,tags}) => {
         <Tags tags={tags} />
       </div>
       <div className="gap-[16px] cards-list sm:gap-[8px]">
-        {filteredAvatars.map(avatar => <Card key={avatar.id} avatar={avatar} />)}
+        {filteredAvatars?.map(avatar => <Card key={avatar.id} avatar={avatar} />)}
       </div>
     </>
   );

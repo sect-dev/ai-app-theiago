@@ -12,7 +12,7 @@ import clsx from "clsx";
 import ArrowNav from "@/../public/images/icons/arrow-gradient-blue.svg";
 
 interface ComponentProps {
-  avatars: Character[]
+  avatars: Character[] | null
 }
 
 const FavoritesGirls:FC<ComponentProps>  = ({avatars}) => {

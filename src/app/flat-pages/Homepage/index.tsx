@@ -7,15 +7,15 @@ import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
 import {PaymentModalType, usePaymentStore} from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
-  avatars: Character[]
+  avatars: Character[] | null
   action: PaymentModalType | null
 }
 
 const HomePage:FC<ComponentProps> = ({avatars,action}) => {
   const {setSuccessPaymentModal} = usePaymentStore()
-  const favoriteAvatars = avatars.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position)
-  const simpleAvatars = avatars.filter(item => item.tags).filter(item => !item.top_horizontal_list_position).sort((a,b) => a.position - b.position)
-  const tags: string[] = Array.from(new Set(simpleAvatars.flatMap(avatar => avatar.tags ?? [])));
+  const favoriteAvatars = avatars && avatars?.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position) || null
+  const simpleAvatars = avatars && avatars?.filter(item => item.tags).filter(item => !item.top_horizontal_list_position).sort((a,b) => a.position - b.position) || null
+  const tags: string[] = Array.from(new Set(simpleAvatars?.flatMap(avatar => avatar.tags ?? [])));
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");

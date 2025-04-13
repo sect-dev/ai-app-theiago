@@ -1,10 +1,9 @@
 'use client'
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import Link from "next/link";
 import clsx from "clsx";
 import { useAuthStore } from "@/app/shared/store/authStore";
-import { signOut } from "firebase/auth";
-import { auth } from "@/firebase";
+import {signOutUser} from "@/app/shared/api/auth";
 
 interface ComponentProps {
   isMenuOpen: boolean
@@ -16,7 +15,7 @@ const Header:FC<ComponentProps> = ({isMenuOpen, setIsMenuOpen}) => {
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
+      await signOutUser();
     } catch (error) {
       console.error("Logout error:", error);
     }

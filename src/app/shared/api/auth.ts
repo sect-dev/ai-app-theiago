@@ -12,11 +12,12 @@ import {
   TwitterAuthProvider,
   sendSignInLinkToEmail,
   AuthError,
+  signOut,
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
 import {EmailLinkAuthResponse, FirebaseUser} from "@/app/shared/api/types/auth";
-import {apiClient, getCurrentToken} from "@/app/shared/api/index";
+import {apiClient} from "@/app/shared/api/index";
 import {useAuthStore} from "@/app/shared/store/authStore";
 import axios from "axios";
 
@@ -92,6 +93,15 @@ export const resetPasswordHandler = async (email: string) => {
     return { success: false, message: "An unknown error occurred" };
   }
 };
+
+export const signOutUser = async () => {
+  try {
+    await signOut(auth);
+    localStorage.clear();
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
@@ -249,10 +259,9 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
 };
 
 export const registerUserAfterPayment = async (email: string | null, token: string) => {
-  const token2 = await getCurrentToken()
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
-    await apiClient.get(`/register_paid_web_user?token=${token2}&${currentSearchParams}&email=${email}`);
+    await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
   } catch (error) {
     console.log('error',error)
   }

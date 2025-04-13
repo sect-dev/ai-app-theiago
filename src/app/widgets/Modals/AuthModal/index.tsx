@@ -25,8 +25,8 @@ const AuthModal = () => {
   };
 
   return (
-    <Dialog open={isAuthModalActive} as="div" className="relative z-10 focus:outline-none" onClose={() => setAuthModal({ modalType: null, isAuthModalActive: false })}>
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto font-lato">
+    <Dialog open={isAuthModalActive} as="div" className="relative z-[60] focus:outline-none" onClose={() => setAuthModal({ modalType: null, isAuthModalActive: false })}>
+      <div className="fixed inset-0 z-[60] w-screen overflow-y-auto font-lato">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
             transition
