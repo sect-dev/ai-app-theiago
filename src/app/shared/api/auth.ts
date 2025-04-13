@@ -231,7 +231,10 @@ export const registerAnonymousUser = async (token:string): Promise<void> => {
 
 export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuthResponse> => {
   const currentSearchParams = new URLSearchParams(window.location.search);
-  currentSearchParams.set('action', 'auth_success');
+  const subscribe = currentSearchParams.get('action')
+  if(subscribe && subscribe === 'subscription_success') {
+    currentSearchParams.set('action', 'auth_success');
+  }
 
   const redirectUrl = `${window.location.origin}${window.location.pathname}?${currentSearchParams.toString()}`;
 
