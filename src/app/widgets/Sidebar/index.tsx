@@ -11,7 +11,7 @@ interface ComponentProps {
 
 const Sidebar:FC<ComponentProps> = ({isChatPage,pathname,setIsMenuOpen}) => {
   const {isPremium} = useSelectedCardStore()
-  const [isHidden, setIsHidden] = useState<boolean>(true);
+  const [isHidden, setIsHidden] = useState<boolean | null>(true);
 
   useEffect(() => {
     setIsHidden(isPremium);

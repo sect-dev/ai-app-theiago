@@ -26,7 +26,7 @@ export const generateUserText = async (userId: string | null,characterId: number
       payload
     );
     if(response.data) {
-      localStorage.setItem('hasPremium', response?.data.is_premium)
+      localStorage.setItem('hasPremium', response?.data.is_premium.toString())
       return response.data;
     }
     return null;
@@ -54,7 +54,7 @@ export const sendMessage = async (params:SendMessageParam):Promise<SendMessageRe
       token
     });
     if(response.data) {
-      localStorage.setItem('hasPremium', response?.data.is_premium)
+      localStorage.setItem('hasPremium', response?.data.is_premium.toString())
       return response.data;
     }
     return null;
@@ -84,7 +84,7 @@ export const startConversation = async ({userId,characterId}: { userId: string |
   try {
     const response = await apiClient.post<StartResponse>("/build_web_response", payload);
     if(response.data) {
-      localStorage.setItem('hasPremium', response?.data.is_premium)
+      localStorage.setItem('hasPremium', response?.data.is_premium.toString())
       return response.data;
     }
     return null;
