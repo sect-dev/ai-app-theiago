@@ -35,7 +35,7 @@ interface ComponentProps {
 
 const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
   const {setMobileChatOpen,isPremium} = useSelectedCardStore()
-  const [isHidden, setIsHidden] = useState<boolean>(true)
+  const [isHidden, setIsHidden] = useState<boolean | null>(true)
   const isChatPage = pathname?.includes('chats');
 
   const handeClick = () => {
