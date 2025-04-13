@@ -15,7 +15,7 @@ interface ComponentProps {
 const ChatsContent:FC<ComponentProps> = ({characterInfo}) => {
   const { setMobileChatOpen, isMobileChatOpen, selectedCharacterId } = useSelectedCardStore();
   useEffect(() => {
-    if (selectedCharacterId && window.innerWidth < 1020) {
+    if ((selectedCharacterId && selectedCharacterId !== '9a9b9') && window.innerWidth < 1020) {
       setMobileChatOpen(true)
     }
   },[selectedCharacterId])

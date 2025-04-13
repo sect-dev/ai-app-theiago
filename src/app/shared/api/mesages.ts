@@ -1,7 +1,6 @@
 import {SendMessageParam, SendMessageResponse} from "@/app/shared/api/types";
 import {ApiResponse, GenerateUserTextPayload, StartRequest, StartResponse} from "@/app/shared/api/types/messsaes";
 import {apiClient, getCurrentToken} from "@/app/shared/api/index";
-import {checkPremiumSubscription} from "@/app/shared/helpers";
 
 export const generateUserText = async (userId: string | null,characterId: number | null): Promise<ApiResponse | null> => {
   const token = await getCurrentToken()
@@ -27,7 +26,7 @@ export const generateUserText = async (userId: string | null,characterId: number
       payload
     );
     if(response.data) {
-      checkPremiumSubscription(response.data.is_premium)
+      localStorage.setItem('hasPremium', response?.data.is_premium)
       return response.data;
     }
     return null;
@@ -55,7 +54,7 @@ export const sendMessage = async (params:SendMessageParam):Promise<SendMessageRe
       token
     });
     if(response.data) {
-      checkPremiumSubscription(response.data.is_premium)
+      localStorage.setItem('hasPremium', response?.data.is_premium)
       return response.data;
     }
     return null;
@@ -85,7 +84,7 @@ export const startConversation = async ({userId,characterId}: { userId: string |
   try {
     const response = await apiClient.post<StartResponse>("/build_web_response", payload);
     if(response.data) {
-      checkPremiumSubscription(response.data.is_premium)
+      localStorage.setItem('hasPremium', response?.data.is_premium)
       return response.data;
     }
     return null;

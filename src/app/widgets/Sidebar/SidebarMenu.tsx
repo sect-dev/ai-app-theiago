@@ -1,15 +1,13 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Image from "next/image";
+import clsx from "clsx";
+import Link from "next/link";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 import IconDiscover from '@/../public/images/icons/icon-discover.svg';
 import IconChats from '@/../public/images/icons/icon-chats.svg';
 import IconChatsActive from '@/../public/images/icons/icon-chats-active.svg';
 import IconDiscoverActive from '@/../public/images/icons/icon-discover-active.svg';
 import IconStars from '@/../public/images/icons/icon-stars.svg';
-import Link from "next/link";
-
-import clsx from "clsx";
-import {usePaymentStore} from "@/app/shared/store/paymentStore";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 const navigationData = [
   {
@@ -36,8 +34,8 @@ interface ComponentProps {
 }
 
 const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
-  const {setPaymentModal} = usePaymentStore();
-  const {setMobileChatOpen} = useSelectedCardStore()
+  const {setMobileChatOpen,isPremium} = useSelectedCardStore()
+  const [isHidden, setIsHidden] = useState<boolean>(true)
   const isChatPage = pathname?.includes('chats');
 
   const handeClick = () => {
@@ -46,6 +44,10 @@ const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
       setMobileChatOpen(false)
     }
   }
+
+  useEffect(() => {
+    setIsHidden(isPremium);
+  }, [])
 
   return (
     <ul className="space-y-[4px] text-gray">
@@ -75,25 +77,27 @@ const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
           </li>
         )
       })}
-      <li>
-        <button onClick={() => setPaymentModal(true)} className={clsx("cursor-pointer block w-full font-semibold text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] h-[40px] main-gradient text-white ", {
-          "!px-0 !py-0": isChatPage
-        })}>
-          <span className={clsx("relative z-[5] h-full flex items-center gap-[8px]", {
-            "justify-center": isChatPage
+      {!isHidden && (
+        <li>
+          <Link href="https://quiz.theaigo.com/aigoweb#welcome" rel="nofollow" className={clsx("cursor-pointer animate-fadeIn block w-full font-semibold text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] h-[40px] main-gradient text-white ", {
+            "!px-0 !py-0": isChatPage
           })}>
-          <Image
-            src={IconStars.src}
-            width={IconStars.width}
-            height={IconStars.height}
-            alt="Subscription icon"
-            className="size-[20px]"
-          />
-            {!isChatPage && <span>Subscription</span>}
-        </span>
-        </button>
+            <span className={clsx("relative z-[5] h-full flex items-center gap-[8px]", {
+              "justify-center": isChatPage
+            })}>
+              <Image
+                src={IconStars.src}
+                width={IconStars.width}
+                height={IconStars.height}
+                alt="Subscription icon"
+                className="size-[20px]"
+              />
+              {!isChatPage && <span>Subscription</span>}
+            </span>
+          </Link>
+        </li>
+      )}
 
-      </li>
     </ul>
   );
 };

@@ -15,11 +15,12 @@ interface ComponentProps {
 }
 
 const ChatsHeader:FC<ComponentProps> = ({avatar,name}) => {
-  const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen, characters, selectedCharacterId } = useSelectedCardStore();
+  const { setMobileChatOpen, setInfoCollapse, characterInfoCollapse, setMobileInfoOpen, setSelectedCharacterId } = useSelectedCardStore();
   const {setTokensModal, tokens} = usePaymentStore();
 
   const handleBack = () => {
     setMobileChatOpen(false)
+    setSelectedCharacterId('9a9b9')
   }
 
   const handleInfoOpen = () => {

@@ -120,7 +120,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         const updatedWithBotMessages = [...updatedMessages, ...botMessages];
         setMessages(updatedWithBotMessages);
         saveMessagesToLocalStorage(updatedWithBotMessages, response?.tokens_remaining);
-        console.log('response',response)
+
         setTokens(response?.tokens_remaining || 0)
       }
     } catch (error) {

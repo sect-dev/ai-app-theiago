@@ -252,8 +252,7 @@ export const registerUserAfterPayment = async (email: string | null, token: stri
   const token2 = await getCurrentToken()
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
-    const x = await apiClient.get(`/register_paid_web_user?token=${token2}&${currentSearchParams}&email=${email}`);
-    console.log('x',x)
+    await apiClient.get(`/register_paid_web_user?token=${token2}&${currentSearchParams}&email=${email}`);
   } catch (error) {
     console.log('error',error)
   }

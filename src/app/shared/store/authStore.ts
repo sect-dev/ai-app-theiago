@@ -39,7 +39,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       const user = result.user as FirebaseUser;
 
       if(result) {
-        console.log('user',user)
         await registerUserAfterPayment(email, user.accessToken);
         cleanLocalStorage()
         localStorage.setItem("accessToken", user.accessToken);

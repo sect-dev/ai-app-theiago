@@ -19,7 +19,7 @@ const Page = () => {
   const getCharacterInfo = async (id:string) => {
     try {
       setLoading(true)
-      if(id) {
+      if(id && id !== '9a9b9') {
         const response = await getCharacterInfoById(id);
         if(response) {
           setCharacterInfo(response);
@@ -27,7 +27,7 @@ const Page = () => {
         }
       } else {
         const chats = localStorage.getItem('chatStartedCharacters')
-        if(chats) {
+        if(chats && selectedCharacterId !== '9a9b9') {
           const chatStartedCharacters = JSON.parse(chats);
           const lastChatId = chatStartedCharacters[chatStartedCharacters.length - 1].id;
           const response = await getCharacterInfoById(lastChatId);
@@ -48,8 +48,10 @@ const Page = () => {
   }
 
   useEffect(() => {
-    const id = selectedCharacterId ? selectedCharacterId?.toString() : '';
-    getCharacterInfo(id)
+    if(selectedCharacterId !== '9a9b9') {
+      const id = selectedCharacterId ? selectedCharacterId?.toString() : '';
+      getCharacterInfo(id)
+    }
   }, [selectedCharacterId])
 
 
@@ -85,7 +87,9 @@ const Page = () => {
        <ChatsContent characterInfo={characterInfo} />
        {characterInfo
          ? <ChatInfo characterInfo={characterInfo} />
-         : <ChatsInfoSkeleton />
+         : <div className="block md:hidden">
+           <ChatsInfoSkeleton />
+         </div>
        }
      </div>
    );

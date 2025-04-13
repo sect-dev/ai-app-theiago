@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from "next/image";
 import ImageBg from '@/../public/images/img/connection.png';
+import Link from "next/link";
 
 const SidebarBanner = () => {
   return (
@@ -29,9 +30,9 @@ const SidebarBanner = () => {
             <span className="text-[14px]">⭐</span> No ads
           </li>
         </ul>
-        <button className="text-blue text-[14px] h-[28px] font-semibold bg-white rounded-[16px] w-full ">
+        <Link href="https://quiz.theaigo.com/aigoweb" className="text-blue block flex items-center justify-center text-[14px] h-[28px] font-semibold bg-white rounded-[16px] w-full ">
           See more
-        </button>
+        </Link>
       </div>
     </div>
   );
