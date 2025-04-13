@@ -14,6 +14,7 @@ const PageContent = () => {
   const searchParams = useSearchParams();
   const action = searchParams.get('action') as PaymentModalType | null;
 
+
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
