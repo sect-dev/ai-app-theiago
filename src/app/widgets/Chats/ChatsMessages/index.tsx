@@ -16,6 +16,7 @@ import SuggestionAnswer from "@/app/widgets/SuggestionAnswer";
 import {useAuthStore} from "@/app/shared/store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {paidTypesOfMessages} from "@/app/shared/conts";
 
 interface FormData {
   message: string;
@@ -122,7 +123,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         saveMessagesToLocalStorage(updatedWithBotMessages, response?.tokens_remaining);
 
         setTokens(response?.tokens_remaining || 0)
-        const isPaywallMessage = botMessages.some(item => item.type === 'image_paywall' | item.type === 'audio_paywall' | item.type === 'video_paywall' | item.type === 'text_paywall')
+        const isPaywallMessage = botMessages.some(item => paidTypesOfMessages.includes(item.type))
         if(isPaywallMessage) {
           setAuthModal({modalType:"login",isAuthModalActive:true})
         }
