@@ -21,7 +21,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
             sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
             fill
             alt="image"
-            loading="eager"
+            loading="lazy"
             className="object-cover swiper-lazy"
           />
           <div className="relative z-[2] transition-all duration-300 group-hover:mb-[50px] ">

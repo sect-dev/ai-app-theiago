@@ -27,7 +27,7 @@ const HomePage:FC<ComponentProps> = ({avatars,action}) => {
     if (!accessToken && !tempToken) {
       signInAnonymouslyHandler();
     }
-    handleAuthStateChanges()
+
   }, []);
 
   return (

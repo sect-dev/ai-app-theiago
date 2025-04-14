@@ -24,7 +24,7 @@ const Page = () => {
         const response = await getCharacterInfoById(id);
         if(response) {
           setCharacterInfo(response);
-          setSelectedCharacterId(response.id);
+          return setSelectedCharacterId(response.id);
         }
       } else {
         const chats = localStorage.getItem('chatStartedCharacters')
@@ -35,7 +35,7 @@ const Page = () => {
 
           if(response) {
             setCharacterInfo(response)
-            setSelectedCharacterId(response.id);
+            return setSelectedCharacterId(response.id);
           }
         } else {
           setSelectedCharacterId(null);
@@ -50,7 +50,7 @@ const Page = () => {
 
   useEffect(() => {
     if(selectedCharacterId !== '9a9b9') {
-      const id = selectedCharacterId ? selectedCharacterId?.toString() : '';
+      const id = selectedCharacterId ? selectedCharacterId.toString() : '';
       getCharacterInfo(id)
     }
   }, [selectedCharacterId])

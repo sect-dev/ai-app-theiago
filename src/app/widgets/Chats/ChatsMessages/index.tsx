@@ -17,6 +17,7 @@ import {useAuthStore} from "@/app/shared/store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
 import {paidTypesOfMessages} from "@/app/shared/conts";
+import {useRouter} from "next/navigation";
 
 interface FormData {
   message: string;
@@ -37,6 +38,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[] | null>([]);
   const [isTextareaFocused, setIsTextareaFocused] = useState(false);
+  const navigate = useRouter()
   const {characters,setCharacters } = useSelectedCardStore();
   const {user,setAuthModal} = useAuthStore()
   const {setTokens} = usePaymentStore()
@@ -111,6 +113,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     };
     try {
       const response = await sendMessage(params);
+
       if (response &&response?.response?.length > 0) {
         const botMessages = response?.response?.map((msg: BotMessage) => ({
           text: msg.message,
@@ -124,8 +127,11 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 
         setTokens(response?.tokens_remaining || 0)
         const isPaywallMessage = botMessages.some(item => paidTypesOfMessages.includes(item.type))
-        if(isPaywallMessage) {
+        if(isPaywallMessage && user?.isAnonymous) {
           setAuthModal({modalType:"login",isAuthModalActive:true})
+        }
+        if(isPaywallMessage && user?.emailVerified) {
+          return navigate.push('https://quiz.theaigo.com/aigoweb')
         }
       }
     } catch (error) {
