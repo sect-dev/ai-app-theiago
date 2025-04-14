@@ -60,7 +60,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
                     className={clsx("gradient-border relative pointer-events-none animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-full h-[157px] cursor-pointer md:h-[190px] before:rounded-[12px] before:z-[2] before:opacity-0", {
                       "hover:before:opacity-100 pointer-events-auto": !isAvailable
                     })}
-                    onClick={() =>  setAuthModal({modalType:"register",isAuthModalActive:true})}
+                    onClick={() =>  setAuthModal({modalType:"login",isAuthModalActive:true})}
                   >
                     <Image
                       src={`${photo}?format=webp&quality=80&width=150`}
