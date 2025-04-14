@@ -5,6 +5,7 @@ import {Character} from "@/app/shared/api/types";
 import CardsList from "@/app/widgets/CardsList";
 import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
 import {PaymentModalType, usePaymentStore} from "@/app/shared/store/paymentStore";
+import {useRouter} from "next/navigation";
 
 interface ComponentProps {
   avatars: Character[] | null
@@ -13,6 +14,7 @@ interface ComponentProps {
 
 const HomePage:FC<ComponentProps> = ({avatars,action}) => {
   const {setSuccessPaymentModal} = usePaymentStore()
+  const navigate = useRouter();
   const favoriteAvatars = avatars && avatars?.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position) || null
   const simpleAvatars = avatars && avatars?.filter(item => item.tags).filter(item => !item.top_horizontal_list_position).sort((a,b) => a.position - b.position) || null
   const tags: string[] = Array.from(new Set(simpleAvatars?.flatMap(avatar => avatar.tags ?? [])));
@@ -22,6 +24,9 @@ const HomePage:FC<ComponentProps> = ({avatars,action}) => {
     const tempToken = localStorage.getItem("tempToken");
     if(avatars && (action && action === 'subscription_success' || action === 'auth_success')) {
       setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
+    }
+    if(action === 'auth_organic') {
+      navigate.push('https://quiz.theaigo.com/aigoweb')
     }
     if (!accessToken && !tempToken) {
       signInAnonymouslyHandler();

@@ -98,7 +98,9 @@ export const resetPasswordHandler = async (email: string) => {
 export const signOutUser = async () => {
   try {
     await signOut(auth);
-    localStorage.clear();
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('tempToken');
+    localStorage.removeItem('uid');
     clearAccessTokenCookie();
   } catch (error) {
     console.log(error)
@@ -229,11 +231,14 @@ export const registerAnonymousUser = async (token:string): Promise<void> => {
   }
 };
 
-export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuthResponse> => {
+export const handleEmailLinkAuth = async (email?: string, isOrganicAuth?: boolean): Promise<EmailLinkAuthResponse> => {
   const currentSearchParams = new URLSearchParams(window.location.search);
   const subscribe = currentSearchParams.get('action')
   if(subscribe && subscribe === 'subscription_success') {
     currentSearchParams.set('action', 'auth_success');
+  }
+  if(isOrganicAuth) {
+    currentSearchParams.set('action', 'auth_organic');
   }
 
   const redirectUrl = `${window.location.origin}${window.location.pathname}?${currentSearchParams.toString()}`;
@@ -264,7 +269,7 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
 };
 
 export const registerUserAfterPayment = async (email: string | null) => {
-  const token = await getCurrentToken()
+  const token = await getCurrentToken();
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
     await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);

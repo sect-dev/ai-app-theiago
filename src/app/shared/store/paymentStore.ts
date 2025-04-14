@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
-export type Plan = "3_months_premium_access" | "1_month_premium_access" | "6_months_premium_access" | "12 months_premium _access"
-export type PaymentModalType = 'subscription_success' | 'auth_success' | null
+export type Plan = string
+export type PaymentModalType = 'subscription_success' | 'auth_success' | 'auth_organic' | null
 
 const loadCharactersFromLocalStorage = (): { tokens: number } => {
   if (typeof window === "undefined") return { tokens: 0 };

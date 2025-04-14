@@ -28,12 +28,13 @@ const SectionPlans:FC<ComponentProps> = ({paymentPlans}) => {
   useEffect(() => {
     if(paymentPlans && paymentPlans.length > 0) {
       setSelectedPrice(paymentPlans[1])
+      setPlan(paymentPlans[1].id ?? '1_month_premium_access')
     }
   }, [])
 
   const paymentHandle = async (item: PaymentPlan) => {
     setSelectedPrice(item)
-    setPlan(item.id ?? '3_months_premium_access')
+    setPlan(item.id ?? paymentPlans[1].id ?? '1_month_premium_access')
   };
 
   return (

@@ -38,7 +38,9 @@ const Login = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const resp = await handleEmailLinkAuth(data.email)
+      setLoading(true)
+      const isOrganicAuth = true
+      const resp = await handleEmailLinkAuth(data.email, isOrganicAuth)
 
       if(resp && resp?.success) {
         notification.open({

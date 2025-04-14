@@ -7,6 +7,7 @@ import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import {useAuthStore} from "@/app/shared/store/authStore";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import {useRouter} from "next/navigation";
 
 interface ComponentProps {
   content: string[] | null;
@@ -17,11 +18,24 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [mounted, setMounded] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const {setAuthModal} = useAuthStore()
+  const {setAuthModal,user} = useAuthStore()
+  const navigate = useRouter();
 
   useEffect(() => {
     setMounded(true)
   }, [])
+
+  const onAvailableClick = (i:number) => {
+    setSelectedIndex(i);
+    setOpen(true);
+  }
+
+  const onBlurClick = () => {
+    if((user && user.emailVerified) && !isPremium) {
+      return navigate.push('https://quiz.theaigo.com/aigoweb')
+    }
+    setAuthModal({modalType:"login",isAuthModalActive:true})
+  }
 
   const slidesData = isPremium ? content : content?.slice(0,2)
 
@@ -37,10 +51,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
                   className={clsx("gradient-border relative pointer-events-none animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-full h-[157px] cursor-pointer md:h-[190px] before:rounded-[12px] before:z-[2] before:opacity-0", {
                     "hover:before:opacity-100 pointer-events-auto": isPremium
                   })}
-                  onClick={() => {
-                    setSelectedIndex(i);
-                    setOpen(true);
-                  }}
+                  onClick={() => onAvailableClick(i)}
                 >
                   <Image
                     src={`${photo}?format=webp&quality=80&width=150`}
@@ -60,7 +71,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
                     className={clsx("gradient-border relative pointer-events-none animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-full h-[157px] cursor-pointer md:h-[190px] before:rounded-[12px] before:z-[2] before:opacity-0", {
                       "hover:before:opacity-100 pointer-events-auto": !isAvailable
                     })}
-                    onClick={() =>  setAuthModal({modalType:"login",isAuthModalActive:true})}
+                    onClick={onBlurClick}
                   >
                     <Image
                       src={`${photo}?format=webp&quality=80&width=150`}
