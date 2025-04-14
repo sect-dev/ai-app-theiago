@@ -15,7 +15,7 @@ const Sidebar:FC<ComponentProps> = ({isChatPage,pathname,setIsMenuOpen}) => {
 
   useEffect(() => {
     setIsHidden(isPremium);
-  }, []);
+  }, [isPremium]);
 
   return (
     <div className="w-full h-[calc(100vh-46px)] pt-[15px] pb-[24px]">

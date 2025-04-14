@@ -114,7 +114,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
              </button>
            </div>
            <SectionForm />
-           <SectionFooter />
+           <SectionFooter paymentPlans={paymentPlans} />
          </div>
        </div>
      </div>

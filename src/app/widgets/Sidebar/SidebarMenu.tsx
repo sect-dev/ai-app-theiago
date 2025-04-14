@@ -47,7 +47,7 @@ const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
 
   useEffect(() => {
     setIsHidden(isPremium);
-  }, [])
+  }, [isPremium])
 
   return (
     <ul className="space-y-[4px] text-gray">
