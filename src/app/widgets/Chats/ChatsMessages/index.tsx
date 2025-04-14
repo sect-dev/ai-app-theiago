@@ -37,8 +37,8 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const [messages, setMessages] = useState<Message[] | null>([]);
   const [isTextareaFocused, setIsTextareaFocused] = useState(false);
   const {characters,setCharacters } = useSelectedCardStore();
-  const {user} = useAuthStore()
-  const {setTokens,tokens} = usePaymentStore()
+  const {user,setAuthModal} = useAuthStore()
+  const {setTokens} = usePaymentStore()
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const {
@@ -122,6 +122,10 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         saveMessagesToLocalStorage(updatedWithBotMessages, response?.tokens_remaining);
 
         setTokens(response?.tokens_remaining || 0)
+        const isPaywallMessage = botMessages.some(item => item.type === 'image_paywall' | item.type === 'audio_paywall' | item.type === 'video_paywall' | item.type === 'text_paywall')
+        if(isPaywallMessage) {
+          setAuthModal({modalType:"login",isAuthModalActive:true})
+        }
       }
     } catch (error) {
       console.error("Error sending message:", error);
