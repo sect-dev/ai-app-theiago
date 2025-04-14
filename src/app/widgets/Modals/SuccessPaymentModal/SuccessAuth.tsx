@@ -15,7 +15,7 @@ import {apiClient} from "@/app/shared/api";
 import {Character} from "@/app/shared/api/types";
 
 const SuccessAuth = () => {
-  const {charFromPaywall,setCharacters, setSelectedCharacterId} = useSelectedCardStore();
+  const {charFromPaywall,setCharacters, setSelectedCharacterId, setIsPremium} = useSelectedCardStore();
   const searchParams = useSearchParams()
   const {user} = useAuthStore()
   const [loading,setLoading] = useState(false)
@@ -51,11 +51,12 @@ const SuccessAuth = () => {
       setLoading(true)
       const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: charInfo?.id.toString() ?? null})
       const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-      const tokens = startChat?.tokens_remaining || 0
-      const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens)
+      const tokens = startChat?.tokens_remaining || 0;
+      const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens);
       setSelectedCharacterId(charInfo?.id.toString() ?? '')
       setCharacters(preparedCharacters ?? null)
       setTokens(tokens ?? 0)
+      setIsPremium(startChat?.is_premium ?? false)
       setIsPending(() => {
         navigate.push(`/chats`);
       })
