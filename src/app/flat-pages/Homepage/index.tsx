@@ -5,7 +5,6 @@ import {Character} from "@/app/shared/api/types";
 import CardsList from "@/app/widgets/CardsList";
 import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
 import {PaymentModalType, usePaymentStore} from "@/app/shared/store/paymentStore";
-import {handleAuthStateChanges} from "@/app/shared/store/authStore";
 
 interface ComponentProps {
   avatars: Character[] | null
