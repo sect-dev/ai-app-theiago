@@ -280,7 +280,7 @@ export const registerUserAfterPayment = async (email: string | null) => {
 
 export const getEmailByOrderNumber = async (orderId:string) => {
   try {
-    const resp = await axios.get(`https://production-payments.theaigo.com:8000/email_by_order_number?order_number=${orderId}`);
+    const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/email_by_order_number?order_number=${orderId}`);
     return resp.data
   } catch (error) {
     console.log(error)
