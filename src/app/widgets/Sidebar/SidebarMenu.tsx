@@ -56,8 +56,8 @@ const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
         const image = checkUrl ? item.activeIcon : item.icon
         return (
           <li key={item.id} className="group [&>*:a]:rounded-t-[4px]">
-            <Link onClick={handeClick} href={item.href} className={clsx("flex items-center pl-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",item.className,{
-              "!pl-0 justify-center": isChatPage
+            <Link onClick={handeClick} href={item.href} className={clsx("flex items-center px-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",item.className,{
+              "justify-center": isChatPage
             })}>
               <Image
                 src={image.src}

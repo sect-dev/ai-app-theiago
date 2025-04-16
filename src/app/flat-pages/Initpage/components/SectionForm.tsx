@@ -19,7 +19,7 @@ const SectionForm = () => {
           loading="eager"
           width="100%"
           height="100%"
-          src={`https://production-payments.theaigo.com:8000/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${currentSearchParams}`}
+          src={`https://stage-payments.theaigo.com:8000/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${currentSearchParams}`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
