@@ -1,6 +1,7 @@
 import axios  from "axios";
 import { Plan } from "../store/paymentStore";
 import {StrictTokenPackage} from "@/app/shared/api/types/payment";
+import {apiClient, getCurrentToken} from "@/app/shared/api/index";
 
 export interface PaymentPlan {
   currency: string;
@@ -51,8 +52,18 @@ export const getTokenPackageInfo = async (): Promise<StrictTokenPackage[] | null
 export const buyTokens =  async(name: string,userId: string,email: string) => {
   try {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${name}&user_id=${userId}&email=${email}`)
-    return response.data
+    return response.data;
   } catch (error){
+    console.log(error)
+  }
+}
+
+export const activateTokens = async (orderNumber:string) => {
+  const token = await getCurrentToken()
+  try {
+    const resp = await apiClient.get(`/activate_tokens?order_number=${orderNumber}&token=${token}`);
+    return resp.data;
+  } catch (error) {
     console.log(error)
   }
 }

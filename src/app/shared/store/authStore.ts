@@ -30,6 +30,8 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   const {setSuccessPaymentModal} = usePaymentStore.getState();
   const {setAuthModal} = useAuthStore.getState();
   const email = typeof window !== 'undefined' ? localStorage.getItem('emailForSignIn') : null;
+  const authSuccess = typeof window !== 'undefined' ? window.location.search.includes('action=auth_success') : null;
+  const organicAuth = typeof window !== 'undefined' ? window.location.search.includes('action=auth_organic') : null;
 
   const cleanLocalStorage = () => {
     localStorage.removeItem("tempToken");
@@ -39,13 +41,17 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     try {
       const result = await signInWithEmailLink(auth, email ?? '', window.location.href);
       const user = result.user as FirebaseUser;
-
       if (result) {
-        await registerUserAfterPayment(email);
         cleanLocalStorage()
         localStorage.setItem("accessToken", user.accessToken);
         setUser(user);
-        return window.history.replaceState({}, document.title, window.location.pathname);
+        if(organicAuth) {
+          return window.location.href = "https://quiz.theaigo.com/aigoweb";
+        }
+        if(authSuccess) {
+          await registerUserAfterPayment(email);
+          return window.history.replaceState({}, document.title, window.location.pathname);
+        }
       }
     } catch (error) {
       window.history.replaceState({}, document.title, window.location.pathname);
