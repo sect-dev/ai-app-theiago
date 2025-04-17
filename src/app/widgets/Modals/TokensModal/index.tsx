@@ -21,7 +21,7 @@ import notification from "@/app/widgets/Notification";
 import Spinner from "@/app/widgets/Spinner";
 
 const TokensModal = () => {
-  const {characters} = useSelectedCardStore()
+  const {characters,selectedCharacterId} = useSelectedCardStore()
   const params = useParams();
   const navigate = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -73,7 +73,7 @@ const TokensModal = () => {
       }
       // const resp = await buyTokens(packageName, user.uid, user?.email ?? '')
       startTransition(() => {
-        navigate.push(`${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${packageName}&user_id=${user.uid}&email=${user?.email}`);
+        navigate.push(`${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${packageName}&user_id=${user.uid}&email=${user?.email}&character_id=${selectedCharacterId}`);
       })
     } catch (error) {
       console.log(error)
