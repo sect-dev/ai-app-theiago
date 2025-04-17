@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 export type Plan = string
-export type PaymentModalType = 'subscription_success' | 'auth_success' | 'auth_organic' | null
+export type PaymentModalType = 'subscription_success' | 'auth_success' | 'auth_organic' | 'subscription_tokens' | null
 
 const loadCharactersFromLocalStorage = (): { tokens: number } => {
   if (typeof window === "undefined") return { tokens: 0 };

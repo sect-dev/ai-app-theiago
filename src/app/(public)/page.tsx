@@ -5,16 +5,16 @@ import {PaymentModalType} from "@/app/shared/store/paymentStore";
 import {getCharactersList} from "@/app/shared/api/characters";
 
 interface PageProps {
-  searchParams: Promise<{ action: PaymentModalType | null }>;
+  searchParams: Promise<{ action: PaymentModalType | null, character_id: string }>;
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  const {action} = await searchParams;
+  const {action,character_id} = await searchParams;
   const charactersList = await getCharactersList();
   const charactersListData = Object.values(charactersList ?? {}) as Character[];
 
   return (
-    <HomePage avatars={charactersListData} action={action} />
+    <HomePage characterId={character_id ?? null} avatars={charactersListData} action={action} />
   );
 };
 
