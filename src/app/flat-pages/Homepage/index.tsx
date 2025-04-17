@@ -29,7 +29,9 @@ const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
       setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
     }
     if(action === 'auth_organic') {
-      navigate.push('https://quiz.theaigo.com/aigoweb')
+      // setTimeout(() => {
+      //   navigate.push('https://quiz.theaigo.com/aigoweb')
+      // }, 200)
     }
     if(action === 'subscription_tokens' && characterId) {
       setSelectedCharacterId(characterId)
