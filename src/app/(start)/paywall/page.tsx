@@ -1,4 +1,3 @@
-'use client'
 import React, { use } from 'react';
 import Initpage from "@/app/flat-pages/Initpage";
 import { getPaymentPlans } from "@/app/shared/api/payment";
