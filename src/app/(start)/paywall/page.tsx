@@ -44,7 +44,7 @@ const PageContent = () => {
 };
 
 const Page = () => (
-  <Suspense fallback={<div className="text-white p-4">Loading page...</div>}>
+  <Suspense fallback={<InitpageSkeleton />}>
     <PageContent />
   </Suspense>
 );
