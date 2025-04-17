@@ -16,7 +16,7 @@ export const getCharacterInfoById = async (id: string) => {
 export const getCharacterInfoByConstructor = async (id:string) => {
   try {
     const response = await apiClient.get(`/constructor_character_basic_info?character_id=${id}`, {
-      timeout: 5000,
+      timeout: 10000,
     })
     const data = JSON.parse(JSON.stringify(response.data));
     return data

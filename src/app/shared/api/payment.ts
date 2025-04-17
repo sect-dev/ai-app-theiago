@@ -25,7 +25,7 @@ export const getPaymentPlans = async (): Promise<PaymentPlan[]> => {
   try {
     const response = await axios.get<PaymentPlansResponse>(
       `${process.env.NEXT_PUBLIC_API_URL}/products?place=landing-paywall`,{
-        timeout: 5000,
+        timeout: 10000,
       }
     );
     return Object.entries(response.data).map(([id, plan]) => ({id, ...plan}));
