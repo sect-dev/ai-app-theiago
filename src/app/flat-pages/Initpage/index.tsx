@@ -4,7 +4,7 @@ import Image from "next/image";
 import IconGender from '@/../public/images/icons/icon-gender.svg';
 import IconPaypal from '@/../public/images/icons/payment/icon-paypal.svg';
 // import SectionSelect from "@/app/flat-pages/Initpage/components/SectionSelect";
-import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
+// import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
 // import SectionFooter from "@/app/flat-pages/Initpage/components/SectionFooter";
 // import SectionForm from "@/app/flat-pages/Initpage/components/SectionForm";
 import SectionReviews from "@/app/flat-pages/Initpage/components/SectionReviews";
@@ -49,7 +49,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
            </div>
            <div className="relative mt-[-100px] z-[5] pl-[15px] fm:hidden">
              <p className="text-[28px] font-bold text-center mb-[15px]">Get closer to her</p>
-             <SectionWithSwiper className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]" character={character ?? null} />
+             {/*<SectionWithSwiper className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]" character={character ?? null} />*/}
            </div>
          </div>
          <div className="bg-[#191B2C] py-[15px] overflow-x-hidden rounded-[32px] order-[-1] max-w-[475px] px-[20px] fm:relative fm:z-[10] fm:mt-[-225px] fm:bg-transparent fm:max-w-full">
@@ -65,7 +65,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
                  alt="icon gender"
                  className="fm:size-[4.15vw]"
                />
-               Calm introvert with <span className="lowercase"> {character?.personality}</span>
+               {/*Calm introvert with <span className="lowercase"> {character?.personality}</span>*/}
              </div>
              <div className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px] fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
                <Image
@@ -75,7 +75,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
                  alt="icon gender"
                  className="fm:size-[4.15vw]"
                />
-               Will share emotions with <span className="lowercase">{character?.occupation}</span>
+               {/*Will share emotions with <span className="lowercase">{character?.occupation}</span>*/}
              </div>
              <div className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px] fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
                <Image
@@ -85,7 +85,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
                  alt="icon gender"
                  className="fm:size-[4.15vw]"
                />
-               Hobbies: <span className="lowercase">{character?.topics_of_interests.join(',')}</span>
+               {/*Hobbies: <span className="lowercase">{character?.topics_of_interests.join(',')}</span>*/}
              </div>
            </div>
            <div className="hidden fm:pt-[24px] fm:block">
