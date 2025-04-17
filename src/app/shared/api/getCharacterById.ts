@@ -1,4 +1,5 @@
 import {apiClient} from "@/app/shared/api/index";
+import axios from "axios";
 
 export const getCharacterInfoById = async (id: string) => {
   try {
@@ -20,6 +21,10 @@ export const getCharacterInfoByConstructor = async (id:string) => {
     const data = JSON.parse(JSON.stringify(response.data));
     return data
   } catch (error) {
-    console.log('error',error)
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.message, error.response?.data);
+    } else {
+      console.error('Unexpected error:', error);
+    }
   }
 }
