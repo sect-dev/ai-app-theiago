@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Image from "next/image";
 import IconMoneyback from '@/../public/images/icons/payment/icon-moneyback.svg';
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
@@ -7,7 +7,15 @@ import Spinner from "@/app/widgets/Spinner";
 
 const SectionForm = () => {
   const {selectedPlan} = usePaymentStore()
-  const currentSearchParams = new URLSearchParams(window.location.search);
+  const [currentSearchParams,setCurrentSearchParams] = useState<URLSearchParams | null>(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      setCurrentSearchParams(params)
+    }
+  }, [selectedPlan])
+
 
   return (
     <div id="form" className="py-[20px] space-y-[24px] fm:py-[5.33vw] sm:space-y-[6.40vw]">

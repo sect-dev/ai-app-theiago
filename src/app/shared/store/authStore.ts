@@ -29,7 +29,8 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   const setUser = useAuthStore.getState().setUser;
   const {setSuccessPaymentModal} = usePaymentStore.getState();
   const {setAuthModal} = useAuthStore.getState();
-  const email = localStorage.getItem('emailForSignIn');
+  const email = typeof window !== 'undefined' ? localStorage.getItem('emailForSignIn') : null;
+
   const cleanLocalStorage = () => {
     localStorage.removeItem("tempToken");
     localStorage.removeItem("emailForSignIn");
