@@ -11,3 +11,15 @@ export const getCharacterInfoById = async (id: string) => {
     console.log(error)
   }
 }
+
+export const getCharacterInfoByConstructor = async (id:string) => {
+  try {
+    const response = await apiClient.get(`/constructor_character_basic_info?character_id=${id}`, {
+      timeout: 5000,
+    })
+    const data = JSON.parse(JSON.stringify(response.data));
+    return data
+  } catch (error) {
+    console.log('error',error)
+  }
+}
