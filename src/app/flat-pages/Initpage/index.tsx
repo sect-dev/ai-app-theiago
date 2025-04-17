@@ -6,7 +6,7 @@ import IconPaypal from '@/../public/images/icons/payment/icon-paypal.svg';
 import SectionSelect from "@/app/flat-pages/Initpage/components/SectionSelect";
 import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
 import SectionFooter from "@/app/flat-pages/Initpage/components/SectionFooter";
-import SectionForm from "@/app/flat-pages/Initpage/components/SectionForm";
+// import SectionForm from "@/app/flat-pages/Initpage/components/SectionForm";
 import SectionReviews from "@/app/flat-pages/Initpage/components/SectionReviews";
 import SectionAdvantages from "@/app/flat-pages/Initpage/components/SectionAdvantages";
 import SectionPlans from "@/app/flat-pages/Initpage/components/SectionPlans";
@@ -113,7 +113,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
                Checkout
              </button>
            </div>
-           <SectionForm />
+           {/*<SectionForm />*/}
            <SectionFooter paymentPlans={paymentPlans} />
          </div>
        </div>
