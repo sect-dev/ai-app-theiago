@@ -6,6 +6,7 @@ import { getCharacterInfoByConstructor } from "@/app/shared/api/getCharacterById
 import { useSearchParams } from 'next/navigation';
 import { PaymentPlan } from "@/app/shared/api/payment";
 import { CharacterByConstructor } from "@/app/shared/api/types";
+import InitpageSkeleton from "@/app/flat-pages/Initpage/InitpageSkeleton";
 
 const PageContent = () => {
   const searchParams = useSearchParams();
@@ -32,7 +33,7 @@ const PageContent = () => {
   }, [character_id]);
 
   if (!paymentPlans || !character) {
-    return <div className="text-white p-4">Loading...</div>;
+    return <InitpageSkeleton />;
   }
 
   return (
