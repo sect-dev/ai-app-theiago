@@ -16,8 +16,9 @@ interface ComponentProps {
 
 const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
   const {setSuccessPaymentModal} = usePaymentStore()
-  const {setSelectedCharacterId} = useSelectedCardStore()
-  const navigate = useRouter();
+  // const {setSelectedCharacterId} = useSelectedCardStore()
+  // const navigate = useRouter();
+  console.log('characterId',characterId)
   const favoriteAvatars = avatars && avatars?.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position) || null
   const simpleAvatars = avatars && avatars?.filter(item => item.tags).filter(item => !item.top_horizontal_list_position).sort((a,b) => a.position - b.position) || null
   const tags: string[] = Array.from(new Set(simpleAvatars?.flatMap(avatar => avatar.tags ?? [])));
