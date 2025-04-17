@@ -33,10 +33,10 @@ const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
       //   navigate.push('https://quiz.theaigo.com/aigoweb')
       // }, 200)
     }
-    if(action === 'subscription_tokens' && characterId) {
-      setSelectedCharacterId(characterId)
-      navigate.push('/chats')
-    }
+    // if(action === 'subscription_tokens' && characterId) {
+    //   setSelectedCharacterId(characterId)
+    //   navigate.push('/chats')
+    // }
     if (!accessToken && !tempToken) {
       signInAnonymouslyHandler();
     }
