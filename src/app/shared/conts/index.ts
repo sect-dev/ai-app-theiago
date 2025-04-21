@@ -22,3 +22,11 @@ export const registerErrorMessages: Record<string, string> = {
   "auth/too-many-requests": "Too many attempts. Please try again later.",
   "auth/internal-error": "An internal error occurred. Please try again later.",
 };
+
+export const paidTypesOfMessages = [
+  'image_paywall', 'audio_paywall', 'video_paywall', 'text_paywall'
+]
+
+export const OriginalTypesOfMessages = [
+  'image', 'audio', 'video', 'text'
+]

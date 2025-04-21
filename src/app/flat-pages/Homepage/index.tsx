@@ -5,38 +5,59 @@ import {Character} from "@/app/shared/api/types";
 import CardsList from "@/app/widgets/CardsList";
 import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
 import {PaymentModalType, usePaymentStore} from "@/app/shared/store/paymentStore";
-import { useSelectedCardStore } from '@/app/shared/store/publicStore';
+import {useRouter} from "next/navigation";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import {activateTokens} from "@/app/shared/api/payment";
 
 interface ComponentProps {
-  avatars: Character[]
+  avatars: Character[] | null
   action: PaymentModalType | null
   characterId: string | null
+  orderNumber: string | null
+  product: string | null
 }
 
-const HomePage:FC<ComponentProps> = ({avatars,action,characterId}) => {
-  const {setSuccessPaymentModal} = usePaymentStore()
-  const {setSelectedCard} = useSelectedCardStore()
-  const favoriteAvatars = avatars.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position)
-  const simpleAvatars = avatars.filter(item => item.tags).filter(item => !item.top_horizontal_list_position).sort((a,b) => a.position - b.position)
-  const tags: string[] = Array.from(new Set(simpleAvatars.flatMap(avatar => avatar.tags ?? [])));
-  console.log('avatars',avatars)
+const HomePage:FC<ComponentProps> = ({avatars,action,characterId,orderNumber, product}) => {
+  const {setSuccessPaymentModal,setTokens, tokens} = usePaymentStore()
+  const {setSelectedCharacterId} = useSelectedCardStore()
+  const navigate = useRouter();
+  const favoriteAvatars = avatars && avatars?.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position) || null
+  const simpleAvatars = avatars && avatars?.filter(item => item.tags).filter(item => !item.top_horizontal_list_position).sort((a,b) => a.position - b.position) || null
+  const tags: string[] = Array.from(new Set(simpleAvatars?.flatMap(avatar => avatar.tags ?? [])));
+
+  const getTokens = async (orderNumber:string, product: string) => {
+    try {
+      const response = await activateTokens(orderNumber)
+      if(response) {
+        const productItem = product.split('_')[0];
+        const totalTokens = +tokens + +productItem;
+        setSelectedCharacterId(characterId);
+        localStorage.setItem('tokens', totalTokens.toString());
+        setTokens(totalTokens);
+        navigate.push('/chats');
+      }
+    } catch (error) {
+      console.log('error')
+    }
+  }
+
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    // const emailForSignIn = localStorage.getItem("emailForSignIn");
-    if(characterId) {
-      const selectedCharacter = avatars.find(item => +item.id === +characterId) || null
-      setSelectedCard(selectedCharacter ?? null)
+    const tempToken = localStorage.getItem("tempToken");
+    if(avatars && (action && action === 'subscription_success' || action === 'auth_success')) {
+      setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
     }
-    if((action && action === 'subscription_success' || action === 'auth_success')) {
-      return setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
+    if(action === 'subscription_tokens' && characterId && orderNumber && product) {
+      getTokens(orderNumber, product)
     }
-    if (!accessToken) {
+    if (!accessToken && !tempToken) {
       signInAnonymouslyHandler();
     }
+
   }, []);
 
   return (
-    <div className="animate-fadeIn">
+    <div className="animate-fadeIn overflow-y-auto h-[calc(100vh-60px)]">
       <div className="container !px-0">
         <div className="space-y-[8px] sm:space-y-0">
           <FavoritesGirls avatars={favoriteAvatars} />

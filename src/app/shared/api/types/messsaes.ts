@@ -17,6 +17,7 @@ export interface ApiResponse {
   request_nsfw: boolean;
   response: string[];
   tokens_remaining: number;
+  is_premium: boolean
 }
 
 export interface StartRequest {
@@ -45,4 +46,6 @@ export interface StartResponse {
     timestamp: number;
     nsfw: boolean;
   }>;
+  tokens_remaining: number
+  is_premium: boolean
 }

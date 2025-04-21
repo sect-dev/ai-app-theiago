@@ -1,50 +1,28 @@
 'use client'
-import React, {FC, useTransition} from 'react';
+import React, {FC} from 'react';
 import Image from "next/image";
 import {Character} from "@/app/shared/api/types";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
-import {useRouter} from "next/navigation";
-import {mapBackendMessagesToMessages, saveCharacterToLocalStorage} from "@/app/shared/helpers";
-import {startConversation} from "@/app/shared/api/mesages";
 import Spinner from "@/app/widgets/Spinner";
 import clsx from "clsx";
-import {useAuthStore} from "@/app/shared/store/authStore";
+import {useStartChat} from "@/app/shared/hooks/useStartChat";
 
 interface ComponentProps {
   avatar: Character
 }
 
 const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
-  const [isPending, startTransition] = useTransition();
-  const {user} = useAuthStore();
-  const {setSelectedCard,setCharacters} = useSelectedCardStore();
-  const navigate = useRouter()
-
-  const handleClick = async (avatar: Character) => {
-    setSelectedCard(avatar);
-    try {
-      const startChat = await startConversation({userId: user?.uid ?? 'id', characterId: avatar.id.toString()})
-      const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
-      startTransition(() => {
-        navigate.push(`/chats/${avatar.id}`);
-      })
-      const preparedCharacters = saveCharacterToLocalStorage(avatar,startChatMessages)
-      setCharacters(preparedCharacters ?? null)
-    } catch (error) {
-      console.log(error)
-    }
-  };
+  const { handleClick, isLoading } = useStartChat();
 
   return (
     <div  className="size-full">
      <div className="card-shadow card overflow-hidden cursor-grab group animate-fadeIn flex items-end relative p-[12px] h-full rounded-[20px] md:rounded-[24px]">
           <Image
-            src={`${avatar.avatar}?format=webp&quality=95&width=600`}
+            src={`${avatar.avatar}?format=webp&quality=85&width=600&height=660`}
             sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
             fill
             alt="image"
             loading="lazy"
-            className="object-cover"
+            className="object-cover swiper-lazy"
           />
           <div className="relative z-[2] transition-all duration-300 group-hover:mb-[50px] ">
             <div className="flex items-center gap-[4px] mb-[8px] font-semibold font-semibold ">
@@ -65,7 +43,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
             <button
               onClick={() => handleClick(avatar)}
               className={clsx("main-gradient cursor-pointer w-full  text-[14px] rounded-[12px] h-[40px] font-semibold text-white",{
-                "before:opacity-100 pointer-events-none": isPending
+                "before:opacity-100 pointer-events-none": isLoading
               })}
             >
              <span className="relative z-[5] flex items-center justify-center gap-[8px]">
@@ -74,7 +52,7 @@ const FavoritesGirlsCard:FC<ComponentProps> = ({avatar}) => {
                   <path d="M13.5832 5.05841C12.6082 3.05841 10.4332 1.66675 7.9165 1.66675C4.4665 1.66675 1.6665 4.27508 1.6665 7.50008C1.6665 9.40841 2.64984 11.1001 4.1665 12.1667L5.28317 14.6251C5.5415 15.1834 6.2915 15.2834 6.68317 14.8167L7.1415 14.2667L7.9165 13.3334C11.3665 13.3334 14.1665 10.7251 14.1665 7.50008C14.1665 6.62508 13.9582 5.80008 13.5832 5.05841ZM9.99984 8.12508H5.83317C5.4915 8.12508 5.20817 7.84175 5.20817 7.50008C5.20817 7.15841 5.4915 6.87508 5.83317 6.87508H9.99984C10.3415 6.87508 10.6248 7.15841 10.6248 7.50008C10.6248 7.84175 10.3415 8.12508 9.99984 8.12508Z" fill="#fff"/>
                 </svg>
                 <span>Start chat</span>
-               {isPending && <Spinner />}
+               {isLoading && <Spinner />}
              </span>
             </button>
           </div>

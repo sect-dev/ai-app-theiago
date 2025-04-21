@@ -14,12 +14,6 @@ import PaymentDiscountBanner from "@/app/widgets/Payment/PaymentDiscountBanner";
 import {PaymentPlan} from "@/app/shared/api/payment";
 import { CharacterByConstructor} from "@/app/shared/api/types";
 
-const genderData = [
-  {text: 'Calm introvert with charming personality', id: 2, image: IconGender},
-  {text: 'Will share emotions with you', id: 3, image: IconGender},
-  {text: 'Will behave XXX', id: 4, image: IconGender},
-]
-
 interface ComponentProps {
   paymentPlans: PaymentPlan[]
   character: CharacterByConstructor | null
@@ -29,7 +23,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
   const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated';
 
   const mainImage = `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/1.png`;
-  console.log('mainImage',mainImage)
+
   useEffect(() => {
     localStorage.setItem('charFromPaywall', JSON.stringify(character))
   }, [])
@@ -57,20 +51,36 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
              <SectionSelect character={character}/>
            )}
            <div className="space-y-[12px] fm:space-y-[3.08vw]">
-             {genderData.map(item => {
-               return (
-                 <div key={item.id} className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px] fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
-                   <Image
-                     src={item.image.src}
-                     width={item.image.width}
-                     height={item.image.height}
-                     alt="icon gender"
-                     className="fm:size-[4.15vw]"
-                   />
-                   {item.text}
-                 </div>
-               )
-             })}
+             <div className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px] fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
+               <Image
+                 src={IconGender.src}
+                 width={IconGender.width}
+                 height={IconGender.height}
+                 alt="icon gender"
+                 className="fm:size-[4.15vw]"
+               />
+               Calm introvert with <span className="lowercase"> {character?.personality}</span>
+             </div>
+             <div className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px] fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
+               <Image
+                 src={IconGender.src}
+                 width={IconGender.width}
+                 height={IconGender.height}
+                 alt="icon gender"
+                 className="fm:size-[4.15vw]"
+               />
+               Will share emotions with <span className="lowercase">{character?.occupation}</span>
+             </div>
+             <div className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px] fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
+               <Image
+                 src={IconGender.src}
+                 width={IconGender.width}
+                 height={IconGender.height}
+                 alt="icon gender"
+                 className="fm:size-[4.15vw]"
+               />
+               Hobbies: <span className="lowercase">{character?.topics_of_interests.join(',')}</span>
+             </div>
            </div>
            <div className="hidden fm:pt-[24px] fm:block">
              <SectionWithSwiper character={character ?? null} />
@@ -98,7 +108,7 @@ const Initpage:FC<ComponentProps> = ({paymentPlans,character}) => {
              </button>
            </div>
            <SectionForm />
-           <SectionFooter />
+           <SectionFooter paymentPlans={paymentPlans} />
          </div>
        </div>
      </div>

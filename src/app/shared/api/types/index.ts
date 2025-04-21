@@ -120,7 +120,7 @@ export interface Message {
 }
 
 export interface PreparedAvatar {
-  id: number,
+  id: number | string,
   image: string,
   listMsgs: Message[]
   name: string
@@ -144,6 +144,7 @@ export interface SendMessageResponse {
   character_id: string;
   response: MessageResponse[];
   tokens_remaining: number;
+  is_premium: boolean
 }
 
 export interface SendMessageParam {

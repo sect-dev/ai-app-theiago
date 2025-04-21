@@ -16,6 +16,8 @@ import SuggestionAnswer from "@/app/widgets/SuggestionAnswer";
 import {useAuthStore} from "@/app/shared/store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {paidTypesOfMessages} from "@/app/shared/conts";
+import {useRouter} from "next/navigation";
 
 interface FormData {
   message: string;
@@ -36,8 +38,9 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[] | null>([]);
   const [isTextareaFocused, setIsTextareaFocused] = useState(false);
+  const navigate = useRouter()
   const {characters,setCharacters } = useSelectedCardStore();
-  const {user} = useAuthStore()
+  const {user,setAuthModal} = useAuthStore()
   const {setTokens} = usePaymentStore()
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -60,7 +63,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     }
   }, [characterInfo]);
 
-  const saveMessagesToLocalStorage = (newMessages: Message[]) => {
+  const saveMessagesToLocalStorage = (newMessages: Message[], tokens?: number) => {
     if (!characterInfo) return;
     const storedData = localStorage.getItem("chatStartedCharacters");
     const characters = storedData ? JSON.parse(storedData) : [];
@@ -72,7 +75,6 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
       const character = characters[characterIndex];
       character.listMsgs = newMessages;
       character.lastMessageTime = currentTime;
-
       newMessages.forEach((message) => {
         if (message.sender === "bot" && (message.type === "image" || message.type === "image_paywall") && message.url) {
           const url = typeof message.url === "string" ? message.url : message.url?.en ?? '';
@@ -92,6 +94,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     }
 
     localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
+    localStorage.setItem('tokens', JSON.stringify(tokens))
     setCharacters(characters)
   };
 
@@ -110,6 +113,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     };
     try {
       const response = await sendMessage(params);
+
       if (response &&response?.response?.length > 0) {
         const botMessages = response?.response?.map((msg: BotMessage) => ({
           text: msg.message,
@@ -119,12 +123,19 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
         }));
         const updatedWithBotMessages = [...updatedMessages, ...botMessages];
         setMessages(updatedWithBotMessages);
-        saveMessagesToLocalStorage(updatedWithBotMessages);
+        saveMessagesToLocalStorage(updatedWithBotMessages, response?.tokens_remaining);
 
-        setTokens(response?.tokens_remaining || null)
+        setTokens(response?.tokens_remaining || 0)
+        const isPaywallMessage = botMessages.some(item => paidTypesOfMessages.includes(item.type))
+        if(isPaywallMessage && user?.isAnonymous) {
+          setAuthModal({modalType:"login",isAuthModalActive:true})
+        }
+        if(isPaywallMessage && user?.emailVerified) {
+          return navigate.push('https://quiz.theaigo.com/aigoweb')
+        }
       }
     } catch (error) {
-      console.error("Ошибка отправки сообщения:", error);
+      console.error("Error sending message:", error);
     } finally {
       setLoading(false);
     }
@@ -148,85 +159,83 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const messageValue = watch("message");
 
   return (
-    <div className={clsx("flex flex-col justify-end p-[20px] rounded-[8px] bg-[#121423] h-[calc(100vh-142px)] transition-transform duration-300  md:rounded-[16px] md:py-[14px] md:px-[12px] ", {})}>
+    <div className={clsx("flex flex-col justify-end p-[20px] rounded-[8px] bg-[#121423] h-[calc(100vh-142px)] transition-transform duration-300 md:h-[calc(100vh-262px)]  md:rounded-[16px] md:py-[14px] md:px-[12px] ", {})}>
       <div className="h-full flex flex-col justify-between">
-      <div className="space-y-[12px] overflow-auto pb-[20px]">
-        <ChatsMessageText loading={loading} messages={messages} characterInfo={characterInfo} />
-      </div>
-      <div>
-        {!loading && (
+        <div className="space-y-[12px] overflow-auto pb-[20px]">
+          <ChatsMessageText loading={loading} messages={messages} characterInfo={characterInfo} />
+        </div>
+        <div>
           <div className={clsx("transition-opacity duration-300",{"opacity-0 pointer-events-none absolute": loading})}>
-            <SuggestionAnswer waitingMessage={loading} userId={user?.uid ?? 'id'} characterId={characterInfo?.id ?? null} onSelectMessage={handleSelectMessage}/>
+            <SuggestionAnswer  userId={user?.uid ?? 'id'} characterId={characterInfo?.id ?? null} onSelectMessage={handleSelectMessage}/>
           </div>
-        )}
-        <form onSubmit={handleSubmit(onSubmit)} className="relative flex gap-[8px] items-end">
-          {showModal && <ChatsMessageModal onSelectMessage={handleSelectMessage} closeModal={() => setShowModal(false)} />}
-          <div className="relative w-full">
-            <TextareaAutosize
-              {...register("message", { required: "Поле обязательно для заполнения" })}
-              ref={(e) => {
-                register("message").ref(e);
-                textAreaRef.current = e;
-              }}
-              id="message"
-              className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.5em] min-h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px] sm:pr-[30px] sm:text-[16px] "
-              placeholder="Your message here"
-              minRows={1}
-              maxRows={3}
-              onFocus={() => setIsTextareaFocused(true)}
-              onBlur={() => setIsTextareaFocused(false)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  if (messageValue?.trim() && !loading) {
-                    handleSubmit(onSubmit)();
+          <form onSubmit={handleSubmit(onSubmit)} className="relative flex gap-[8px] items-end">
+            {showModal && <ChatsMessageModal onSelectMessage={handleSelectMessage} closeModal={() => setShowModal(false)} />}
+            <div className="relative w-full">
+              <TextareaAutosize
+                {...register("message", { required: "Поле обязательно для заполнения" })}
+                ref={(e) => {
+                  register("message").ref(e);
+                  textAreaRef.current = e;
+                }}
+                id="message"
+                className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.5em] min-h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px] sm:pr-[30px] sm:text-[16px] "
+                placeholder="Your message here"
+                minRows={1}
+                maxRows={3}
+                onFocus={() => setIsTextareaFocused(true)}
+                onBlur={() => setIsTextareaFocused(false)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    if (messageValue?.trim() && !loading) {
+                      handleSubmit(onSubmit)();
+                    }
                   }
+                }}
+              />
+              <div className="flex items-center gap-[10px] absolute right-[20px] top-1/2 -translate-y-1/2 sm:right-[10px]">
+                {messageValue &&
+                  <button
+                    onClick={onReset}
+                    className={"animate-fadeIn"}
+                  >
+                    <Image
+                      src={IconClose.src}
+                      width={IconClose.width}
+                      height={IconClose.height}
+                      alt="clean form"
+                    />
+                  </button>
                 }
-              }}
-            />
-            <div className="flex items-center gap-[10px] absolute right-[20px] top-1/2 -translate-y-1/2 sm:right-[10px]">
-              {messageValue &&
                 <button
-                  onClick={onReset}
-                  className={"animate-fadeIn"}
+                  onClick={handleModal}
+                  type="button"
+                  className={clsx("bg-[#121423] rounded-[9px] flex items-center gap-[6px] h-[24px] px-[9px] transition-opacity duration-300", {
+                    "gradient-border": showModal,
+                    "md:hidden": isTextareaFocused || messageValue
+                  })}
                 >
-                  <Image
-                    src={IconClose.src}
-                    width={IconClose.width}
-                    height={IconClose.height}
-                    alt="clean form"
-                  />
+                  <Image src={showModal ? IconUploadGradient : IconUpload.src} width={IconUpload.width} height={IconUpload.height} alt="upload photos" className="size-[14px]" />
+                  <span className={clsx("font-medium text-[12px]", {
+                    "logo-gradient": showModal
+                  })}> Send photo</span>
                 </button>
-              }
-              <button
-                onClick={handleModal}
-                type="button"
-                className={clsx("bg-[#121423] rounded-[9px] flex items-center gap-[6px] h-[24px] px-[9px] transition-opacity duration-300", {
-                  "gradient-border": showModal,
-                  "md:hidden": isTextareaFocused || messageValue
-                })}
-              >
-                <Image src={showModal ? IconUploadGradient : IconUpload.src} width={IconUpload.width} height={IconUpload.height} alt="upload photos" className="size-[14px]" />
-                <span className={clsx("font-medium text-[12px]", {
-                  "logo-gradient": showModal
-                })}> Send photo</span>
-              </button>
+              </div>
             </div>
-          </div>
-          <button
-            type="submit"
-            disabled={!messageValue?.trim() || loading}
-            className={clsx("size-[48px] flex items-center justify-center rounded-[16px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B] disabled:pointer-events-none", {
-              "bg-main-gradient": (messageValue?.trim() && !loading)
-            })}
-          >
-            <Image src={IconSend.src} width={IconSend.width} height={IconSend.height} alt="send message icon" className={clsx("size-[24px] transition-opacity duration-300 opacity-20",{
-              "!opacity-100": (messageValue?.trim() && !loading)
-            })} />
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={!messageValue?.trim() || loading}
+              className={clsx("size-[48px] flex items-center justify-center rounded-[16px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B] disabled:pointer-events-none", {
+                "bg-main-gradient": (messageValue?.trim() && !loading)
+              })}
+            >
+              <Image src={IconSend.src} width={IconSend.width} height={IconSend.height} alt="send message icon" className={clsx("size-[24px] transition-opacity duration-300 opacity-20",{
+                "!opacity-100": (messageValue?.trim() && !loading)
+              })} />
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

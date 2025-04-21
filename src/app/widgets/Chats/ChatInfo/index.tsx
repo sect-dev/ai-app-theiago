@@ -50,13 +50,13 @@ const ChatInfo:FC<ComponentProps> = ({characterInfo}) => {
 
   return (
     <>
-      <div className={clsx("animate-fadeIn overflow-auto max-h-[calc(100vh-57px)] bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-all duration-300 md:h-screen md:absolute md:left-0 md:top-0 md:w-full md:-translate-x-[-105%]", {
+      <div className={clsx("animate-fadeIn overflow-auto max-h-[calc(100vh-57px)] bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-all duration-300 md:h-[calc(100svh-60px)] md:absolute md:left-0 md:top-0 md:w-full md:-translate-x-[-105%]", {
         "mr-[-310px]": characterInfoCollapse,
         "md:!translate-x-0": isMobileInfoOpen
       })}>
         <div className="chatInfoImage relative flex items-end p-[20px] h-[293px] rounded-tl-[8px] rounded-tr-[24px] overflow-hidden">
-          {characterInfo?.image && <Image
-            src={characterInfo?.image}
+          {characterInfo?.imageZero && <Image
+            src={characterInfo?.imageZero}
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 292px"
             fill
             alt="image"

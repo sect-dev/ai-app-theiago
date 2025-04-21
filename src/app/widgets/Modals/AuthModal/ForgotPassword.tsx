@@ -6,7 +6,7 @@ import clsx from "clsx";
 import Spinner from "@/app/widgets/Spinner";
 import {resetPasswordHandler} from "@/app/shared/api/auth";
 import Link from "next/link";
-import {useAuthStore} from "@/app/shared/store/authStore";
+// import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface FormData {
   email: string;
@@ -14,7 +14,7 @@ interface FormData {
 }
 
 const ForgotPassword = () => {
-  const {setAuthModal} = useAuthStore()
+  // const {setAuthModal} = useAuthStore()
   const [loading,setLoading] = useState<boolean>(false)
   const [result,setResult] = useState<string>('')
   const { register, reset, handleSubmit, formState: { errors } } = useForm<FormData>();
@@ -72,12 +72,12 @@ const ForgotPassword = () => {
         <div className="flex flex-col justify-center items-center gap-[24px]">
           <div className="flex gap-[8px] text-[12px]">
             <p>Dont have an account?</p>
-            <button
-              onClick={() => setAuthModal({ modalType: "register", isAuthModalActive: true })}
+            <Link
+              href="https://quiz.theaigo.com/aigoweb"
               className="logo-gradient"
             >
               Register now
-            </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import {Character, Message, PreparedAvatar} from "@/app/shared/api/types";
 
-export const saveCharacterToLocalStorage = (avatar: Character, messages: Message[]) => {
+export const saveCharacterToLocalStorage = (avatar: Character | null, messages: Message[],tokens: number) => {
   if (typeof window !== "undefined") {
     const storedIds = localStorage.getItem("chatStartedCharacters");
     const characters: PreparedAvatar[] = storedIds ? JSON.parse(storedIds) : [];
@@ -12,20 +12,23 @@ export const saveCharacterToLocalStorage = (avatar: Character, messages: Message
       ? startImage.url 
       : startImage?.url?.en ?? '';
 
-    if (!characters.some(a => a.id === avatar.id)) {
+      const photos = [...(avatar?.listProfilePhoto || []), startImageUrl].filter(Boolean);
+
+    if (!characters.some(a => a.id === avatar?.id)) {
       const newCharacter = {
-        id: avatar.id,
-        image: avatar.avatar,
+        id: avatar?.id ?? '',
+        image: avatar?.avatar ?? '',
         listMsgs: messages,
-        name: avatar.name,
-        photos: startImageUrl ? [startImageUrl] : [],
+        name: avatar?.name ?? '',
+        photos,
         videos: [],
         lastMessageTime: currentTime,
-        startPhotosCount: 0
+        startPhotosCount: 0,
       };
       characters.push(newCharacter);
     }
     localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
+    localStorage.setItem("tokens", JSON.stringify(tokens));
     return characters
   }
 };
@@ -76,3 +79,16 @@ export function calculateCostPerDay(totalCost: number, daysCount: number): numbe
   const costPerDay = totalCost / daysCount;
   return parseFloat(costPerDay.toFixed(2));
 }
+
+export const setAccessTokenCookie = (token: string) => {
+  if (typeof window !== 'undefined') {
+    const maxAge = 3600;
+    document.cookie = `accessToken=${token}; path=/; max-age=${maxAge}; secure; samesite=strict`;
+  }
+};
+
+export const clearAccessTokenCookie = () => {
+  if (typeof window !== 'undefined') {
+    document.cookie = `accessToken=; path=/; max-age=0`;
+  }
+};
