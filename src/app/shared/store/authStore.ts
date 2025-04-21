@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import {isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink, User} from "firebase/auth";
+import {isSignInWithEmailLink, onAuthStateChanged, onIdTokenChanged, signInWithEmailLink, User} from "firebase/auth";
 import { auth } from "@/firebase";
 // import notification from "@/app/widgets/Notification";
 import {FirebaseUser} from "@/app/shared/api/types/auth";
 import {registerUserAfterPayment} from "@/app/shared/api/auth";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
-import {deleteCookie, setCookie} from "cookies-next";
+import {clearAccessTokenCookie, setAccessTokenCookie} from "@/app/shared/helpers";
 
 interface AuthState {
   user: User | null;
@@ -28,36 +28,37 @@ export const useAuthStore = create<AuthState>((set) => ({
 onAuthStateChanged(auth, async (firebaseUser) => {
   const setUser = useAuthStore.getState().setUser;
   const {setSuccessPaymentModal} = usePaymentStore.getState();
-  const { setAuthModal } = useAuthStore.getState();
-  const email = localStorage.getItem('emailForSignIn');
+  const {setAuthModal} = useAuthStore.getState();
+  const email = typeof window !== 'undefined' ? localStorage.getItem('emailForSignIn') : null;
+  const authSuccess = typeof window !== 'undefined' ? window.location.search.includes('action=auth_success') : null;
+  const organicAuth = typeof window !== 'undefined' ? window.location.search.includes('action=auth_organic') : null;
+
+  const cleanLocalStorage = () => {
+    localStorage.removeItem("tempToken");
+    localStorage.removeItem("emailForSignIn");
+  }
   if (isSignInWithEmailLink(auth, window.location.href)) {
     try {
       const result = await signInWithEmailLink(auth, email ?? '', window.location.href);
-      const user = result.user as FirebaseUser
-      if(result) {
-        await registerUserAfterPayment(email, user.accessToken)
-        localStorage.removeItem("uid");
-        localStorage.removeItem("tempToken");
-        localStorage.removeItem("emailForSignIn");
-        deleteCookie('tempToken')
+      const user = result.user as FirebaseUser;
+      if (result) {
+        cleanLocalStorage()
         localStorage.setItem("accessToken", user.accessToken);
-        setCookie('accessToken',user.accessToken)
         setUser(user);
-        return window.history.replaceState({}, document.title, window.location.pathname);
+        if(organicAuth) {
+          return window.location.href = "https://quiz.theaigo.com/aigoweb";
+        }
+        if(authSuccess) {
+          await registerUserAfterPayment(email);
+          return window.history.replaceState({}, document.title, window.location.pathname);
+        }
       }
     } catch (error) {
-      // notification.open({
-      //   title: 'Error',
-      //   description: 'Your account is already registered',
-      //   type: 'error',
-      // });
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }
-
   if (firebaseUser) {
     const token = await firebaseUser.getIdToken();
-
     const isSocialLogin = firebaseUser.providerData.some(provider =>
       provider.providerId === 'google.com' ||
       provider.providerId === 'facebook.com' ||
@@ -65,38 +66,44 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     );
     // Если пользователь вошел через Google и есть параметр subscription_success в URL
     if (isSocialLogin && window.location.search.includes('action=subscription_success')) {
-      const newUrl = window.location.href.replace(
-        'action=subscription_success',
-        'action=auth_success'
-      );
-      setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:"auth_success"})
-      localStorage.setItem("accessToken", token);
-      localStorage.removeItem("emailForSignIn");
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('action') === 'subscription_success') {
+        params.set('action', 'auth_success');
+        const newUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
+        await registerUserAfterPayment(email);
+        setSuccessPaymentModal({isSuccessPaymentModalActive: true, successPaymentModalType: "auth_success"});
 
-      return window.history.replaceState({}, document.title, window.location.pathname);
+        cleanLocalStorage()
+        localStorage.setItem("accessToken", token);
+
+        window.history.replaceState({}, document.title, newUrl);
+      }
     }
 
     if (firebaseUser.isAnonymous) {
-      localStorage.setItem("uid", firebaseUser.uid);
       localStorage.setItem("tempToken", token);
-      setCookie('tempToken',token)
       setUser(firebaseUser);
     } else {
-      localStorage.removeItem("uid");
-      localStorage.removeItem("tempToken");
-      localStorage.removeItem("emailForSignIn");
-      deleteCookie('tempToken')
+      cleanLocalStorage()
       localStorage.setItem("accessToken", token);
-      setCookie('accessToken',token)
-      setAuthModal({ modalType: null, isAuthModalActive: false });
+      setAuthModal({modalType: null, isAuthModalActive: false});
       setUser(firebaseUser);
     }
   } else {
-    localStorage.removeItem("uid");
-    localStorage.removeItem("tempToken");
+    cleanLocalStorage()
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("emailForSignIn");
-    deleteCookie('accessToken')
+    clearAccessTokenCookie();
     setUser(null);
   }
 });
+
+onIdTokenChanged(auth, async (firebaseUser) => {
+  if (firebaseUser) {
+    const token = await firebaseUser.getIdToken(true);
+    setAccessTokenCookie(token);
+  } else {
+    clearAccessTokenCookie();
+  }
+});
+
+

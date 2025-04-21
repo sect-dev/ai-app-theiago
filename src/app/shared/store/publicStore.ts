@@ -1,26 +1,31 @@
 import { create } from "zustand";
 import {Character, CharacterByConstructor, PreparedAvatar} from "@/app/shared/api/types";
 
-const loadCharactersFromLocalStorage = (): { mainChar: PreparedAvatar[] | null, tempChar: CharacterByConstructor | null } => {
-  if (typeof window === "undefined") return { mainChar: null, tempChar: null };
+const loadCharactersFromLocalStorage = (): { mainChar: PreparedAvatar[] | null, tempChar: CharacterByConstructor | null, premium: boolean | null } => {
+  if (typeof window === "undefined") return { mainChar: null, tempChar: null, premium: null };
   const storedCharacters = localStorage.getItem("chatStartedCharacters");
-  const storedCharFromPaywall = localStorage.getItem('charFromPaywall')
+  const storedCharFromPaywall = localStorage.getItem('charFromPaywall');
+  const storedPremium = localStorage.getItem('hasPremium');
+
   return {
     mainChar: storedCharacters ? JSON.parse(storedCharacters) : null,
-    tempChar: storedCharFromPaywall? JSON.parse(storedCharFromPaywall) : null
+    tempChar: storedCharFromPaywall ? JSON.parse(storedCharFromPaywall) : null,
+    premium: storedPremium ? JSON.parse(storedPremium) : null
   }
 };
 
 interface SelectedCardState {
-  selectedCard: Character | null;
+  isPremium: boolean | null
+  selectedCharacterId: number | string | null;
   selectedTag: string | null;
   characterInfoCollapse: boolean
   charFromPaywall: CharacterByConstructor | null
+  charactersList: Character[] | null
   isQrModalActive: boolean
   characters: PreparedAvatar[] | null;
   isMobileChatOpen: boolean
   isMobileInfoOpen: boolean
-  setSelectedCard: (avatar: Character | null) => void;
+  setSelectedCharacterId: (id: number | string | null) => void;
   setSelectedTag: (tag: string | null) => void;
   setCharacters: (characters: PreparedAvatar[] | null) => void;
   setInfoCollapse:(value:boolean) => void
@@ -28,27 +33,33 @@ interface SelectedCardState {
   setMobileInfoOpen:(value: boolean) => void
   setQrModal: (isQrModalActive:boolean) => void,
   setPaywallCharacter: (value: CharacterByConstructor | null) => void
+  setIsPremium: (value: boolean) => void
+  setCharactersList: (value: Character[] | null) => void
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
   const initialCharacters = loadCharactersFromLocalStorage();
 
   return {
-    selectedCard: null,
+    isPremium: initialCharacters.premium,
+    selectedCharacterId: null,
     selectedTag: null,
     characterInfoCollapse: false,
     isMobileChatOpen: false,
     isMobileInfoOpen: false,
+    charactersList: null,
     isQrModalActive: false,
     characters: initialCharacters.mainChar,
     charFromPaywall: initialCharacters.tempChar,
-    setSelectedCard: (card) => set({ selectedCard: card }),
+    setSelectedCharacterId: (id) => set({ selectedCharacterId: id }),
     setSelectedTag: (tag) => set({ selectedTag: tag }),
     setCharacters: (characters) => set({ characters }),
     setInfoCollapse:(characterInfoCollapse) => set({characterInfoCollapse}),
     setMobileChatOpen:(isMobileChatOpen: boolean) => set({isMobileChatOpen}),
     setMobileInfoOpen:(isMobileInfoOpen: boolean) => set({isMobileInfoOpen}),
     setQrModal: (isQrModalActive:boolean) => set({ isQrModalActive}),
-    setPaywallCharacter: (charFromPaywall) => set({charFromPaywall})
+    setPaywallCharacter: (charFromPaywall) => set({charFromPaywall}),
+    setIsPremium: (isPremium: boolean) => set({isPremium}),
+    setCharactersList: (charactersList: Character[] | null) => set({charactersList})
   };
 });

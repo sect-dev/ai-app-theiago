@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,8 +6,15 @@ import ImageMastercard from "@/../public/images//icons/payment/1.png";
 import ImageVisa from "@/../public/images/icons/payment/2.png";
 import ImageStripe from "@/../public/images/icons/payment/3.svg";
 import ImageMc from "@/../public/images/icons/payment/4.svg";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {PaymentPlan} from "@/app/shared/api/payment";
+interface ComponentProps {
+  paymentPlans: PaymentPlan[]
+}
+const SectionFooter:FC<ComponentProps> = ({paymentPlans}) => {
+  const {selectedPlan} = usePaymentStore();
+  const currentPlan = paymentPlans.find(item => item.id === selectedPlan)
 
-const SectionFooter = () => {
   return (
     <div className="text-center overflow-hidden font-bai-jamjuree mx-auto pt-[20px] pb-[10px] sm:pb-[2.778vw] sm:max-w-[91vw] sm:pt-[5.56vw]">
       <div className="flex items-center gap-[10px] mb-[15px]">
@@ -23,8 +30,12 @@ const SectionFooter = () => {
           <span className="!inline bg-button-gradient bg-clip-text text-transparent text-gradient"> Privacy Policy, Terms of Use  and Cacellation Policy</span>
         </p>
       </div>
+      <p className="text-center text-[#6D6D6D] text-[12px] font-medium tracking-[-0.04em] leading-[1.2em] sm:text-[3.333vw]">
+        The charges on your credit card statement will appear as DevSect
+      </p>
       <p className="text-center text-[#6D6D6D] text-[12px] font-medium mb-[10px] tracking-[-0.04em] leading-[1.2em] sm:text-[3.333vw]">
-        The charges on your credit card statement will appear as 1CHAT.AI
+        Without cancellation before the selected plan ends, i accept that AiGo will automatically charge
+        USD {`${currentPlan?.amount_initial}`} every {`${currentPlan?.interval_length}`} {`${currentPlan?.interval_unit}`} until i cancel. Cancel online via the account page on the app.
       </p>
       <div className="pb-[0.6px] pt-[0.6vw] sm:pt-[3.5]">
         <div className="max-w-[330px] mx-auto">

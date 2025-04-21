@@ -1,4 +1,5 @@
-import React, {FC, useEffect, useRef} from 'react';
+'use client'
+import React, {FC, useEffect, useRef, useState} from 'react';
 import Image from "next/image";
 import VideoPlayer from "@/app/widgets/VideoPlayer";
 import AudioPlayer from "@/app/widgets/AudioPlayer";
@@ -6,6 +7,8 @@ import clsx from "clsx";
 import MessageLoading from "@/app/widgets/MessageLoading";
 import {Character, Message} from "@/app/shared/api/types";
 import {marked} from "marked";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 interface ComponentProps {
   messages: Message[] | null
@@ -15,10 +18,33 @@ interface ComponentProps {
 
 const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [slides, setSlides] = useState<{src: string}[]>([]);
+
+  useEffect(() => {
+    if (messages) {
+      const allImages = messages
+        .filter(msg => msg.type.includes('image'))
+        .map(msg => ({
+          src: typeof msg.url === "string" ? msg.url : msg.url?.en ?? ''
+        })).filter(Boolean) as {src: string}[];
+
+      setSlides(allImages);
+    }
+  }, [messages]);
+
+  // Функция открытия Lightbox с конкретным изображением
+  const openLightbox = (index: number) => {
+    setCurrentSlideIndex(index);
+    setLightboxOpen(true);
+  };
 
   useEffect(() => {
     if(messages && messages?.length > 2) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      },350)
     }
   }, [messages, loading]);
 
@@ -43,8 +69,11 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
         {/* Image-message */}
         if(msg.type === "image" || msg.type === "image_paywall") {
           const src = typeof msg.url === "string" ? msg.url : msg.url?.en ?? '';
+          if (!src) return null;
+          const imageIndex = slides.findIndex(slide => slide.src === src);
+
           return  (
-            <div key={index} className="relative w-[240px] h-[300px] overflow-hidden rounded-[20px] rounded-bl-none">
+            <div onClick={() => openLightbox(imageIndex)} key={index} className="relative w-[240px] h-[350px] overflow-hidden rounded-[20px] rounded-bl-none">
               <Image
                 sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 240px"
                 fill
@@ -77,6 +106,12 @@ const ChatsMessageText:FC<ComponentProps> = ({messages,loading, characterInfo}) 
           <p className="font-medium text-[12px] opacity-50 tracking-[-0.04em]">Typing message</p>
         </div>
       )}
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        slides={slides}
+        index={currentSlideIndex}
+      />
       <div ref={messagesEndRef} />
     </>
   );

@@ -14,9 +14,10 @@ interface ComponentProps {
   character: CharacterByConstructor | null
   className?: string
   slidesPerView?: number | 'auto'
+  imagesList?: string[]
 }
 
-const SectionWithSwiper:FC<ComponentProps> = ({character,className,slidesPerView= 1.2}) => {
+const SectionWithSwiper:FC<ComponentProps> = ({character,className,slidesPerView= 1.2,imagesList}) => {
 
   const baseUrl = 'https://aigo.b-cdn.net/web/paywall_precreated'
   const images = [
@@ -24,6 +25,8 @@ const SectionWithSwiper:FC<ComponentProps> = ({character,className,slidesPerView
     `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/3.png`,
     `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/4.png`,
   ]
+
+  const characterImages = imagesList ? imagesList : images
 
   return (
     <Swiper
@@ -36,7 +39,7 @@ const SectionWithSwiper:FC<ComponentProps> = ({character,className,slidesPerView
       }}
 
     >
-      {images && images?.map((item) => {
+      {characterImages && characterImages?.map((item) => {
         return (
           <SwiperSlide key={item} className={clsx(" overflow-hidden ",className)}>
             <Image

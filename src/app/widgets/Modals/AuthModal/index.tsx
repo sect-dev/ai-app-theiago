@@ -25,8 +25,8 @@ const AuthModal = () => {
   };
 
   return (
-    <Dialog open={isAuthModalActive} as="div" className="relative z-10 focus:outline-none" onClose={() => setAuthModal({ modalType: null, isAuthModalActive: false })}>
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto font-lato">
+    <Dialog open={isAuthModalActive} as="div" className="relative z-[60] focus:outline-none" onClose={() => setAuthModal({ modalType: null, isAuthModalActive: false })}>
+      <div className="fixed inset-0 z-[60] w-screen overflow-y-auto font-lato">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
             transition
@@ -35,7 +35,7 @@ const AuthModal = () => {
             <div className="w-[690px] h-[550px] mx-auto relative sm:size-full">
               <button
                 onClick={() => setAuthModal({ modalType: null, isAuthModalActive: false })}
-                className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px]"
+                className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:top-[70px] sm:right-auto sm:left-[20px]"
               >
                 <Image
                   src={IconClose.src}

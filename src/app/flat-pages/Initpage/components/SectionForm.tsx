@@ -1,26 +1,49 @@
 'use client'
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
 import Image from "next/image";
 import IconMoneyback from '@/../public/images/icons/payment/icon-moneyback.svg';
-import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import { usePaymentStore } from "@/app/shared/store/paymentStore";
+import Spinner from "@/app/widgets/Spinner";
 
 const SectionForm = () => {
-  const {selectedPlan} = usePaymentStore()
-  const currentSearchParams = new URLSearchParams(window.location.search);
+  const { selectedPlan } = usePaymentStore();
+  const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedPlan || typeof window === 'undefined') return;
+
+    const params = new URLSearchParams(window.location.search);
+    const apiBase = process.env.NEXT_PUBLIC_API_URL;
+
+    if (apiBase) {
+      const fullUrl = `${apiBase}/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${params.toString()}`;
+      setIframeUrl(fullUrl);
+    }
+  }, [selectedPlan]);
 
   return (
     <div id="form" className="py-[20px] space-y-[24px] fm:py-[5.33vw] sm:space-y-[6.40vw]">
-      <div className="w-full h-[1040px] rounded-[20px] overflow-hidden">
-        <iframe
-          width="100%"
-          height="100%"
-          src={`https://production-payments.theaigo.com:8000/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${currentSearchParams}`}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-          className="animate-fadeIn"
-        />
+      <div className="relative w-full h-[1040px] bg-white rounded-[20px] overflow-hidden">
+        {!iframeUrl && (
+          <div className="absolute left-0 top-0 w-full h-full flex items-center justify-center z-10 bg-white">
+            <Spinner className="w-8 h-8" />
+          </div>
+        )}
+        {iframeUrl && (
+          <iframe
+            loading="eager"
+            width="100%"
+            height="100%"
+            src={iframeUrl}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            className="animate-fadeIn"
+          />
+        )}
       </div>
+
       <div className="flex items-center gap-[4px] bg-[#2B2D44] px-[14px] py-[8px] rounded-[12px] fm:py-[2.13vw] fm:px-[3.73vw] fm:gap-[1.07vw] fm:rounded-[3.20vw]">
         <Image
           src={IconMoneyback.src}

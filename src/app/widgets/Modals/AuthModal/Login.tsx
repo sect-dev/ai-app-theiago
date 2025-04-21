@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import ImageModal from '@/../public/images/img/image-modal.webp';
-import IconEye from '@/../public/images/icons/icon-eye.svg';
+// import IconEye from '@/../public/images/icons/icon-eye.svg';
 import IconGoogle from '@/../public/images/icons/icon-google.svg'
 import IconFacebook from '@/../public/images/icons/icon-fb.webp';
 import IconX from '@/../public/images/icons/icon-x.webp';
@@ -10,16 +10,18 @@ import Link from "next/link";
 import clsx from "clsx";
 import Spinner from "@/app/widgets/Spinner";
 import {
-  signInWithEmailAndPasswordHandler,
+  handleEmailLinkAuth,
+  // signInWithEmailAndPasswordHandler,
   signInWithFacebook,
   signInWithGoogle, signInWithX,
 } from "@/app/shared/api/auth";
 import {authErrorMessages} from "@/app/shared/conts";
-import {useAuthStore} from "@/app/shared/store/authStore";
+// import {useAuthStore} from "@/app/shared/store/authStore";
+import notification from "@/app/widgets/Notification";
 
 interface FormData {
   email: string;
-  password: string;
+  // password: string;
 }
 
 interface AuthError {
@@ -27,21 +29,27 @@ interface AuthError {
 }
 
 const Login = () => {
-  const {setAuthModal} = useAuthStore()
+  // const {setAuthModal} = useAuthStore()
   const [loading,setLoading] = useState<boolean>(false)
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  // const [showPassword, setShowPassword] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const { register, reset, handleSubmit, formState: { errors } } = useForm<FormData>();
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true)
-      setAuthError(null);
-      const resp = await signInWithEmailAndPasswordHandler(data.email,data.password)
-      if(resp.accessToken) {
-        reset();
-        setAuthModal({ modalType: null, isAuthModalActive: false })
+      const isOrganicAuth = true
+      const resp = await handleEmailLinkAuth(data.email, isOrganicAuth)
+
+      if(resp && resp?.success) {
+        notification.open({
+          title: 'Message sent',
+          type: 'success',
+          description: 'We have sent you an email to confirm your address',
+        });
+
+        reset()
       }
     } catch (error) {
       const authError = error as AuthError;
@@ -78,7 +86,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-between rounded-[24px] overflow-hidden sm:h-full">
-      <div className="w-full bg-[#121423] p-[20px] sm:flex sm:flex-col sm:items-center sm:justify-center sm:h-full">
+      <div className="w-full bg-[#121423] p-[20px] sm:pt-[60px] sm:flex sm:flex-col sm:items-center sm:justify-center sm:h-full">
         <p className="mb-[24px] leading-[1.2em] font-semibold text-[20px]">Nice to see you again</p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-[16px] pb-[32px] mb-[32px] border-b border-b-[#3A3F63] sm:w-full">
           {/* Поле Email */}
@@ -99,65 +107,65 @@ const Login = () => {
             {errors.email && <p className="text-[#BD0000] text-[12px] absolute right-0 top-0">{errors.email.message}</p>}
           </div>
 
-          {/* Поле Password */}
-          <div className="relative">
-            <label htmlFor="password" className="block text-[12px] pl-[16px] leading-[1.2em] mb-[8px]">Password</label>
-            <div className="relative">
-              <input
-                id="password"
-                placeholder="Enter password"
-                className={clsx("w-full bg-[#191B2C] px-[16px] rounded-[12px] h-[48px] text-[14px] border border-transparent font-medium leading-[1.5em] transition-all duration-300 focus:border-[#049AEF] placeholder-text:opacity-50 focus:outline-none outline-offset-0 focus:outline-offset-0", {
-                  "!border-[#BD0000]": errors.password
-                })}
-                type={showPassword ? "text" : "password"}
-                {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}
-              />
-              <button
-                type="button"
-                className="absolute right-2 top-1/2 size-[32px] flex items-center justify-center  -translate-y-1/2 text-gray-400 hover:text-gray-200"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword
-                  ? <Image src={IconEye.src} width={IconEye.width} height={IconEye.height} alt="icon eye" />
-                  :  <Image src={IconEye.src} width={IconEye.width} height={IconEye.height} alt="icon eye" />
-                }
-              </button>
-            </div>
-            {errors.password && <p className="text-[#BD0000] text-[12px] absolute right-0 top-0">{errors.password.message}</p>}
-          </div>
+          {/*/!* Поле Password *!/*/}
+          {/*<div className="relative">*/}
+          {/*  <label htmlFor="password" className="block text-[12px] pl-[16px] leading-[1.2em] mb-[8px]">Password</label>*/}
+          {/*  <div className="relative">*/}
+          {/*    <input*/}
+          {/*      id="password"*/}
+          {/*      placeholder="Enter password"*/}
+          {/*      className={clsx("w-full bg-[#191B2C] px-[16px] rounded-[12px] h-[48px] text-[14px] border border-transparent font-medium leading-[1.5em] transition-all duration-300 focus:border-[#049AEF] placeholder-text:opacity-50 focus:outline-none outline-offset-0 focus:outline-offset-0", {*/}
+          {/*        "!border-[#BD0000]": errors.password*/}
+          {/*      })}*/}
+          {/*      type={showPassword ? "text" : "password"}*/}
+          {/*      {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}*/}
+          {/*    />*/}
+          {/*    <button*/}
+          {/*      type="button"*/}
+          {/*      className="absolute right-2 top-1/2 size-[32px] flex items-center justify-center  -translate-y-1/2 text-gray-400 hover:text-gray-200"*/}
+          {/*      onClick={() => setShowPassword(!showPassword)}*/}
+          {/*    >*/}
+          {/*      {showPassword*/}
+          {/*        ? <Image src={IconEye.src} width={IconEye.width} height={IconEye.height} alt="icon eye" />*/}
+          {/*        :  <Image src={IconEye.src} width={IconEye.width} height={IconEye.height} alt="icon eye" />*/}
+          {/*      }*/}
+          {/*    </button>*/}
+          {/*  </div>*/}
+          {/*  {errors.password && <p className="text-[#BD0000] text-[12px] absolute right-0 top-0">{errors.password.message}</p>}*/}
+          {/*</div>*/}
 
-          <div className="flex items-center justify-between mt-4 pb-[16px]">
-            {/* Toggle Switch */}
-            <label className="flex items-center cursor-pointer">
-              <div className="relative">
-                <input
-                  type="checkbox"
-                  className="sr-only"
-                  checked={isChecked}
-                  onChange={() => setIsChecked(!isChecked)}
-                />
-                <div
-                  className={clsx("w-[40px] h-[20px] bg-[#191B2C] rounded-full transition-all duration-300", {
-                    "rememberMeButton before:pointer-events-none": isChecked
-                  })}
-                ></div>
-                <div
-                  className={clsx("absolute top-1/2 -translate-y-1/2 left-[2px] size-[16px] translate-x-0 rounded-full bg-[#303456] transition-bg duration-300" , {
-                    "translate-x-5 !bg-white": isChecked
-                  })}
-                ></div>
-              </div>
-              <span className="ml-3 text-white text-sm">Remember me</span>
-            </label>
+          {/*<div className="flex items-center justify-between mt-4 pb-[16px]">*/}
+          {/*  /!* Toggle Switch *!/*/}
+          {/*  <label className="flex items-center cursor-pointer">*/}
+          {/*    <div className="relative">*/}
+          {/*      <input*/}
+          {/*        type="checkbox"*/}
+          {/*        className="sr-only"*/}
+          {/*        checked={isChecked}*/}
+          {/*        onChange={() => setIsChecked(!isChecked)}*/}
+          {/*      />*/}
+          {/*      <div*/}
+          {/*        className={clsx("w-[40px] h-[20px] bg-[#191B2C] rounded-full transition-all duration-300", {*/}
+          {/*          "rememberMeButton before:pointer-events-none": isChecked*/}
+          {/*        })}*/}
+          {/*      ></div>*/}
+          {/*      <div*/}
+          {/*        className={clsx("absolute top-1/2 -translate-y-1/2 left-[2px] size-[16px] translate-x-0 rounded-full bg-[#303456] transition-bg duration-300" , {*/}
+          {/*          "translate-x-5 !bg-white": isChecked*/}
+          {/*        })}*/}
+          {/*      ></div>*/}
+          {/*    </div>*/}
+          {/*    <span className="ml-3 text-white text-sm">Remember me</span>*/}
+          {/*  </label>*/}
 
-            {/* Forgot password */}
-            <button
-              onClick={() => setAuthModal({ modalType: "forgotPass", isAuthModalActive: true })}
-              className="block text-blue-400 text-sm hover:underline"
-            >
-              Forgot password?
-            </button>
-          </div>
+          {/*  /!* Forgot password *!/*/}
+          {/*  <button*/}
+          {/*    onClick={() => setAuthModal({ modalType: "forgotPass", isAuthModalActive: true })}*/}
+          {/*    className="block text-blue-400 text-sm hover:underline"*/}
+          {/*  >*/}
+          {/*    Forgot password?*/}
+          {/*  </button>*/}
+          {/*</div>*/}
 
           {/*  Отображение ошибки авторизации */}
           {authError && <p className="text-[#BD0000] text-[14px]">{authError}</p>}
@@ -212,12 +220,12 @@ const Login = () => {
           </div>
           <div className="flex gap-[8px] text-[12px]">
             <p>Dont have an account?</p>
-            <button
-              onClick={() => setAuthModal({modalType:"register", isAuthModalActive: true})}
+            <Link
+              href="https://quiz.theaigo.com/aigoweb"
               className="logo-gradient"
             >
               Register now
-            </button>
+            </Link>
           </div>
         </div>
       </div>

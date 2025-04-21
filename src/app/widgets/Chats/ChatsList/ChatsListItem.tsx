@@ -1,12 +1,13 @@
 import React, {FC} from 'react';
 import Image from "next/image";
 import clsx from "clsx";
-import {useParams,useRouter} from "next/navigation"
+import {useRouter} from "next/navigation"
 import {Message} from "@/app/shared/api/types";
 import LastMessage from "@/app/widgets/Chats/ChatsList/LastMessage";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface ComponentProps {
-  id: number
+  id: number | string
   collapse: boolean
   image: string
   name: string
@@ -15,11 +16,12 @@ interface ComponentProps {
 }
 
 const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessage,lastMessageTime}) => {
+  const {selectedCharacterId,setSelectedCharacterId} = useSelectedCardStore()
   const router = useRouter()
-  const params = useParams()
 
-  const handleChatChange = (chatId: number) => {
-    router.push(`/chats/${chatId}`);
+  const handleChatChange = (chatId: number | string) => {
+    setSelectedCharacterId(chatId)
+    router.push(`/chats`);
   }
 
   const date = new Date(lastMessageTime);
@@ -30,14 +32,14 @@ const ChatsListItem: FC<ComponentProps> = ({id, collapse, image, name, lastMessa
       key={id}
       onClick={() => handleChatChange(id)}
       className={clsx("flex w-full  transition-bg duration-300 px-[20px] py-[6px] md:px-[16px] md:w-full", {
-        "bg-[#0680E642]": (params?.id && +id === +params?.id)
+        "bg-[#0680E642]": (selectedCharacterId && id.toString() === selectedCharacterId.toString())
       })}
     >
        <span className="flex w-full items-center gap-[8px] md:w-full">
         <span className="relative">
         <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
           <Image
-            src={`${image}?format=webp&quality=80&width=50`}
+            src={`${image}?format=webp&quality=95&width=100`}
             fill
             sizes="(max-width: 768px) 42px, (max-width: 1200px) 42px, 42px"
             alt="nicole image"

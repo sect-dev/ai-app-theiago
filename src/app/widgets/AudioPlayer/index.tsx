@@ -15,66 +15,59 @@ interface AudioPlayerProps {
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [showText, setShowText] = useState(false);
   const { currentPlaying, setCurrentPlaying } = useMediaStore();
-
+  const audioUrlNoSpace = audioUrl.replace(' ', '%20');
   useEffect(() => {
     if (!containerRef.current) return;
 
     // Создаем экземпляр wavesurfer
     wavesurferRef.current = WaveSurfer.create({
-      container: containerRef.current,
+      container: containerRef.current!,
       waveColor: "#fff",
       progressColor: "#007AFF",
       cursorColor: "transparent",
       barWidth: 2,
       barHeight: 1,
       height: 20,
-      minPxPerSec: 10,
+      minPxPerSec: 5,
       fillParent: true,
     });
 
-    wavesurferRef.current.load(audioUrl);
 
-    wavesurferRef.current.on("finish", () => {
+    wavesurferRef.current?.load(audioUrlNoSpace);
+
+    wavesurferRef.current?.on("finish", () => {
       setIsPlaying(false);
     });
 
     return () => {
-      if(wavesurferRef.current) {
-        wavesurferRef.current.pause();
-        wavesurferRef.current.destroy();
+      if(wavesurferRef.current && typeof window !== 'undefined') {
         wavesurferRef.current?.destroy();
       }
       setCurrentPlaying(null);
     };
   }, [audioUrl]);
-
   // Функция Play/Pause
   const togglePlay = () => {
     if (wavesurferRef.current) {
       if (!isPlaying) {
         setCurrentPlaying('audio');
-        wavesurferRef.current.playPause();
-        setIsPlaying(wavesurferRef.current.isPlaying());
+        wavesurferRef.current?.playPause();
+        setIsPlaying(wavesurferRef.current?.isPlaying());
       } else {
-        wavesurferRef.current.pause();
+        wavesurferRef.current?.pause();
         setIsPlaying(false);
       }
     }
   };
 
-
   useEffect(() => {
     if (currentPlaying === 'video' && wavesurferRef.current) {
-      wavesurferRef.current.pause();
+      wavesurferRef.current?.pause();
       setIsPlaying(false);
-    }
-    if (currentPlaying === 'audio' && wavesurferRef.current && !isPlaying) {
-      wavesurferRef.current.play();
-      setIsPlaying(true);
     }
   }, [currentPlaying]);
 
@@ -99,7 +92,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
         </button>
 
         {/* Визуализация аудиоволн */}
-        <div ref={containerRef} className="w-full h-[20px]"></div>
+        <div id={audioUrlNoSpace} ref={containerRef} className="w-full h-[20px]" />
 
         {/* Кнопка для показа текста */}
         <button

@@ -12,13 +12,15 @@ import {
   TwitterAuthProvider,
   sendSignInLinkToEmail,
   AuthError,
-  fetchSignInMethodsForEmail
+  signOut,
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
 import {EmailLinkAuthResponse, FirebaseUser} from "@/app/shared/api/types/auth";
-import {apiClient} from "@/app/shared/api/index";
+import {apiClient, getCurrentToken} from "@/app/shared/api/index";
 import {useAuthStore} from "@/app/shared/store/authStore";
+import axios from "axios";
+import {clearAccessTokenCookie} from "@/app/shared/helpers";
 
 export const signUpWithEmailAndPassword = async (email: string, password: string): Promise<FirebaseUser> => {
   try {
@@ -92,6 +94,18 @@ export const resetPasswordHandler = async (email: string) => {
     return { success: false, message: "An unknown error occurred" };
   }
 };
+
+export const signOutUser = async () => {
+  try {
+    await signOut(auth);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('tempToken');
+    localStorage.removeItem('uid');
+    clearAccessTokenCookie();
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
@@ -194,7 +208,6 @@ export const signInAnonymouslyHandler = async () => {
   try {
     const userCredential = await signInAnonymously(auth);
     const user = userCredential.user;
-
     if (user.uid && user.isAnonymous) {
       const token = await user.getIdToken();
       localStorage.setItem("uid", user.uid);
@@ -218,9 +231,15 @@ export const registerAnonymousUser = async (token:string): Promise<void> => {
   }
 };
 
-export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuthResponse> => {
+export const handleEmailLinkAuth = async (email?: string, isOrganicAuth?: boolean): Promise<EmailLinkAuthResponse> => {
   const currentSearchParams = new URLSearchParams(window.location.search);
-  currentSearchParams.set('action', 'auth_success');
+  const subscribe = currentSearchParams.get('action')
+  if(subscribe && subscribe === 'subscription_success') {
+    currentSearchParams.set('action', 'auth_success');
+  }
+  if(isOrganicAuth) {
+    currentSearchParams.set('action', 'auth_organic');
+  }
 
   const redirectUrl = `${window.location.origin}${window.location.pathname}?${currentSearchParams.toString()}`;
 
@@ -237,7 +256,7 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
 
     return {
       success: true,
-      message: "Ссылка для входа отправлена на ваш email"
+      message: "The login link has been sent to your email."
     };
   } catch (error) {
     const firebaseError = error as AuthError;
@@ -249,14 +268,21 @@ export const handleEmailLinkAuth = async (email?: string): Promise<EmailLinkAuth
     }
 };
 
-export const registerUserAfterPayment = async (email: string | null, token: string) => {
-  const tempToken = localStorage.getItem('tempToken')
-  const accessToken = localStorage.getItem('accessToken')
-  const tokenn = accessToken ? accessToken : tempToken
+export const registerUserAfterPayment = async (email: string | null) => {
+  const token = await getCurrentToken();
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
-    await apiClient.get(`/register_paid_web_user?token=${tokenn}&${currentSearchParams}&email=${email}`);
+    await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
   } catch (error) {
     console.log('error',error)
+  }
+}
+
+export const getEmailByOrderNumber = async (orderId:string) => {
+  try {
+    const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/email_by_order_number?order_number=${orderId}`);
+    return resp.data
+  } catch (error) {
+    console.log(error)
   }
 }

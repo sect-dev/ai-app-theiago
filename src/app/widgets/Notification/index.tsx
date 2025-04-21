@@ -40,7 +40,7 @@ const Notification: React.FC<NotificationConfig> = ({ title, description, link, 
   };
 
   return (
-    <div className={clsx("notification fixed top-[5vw] right-[5vw]  z-[200] w-[20vw] animate-fadeIn rounded-[1.042vw] sm:top-[5vw] sm:right-1/2 sm:translate-x-1/2 sm:h-[30vw] sm:w-[90vw] sm:rounded-[3.56vw]", {
+    <div className={clsx("notification fixed top-[5vw] right-[5vw] z-[200] w-[20vw] animate-fadeIn rounded-[1.042vw] sm:top-[5vw] sm:right-1/2 sm:translate-x-1/2 sm:h-[30vw] sm:w-[90vw] sm:rounded-[3.56vw]", {
       'success': type === 'success',
       'error': type === 'error'
     })}>

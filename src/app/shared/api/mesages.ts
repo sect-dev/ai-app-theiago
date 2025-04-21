@@ -1,11 +1,10 @@
 import {SendMessageParam, SendMessageResponse} from "@/app/shared/api/types";
 import {ApiResponse, GenerateUserTextPayload, StartRequest, StartResponse} from "@/app/shared/api/types/messsaes";
-import {apiClient} from "@/app/shared/api/index";
+import {apiClient, getCurrentToken} from "@/app/shared/api/index";
 
 export const generateUserText = async (userId: string | null,characterId: number | null): Promise<ApiResponse | null> => {
-  const accessToken = localStorage.getItem('accessToken');
-  const tempToken = localStorage.getItem('tempToken');
-  const token = accessToken ? accessToken : tempToken;
+  const token = await getCurrentToken()
+
   const payload: GenerateUserTextPayload = {
     type: "generate_user_text",
     user_id: userId,
@@ -26,17 +25,19 @@ export const generateUserText = async (userId: string | null,characterId: number
       "/build_web_response",
       payload
     );
-    return response.data;
+    if(response.data) {
+      localStorage.setItem('hasPremium', response?.data.is_premium.toString())
+      return response.data;
+    }
+    return null;
   } catch (error) {
-    console.error("Ошибка при запросе к API:", error);
+    console.error("Error while requesting API:", error);
     return null;
   }
 };
 
 export const sendMessage = async (params:SendMessageParam):Promise<SendMessageResponse | null> => {
-  const accessToken = localStorage.getItem('accessToken');
-  const tempToken = localStorage.getItem('tempToken');
-  const token = accessToken ? accessToken : tempToken;
+  const token = await getCurrentToken()
   try {
     const response = await apiClient.post("/build_web_response", {
       type: "text",
@@ -52,17 +53,19 @@ export const sendMessage = async (params:SendMessageParam):Promise<SendMessageRe
       },
       token
     });
-    return response.data;
+    if(response.data) {
+      localStorage.setItem('hasPremium', response?.data.is_premium.toString())
+      return response.data;
+    }
+    return null;
   } catch (error) {
-    console.error("Ошибка при отправке сообщения:", error);
+    console.error("Error sending message:", error);
     return null;
   }
 };
 
 export const startConversation = async ({userId,characterId}: { userId: string | null, characterId: string | null }): Promise<StartResponse | null> => {
-  const accessToken = localStorage.getItem('accessToken');
-  const tempToken = localStorage.getItem('tempToken');
-  const token = accessToken ? accessToken : tempToken;
+  const token = await getCurrentToken()
   const payload: StartRequest = {
     type: "start",
     user_id: userId,
@@ -80,9 +83,13 @@ export const startConversation = async ({userId,characterId}: { userId: string |
 
   try {
     const response = await apiClient.post<StartResponse>("/build_web_response", payload);
-    return response.data;
+    if(response.data) {
+      localStorage.setItem('hasPremium', response?.data.is_premium.toString())
+      return response.data;
+    }
+    return null;
   } catch (error) {
-    console.error("Ошибка при запросе к API:", error);
+    console.error("Error while requesting API:", error);
     return null;
   }
 };
