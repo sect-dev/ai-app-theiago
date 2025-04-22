@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import Image from "next/image";
-import ImageBg from '@/../public/images/img/connection.png';
+import ImageBg from "@/../public/images/img/connection.png";
 import Link from "next/link";
 
 const SidebarBanner = () => {
@@ -17,7 +17,9 @@ const SidebarBanner = () => {
       <div className="relative z-[2]">
         <div className="mb-[10px]">
           <span className="text-[14px] font-medium opacity-[60%]">Try now</span>
-          <p className="text-[20px] font-semibold tracking-[-0.005vw]">With no limits</p>
+          <p className="text-[20px] font-semibold tracking-[-0.005vw]">
+            With no limits
+          </p>
         </div>
         <ul className="text-[14px] mb-[1.25vw]">
           <li className="flex font-semibold gap-[6px]">
@@ -30,7 +32,10 @@ const SidebarBanner = () => {
             <span className="text-[14px]">⭐</span> No ads
           </li>
         </ul>
-        <Link href="https://quiz.theaigo.com/aigoweb" className="text-blue block flex items-center justify-center text-[14px] h-[28px] font-semibold bg-white rounded-[16px] w-full ">
+        <Link
+          href="https://quiz.theaigo.com/aigoweb"
+          className="text-blue block flex items-center justify-center text-[14px] h-[28px] font-semibold bg-white rounded-[16px] w-full "
+        >
           See more
         </Link>
       </div>
