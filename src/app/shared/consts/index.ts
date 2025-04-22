@@ -30,3 +30,5 @@ export const paidTypesOfMessages = [
 export const OriginalTypesOfMessages = [
   'image', 'audio', 'video', 'text'
 ]
+
+export const IS_CLIENT = typeof window !== "undefined";
