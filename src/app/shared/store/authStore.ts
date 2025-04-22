@@ -68,10 +68,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       localStorage.removeItem("emailForSignIn");
     }
   };
-  if (
-    IS_CLIENT &&
-    isSignInWithEmailLink(auth, window.location.href)
-  ) {
+  if (IS_CLIENT && isSignInWithEmailLink(auth, window.location.href)) {
     try {
       const result = await signInWithEmailLink(
         auth,

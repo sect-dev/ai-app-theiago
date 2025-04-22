@@ -2,7 +2,7 @@ import axios from "axios";
 import {auth} from "@/firebase";
 
 export const apiClient = axios.create({
-  baseURL: 'https://stage.theaigo.com:8000',
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
 });
 
 export const waitForAuthInit = (): Promise<boolean> => {
