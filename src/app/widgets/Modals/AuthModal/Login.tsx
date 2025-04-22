@@ -15,7 +15,7 @@ import {
   signInWithFacebook,
   signInWithGoogle, signInWithX,
 } from "@/app/shared/api/auth";
-import {authErrorMessages} from "@/app/shared/conts";
+import {authErrorMessages} from "@/app/shared/consts";
 // import {useAuthStore} from "@/app/shared/store/authStore";
 import notification from "@/app/widgets/Notification";
 

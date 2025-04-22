@@ -16,7 +16,7 @@ import SuggestionAnswer from "@/app/widgets/SuggestionAnswer";
 import {useAuthStore} from "@/app/shared/store/authStore";
 import TextareaAutosize from "react-textarea-autosize";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
-import {paidTypesOfMessages} from "@/app/shared/conts";
+import {paidTypesOfMessages} from "@/app/shared/consts";
 import {useRouter} from "next/navigation";
 
 interface FormData {

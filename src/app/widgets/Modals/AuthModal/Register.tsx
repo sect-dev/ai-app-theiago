@@ -10,7 +10,7 @@ import clsx from "clsx";
 import {signInWithX, signInWithFacebook, signInWithGoogle, signUpWithEmailAndPassword} from "@/app/shared/api/auth";
 import Spinner from "@/app/widgets/Spinner";
 import Link from "next/link";
-import {authErrorMessages} from "@/app/shared/conts";
+import {authErrorMessages} from "@/app/shared/consts";
 import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface FormData {
