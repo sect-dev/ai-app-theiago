@@ -273,13 +273,7 @@ export const registerUserAfterPayment = async (email: string | null) => {
   const token = await getCurrentToken();
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
-    let searchparams = ''
-    if(currentSearchParams) {
-      searchparams = `&${currentSearchParams}`
-    }
-    const x = await apiClient.get(`/register_paid_web_user?token=${token}${searchparams}&email=${email}`);
-    console.log('x',x)
-    return x
+    await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Axios error:', error.message, error.response?.data);
