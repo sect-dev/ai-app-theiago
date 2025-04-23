@@ -70,7 +70,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     try {
       const result = await signInWithEmailLink(auth, email ?? '', window.location.href);
       const user = result.user as FirebaseUser;
-
       if (result) {
         cleanLocalStorage();
         safeLocalStorage.set("accessToken", user.accessToken);
@@ -78,6 +77,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Загружаем данные о подписке и токенах
         const userInfo = await getUserSubscriptionInfo();
+        console.log('userInfo',userInfo)
         setIsPremium(userInfo?.subscription?.active ?? false);
         setTokens(userInfo?.tokens ?? 0);
 
@@ -88,7 +88,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Регистрация после успешной оплаты
         if (authSuccess) {
-          await registerUserAfterPayment(email);
+          await registerUserAfterPayment(email,searchParams?.toString() ?? '');
           return window.history.replaceState({}, document.title, window.location.pathname);
         }
       }
@@ -117,12 +117,13 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       // Если пользователь пришёл после оплаты, регистрируем и показываем модалку
       searchParams.set('action', ACTION_AUTH_SUCCESS);
       const newUrl = `${window.location.pathname}?${searchParams.toString()}${window.location.hash}`;
-      await registerUserAfterPayment(firebaseUser.email);
+      await registerUserAfterPayment(firebaseUser.email,searchParams.toString());
       setSuccessPaymentModal({ isSuccessPaymentModalActive: true, successPaymentModalType: ACTION_AUTH_SUCCESS });
       window.history.replaceState({}, document.title, newUrl);
     }
 
     const userInfo = await getUserSubscriptionInfo();
+    console.log('userInfo',userInfo)
     cleanLocalStorage();
     safeLocalStorage.set("accessToken", token);
     setIsPremium(userInfo?.subscription?.active ?? false);
@@ -145,6 +146,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Стандартный вход зарегистрированного пользователя
   const userInfo = await getUserSubscriptionInfo();
+  console.log('userInfo',userInfo)
   setIsPremium(userInfo?.subscription?.active ?? false);
   setTokens(userInfo?.tokens ?? 0);
   cleanLocalStorage();

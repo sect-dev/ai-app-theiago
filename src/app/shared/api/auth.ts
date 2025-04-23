@@ -269,11 +269,11 @@ export const handleEmailLinkAuth = async (email?: string, isOrganicAuth?: boolea
     }
 };
 
-export const registerUserAfterPayment = async (email: string | null) => {
+export const registerUserAfterPayment = async (email: string | null,searchParams: string) => {
   const token = await getCurrentToken();
   try {
-    const currentSearchParams = new URLSearchParams(window.location.search);
-    await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
+    const response = await apiClient.get(`/register_paid_web_user?token=${token}&${searchParams}&email=${email}`);
+    console.log('response',response)
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Axios error:', error.message, error.response?.data);
