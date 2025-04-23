@@ -4,6 +4,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import {signOutUser} from "@/app/shared/api/auth";
+import {useRouter} from "next/navigation";
 
 interface ComponentProps {
   isMenuOpen: boolean
@@ -12,10 +13,12 @@ interface ComponentProps {
 
 const Header:FC<ComponentProps> = ({isMenuOpen, setIsMenuOpen}) => {
   const { user, loading, setAuthModal } = useAuthStore();
+  const navigate = useRouter();
 
   const handleSignOut = async () => {
     try {
       await signOutUser();
+      navigate.push('/')
     } catch (error) {
       console.error("Logout error:", error);
     }

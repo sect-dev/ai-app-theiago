@@ -30,3 +30,7 @@ export const paidTypesOfMessages = [
 export const OriginalTypesOfMessages = [
   'image', 'audio', 'video', 'text'
 ]
+
+export const REDIRECT_URL = "https://quiz.theaigo.com/aigoweb";
+export const ACTION_AUTH_SUCCESS = "auth_success";
+export const ACTION_ORGANIC = "auth_organic";

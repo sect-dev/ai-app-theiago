@@ -14,11 +14,10 @@ interface ComponentProps {
 }
 
 const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
-  const {isPremium} = useSelectedCardStore();
   const [open, setOpen] = useState<boolean>(false);
   const [mounted, setMounded] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const {setAuthModal,user} = useAuthStore()
+  const {setAuthModal,user,isPremium} = useAuthStore()
   const navigate = useRouter();
 
   useEffect(() => {

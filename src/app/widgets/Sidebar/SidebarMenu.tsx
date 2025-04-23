@@ -8,6 +8,7 @@ import IconChats from '@/../public/images/icons/icon-chats.svg';
 import IconChatsActive from '@/../public/images/icons/icon-chats-active.svg';
 import IconDiscoverActive from '@/../public/images/icons/icon-discover-active.svg';
 import IconStars from '@/../public/images/icons/icon-stars.svg';
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 const navigationData = [
   {
@@ -34,7 +35,8 @@ interface ComponentProps {
 }
 
 const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
-  const {setMobileChatOpen,isPremium} = useSelectedCardStore()
+  const {setMobileChatOpen} = useSelectedCardStore()
+  const {isPremium} = useAuthStore();
   const [isHidden, setIsHidden] = useState<boolean | null>(true)
   const isChatPage = pathname?.includes('chats');
 
@@ -57,7 +59,7 @@ const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
         return (
           <li key={item.id} className="group [&>*:a]:rounded-t-[4px]">
             <Link onClick={handeClick} href={item.href} className={clsx("flex items-center px-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",item.className,{
-              "justify-center": isChatPage
+              "justify-center px-0": isChatPage
             })}>
               <Image
                 src={image.src}

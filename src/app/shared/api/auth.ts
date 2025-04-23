@@ -16,7 +16,7 @@ import {
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
-import {EmailLinkAuthResponse, FirebaseUser} from "@/app/shared/api/types/auth";
+import {EmailLinkAuthResponse, FirebaseUser, UserSubscriptionInfo} from "@/app/shared/api/types/auth";
 import {apiClient, getCurrentToken} from "@/app/shared/api/index";
 import {useAuthStore} from "@/app/shared/store/authStore";
 import axios from "axios";
@@ -100,6 +100,7 @@ export const signOutUser = async () => {
     await signOut(auth);
     localStorage.removeItem('accessToken');
     localStorage.removeItem('tempToken');
+    localStorage.removeItem('hasPremium');
     localStorage.removeItem('uid');
     clearAccessTokenCookie();
   } catch (error) {
@@ -272,9 +273,19 @@ export const registerUserAfterPayment = async (email: string | null) => {
   const token = await getCurrentToken();
   try {
     const currentSearchParams = new URLSearchParams(window.location.search);
-    await apiClient.get(`/register_paid_web_user?token=${token}&${currentSearchParams}&email=${email}`);
+    let searchparams = ''
+    if(currentSearchParams) {
+      searchparams = `&${currentSearchParams}`
+    }
+    const x = await apiClient.get(`/register_paid_web_user?token=${token}${searchparams}&email=${email}`);
+    console.log('x',x)
+    return x
   } catch (error) {
-    console.log('error',error)
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.message, error.response?.data);
+    } else {
+      console.error('Unexpected error:', error);
+    }
   }
 }
 
@@ -283,6 +294,27 @@ export const getEmailByOrderNumber = async (orderId:string) => {
     const resp = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/email_by_order_number?order_number=${orderId}`);
     return resp.data
   } catch (error) {
-    console.log(error)
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.message, error.response?.data);
+    } else {
+      console.error('Unexpected error:', error);
+    }
   }
 }
+
+export const getUserSubscriptionInfo = async (): Promise<UserSubscriptionInfo | null> => {
+  const token = await getCurrentToken();
+
+  try {
+    const response = await apiClient.get<UserSubscriptionInfo | null>(`/user_status?token=${token}`);
+    const data = response.data as UserSubscriptionInfo;
+    return data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.message, error.response?.data);
+    } else {
+      console.error('Unexpected error:', error);
+    }
+    return null;
+  }
+};

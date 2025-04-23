@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import SidebarMenu from "@/app/widgets/Sidebar/SidebarMenu";
 import SidebarBanner from "@/app/widgets/Sidebar/SidebarBanner";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import {useAuthStore} from "@/app/shared/store/authStore";
 
 interface ComponentProps {
   isChatPage: boolean
@@ -10,7 +10,7 @@ interface ComponentProps {
 }
 
 const Sidebar:FC<ComponentProps> = ({isChatPage,pathname,setIsMenuOpen}) => {
-  const {isPremium} = useSelectedCardStore()
+  const {isPremium} = useAuthStore();
   const [isHidden, setIsHidden] = useState<boolean | null>(true);
 
   useEffect(() => {
