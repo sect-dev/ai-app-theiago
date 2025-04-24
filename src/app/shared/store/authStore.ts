@@ -75,6 +75,12 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         safeLocalStorage.set("accessToken", user.accessToken);
         setUser(user);
 
+        // Регистрация после успешной оплаты
+        if (authSuccess) {
+          await registerUserAfterPayment(email,searchParams?.toString() ?? '');
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
         // Загружаем данные о подписке и токенах
         const userInfo = await getUserSubscriptionInfo();
         console.log('userInfo',userInfo)
@@ -84,12 +90,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         // Органическая регистрация — редирект на квиз ( если нет платной пописки )
         if (organicAuth && !userInfo?.subscription?.active) {
           return (window.location.href = REDIRECT_URL);
-        }
-
-        // Регистрация после успешной оплаты
-        if (authSuccess) {
-          await registerUserAfterPayment(email,searchParams?.toString() ?? '');
-          return window.history.replaceState({}, document.title, window.location.pathname);
         }
       }
     } catch (error) {
