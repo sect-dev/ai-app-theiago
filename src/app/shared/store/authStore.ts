@@ -101,7 +101,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Если пользователь не авторизован
   if (!firebaseUser) {
-    cleanLocalStorage();
     clearAccessTokenCookie();
     setUser(null);
     setIsPremium(false);
