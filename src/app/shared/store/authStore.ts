@@ -12,7 +12,7 @@ import {FirebaseUser} from "@/app/shared/api/types/auth";
 import {getUserSubscriptionInfo, registerUserAfterPayment} from "@/app/shared/api/auth";
 import {usePaymentStore} from "@/app/shared/store/paymentStore";
 import {clearAccessTokenCookie, safeLocalStorage, setAccessTokenCookie} from "@/app/shared/helpers";
-import {ACTION_AUTH_SUCCESS, ACTION_ORGANIC, REDIRECT_URL} from "@/app/shared/conts";
+import {ACTION_AUTH_SUCCESS, ACTION_ORGANIC, REDIRECT_URL} from "@/app/shared/consts";
 
 const loadCharactersFromLocalStorage = (): {premium: boolean | null } => {
   if (typeof window === "undefined") return { premium: null };
