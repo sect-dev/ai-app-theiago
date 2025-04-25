@@ -11,10 +11,20 @@ import IconDollar from "@/../public/images/icons/icon-dollar.svg";
 import IconQuestionMark from "@/../public/images/icons/icon-questionmark.svg";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { useAuthStore } from "@/app/shared/store/authStore";
+import { getUserStatus } from '@/app/shared/api/getUserStatus';
+import { useSubscriptionStore } from '@/app/shared/store/subscriptionStore';
+import { UserStatus } from '@/app/shared/api/types';
+import { apiClient } from '@/app/shared/api';
+
 
 interface ComponentProps {
   pathname?: string;
   setIsMenuOpen: (value: boolean) => void;
+}
+
+interface UserStatusResponse {
+  status: UserStatus;
+  token: string;
 }
 
 const navigationData = [
@@ -42,6 +52,37 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
   const [isHidden, setIsHidden] = useState<boolean | null>(true);
   const isChatPage = pathname?.includes("chats");
 
+const handleSubscriptionClick = async (e: React.MouseEvent) => {
+  e.preventDefault();
+  try {
+    const result  = await getUserStatus();
+    if (!result) {
+      console.error('No user status data received');
+      useSubscriptionStore.getState().closeSubscriptionModal();
+      return;
+    }
+    const {status, token}: UserStatusResponse = result;
+
+    if (status?.subscription) {
+      useSubscriptionStore.getState().openSubscriptionModal(
+        {
+          active: status.subscription.active,
+          end: status.subscription.end,
+          start: status.subscription.start,
+          cancelled: status.subscription.cancelled,
+          price: status.subscription.price,
+          productId: status.subscription.product_id
+        },
+        token
+      );
+    }
+  } catch (e) {
+    console.error('Error in handleSubscriptionClick:', e);
+
+    useSubscriptionStore.getState().closeSubscriptionModal();
+  }
+};
+
   const contactBlock = [
     {
       id: 1,
@@ -61,7 +102,8 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
       title: "Subscription",
       icon: IconDollar,
       className: "rounded-b-xl",
-      href: "https://quiz.theaigo.com/aigoweb",
+      href: "#",
+      onClick: handleSubscriptionClick
     },
   ];
 
@@ -89,7 +131,6 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
           return (
             <li key={item.id} className="group [&>*:a]:rounded-t-[4px]">
               <Link
-                onClick={handeClick}
                 href={item.href}
                 className={clsx(
                   "flex items-center px-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",
@@ -129,6 +170,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
           <li key={item.id} className="">
             <Link
               href={item.href}
+              onClick={item.onClick && handleSubscriptionClick}
               className={clsx(
                 "px-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[2px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",
                 item.className,
@@ -143,7 +185,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
                   src={item.icon.src}
                   width={item.icon.width}
                   height={item.icon.height}
-                  alt="dollar sign"
+                  alt="contact icon"
                   className={clsx("size-[20px]", {
                     "block md:hidden": index === 0,
                     hidden: index === 0 && !isChatPage,
