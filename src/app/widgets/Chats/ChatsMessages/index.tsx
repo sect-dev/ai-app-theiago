@@ -165,9 +165,16 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
           <ChatsMessageText loading={loading} messages={messages} characterInfo={characterInfo} />
         </div>
         <div>
-          <div className={clsx("transition-opacity duration-300",{"opacity-0 pointer-events-none absolute": loading})}>
-            <SuggestionAnswer  userId={user?.uid ?? 'id'} characterId={characterInfo?.id ?? null} onSelectMessage={handleSelectMessage}/>
-          </div>
+          {!loading && (
+            <div className={clsx("transition-opacity duration-300",{"opacity-0 pointer-events-none absolute": loading})}>
+              <SuggestionAnswer
+                waitingMessage={loading}
+                userId={user?.uid ?? 'id'}
+                characterId={characterInfo?.id ?? null}
+                onSelectMessage={handleSelectMessage}
+              />
+            </div>
+          )}
           <form onSubmit={handleSubmit(onSubmit)} className="relative flex gap-[8px] items-end">
             {showModal && <ChatsMessageModal onSelectMessage={handleSelectMessage} closeModal={() => setShowModal(false)} />}
             <div className="relative w-full">

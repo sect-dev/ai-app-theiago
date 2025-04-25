@@ -83,7 +83,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Загружаем данные о подписке и токенах
         const userInfo = await getUserSubscriptionInfo();
-        console.log('userInfo',userInfo)
         setIsPremium(userInfo?.subscription?.active ?? false);
         setTokens(userInfo?.tokens ?? 0);
 
@@ -122,7 +121,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     }
 
     const userInfo = await getUserSubscriptionInfo();
-    console.log('userInfo',userInfo)
     cleanLocalStorage();
     safeLocalStorage.set("accessToken", token);
     setIsPremium(userInfo?.subscription?.active ?? false);
@@ -145,7 +143,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Стандартный вход зарегистрированного пользователя
   const userInfo = await getUserSubscriptionInfo();
-  console.log('userInfo',userInfo)
   setIsPremium(userInfo?.subscription?.active ?? false);
   setTokens(userInfo?.tokens ?? 0);
   cleanLocalStorage();

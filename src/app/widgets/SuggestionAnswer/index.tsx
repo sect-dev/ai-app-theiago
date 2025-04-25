@@ -1,5 +1,5 @@
 'use client'
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import Image from "next/image";
 import IconReload from '@/../public/images/icons/icon-reload.svg';
 import Spinner from "@/app/widgets/Spinner";
@@ -11,15 +11,20 @@ interface ComponentProps {
   onSelectMessage: (text: string) => void;
   userId: string | null
   characterId: number | null
+  waitingMessage: boolean
 }
 
-const SuggestionAnswer:FC<ComponentProps> = ({onSelectMessage,userId = 'id',characterId}) => {
+const SuggestionAnswer:FC<ComponentProps> = ({onSelectMessage,userId = 'id',characterId,waitingMessage}) => {
   const [answer, setAnswer] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const hasFetchedRef = useRef(false);
 
   useEffect(() => {
-    getRandomAnswer()
-  }, [])
+    if (!hasFetchedRef.current) {
+      hasFetchedRef.current = true;
+      getRandomAnswer();
+    }
+  }, [waitingMessage])
 
   const getRandomAnswer = async () => {
     try {
