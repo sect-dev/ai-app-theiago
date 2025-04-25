@@ -21,7 +21,7 @@ const SuccessEmailSent:FC<ComponentProps> = ({changeEmailHandler, emailSent}) =>
         <p className="text-[16px] font-medium max-w-[270px] mx-auto text-center">
           We have sent you an email to {emailSent}.
           To activate your subscription, please click the link in the email.
-          Don't forget to check the "Spam" folder.
+          Don&apos;t forget to check the "Spam" folder.
         </p>
       </div>
       <div className="text-center text-[12px]">
