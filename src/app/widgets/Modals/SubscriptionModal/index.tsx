@@ -82,15 +82,22 @@ const SubscriptionModal = () => {
 
   const { active, cancelled, end, start, price, productId }: SubscriptionData = subscriptionData;
 
-  // TODO:  Добавить кейсы сюда
-  const getProductName = (productId: string): string => {
-  switch (productId) {
-    case '1_month_premium_access':
-      return 'Monthly';
-    default:
-      return 'Premium';
-   }
-  }
+	const calculateSubscriptionPeriod = (start: string, end: string): string => {
+	const startDate = new Date(start);
+	const endDate = new Date(end);
+	
+	const diffMs = endDate.getTime() - startDate.getTime();
+
+	const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+	
+	// Определяем тип подписки
+	if (diffDays <= 1) return 'Daily';
+	if (diffDays <= 31) return 'Monthly';
+	if (diffDays <= 93) return '3 Month'; // ~3 месяца (31*3)
+	if (diffDays <= 183) return '6 Month'; // ~6 месяцев (30.5*6)
+	
+	return 'premium';
+	};
 
   const chargeDate = formatISODate(end, {
 	year: 'numeric', 
@@ -111,24 +118,18 @@ const SubscriptionModal = () => {
 				<div className="fm:pt-[370px]">
 					<DialogTitle className="text-[20px] mb-[16px] font-semibold text-left">Nice to see you again,<br />{`${user?.displayName}`}</DialogTitle>
 					<div className="">
-						<div className="flex justify-between items-start bg-blue-500 text-white p-[16px] rounded-b-[4px] rounded-t-[24px] bg-[#21233A] transition-bg duration-300 hover:bg-[#2E335B] mb-[4px]">
-							{!isCancelSuccess && (
-								<div className="flex flex-col">
-									<span className="text-[16px] font-semibold">An error occured! Your subscription was not cancelled.</span>
-								</div>
-							)}
-							
+						<div className={clsx("flex justify-between items-start bg-blue-500 text-white p-[16px] rounded-t-[24px] bg-[#21233A] transition-bg duration-300 hover:bg-[#2E335B] mb-[4px]", {"rounded-b-[24px]": cancelled || isCancelSuccess, "rounded-b-[4px]": !cancelled })}>
+
 							<div className="flex flex-col">
-								<span className="text-[16px] font-semibold mb-[8px]">{getProductName(productId)} subscription</span>
+								<span className="text-[16px] font-semibold mb-[8px]">{calculateSubscriptionPeriod(start, end)} subscription</span>
 								<span className={clsx("text-[14px] font-medium", {"mb-[8px]": isCancelSuccess})}>You will be charged ${price} on<br />{chargeDate}</span>
 								{isCancelSuccess && (<span className="text-[14px] font-medium">No additional charges will be applied</span>)}
 							</div>
 							
 							<div className='main-gradient py-[2px] rounded-[8px] px-[8px] flex items-center justify-center'><span className='text-[14px] font-medium text-white relative z-[5]'>{active ? "Active" : "Expired"}</span></div>
 						</div>
-						<button className="fm:mb-0 mb-[106px] bg-blue-500 text-[14px] font-bold w-full pt-[8px] pb-[8px] text-white rounded-t-[4px] rounded-b-[24px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]" onClick={requestCancelSubscription}>Cancel Subscription</button>
-
-						
+						<button className={clsx("fm:mb-0 bg-blue-500 text-[14px] mb-[106px] font-bold w-full pt-[8px] pb-[8px] text-white rounded-t-[4px] rounded-b-[24px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]", {"mb-[80px]": isCancelSuccess, "hidden": cancelled || isCancelSuccess})} onClick={requestCancelSubscription}>Cancel Subscription</button>
+					
 
 						<div className='fm:hidden flex flex-col items-center justify-center text-center'>
 							<span className="text-[12px] font-medium opacity-80 leading-[16px] p-[10px]">If you can&apos;t cancel your subscription, feel free to<br />reach out to us at: <Link href="mailto:theaigo@aigo.com" prefetch={false} className="underline">theaigo@aigo.com</Link></span>
