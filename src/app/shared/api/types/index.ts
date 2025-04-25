@@ -152,3 +152,17 @@ export interface SendMessageParam {
   characterId: string,
   message: string
 }
+
+export interface UserStatus {
+  subscription?: {
+    active: boolean,
+    cancelled: boolean,
+    end: string,
+    start: string,
+    orderNumber: string,
+    originalOrderNumber: string,
+    price: number,
+    product_id: string,
+  },
+  tokens: number;
+}

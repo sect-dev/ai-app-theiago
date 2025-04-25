@@ -98,3 +98,28 @@ export const safeLocalStorage = {
   set: (key: string, value: string) => typeof window !== 'undefined' && localStorage.setItem(key, value),
   remove: (key: string) => typeof window !== 'undefined' && localStorage.removeItem(key),
 };
+
+export const formatISODate = (
+  isoString: string,
+  options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }
+): string => {
+  try {
+    const date = new Date(isoString);
+
+    // Проверка валидности даты
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date string');
+    }
+
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+  } catch (error) {
+    console.error('Failed to format date:', error);
+    return 'Invalid date';
+  }
+}
