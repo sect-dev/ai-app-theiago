@@ -54,7 +54,6 @@ const SuccessAuth = () => {
       const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? [])
       const tokens = startChat?.tokens_remaining || 0;
       const preparedCharacters = saveCharacterToLocalStorage(charInfo,startChatMessages,tokens);
-      console.log('startChat',startChat)
       setSelectedCharacterId(charInfo?.id.toString() ?? '')
       setCharacters(preparedCharacters ?? null)
       setTokens(tokens ?? 0)

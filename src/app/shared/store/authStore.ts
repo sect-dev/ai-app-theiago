@@ -86,21 +86,20 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         safeLocalStorage.set("accessToken", user.accessToken);
         setUser(user);
 
+        // Регистрация после успешной оплаты
+        if (authSuccess) {
+          await registerUserAfterPayment(email,searchParams?.toString() ?? '');
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
         // Загружаем данные о подписке и токенах
         const userInfo = await getUserSubscriptionInfo();
-        console.log('userInfo',userInfo)
         setIsPremium(userInfo?.subscription?.active ?? false);
         setTokens(userInfo?.tokens ?? 0);
 
         // Органическая регистрация — редирект на квиз ( если нет платной пописки )
         if (organicAuth && !userInfo?.subscription?.active) {
           return (window.location.href = REDIRECT_URL);
-        }
-
-        // Регистрация после успешной оплаты
-        if (authSuccess) {
-          await registerUserAfterPayment(email,searchParams?.toString() ?? '');
-          return window.history.replaceState({}, document.title, window.location.pathname);
         }
       }
     } catch (error) {
@@ -112,7 +111,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Если пользователь не авторизован
   if (!firebaseUser) {
-    cleanLocalStorage();
     clearAccessTokenCookie();
     setUser(null);
     setIsPremium(false);
@@ -134,7 +132,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     }
 
     const userInfo = await getUserSubscriptionInfo();
-    console.log('userInfo',userInfo)
     cleanLocalStorage();
     safeLocalStorage.set("accessToken", token);
     setIsPremium(userInfo?.subscription?.active ?? false);
@@ -157,7 +154,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Стандартный вход зарегистрированного пользователя
   const userInfo = await getUserSubscriptionInfo();
-  console.log('userInfo',userInfo)
   setIsPremium(userInfo?.subscription?.active ?? false);
   setTokens(userInfo?.tokens ?? 0);
   cleanLocalStorage();

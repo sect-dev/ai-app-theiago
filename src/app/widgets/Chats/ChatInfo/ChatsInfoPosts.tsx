@@ -17,7 +17,6 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { setAuthModal, user, isPremium } = useAuthStore();
   const router = useRouter();
-  console.log('isPremium photosPost',isPremium)
   const handlePhotoClick = (i: number, isLocked: boolean) => {
     if (!isLocked) {
       setSelectedIndex(i);
