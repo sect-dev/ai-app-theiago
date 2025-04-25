@@ -1,5 +1,6 @@
 import {apiClient} from "@/app/shared/api/index";
 import {cookies} from "next/headers";
+import axios from "axios";
 
 export const getCharactersList = async () => {
   const cookieStore = await cookies();
@@ -11,7 +12,11 @@ export const getCharactersList = async () => {
       return response.data
     }
   } catch (error) {
-    console.log('error',error)
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.message, error.response?.data);
+    } else {
+      console.error('Unexpected error:', error);
+    }
   }
 }
 

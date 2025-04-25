@@ -8,67 +8,72 @@ import {
 } from "firebase/auth";
 import { auth } from "@/firebase";
 // import notification from "@/app/widgets/Notification";
-import { FirebaseUser } from "@/app/shared/api/types/auth";
-import { registerUserAfterPayment } from "@/app/shared/api/auth";
-import { usePaymentStore } from "@/app/shared/store/paymentStore";
-import {
-  clearAccessTokenCookie,
-  setAccessTokenCookie,
-} from "@/app/shared/helpers";
+import {FirebaseUser} from "@/app/shared/api/types/auth";
+import {getUserSubscriptionInfo, registerUserAfterPayment} from "@/app/shared/api/auth";
+import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {clearAccessTokenCookie, safeLocalStorage, setAccessTokenCookie} from "@/app/shared/helpers";
+import {ACTION_AUTH_SUCCESS, ACTION_ORGANIC, REDIRECT_URL} from "@/app/shared/consts";
+
+const loadCharactersFromLocalStorage = (): {premium: boolean | null } => {
+  if (typeof window === "undefined") return { premium: null };
+  const storedPremium = localStorage.getItem('hasPremium');
+  return {
+    premium: storedPremium ? JSON.parse(storedPremium) : null
+  }
+};
 import { IS_CLIENT } from '../consts';
 
 interface AuthState {
+  isPremium: boolean | null
   user: User | null;
   loading: boolean;
   setUser: (user: User | null) => void;
-  isAuthModalActive: boolean;
-  modalType: "login" | "register" | "forgotPass" | null;
-  setAuthModal: (value: {
-    modalType: "login" | "register" | "forgotPass" | null;
-    isAuthModalActive: boolean;
-  }) => void;
+  isAuthModalActive: boolean
+  modalType: "login" | "register" | "forgotPass" | null,
+  setIsPremium: (value: boolean) => void
+  setAuthModal: (value: { modalType: "login" | "register" | "forgotPass" | null; isAuthModalActive: boolean }) => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  loading: true,
-  isAuthModalActive: false,
-  modalType: "register",
-  setUser: (user: User | null) => set({ user, loading: false }),
-  setAuthModal: (value: {
-    modalType: "login" | "register" | "forgotPass" | null;
-    isAuthModalActive: boolean;
-  }) =>
-    set({
-      modalType: value.modalType,
-      isAuthModalActive: value.isAuthModalActive,
-    }),
-}));
+export const useAuthStore = create<AuthState>((set) => {
+  const initialCharacters = loadCharactersFromLocalStorage();
+
+  return {
+    isPremium: initialCharacters.premium,
+    user: null,
+    loading: true,
+    isAuthModalActive: false,
+    modalType: "register",
+    setUser: (user: User | null) => set({ user, loading: false }),
+    setAuthModal: (value: { modalType: "login" | "register" | "forgotPass" | null; isAuthModalActive: boolean }) => set({modalType: value.modalType, isAuthModalActive:value.isAuthModalActive}),
+    setIsPremium: (isPremium: boolean) => set({isPremium}),
+  }
+});
 
 onAuthStateChanged(auth, async (firebaseUser) => {
-  const setUser = useAuthStore.getState().setUser;
-  const { setSuccessPaymentModal } = usePaymentStore.getState();
-  const { setAuthModal } = useAuthStore.getState();
-  const email =
-    IS_CLIENT
-      ? localStorage.getItem("emailForSignIn")
-      : null;
-  const authSuccess =
-    IS_CLIENT
-      ? window.location.search.includes("action=auth_success")
-      : null;
-  const organicAuth =
-    IS_CLIENT
-      ? window.location.search.includes("action=auth_organic")
-      : null;
+  // Получаем методы управления состоянием из стора
+  const { setSuccessPaymentModal, setTokens } = usePaymentStore.getState();
+  const { setAuthModal, setUser, setIsPremium } = useAuthStore.getState();
 
+  // Удаляет временные значения из localStorage
   const cleanLocalStorage = () => {
-    if (IS_CLIENT) {
-      localStorage.removeItem("tempToken");
-      localStorage.removeItem("emailForSignIn");
-    }
+    safeLocalStorage.remove("tempToken");
+    safeLocalStorage.remove("emailForSignIn");
   };
-  if (IS_CLIENT && isSignInWithEmailLink(auth, window.location.href)) {
+
+  // Проверка, является ли вход социальным (Google, Facebook, Twitter)
+  const isSocialLogin = (user: User) =>
+    user.providerData.some(p =>
+      ['google.com', 'facebook.com', 'twitter.com'].includes(p.providerId)
+    );
+
+  // Получаем данные из URL и localStorage
+  const email = safeLocalStorage.get('emailForSignIn');
+  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const authSuccess = searchParams?.get('action') === ACTION_AUTH_SUCCESS;
+  const organicAuth = searchParams?.get('action') === ACTION_ORGANIC;
+
+  // Обработка входа через email-ссылку
+  if (typeof window !== 'undefined' && isSignInWithEmailLink(auth, window.location.href)) {
     try {
       const result = await signInWithEmailLink(
         auth,
@@ -78,73 +83,83 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       const user = result.user as FirebaseUser;
       if (result) {
         cleanLocalStorage();
-        localStorage.setItem("accessToken", user.accessToken);
+        safeLocalStorage.set("accessToken", user.accessToken);
         setUser(user);
-        if (organicAuth) {
-          return (window.location.href = "https://quiz.theaigo.com/aigoweb");
-        }
+
+        // Регистрация после успешной оплаты
         if (authSuccess) {
-          await registerUserAfterPayment(email);
-          return window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-          );
+          await registerUserAfterPayment(email,searchParams?.toString() ?? '');
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // Загружаем данные о подписке и токенах
+        const userInfo = await getUserSubscriptionInfo();
+        setIsPremium(userInfo?.subscription?.active ?? false);
+        setTokens(userInfo?.tokens ?? 0);
+
+        // Органическая регистрация — редирект на квиз ( если нет платной пописки )
+        if (organicAuth && !userInfo?.subscription?.active) {
+          return (window.location.href = REDIRECT_URL);
         }
       }
     } catch (error) {
+      console.error("Email link sign-in error:", error);
       window.history.replaceState({}, document.title, window.location.pathname);
     }
+    return;
   }
-  if (firebaseUser) {
-    const token = await firebaseUser.getIdToken();
-    const isSocialLogin = firebaseUser.providerData.some(
-      (provider) =>
-        provider.providerId === "google.com" ||
-        provider.providerId === "facebook.com" ||
-        provider.providerId === "twitter.com"
-    );
-    // Если пользователь вошел через Google и есть параметр subscription_success в URL
-    if (
-      isSocialLogin &&
-      window.location.search.includes("action=subscription_success")
-    ) {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("action") === "subscription_success") {
-        params.set("action", "auth_success");
-        const newUrl = `${window.location.pathname}?${params.toString()}${
-          window.location.hash
-        }`;
-        await registerUserAfterPayment(email);
-        setSuccessPaymentModal({
-          isSuccessPaymentModalActive: true,
-          successPaymentModalType: "auth_success",
-        });
 
-        cleanLocalStorage();
-        localStorage.setItem("accessToken", token);
-
-        window.history.replaceState({}, document.title, newUrl);
-      }
-    }
-
-    if (firebaseUser.isAnonymous) {
-      localStorage.setItem("tempToken", token);
-      setUser(firebaseUser);
-    } else {
-      cleanLocalStorage();
-      localStorage.setItem("accessToken", token);
-      setAuthModal({ modalType: null, isAuthModalActive: false });
-      setUser(firebaseUser);
-    }
-  } else {
-    cleanLocalStorage();
-    if (IS_CLIENT) {
-      localStorage.removeItem("accessToken");
-    }
+  // Если пользователь не авторизован
+  if (!firebaseUser) {
     clearAccessTokenCookie();
     setUser(null);
+    setIsPremium(false);
+    setTokens(0);
+    return;
   }
+
+  const token = await firebaseUser.getIdToken();
+
+  // Обработка входа через социальные сети
+  if (isSocialLogin(firebaseUser)) {
+    if (searchParams?.get('action') === 'subscription_success') {
+      // Если пользователь пришёл после оплаты, регистрируем и показываем модалку
+      searchParams.set('action', ACTION_AUTH_SUCCESS);
+      const newUrl = `${window.location.pathname}?${searchParams.toString()}${window.location.hash}`;
+      await registerUserAfterPayment(firebaseUser.email,searchParams.toString());
+      setSuccessPaymentModal({ isSuccessPaymentModalActive: true, successPaymentModalType: ACTION_AUTH_SUCCESS });
+      window.history.replaceState({}, document.title, newUrl);
+    }
+
+    const userInfo = await getUserSubscriptionInfo();
+    cleanLocalStorage();
+    safeLocalStorage.set("accessToken", token);
+    setIsPremium(userInfo?.subscription?.active ?? false);
+    setUser(firebaseUser);
+    setTokens(userInfo?.tokens ?? 0);
+    setAuthModal({ modalType: null, isAuthModalActive: false });
+    // Если зашел через соц.сети и нет премиума то редиректим на квиз
+    if (!userInfo?.subscription?.active) {
+      return (window.location.href = REDIRECT_URL);
+    }
+    return;
+  }
+
+  // Анонимный вход — сохраняем временный токен
+  if (firebaseUser.isAnonymous) {
+    safeLocalStorage.set("tempToken", token);
+    setUser(firebaseUser);
+    return;
+  }
+
+  // Стандартный вход зарегистрированного пользователя
+  const userInfo = await getUserSubscriptionInfo();
+  setIsPremium(userInfo?.subscription?.active ?? false);
+  setTokens(userInfo?.tokens ?? 0);
+  cleanLocalStorage();
+  safeLocalStorage.set("accessToken", token);
+  setAuthModal({ modalType: null, isAuthModalActive: false });
+  setUser(firebaseUser);
 });
 
 onIdTokenChanged(auth, async (firebaseUser) => {

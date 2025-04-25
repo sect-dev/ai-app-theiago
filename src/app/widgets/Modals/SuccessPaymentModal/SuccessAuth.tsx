@@ -15,13 +15,14 @@ import {apiClient} from "@/app/shared/api";
 import {Character} from "@/app/shared/api/types";
 
 const SuccessAuth = () => {
-  const {charFromPaywall,setCharacters, setSelectedCharacterId, setIsPremium} = useSelectedCardStore();
+  const {charFromPaywall,setCharacters, setSelectedCharacterId} = useSelectedCardStore();
+  const {setSuccessPaymentModal,setTokens} = usePaymentStore();
+  const {user,setIsPremium} = useAuthStore()
   const searchParams = useSearchParams()
-  const {user} = useAuthStore()
   const [loading,setLoading] = useState(false)
   const [isPending,setIsPending] = useTransition()
   const [charInfo,setCharInfo] = useState<Character | null>(null)
-  const {setSuccessPaymentModal,setTokens} = usePaymentStore();
+
   const [characterLoading, setCharacterLoading] = useState<boolean>(false)
   const navigate = useRouter();
   const characterImage = charInfo ? charInfo?.avatar : ImageDefault.src;

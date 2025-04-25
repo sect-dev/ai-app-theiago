@@ -32,3 +32,7 @@ export const OriginalTypesOfMessages = [
 ]
 
 export const IS_CLIENT = typeof window !== "undefined";
+
+export const REDIRECT_URL = "https://quiz.theaigo.com/aigoweb";
+export const ACTION_AUTH_SUCCESS = "auth_success";
+export const ACTION_ORGANIC = "auth_organic";

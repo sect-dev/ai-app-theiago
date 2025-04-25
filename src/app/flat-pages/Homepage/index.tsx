@@ -50,7 +50,7 @@ const HomePage:FC<ComponentProps> = ({avatars,action,characterId,orderNumber, pr
     if(action === 'subscription_tokens' && characterId && orderNumber && product) {
       getTokens(orderNumber, product)
     }
-    if (!accessToken && !tempToken) {
+    if (!accessToken && !tempToken && !action) {
       signInAnonymouslyHandler();
     }
 
