@@ -2,15 +2,16 @@ import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import Link from "next/link";
-import IconDiscover from "@/../public/images/icons/icon-discover.svg";
-import IconChats from "@/../public/images/icons/icon-chats.svg";
-import IconChatsActive from "@/../public/images/icons/icon-chats-active.svg";
-import IconDiscoverActive from "@/../public/images/icons/icon-discover-active.svg";
-import IconStars from "@/../public/images/icons/icon-stars.svg";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import IconDiscover from '@/../public/images/icons/icon-discover.svg';
+import IconChats from '@/../public/images/icons/icon-chats.svg';
+import IconChatsActive from '@/../public/images/icons/icon-chats-active.svg';
+import IconDiscoverActive from '@/../public/images/icons/icon-discover-active.svg';
+import IconStars from '@/../public/images/icons/icon-stars.svg';
+import {useAuthStore} from "@/app/shared/store/authStore";
 import IconDollar from "@/../public/images/icons/icon-dollar.svg";
 import IconQuestionMark from "@/../public/images/icons/icon-questionmark.svg";
-import { useSelectedCardStore } from "@/app/shared/store/publicStore";
-import { useAuthStore } from "@/app/shared/store/authStore";
+
 
 interface ComponentProps {
   pathname?: string;
@@ -36,11 +37,11 @@ const navigationData = [
   },
 ];
 
-const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
-  const { setMobileChatOpen, isPremium } = useSelectedCardStore();
-  const { user } = useAuthStore();
-  const [isHidden, setIsHidden] = useState<boolean | null>(true);
-  const isChatPage = pathname?.includes("chats");
+const SidebarMenu:FC<ComponentProps> = ({pathname,setIsMenuOpen}) => {
+  const {setMobileChatOpen} = useSelectedCardStore()
+  const {isPremium, user} = useAuthStore();
+  const [isHidden, setIsHidden] = useState<boolean | null>(true)
+  const isChatPage = pathname?.includes('chats');
 
   const contactBlock = [
     {
@@ -53,8 +54,8 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
         "p-8": !isChatPage,
       }),
       href: user
-        ? `mailto:support@theaigo.com?subject=Support Request&body=User Id: ${user.uid}%0AEmail: ${user.email}`
-        : "mailto:support@theaigo.com",
+          ? `mailto:support@theaigo.com?subject=Support Request&body=User Id: ${user.uid}%0AEmail: ${user.email}`
+          : "mailto:support@theaigo.com",
     },
     {
       id: 2,
@@ -186,14 +187,9 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
         const image = checkUrl ? item.activeIcon : item.icon;
         return (
           <li key={item.id} className="group [&>*:a]:rounded-t-[4px]">
-            <Link
-              onClick={handeClick}
-              href={item.href}
-              className={clsx(
-                "flex px-[16px] items-center cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",
-                item.className
-              )}
-            >
+            <Link onClick={handeClick} href={item.href} className={clsx("flex items-center px-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",item.className,{
+              "justify-center px-0": isChatPage
+            })}>
               <Image
                 src={image.src}
                 width={image.width}

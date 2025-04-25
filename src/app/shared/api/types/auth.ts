@@ -1,18 +1,4 @@
 import { User } from "firebase/auth";
-interface ProviderData {
-  providerId: string;
-  uid: string;
-  displayName: string | null;
-  email: string | null;
-  phoneNumber: string | null;
-  photoURL: string | null;
-}
-
-interface StsTokenManager {
-  refreshToken: string;
-  accessToken: string;
-  expirationTime: number;
-}
 
 export interface FirebaseUser extends User {
   accessToken: string
@@ -36,3 +22,13 @@ export type EmailLinkAuthResponse =
       success: false;
       message: string;
     };
+
+export interface UserSubscriptionInfo {
+  subscription: {
+    start: string;
+    end: string;
+    active: boolean | null;
+    purchases: Record<string, unknown>;
+  };
+  tokens: number;
+}

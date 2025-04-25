@@ -92,3 +92,9 @@ export const clearAccessTokenCookie = () => {
     document.cookie = `accessToken=; path=/; max-age=0`;
   }
 };
+
+export const safeLocalStorage = {
+  get: (key: string) => (typeof window !== 'undefined' ? localStorage.getItem(key) : null),
+  set: (key: string, value: string) => typeof window !== 'undefined' && localStorage.setItem(key, value),
+  remove: (key: string) => typeof window !== 'undefined' && localStorage.removeItem(key),
+};

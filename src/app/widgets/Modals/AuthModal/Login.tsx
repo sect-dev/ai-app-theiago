@@ -18,6 +18,7 @@ import {
 import {authErrorMessages} from "@/app/shared/consts";
 // import {useAuthStore} from "@/app/shared/store/authStore";
 import notification from "@/app/widgets/Notification";
+import {useSelectedCardStore} from "@/app/shared/store/publicStore";
 
 interface FormData {
   email: string;
@@ -30,6 +31,9 @@ interface AuthError {
 
 const Login = () => {
   // const {setAuthModal} = useAuthStore()
+  const {selectedCharacterId,characters} = useSelectedCardStore();
+  const currentCharacter = characters && characters?.find(item => item.id === selectedCharacterId)
+  const image = currentCharacter ? currentCharacter.image : ImageModal.src
   const [loading,setLoading] = useState<boolean>(false)
   // const [showPassword, setShowPassword] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -231,7 +235,7 @@ const Login = () => {
       </div>
       <div className="w-full h-hull relative sm:hidden">
         <Image
-          src={ImageModal.src}
+          src={image}
           fill
           alt="image modal"
           className="object-cover"
