@@ -83,7 +83,9 @@ const SuccessPayment = () => {
 
   const changeEmailHandler = () => {
     setEmailSent('');
-    typeof window !== 'undefined' && localStorage.removeItem('emailForSignIn')
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('emailForSignIn');
+    }
   }
 
   const onSubmit = async (data: FormData) => {
