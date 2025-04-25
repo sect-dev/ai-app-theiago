@@ -22,7 +22,8 @@ const VideoPlayer: FC<ComponentProps> = ({ url, text }) => {
   const [showText, setShowText] = useState(false);
   const { currentPlaying, setCurrentPlaying, currentPlayingVideo, setCurrentPlayingVideo } = useMediaStore();
 
-  const togglePlayPause = () => {
+  const togglePlayPause = (event:React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation()
     if (!videoRef.current) return;
 
     if (currentPlayingVideo && currentPlayingVideo !== videoRef.current) {
@@ -57,6 +58,11 @@ const VideoPlayer: FC<ComponentProps> = ({ url, text }) => {
     }
   }, [currentPlayingVideo]);
 
+  const translationHandler = (event: React.MouseEvent<HTMLButtonElement>, isShow:boolean) => {
+    event.stopPropagation();
+    setShowText(isShow)
+  }
+
   return (
     <>
       <div className="flex items-end gap-[8px]">
@@ -78,7 +84,7 @@ const VideoPlayer: FC<ComponentProps> = ({ url, text }) => {
             </video>
 
             <div className="absolute inset-0 flex items-center justify-center z-[3]">
-              <button onClick={togglePlayPause}>
+              <button onClick={(event) => togglePlayPause(event)}>
                 {!isPlaying
                   ? <Image src={IconPlay.src} width={39} height={39} alt="icon play" />
                   : <Image src={IconPause.src} width={39} height={39} alt="icon pause" />
@@ -88,7 +94,7 @@ const VideoPlayer: FC<ComponentProps> = ({ url, text }) => {
           </div>
         </div>
         <button
-          onClick={() => setShowText(!showText)}
+          onClick={(event) => translationHandler(event,!showText)}
           className="transcribate-button w-[24px] h-[20px] px-[4px] flex items-center justify-center rounded-[5px]"
         >
           <Image src={IconArrow.src} width={5} height={10} alt="icon arrow"
