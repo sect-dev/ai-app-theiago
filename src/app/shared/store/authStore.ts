@@ -73,7 +73,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   const organicAuth = searchParams?.get('action') === ACTION_ORGANIC;
 
   // Обработка входа через email-ссылку
-  if (isSignInWithEmailLink(auth, window.location.href)) {
+  if (typeof window !== 'undefined' && isSignInWithEmailLink(auth, window.location.href)) {
     try {
       const result = await signInWithEmailLink(
         auth,
