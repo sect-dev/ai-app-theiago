@@ -13,7 +13,7 @@ import IconDollar from "@/../public/images/icons/icon-dollar.svg";
 import IconQuestionMark from "@/../public/images/icons/icon-questionmark.svg";
 import { useSubscriptionStore } from "@/app/shared/store/subscriptionStore";
 import { UserStatus } from "@/app/shared/api/types";
-import { getUserStatus } from '@/app/shared/api/auth';
+import { getUserStatus } from "@/app/shared/api/auth";
 
 interface ComponentProps {
   pathname?: string;

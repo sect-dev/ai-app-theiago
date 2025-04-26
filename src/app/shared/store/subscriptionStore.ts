@@ -89,7 +89,12 @@ export const useSubscriptionStore = create<SubscriptionStore>((set, get) => ({
   },
 
   confirmCancelSubscription: async () => {
-    const { subscriptionToken } = get();
+    const { subscriptionToken, subscriptionData } = get();
+    if (subscriptionData?.cancelled === true) {
+      console.log("subscription is already cancelled");
+      return;
+    }
+
     if (!subscriptionToken) {
       console.log("net token");
       return;

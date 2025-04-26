@@ -125,15 +125,7 @@ const SubscriptionModal = () => {
                   {`${user?.displayName}`}
                 </DialogTitle>
                 <div className="">
-                  <div
-                    className={clsx(
-                      "flex justify-between items-start bg-blue-500 text-white p-[16px] rounded-t-[24px] bg-[#21233A] transition-bg duration-300 hover:bg-[#2E335B] mb-[4px]",
-                      {
-                        "rounded-b-[24px]": cancelled || isCancelSuccess,
-                        "rounded-b-[4px]": !cancelled,
-                      },
-                    )}
-                  >
+                  <div className="flex justify-between items-start bg-blue-500 text-white p-[16px] rounded-t-[24px] bg-[#21233A] transition-bg duration-300 hover:bg-[#2E335B] mb-[4px]">
                     <div className="flex flex-col">
                       <span className="text-[16px] font-semibold mb-[8px]">
                         {calculateSubscriptionPeriod(start, end)} subscription
@@ -161,13 +153,7 @@ const SubscriptionModal = () => {
                     </div>
                   </div>
                   <button
-                    className={clsx(
-                      "fm:mb-0 bg-blue-500 text-[14px] mb-[106px] font-bold w-full pt-[8px] pb-[8px] text-white rounded-t-[4px] rounded-b-[24px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]",
-                      {
-                        "mb-[80px]": isCancelSuccess,
-                        hidden: cancelled || isCancelSuccess,
-                      },
-                    )}
+                    className="fm:mb-0 bg-blue-500 text-[14px] mb-[106px] font-bold w-full pt-[8px] pb-[8px] text-white rounded-t-[4px] rounded-b-[24px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]"
                     onClick={requestCancelSubscription}
                   >
                     Cancel Subscription

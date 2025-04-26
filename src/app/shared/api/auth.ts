@@ -25,7 +25,7 @@ import { apiClient, getCurrentToken } from "@/app/shared/api/index";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import axios from "axios";
 import { clearAccessTokenCookie } from "@/app/shared/helpers";
-import { UserStatus } from './types';
+import { UserStatus } from "./types";
 
 export const signUpWithEmailAndPassword = async (
   email: string,
@@ -358,7 +358,6 @@ export const getUserSubscriptionInfo =
       return null;
     }
   };
-
 
 // New. Используется в отмене подписки
 export const getUserStatus = async (): Promise<{
