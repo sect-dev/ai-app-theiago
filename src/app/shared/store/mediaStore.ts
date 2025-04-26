@@ -1,6 +1,6 @@
-import {create} from "zustand";
+import { create } from "zustand";
 
-type playingType = 'video' | 'audio' | null
+type playingType = "video" | "audio" | null;
 
 interface MediaState {
   currentPlaying: playingType;
@@ -12,6 +12,6 @@ interface MediaState {
 export const useMediaStore = create<MediaState>((set) => ({
   currentPlaying: null,
   currentPlayingVideo: null,
-  setCurrentPlaying: (type:playingType) => set({ currentPlaying: type }),
+  setCurrentPlaying: (type: playingType) => set({ currentPlaying: type }),
   setCurrentPlayingVideo: (video) => set({ currentPlayingVideo: video }),
 }));

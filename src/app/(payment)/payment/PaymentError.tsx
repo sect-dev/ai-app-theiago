@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import Image from "next/image";
-import ImageError from '@/../public/images/img/payment/image-payment-error.webp';
+import ImageError from "@/../public/images/img/payment/image-payment-error.webp";
 
 const PaymentError = () => {
   return (

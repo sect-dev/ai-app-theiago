@@ -1,87 +1,116 @@
-import React, {FC, useState} from 'react';
+import React, { FC, useState } from "react";
 import Image from "next/image";
-import ImageArrow from '@/../public/images/icons/icon-payment-arrow.svg';
-import IconMoney from '@/../public/images/icons/icon-money.svg';
+import ImageArrow from "@/../public/images/icons/icon-payment-arrow.svg";
+import IconMoney from "@/../public/images/icons/icon-money.svg";
 import clsx from "clsx";
-import {PaymentPlan} from "@/app/shared/api/payment";
-import {calculateCostPerDay} from "@/app/shared/helpers";
+import { PaymentPlan } from "@/app/shared/api/payment";
+import { calculateCostPerDay } from "@/app/shared/helpers";
 
 interface ComponentProps {
-  plans: PaymentPlan[] | null
+  plans: PaymentPlan[] | null;
 }
 
-const PaymentPrice:FC<ComponentProps> = ({plans}) => {
-  const currentPlan = plans ? plans[1] : null
-  const [selectedPrice,setSelectedPrice] = useState<PaymentPlan | null>(currentPlan)
+const PaymentPrice: FC<ComponentProps> = ({ plans }) => {
+  const currentPlan = plans ? plans[1] : null;
+  const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(
+    currentPlan,
+  );
 
   return (
     <div className="space-y-[8px]">
       <div className="bg-[#191B2C] h-[505px] shrink-0 w-[375px] p-[20px] rounded-[32px]">
         <div className="space-y-[12px] mb-[24px]">
-          {plans && plans.map(item => {
-            const days = item.interval_length * 30
-            const fullPricePerDay = calculateCostPerDay(+item.amount_recurring, days)
-            const discountPricePerDay = calculateCostPerDay(+item.amount_initial, days)
-            const firstLetterDiscountPrice = fullPricePerDay.toString().split('.')[0]
-            const discountPriceWithoutFirstLetter = discountPricePerDay.toString().split('.')[1]
+          {plans &&
+            plans.map((item) => {
+              const days = item.interval_length * 30;
+              const fullPricePerDay = calculateCostPerDay(
+                +item.amount_recurring,
+                days,
+              );
+              const discountPricePerDay = calculateCostPerDay(
+                +item.amount_initial,
+                days,
+              );
+              const firstLetterDiscountPrice = fullPricePerDay
+                .toString()
+                .split(".")[0];
+              const discountPriceWithoutFirstLetter = discountPricePerDay
+                .toString()
+                .split(".")[1];
 
-            return (
-              <div
-                onClick={() => setSelectedPrice(item)}
-                key={item.id}
-                className={clsx("gradient-border relative before:z-[1] before:rounded-[16px] before:opacity-0 hover:before:opacity-100 cursor-pointer bg-[#2B2D44] rounded-[16px] p-[16px] hover:shadow-card-shadow", {
-                  "before:opacity-100 shadow-card-shadow": selectedPrice?.id === item.id
-                })}
-              >
-                <div className={clsx("flex items-center justify-between ", {
-                  "pt-[12px]": (item.id === selectedPrice?.id)
-                })}>
-                  <div>
-                    <p className="font-semibold leading-[1.5em] text-[16px]">{item.interval_length} {item.interval_unit}</p>
-                    {/*{item.description && <p className="text-[11px] opacity-40 font-asap leading-[1.3em]">{item.description}</p>}*/}
-                    <div className="flex items-center gap-[4px] text-[12px] font-asap">
-                      <p className="relative">
-                        <span className="uppercase opacity-40">{item.currency} {item.amount_recurring}</span>
-                        <span className="w-full absolute bg-main-gradient h-[2px] z-[5] left-0 top-1/2 -translate-y-1/2" />
+              return (
+                <div
+                  onClick={() => setSelectedPrice(item)}
+                  key={item.id}
+                  className={clsx(
+                    "gradient-border relative before:z-[1] before:rounded-[16px] before:opacity-0 hover:before:opacity-100 cursor-pointer bg-[#2B2D44] rounded-[16px] p-[16px] hover:shadow-card-shadow",
+                    {
+                      "before:opacity-100 shadow-card-shadow":
+                        selectedPrice?.id === item.id,
+                    },
+                  )}
+                >
+                  <div
+                    className={clsx("flex items-center justify-between ", {
+                      "pt-[12px]": item.id === selectedPrice?.id,
+                    })}
+                  >
+                    <div>
+                      <p className="font-semibold leading-[1.5em] text-[16px]">
+                        {item.interval_length} {item.interval_unit}
                       </p>
-                      <Image
-                        src={ImageArrow.src}
-                        width={ImageArrow.width}
-                        height={ImageArrow.height}
-                        alt="arrow"
-                      />
+                      {/*{item.description && <p className="text-[11px] opacity-40 font-asap leading-[1.3em]">{item.description}</p>}*/}
+                      <div className="flex items-center gap-[4px] text-[12px] font-asap">
+                        <p className="relative">
+                          <span className="uppercase opacity-40">
+                            {item.currency} {item.amount_recurring}
+                          </span>
+                          <span className="w-full absolute bg-main-gradient h-[2px] z-[5] left-0 top-1/2 -translate-y-1/2" />
+                        </p>
+                        <Image
+                          src={ImageArrow.src}
+                          width={ImageArrow.width}
+                          height={ImageArrow.height}
+                          alt="arrow"
+                        />
+                        <p>
+                          <span className="uppercase opacity-40">
+                            {item.currency} {item.amount_initial}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-end gap-[6px] leading-[1.5em] font-asap">
+                      <p className="flex items-center gap-[4px] ">
+                        <span className="text-[12px] font-semibold uppercase">
+                          {item.currency}
+                        </span>
+                        <span className="relative text-[12px]">
+                          <span className="opacity-40">{fullPricePerDay}</span>
+                          <span className="w-full absolute bg-main-gradient h-[2px] z-[5] left-0 top-1/2 -translate-y-1/2" />
+                        </span>
+                      </p>
                       <p>
-                        <span className="uppercase opacity-40">{item.currency} {item.amount_initial}</span>
+                        <span className="text-[12px] font-semibold leading-[1.3em]">
+                          <span className="text-[24px]">
+                            {firstLetterDiscountPrice}
+                          </span>
+                          <span>,{discountPriceWithoutFirstLetter}</span>
+                        </span>
+                        <span className="opacity-40 text-[12px]"> / day</span>
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-end gap-[6px] leading-[1.5em] font-asap">
-                    <p className="flex items-center gap-[4px] ">
-                      <span className="text-[12px] font-semibold uppercase">{item.currency}</span>
-                      <span className="relative text-[12px]">
-                    <span className="opacity-40">{fullPricePerDay}</span>
-                    <span className="w-full absolute bg-main-gradient h-[2px] z-[5] left-0 top-1/2 -translate-y-1/2" />
-                  </span>
-                    </p>
-                    <p>
-                  <span className="text-[12px] font-semibold leading-[1.3em]">
-                    <span className="text-[24px]">{firstLetterDiscountPrice}</span>
-                    <span>,{discountPriceWithoutFirstLetter}</span>
-                  </span>
-                      <span className="opacity-40 text-[12px]"> / day</span>
-                    </p>
-                  </div>
+                  {item.id === selectedPrice?.id && (
+                    <div className="absolute animate-fadeIn w-full h-[17px] left-0 top-0 flex items-center justify-center rounded-t-[16px] bg-main-gradient">
+                      <span className="uppercase font-bold text-[11px]">
+                        most popular
+                      </span>
+                    </div>
+                  )}
                 </div>
-                {(item.id === selectedPrice?.id) && (
-                  <div className="absolute animate-fadeIn w-full h-[17px] left-0 top-0 flex items-center justify-center rounded-t-[16px] bg-main-gradient">
-                    <span className="uppercase font-bold text-[11px]">
-                      most popular
-                    </span>
-                  </div>
-                )}
-              </div>
-            )
-          })}
+              );
+            })}
         </div>
         <button className="relative main-gradient overflow-hidden w-full h-[60px] font-bold font-noto-sans text-[14px] text-center rounded-[24px]">
           <span className="relative z-[5]">Start your relationships</span>
@@ -107,11 +136,13 @@ const PaymentPrice:FC<ComponentProps> = ({plans}) => {
       </div>
       <div className="text-[12px] space-y-[8px] leading-[0.9em] font-bai-jamjuree opacity-15 font-medium text-center">
         <p className="tracking-[-0.07em] max-w-[275px] mx-auto ">
-          Without cancellation, before the selected discounted intro plan ends, i accept that AiGo will automatically charge
-          USD 9999 every 4 weeks until i cancel. Cancel online via the account page on the app.
+          Without cancellation, before the selected discounted intro plan ends,
+          i accept that AiGo will automatically charge USD 9999 every 4 weeks
+          until i cancel. Cancel online via the account page on the app.
         </p>
         <p className="tracking-[-0.07em]">
-          DevSect FZE LLC BLB-BC5-840 <br/> AMC - BOULEVARD-B BUILDING, Ajman, United Arab Emirates
+          DevSect FZE LLC BLB-BC5-840 <br /> AMC - BOULEVARD-B BUILDING, Ajman,
+          United Arab Emirates
         </p>
       </div>
     </div>

@@ -1,5 +1,5 @@
-import React from 'react';
-import './styles.css'
+import React from "react";
+import "./styles.css";
 import PaymentDiscountBanner from "@/app/widgets/Payment/PaymentDiscountBanner";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

@@ -1,27 +1,41 @@
-import React from 'react';
+import React from "react";
 import Image from "next/image";
-import {Dialog, DialogPanel} from "@headlessui/react";
-import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import { Dialog, DialogPanel } from "@headlessui/react";
+import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import ImageModal from "@/../public/images/img/image-modal.webp";
 import SuccessPayment from "@/app/widgets/Modals/SuccessPaymentModal/SuccessPayment";
 import SuccessAuth from "@/app/widgets/Modals/SuccessPaymentModal/SuccessAuth";
 
 const SuccessPaymentModal = () => {
-  const {isSuccessPaymentModalActive, successPaymentModalType, setSuccessPaymentModal} = usePaymentStore()
+  const {
+    isSuccessPaymentModalActive,
+    successPaymentModalType,
+    setSuccessPaymentModal,
+  } = usePaymentStore();
 
   const renderContent = () => {
-    switch (successPaymentModalType){
-      case 'subscription_success':
-        return <SuccessPayment />
-      case 'auth_success':
-        return <SuccessAuth />
+    switch (successPaymentModalType) {
+      case "subscription_success":
+        return <SuccessPayment />;
+      case "auth_success":
+        return <SuccessAuth />;
       default:
-        return <SuccessPayment />
+        return <SuccessPayment />;
     }
-  }
+  };
 
   return (
-    <Dialog open={isSuccessPaymentModalActive} as="div" className="relative z-[60] focus:outline-none" onClose={() => setSuccessPaymentModal({isSuccessPaymentModalActive:false,successPaymentModalType: null})}>
+    <Dialog
+      open={isSuccessPaymentModalActive}
+      as="div"
+      className="relative z-[60] focus:outline-none"
+      onClose={() =>
+        setSuccessPaymentModal({
+          isSuccessPaymentModalActive: false,
+          successPaymentModalType: null,
+        })
+      }
+    >
       <div className="fixed inset-0 z-[60] w-screen overflow-y-auto font-lato">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
@@ -46,7 +60,6 @@ const SuccessPaymentModal = () => {
       </div>
     </Dialog>
   );
-
 };
 
 export default SuccessPaymentModal;

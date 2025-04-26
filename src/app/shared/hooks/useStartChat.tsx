@@ -1,12 +1,15 @@
-'use client'
+"use client";
 import { useRouter } from "next/navigation";
-import {useState, useTransition} from 'react';
+import { useState, useTransition } from "react";
 import { Character } from "@/app/shared/api/types";
 import { startConversation } from "@/app/shared/api/mesages";
-import { mapBackendMessagesToMessages, saveCharacterToLocalStorage } from "@/app/shared/helpers";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
-import {useAuthStore} from "@/app/shared/store/authStore";
-import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import {
+  mapBackendMessagesToMessages,
+  saveCharacterToLocalStorage,
+} from "@/app/shared/helpers";
+import { useSelectedCardStore } from "@/app/shared/store/publicStore";
+import { useAuthStore } from "@/app/shared/store/authStore";
+import { usePaymentStore } from "@/app/shared/store/paymentStore";
 
 export const useStartChat = () => {
   const [isPending, startTransition] = useTransition();
@@ -20,18 +23,24 @@ export const useStartChat = () => {
     setSelectedCharacterId(avatar.id);
     try {
       const startChat = await startConversation({
-        userId: user?.uid ?? 'id',
-        characterId: avatar.id.toString()
+        userId: user?.uid ?? "id",
+        characterId: avatar.id.toString(),
       });
 
-      const startChatMessages = mapBackendMessagesToMessages(startChat?.response ?? []);
+      const startChatMessages = mapBackendMessagesToMessages(
+        startChat?.response ?? [],
+      );
       const tokens = startChat?.tokens_remaining;
 
       startTransition(() => {
         router.push(`/chats`);
       });
 
-      const preparedCharacters = saveCharacterToLocalStorage(avatar, startChatMessages, tokens ?? 0);
+      const preparedCharacters = saveCharacterToLocalStorage(
+        avatar,
+        startChatMessages,
+        tokens ?? 0,
+      );
       setCharacters(preparedCharacters ?? null);
       setTokens(tokens ?? 0);
     } catch (error) {
@@ -39,7 +48,7 @@ export const useStartChat = () => {
     }
   };
 
-  const handleClick = async (avatar:Character) => {
+  const handleClick = async (avatar: Character) => {
     setIsLoading(true);
     await handleStartChat(avatar);
     setIsLoading(false);

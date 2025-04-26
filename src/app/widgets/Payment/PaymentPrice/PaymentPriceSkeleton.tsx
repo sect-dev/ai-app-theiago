@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const PaymentPriceSkeleton = () => {
   return (
     <div className="space-y-[8px]">
       <div className="bg-[#191B2C] h-[505px] shrink-0 w-[375px] p-[20px] rounded-[32px]">
         <div className="space-y-[12px] mb-[24px]">
-          {Array.from({length:4}).map((_,index) => {
+          {Array.from({ length: 4 }).map((_, index) => {
             return (
               <div
                 key={index}
@@ -22,7 +22,7 @@ const PaymentPriceSkeleton = () => {
                   </div>
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       </div>

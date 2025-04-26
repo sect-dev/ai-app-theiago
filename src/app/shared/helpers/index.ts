@@ -1,25 +1,32 @@
-import {Character, Message, PreparedAvatar} from "@/app/shared/api/types";
+import { Character, Message, PreparedAvatar } from "@/app/shared/api/types";
 
-export const saveCharacterToLocalStorage = (avatar: Character | null, messages: Message[],tokens: number) => {
+export const saveCharacterToLocalStorage = (
+  avatar: Character | null,
+  messages: Message[],
+  tokens: number,
+) => {
   if (typeof window !== "undefined") {
     const storedIds = localStorage.getItem("chatStartedCharacters");
     const characters: PreparedAvatar[] = storedIds ? JSON.parse(storedIds) : [];
     const currentTime = new Date();
 
-    const startImage = messages.find(item => item.type === 'image')
+    const startImage = messages.find((item) => item.type === "image");
 
-    const startImageUrl = typeof startImage?.url === "string" 
-      ? startImage.url 
-      : startImage?.url?.en ?? '';
+    const startImageUrl =
+      typeof startImage?.url === "string"
+        ? startImage.url
+        : (startImage?.url?.en ?? "");
 
-      const photos = [...(avatar?.listProfilePhoto || []), startImageUrl].filter(Boolean);
+    const photos = [...(avatar?.listProfilePhoto || []), startImageUrl].filter(
+      Boolean,
+    );
 
-    if (!characters.some(a => a.id === avatar?.id)) {
+    if (!characters.some((a) => a.id === avatar?.id)) {
       const newCharacter = {
-        id: avatar?.id ?? '',
-        image: avatar?.avatar ?? '',
+        id: avatar?.id ?? "",
+        image: avatar?.avatar ?? "",
         listMsgs: messages,
-        name: avatar?.name ?? '',
+        name: avatar?.name ?? "",
         photos,
         videos: [],
         lastMessageTime: currentTime,
@@ -29,7 +36,7 @@ export const saveCharacterToLocalStorage = (avatar: Character | null, messages: 
     }
     localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
     localStorage.setItem("tokens", JSON.stringify(tokens));
-    return characters
+    return characters;
   }
 };
 
@@ -40,7 +47,7 @@ export function getMessageSize(size: number, position: number): string {
   if (size === 1) return (maxSize / 1000).toFixed(1) + "k";
 
   const step: number = (maxSize - minSize) / (size - 1);
-  const index: number = (position - 10) / (10000 - 10) * (size - 1);
+  const index: number = ((position - 10) / (10000 - 10)) * (size - 1);
   let currentSize: number = Math.round(maxSize - step * index);
 
   // Ограничиваем в пределах допустимых значений
@@ -59,7 +66,9 @@ interface BackendMessage {
   nsfw: boolean;
 }
 
-export const mapBackendMessagesToMessages = (backendMessages: BackendMessage[]): Message[] => {
+export const mapBackendMessagesToMessages = (
+  backendMessages: BackendMessage[],
+): Message[] => {
   return backendMessages.map((backendMessage) => {
     const message: Message = {
       text: backendMessage.message,
@@ -75,51 +84,57 @@ export const mapBackendMessagesToMessages = (backendMessages: BackendMessage[]):
   });
 };
 
-export function calculateCostPerDay(totalCost: number, daysCount: number): number {
+export function calculateCostPerDay(
+  totalCost: number,
+  daysCount: number,
+): number {
   const costPerDay = totalCost / daysCount;
   return parseFloat(costPerDay.toFixed(2));
 }
 
 export const setAccessTokenCookie = (token: string) => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const maxAge = 3600;
     document.cookie = `accessToken=${token}; path=/; max-age=${maxAge}; secure; samesite=strict`;
   }
 };
 
 export const clearAccessTokenCookie = () => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     document.cookie = `accessToken=; path=/; max-age=0`;
   }
 };
 
 export const safeLocalStorage = {
-  get: (key: string) => (typeof window !== 'undefined' ? localStorage.getItem(key) : null),
-  set: (key: string, value: string) => typeof window !== 'undefined' && localStorage.setItem(key, value),
-  remove: (key: string) => typeof window !== 'undefined' && localStorage.removeItem(key),
+  get: (key: string) =>
+    typeof window !== "undefined" ? localStorage.getItem(key) : null,
+  set: (key: string, value: string) =>
+    typeof window !== "undefined" && localStorage.setItem(key, value),
+  remove: (key: string) =>
+    typeof window !== "undefined" && localStorage.removeItem(key),
 };
 
 export const formatISODate = (
   isoString: string,
   options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  }
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  },
 ): string => {
   try {
     const date = new Date(isoString);
 
     // Проверка валидности даты
     if (isNaN(date.getTime())) {
-      throw new Error('Invalid date string');
+      throw new Error("Invalid date string");
     }
 
-    return new Intl.DateTimeFormat('en-US', options).format(date);
+    return new Intl.DateTimeFormat("en-US", options).format(date);
   } catch (error) {
-    console.error('Failed to format date:', error);
-    return 'Invalid date';
+    console.error("Failed to format date:", error);
+    return "Invalid date";
   }
-}
+};

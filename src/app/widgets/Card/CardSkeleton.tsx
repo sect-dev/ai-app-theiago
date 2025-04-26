@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const CardSkeleton = () => {
   return (
@@ -17,8 +17,8 @@ const CardSkeleton = () => {
       </div>
     </>
   );
-}
+};
 
-CardSkeleton.displayName = 'CardSkeleton';
+CardSkeleton.displayName = "CardSkeleton";
 
 export default CardSkeleton;
