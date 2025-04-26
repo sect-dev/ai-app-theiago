@@ -1,24 +1,33 @@
-'use client'
-import React, {useState} from 'react';
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import IconCollapse from "@/../public/images/icons/icon-collapse.svg";
 
 const ChatsListSkeleton = () => {
-  const [collapse, setCollapse] = useState<boolean>(false)
+  const [collapse, setCollapse] = useState<boolean>(false);
 
   const handleCollapse = () => {
-    setCollapse(!collapse)
-  }
+    setCollapse(!collapse);
+  };
 
   return (
     <div
-      className={clsx("w-full max-w-[260px] max-h-[50vh] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300 md:max-w-full", {
-        "max-w-[82px] ": collapse
-      })}>
+      className={clsx(
+        "w-full max-w-[260px] max-h-[50vh] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-width duration-300 md:max-w-full",
+        {
+          "max-w-[82px] ": collapse,
+        },
+      )}
+    >
       <div className="flex items-center justify-between px-[20px] mb-[9px]">
-        {!collapse && <p className="animate-fadeIn text-[17px] font-medium ">Chats</p>}
-        <button onClick={handleCollapse} className="flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px] md:hidden">
+        {!collapse && (
+          <p className="animate-fadeIn text-[17px] font-medium ">Chats</p>
+        )}
+        <button
+          onClick={handleCollapse}
+          className="flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px] md:hidden"
+        >
           <Image
             src={IconCollapse.src}
             width={IconCollapse.width}

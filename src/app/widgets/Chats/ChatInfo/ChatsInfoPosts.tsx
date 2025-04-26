@@ -33,7 +33,10 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
     return (
       <div className="flex flex-wrap gap-[8px]">
         {Array.from({ length: 8 }).map((_, index) => (
-          <div key={index} className="animate-pulse w-[48%] h-[157px] rounded-[12px] bg-[#1F2237]" />
+          <div
+            key={index}
+            className="animate-pulse w-[48%] h-[157px] rounded-[12px] bg-[#1F2237]"
+          />
         ))}
       </div>
     );
@@ -54,7 +57,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
                 {
                   "hover:before:opacity-100 pointer-events-auto": !isLocked,
                   "pointer-events-none": isLocked,
-                }
+                },
               )}
               onClick={() => handlePhotoClick(i, isLocked)}
             >

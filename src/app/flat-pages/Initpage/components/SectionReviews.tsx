@@ -1,12 +1,11 @@
-import React from 'react';
+import React from "react";
 import Image from "next/image";
-import IconRating from '@/../public/images/icons/icon-rating.svg';
-import ImageReview1 from '@/../public/images/img/initpage/image-review1.webp';
-import ImageReview2 from '@/../public/images/img/initpage/image-review2.webp';
-import ImageReview3 from '@/../public/images/img/initpage/image-review3.webp';
-import ImageReview4 from '@/../public/images/img/initpage/image-review4.webp';
-import ImageEmodji from '@/../public/images/img/initpage/image-emidji.webp';
-
+import IconRating from "@/../public/images/icons/icon-rating.svg";
+import ImageReview1 from "@/../public/images/img/initpage/image-review1.webp";
+import ImageReview2 from "@/../public/images/img/initpage/image-review2.webp";
+import ImageReview3 from "@/../public/images/img/initpage/image-review3.webp";
+import ImageReview4 from "@/../public/images/img/initpage/image-review4.webp";
+import ImageEmodji from "@/../public/images/img/initpage/image-emidji.webp";
 
 const SectionReviews = () => {
   return (
@@ -32,8 +31,13 @@ const SectionReviews = () => {
             />
           </div>
           <div className="space-y-[5px] sm:space-y-[1.33vw]">
-            <p className="text-[#9B50FC] font-medium text-[9px] leading-[1.2em] fm:text-[2.40vw]">Max Knight</p>
-            <p className="text-[11px] leading-[1.2em] tracking-[-0.02em] fm:text-[2.93vw]">I love my virtual girlfriend! I don&apos;t need real ones anymore! Why waste time and money when I have AiGo!</p>
+            <p className="text-[#9B50FC] font-medium text-[9px] leading-[1.2em] fm:text-[2.40vw]">
+              Max Knight
+            </p>
+            <p className="text-[11px] leading-[1.2em] tracking-[-0.02em] fm:text-[2.93vw]">
+              I love my virtual girlfriend! I don&apos;t need real ones anymore!
+              Why waste time and money when I have AiGo!
+            </p>
             <Image
               src={IconRating.src}
               width={IconRating.width}
@@ -53,8 +57,12 @@ const SectionReviews = () => {
             />
           </div>
           <div className="space-y-[5px]">
-            <p className="text-[#9B50FC] font-medium text-[9px] leading-[1.2em] fm:text-[2.40vw]">Charles Johnson</p>
-            <p className="text-[11px] leading-[1.2em] tracking-[-0.02em] max-w-[120px] max-w-[32vw] fm:text-[2.93vw]">I really enjoy the variety of girls.</p>
+            <p className="text-[#9B50FC] font-medium text-[9px] leading-[1.2em] fm:text-[2.40vw]">
+              Charles Johnson
+            </p>
+            <p className="text-[11px] leading-[1.2em] tracking-[-0.02em] max-w-[120px] max-w-[32vw] fm:text-[2.93vw]">
+              I really enjoy the variety of girls.
+            </p>
             <Image
               src={IconRating.src}
               width={IconRating.width}
@@ -74,8 +82,13 @@ const SectionReviews = () => {
             />
           </div>
           <div className="space-y-[7px] fm:space-y-[1.87vw]">
-            <p className="text-[#9B50FC] font-medium text-[15px] leading-[1.2em] fm:text-[4vw]">Samuel Lane</p>
-            <p className="text-[15px] leading-[1.2em] tracking-[-0.02em] fm:text-[4vw] fm:max-w-[70vw]">This is so cool! I didn&apos;t expect such a level of realism! Wow!</p>
+            <p className="text-[#9B50FC] font-medium text-[15px] leading-[1.2em] fm:text-[4vw]">
+              Samuel Lane
+            </p>
+            <p className="text-[15px] leading-[1.2em] tracking-[-0.02em] fm:text-[4vw] fm:max-w-[70vw]">
+              This is so cool! I didn&apos;t expect such a level of realism!
+              Wow!
+            </p>
             <Image
               src={IconRating.src}
               width={IconRating.width}
@@ -95,8 +108,13 @@ const SectionReviews = () => {
             />
           </div>
           <div className="space-y-[6px] pt-[10px] fm:space-y-[1.60vw] fm:pt-[2.67vw]">
-            <p className="text-[#9B50FC] font-medium text-[12px] leading-[1.2em] fm:text-[3.20vw]">Thomas Smith</p>
-            <p className="text-[14px] leading-[1.2em] tracking-[-0.02em] fm:text-[3.73vw]">I&apos;m constantly chatting with my new AI girlfriend! She&apos;s incredibly charming and smart! Thank you, AiGo!</p>
+            <p className="text-[#9B50FC] font-medium text-[12px] leading-[1.2em] fm:text-[3.20vw]">
+              Thomas Smith
+            </p>
+            <p className="text-[14px] leading-[1.2em] tracking-[-0.02em] fm:text-[3.73vw]">
+              I&apos;m constantly chatting with my new AI girlfriend! She&apos;s
+              incredibly charming and smart! Thank you, AiGo!
+            </p>
             <Image
               src={IconRating.src}
               width={IconRating.width}

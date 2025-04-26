@@ -3,16 +3,17 @@ import { baiJamjuree, asap, notoSans } from "@/app/fonts/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AiGO - Create Your AI Girlfriend and Start Chatting with NSFW Character",
+  title:
+    "AiGO - Create Your AI Girlfriend and Start Chatting with NSFW Character",
   description: "",
   icons: {
-    icon: '/icon.ico',
+    icon: "/icon.ico",
   },
 };
 
 export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
@@ -20,7 +21,7 @@ export default function RootLayout({
       <body
         className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
       >
-      {children}
+        {children}
       </body>
     </html>
   );

@@ -1,26 +1,29 @@
-'use client'
-import React, {FC, useEffect} from 'react';
+"use client";
+import React, { FC, useEffect } from "react";
 import Spinner from "@/app/widgets/Spinner";
-import {PaymentStatus} from "@/app/(payment)/payment/page";
-import {useRouter} from "next/navigation";
-import {usePaymentStore} from "@/app/shared/store/paymentStore";
+import { PaymentStatus } from "@/app/(payment)/payment/page";
+import { useRouter } from "next/navigation";
+import { usePaymentStore } from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
-  status?: PaymentStatus | null
+  status?: PaymentStatus | null;
 }
 
-const PaymentLoading:FC<ComponentProps> = ({status}) => {
+const PaymentLoading: FC<ComponentProps> = ({ status }) => {
   const navigate = useRouter();
-  const {setSuccessPaymentModal} = usePaymentStore()
+  const { setSuccessPaymentModal } = usePaymentStore();
 
   useEffect(() => {
-    if(status && status === 'success') {
+    if (status && status === "success") {
       setTimeout(() => {
-        navigate.push('/')
-        setSuccessPaymentModal({isSuccessPaymentModalActive:true,successPaymentModalType:"subscription_success"})
-      }, 1000)
+        navigate.push("/");
+        setSuccessPaymentModal({
+          isSuccessPaymentModalActive: true,
+          successPaymentModalType: "subscription_success",
+        });
+      }, 1000);
     }
-  }, [])
+  }, []);
 
   return (
     <div className="py-[25px]">
@@ -30,7 +33,8 @@ const PaymentLoading:FC<ComponentProps> = ({status}) => {
           Payment is being processed
         </p>
         <p className="text-[17px] font-medium">
-          Wait a little while for the payment system to process your payment. You&apos;ll be up and running soon!
+          Wait a little while for the payment system to process your payment.
+          You&apos;ll be up and running soon!
         </p>
       </div>
     </div>

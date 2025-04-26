@@ -1,14 +1,22 @@
-import {SendMessageParam, SendMessageResponse} from "@/app/shared/api/types";
-import {ApiResponse, GenerateUserTextPayload, StartRequest, StartResponse} from "@/app/shared/api/types/messsaes";
-import {apiClient, getCurrentToken} from "@/app/shared/api/index";
+import { SendMessageParam, SendMessageResponse } from "@/app/shared/api/types";
+import {
+  ApiResponse,
+  GenerateUserTextPayload,
+  StartRequest,
+  StartResponse,
+} from "@/app/shared/api/types/messsaes";
+import { apiClient, getCurrentToken } from "@/app/shared/api/index";
 
-export const generateUserText = async (userId: string | null,characterId: number | null): Promise<ApiResponse | null> => {
-  const token = await getCurrentToken()
+export const generateUserText = async (
+  userId: string | null,
+  characterId: number | null,
+): Promise<ApiResponse | null> => {
+  const token = await getCurrentToken();
 
   const payload: GenerateUserTextPayload = {
     type: "generate_user_text",
     user_id: userId,
-    character_id: characterId?.toString() ?? '',
+    character_id: characterId?.toString() ?? "",
     locale: "en",
     allowed_response_types: ["text", "image", "video", "audio"],
     censorship: {
@@ -17,16 +25,16 @@ export const generateUserText = async (userId: string | null,characterId: number
       audio: "low",
       video: "low",
     },
-    token: token ?? '',
+    token: token ?? "",
   };
 
   try {
     const response = await apiClient.post<ApiResponse>(
       "/build_web_response",
-      payload
+      payload,
     );
-    if(response.data) {
-      localStorage.setItem('hasPremium', response?.data.is_premium.toString())
+    if (response.data) {
+      localStorage.setItem("hasPremium", response?.data.is_premium.toString());
       return response.data;
     }
     return null;
@@ -36,8 +44,10 @@ export const generateUserText = async (userId: string | null,characterId: number
   }
 };
 
-export const sendMessage = async (params:SendMessageParam):Promise<SendMessageResponse | null> => {
-  const token = await getCurrentToken()
+export const sendMessage = async (
+  params: SendMessageParam,
+): Promise<SendMessageResponse | null> => {
+  const token = await getCurrentToken();
   try {
     const response = await apiClient.post("/build_web_response", {
       type: "text",
@@ -51,10 +61,10 @@ export const sendMessage = async (params:SendMessageParam):Promise<SendMessageRe
         audio: "low",
         video: "low",
       },
-      token
+      token,
     });
-    if(response.data) {
-      localStorage.setItem('hasPremium', response?.data.is_premium.toString())
+    if (response.data) {
+      localStorage.setItem("hasPremium", response?.data.is_premium.toString());
       return response.data;
     }
     return null;
@@ -64,8 +74,14 @@ export const sendMessage = async (params:SendMessageParam):Promise<SendMessageRe
   }
 };
 
-export const startConversation = async ({userId,characterId}: { userId: string | null, characterId: string | null }): Promise<StartResponse | null> => {
-  const token = await getCurrentToken()
+export const startConversation = async ({
+  userId,
+  characterId,
+}: {
+  userId: string | null;
+  characterId: string | null;
+}): Promise<StartResponse | null> => {
+  const token = await getCurrentToken();
   const payload: StartRequest = {
     type: "start",
     user_id: userId,
@@ -78,13 +94,16 @@ export const startConversation = async ({userId,characterId}: { userId: string |
       audio: "low",
       video: "low",
     },
-    token: token ?? '',
+    token: token ?? "",
   };
 
   try {
-    const response = await apiClient.post<StartResponse>("/build_web_response", payload);
-    if(response.data) {
-      localStorage.setItem('hasPremium', response?.data.is_premium.toString())
+    const response = await apiClient.post<StartResponse>(
+      "/build_web_response",
+      payload,
+    );
+    if (response.data) {
+      localStorage.setItem("hasPremium", response?.data.is_premium.toString());
       return response.data;
     }
     return null;
@@ -93,4 +112,3 @@ export const startConversation = async ({userId,characterId}: { userId: string |
     return null;
   }
 };
-
