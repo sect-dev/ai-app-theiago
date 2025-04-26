@@ -8,14 +8,14 @@ export const baiJamjuree = Bai_Jamjuree({
 });
 
 export const asap = Asap({
-  weight: ["400","500","600", "700"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-asap",
   display: "swap",
 });
 
 export const notoSans = Noto_Sans({
-  weight: ["400","500","600", "700"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-noto-sans",
   display: "swap",

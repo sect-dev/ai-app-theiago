@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Image from "next/image";
 import IconGender from "@/../public/images/icons/icon-gender.svg";
 import SectionAdvantages from "@/app/flat-pages/Initpage/components/SectionAdvantages";
@@ -16,10 +16,13 @@ const InitpageSkeleton = () => {
           <div className="relative mt-[-100px] z-[5] fm:hidden">
             <p className="animate-pulse bg-[#2B2D44] h-[15px] rounded-[12px] mb-[15px]" />
             <div className=" flex gap-[12px] overflow-hidden fm:!h-[85.87vw]">
-              {Array.from({length:4}).map((_,index) => {
+              {Array.from({ length: 4 }).map((_, index) => {
                 return (
-                  <div key={index} className="w-[150px] shrink-0 h-[250px] rounded-[12px] animate-pulse bg-[#2B2D44]" />
-                )
+                  <div
+                    key={index}
+                    className="w-[150px] shrink-0 h-[250px] rounded-[12px] animate-pulse bg-[#2B2D44]"
+                  />
+                );
               })}
             </div>
           </div>
@@ -28,19 +31,19 @@ const InitpageSkeleton = () => {
           <div className="mb-[17px] pt-[20px] fm:mb-[4.36vw] fm:pt-[4.36vw]">
             <div className="animate-pulse fm:mx-auto fm:max-w-full w-[70%] rounded-[12px] h-[30px] bg-[#2B2D44]" />
             <div className="grid grid-cols-[repeat(2,minmax(160px,1fr))] gap-[12px] pt-[25px] fm:gap-[5.13vw] fm:pt-[6.41vw]">
-              {Array.from({length:4}).map((_,index) => {
+              {Array.from({ length: 4 }).map((_, index) => {
                 return (
                   <div
                     key={index}
                     className="init-page-select-card bg-[#2B2D44] relative overflow-hidden flex gap-[10px] items-center p-[4px] rounded-[16px] fm:p-[2.56vw] fm:flex-col fm:w-full fm:h-[51.28vw] fm:before:!opacity-100 fm:bg-transparent"
                   >
-                    <div className="animate-pulse relative shrink-0 bg-[#191B2C] size-[84px] rounded-[16px] overflow-hidden fm:size-full"/>
+                    <div className="animate-pulse relative shrink-0 bg-[#191B2C] size-[84px] rounded-[16px] overflow-hidden fm:size-full" />
                     <div className="flex flex-col w-full fm:justify-center fm:flex-row fm:gap-[3px] fm:z-[12] fm:absolute fm:left-1/2 fm:bottom-[10px] fm:-translate-x-1/2">
                       <p className="animate-pulse  bg-[#191B2C] rounded-[12px] font-semibold h-[15px] w-[80%] mb-[4px] sm:h-[12px] sm:w-[25%]" />
                       <p className="animate-pulse  bg-[#191B2C] rounded-[12px] h-[15px] w-[50%] font-bold sm:h-[12px] sm:w-[40%]" />
                     </div>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -94,7 +97,6 @@ const InitpageSkeleton = () => {
               Checkout
             </button>
           </div>
-
         </div>
       </div>
     </div>

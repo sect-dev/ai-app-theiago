@@ -16,4 +16,4 @@ const TagsSkeleton = ({ seed }: { seed: number }) => {
   );
 };
 
-export default TagsSkeleton
+export default TagsSkeleton;

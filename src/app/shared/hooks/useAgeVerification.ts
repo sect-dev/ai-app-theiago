@@ -9,9 +9,9 @@ export const useAgeVerification = () => {
     if (!ageVerified) {
       setShowAgeVerify(true);
     }
-	if (ageVerified === "false") {
-	  setShowSorry(true)
-	}
+    if (ageVerified === "false") {
+      setShowSorry(true);
+    }
   }, []);
 
   const handleConfirm = () => {
@@ -20,7 +20,7 @@ export const useAgeVerification = () => {
   };
 
   const handleDecline = () => {
-	localStorage.setItem("ageVerified", "false")
+    localStorage.setItem("ageVerified", "false");
     setShowAgeVerify(false);
     setShowSorry(true);
   };
