@@ -100,7 +100,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 
   const onSubmit = async (data: FormData) => {
     const userMessage: Message = { text: data.message, type: "text", sender: "user" };
-    const updatedMessages = [...(messages ?? []), userMessage];
+    const updatedMessages = [userMessage, ...(messages ?? [])];
     setMessages(updatedMessages);
     saveMessagesToLocalStorage(updatedMessages);
     reset();
@@ -121,7 +121,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
           url: msg.url || "",
           sender: "bot" as const,
         }));
-        const updatedWithBotMessages = [...updatedMessages, ...botMessages];
+        const updatedWithBotMessages = [...botMessages, ...updatedMessages];
         setMessages(updatedWithBotMessages);
         saveMessagesToLocalStorage(updatedWithBotMessages, response?.tokens_remaining);
 

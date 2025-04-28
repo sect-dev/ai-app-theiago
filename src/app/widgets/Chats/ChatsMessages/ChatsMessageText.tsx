@@ -47,16 +47,17 @@ const ChatsMessageText: FC<ComponentProps> = ({ messages, loading, characterInfo
     setLightboxOpen(true);
   };
 
-  useEffect(() => {
-    if (messages && messages.length > 2) {
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 350);
-    }
-  }, [messages, loading]);
-
   return (
-    <>
+    <div className="flex flex-col-reverse gap-[12px] h-full overflow-y-auto">
+      {/* Loader */}
+      {loading && (
+        <div className="animate-fadeIn space-y-[6px] pt-[32px]">
+          <div className="animate-fadeIn flex items-center justify-center bg-[#21233A] w-[80px] h-[28px] text-[14px] font-medium rounded-[20px] rounded-bl-none">
+            <MessageLoading />
+          </div>
+          <p className="font-medium text-[12px] opacity-50 tracking-[-0.04em]">Typing message</p>
+        </div>
+      )}
       {messages?.map((msg, index) => {
         // VIDEO
         if (msg.type === "video" || msg.type === "video_paywall") {
@@ -117,17 +118,6 @@ const ChatsMessageText: FC<ComponentProps> = ({ messages, loading, characterInfo
           </div>
         );
       })}
-
-      {/* Loader */}
-      {loading && (
-        <div className="animate-fadeIn space-y-[6px] pt-[32px]">
-          <div className="animate-fadeIn flex items-center justify-center bg-[#21233A] w-[80px] h-[28px] text-[14px] font-medium rounded-[20px] rounded-bl-none">
-            <MessageLoading />
-          </div>
-          <p className="font-medium text-[12px] opacity-50 tracking-[-0.04em]">Typing message</p>
-        </div>
-      )}
-
       {/* Lightbox */}
       <Lightbox
         open={lightboxOpen}
@@ -153,7 +143,7 @@ const ChatsMessageText: FC<ComponentProps> = ({ messages, loading, characterInfo
       />
 
       <div ref={messagesEndRef} />
-    </>
+    </div>
   );
 };
 
