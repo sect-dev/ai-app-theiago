@@ -59,7 +59,11 @@ const HomePage: FC<ComponentProps> = ({
         setSelectedCharacterId(characterId);
         localStorage.setItem("tokens", totalTokens.toString());
         setTokens(totalTokens);
-        navigate.push("/chats");
+        if (characterId === "None") {
+          navigate.push("/")
+        } else {
+          navigate.push("/chats");
+        }
       }
     } catch (error) {
       console.log("error");
