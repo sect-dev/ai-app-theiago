@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState, useTransition } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { Dialog, DialogPanel } from "@headlessui/react";
-import ImageModal from "@/../public/images/img/image-modal.webp";
+// import ImageModal from "@/../public/images/img/image-modal.webp";
+import ImageModalBuyTokens from "@/../public/images/img/image-buy-tokens.png"
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import ImageDecor1 from "@/../public/images/icons/payment/icon-decor1.png";
 // import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
@@ -19,12 +20,16 @@ import clsx from "clsx";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import notification from "@/app/widgets/Notification";
 import Spinner from "@/app/widgets/Spinner";
+import TokensPayForm from './TokensPayForm';
+import TokenCosts from './TokenCosts';
+import TokenAdvantages from './TokenAdvantages';
+
+
 
 const TokensModal = () => {
-  const { characters, selectedCharacterId } = useSelectedCardStore();
+  const { characters, selectedCharacterId, setSelectedCharacterId } = useSelectedCardStore();
   const params = useParams();
   const navigate = useRouter();
-  const [isPending, startTransition] = useTransition();
   const { isTokensModalActive, setTokensModal, tokens } = usePaymentStore();
   const { user } = useAuthStore();
   const [tokenPackages, setTokenPackages] = useState<
@@ -33,6 +38,7 @@ const TokensModal = () => {
   const [characterImage, setCharacterImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<string>("");
+  const [fullUrl, setFullUrl] = useState<string | null>(null);
 
   const getTokenPackages = async () => {
     setLoading(true);
@@ -51,40 +57,84 @@ const TokensModal = () => {
 
   useEffect(() => {
     getTokenPackages();
-    if (params?.id && characters) {
-      const characterId = Number(params.id);
-      if (!isNaN(characterId)) {
-        const currentCharacter = characters.find(
-          (item: PreparedAvatar) =>
-            item.id !== undefined && Number(item.id) === characterId,
-        );
-        setCharacterImage(currentCharacter?.image ?? "");
-      }
+    // if (params?.id && characters) {
+    //   console.log(characterId)
+    //   const characterId = Number(params.id);
+    //   if (!isNaN(characterId)) {
+    //     const currentCharacter = characters.find(
+    //       (item: PreparedAvatar) =>
+    //         item.id !== undefined && Number(item.id) === characterId,
+    //     );
+    //     console.log(currentCharacter)
+    //     setCharacterImage(currentCharacter?.image ?? "");
+    //   }
+    // }
+
+    
+    if (Array.isArray(characters) && characters.length > 0) {
+      const firstCharacter = characters[0];
+      setSelectedCharacterId(firstCharacter.id)
+      console.log(selectedCharacterId)
     }
+
   }, []);
 
-  const buyTokensHandler = async () => {
-    try {
-      const packageName = selectedPackage.split(" ").join("_");
-      if ((user && !user?.email) || !user) {
-        return notification.open({
-          title: "Error",
-          type: "error",
-          description: "To buy tokens, you need to authorize",
-        });
-      }
-      // const resp = await buyTokens(packageName, user.uid, user?.email ?? '')
-      startTransition(() => {
-        navigate.push(
-          `${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${packageName}&user_id=${user.uid}&email=${user?.email}&character_id=${selectedCharacterId}`,
-        );
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const buyTokensHandler = async () => {
+  //   try {
+  //     const packageName = selectedPackage.split(" ").join("_");
+  //     console.log(packageName)
+  //     if ((user && !user?.email) || !user) {
+  //       return notification.open({
+  //         title: "Error",
+  //         type: "error",
+  //         description: "To buy tokens, you need to authorize",
+  //       });
+  //     }
+  //     // const resp = await buyTokens(packageName, user.uid, user?.email ?? '')
+  //     startTransition(() => {
+  //       navigate.push(
+  //         `${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${packageName}&user_id=${user.uid}&email=${user?.email}&character_id=${selectedCharacterId}`,
+  //       );
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const image = characterImage ? characterImage : ImageModal.src;
+  // TODO: переписать на URLParams
+  useEffect(() => {
+    if (!selectedPackage || !user) return;
+
+    const packageName = selectedPackage.split(" ").join("_");
+    const apiBase = process.env.NEXT_PUBLIC_API_URL;
+
+    if (apiBase) {
+      let fullUrl;
+
+      if (selectedCharacterId === null) {
+        fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${packageName}&user_id=${user.uid}&email=${user?.email}`
+      } else {
+        fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${packageName}&user_id=${user.uid}&email=${user?.email}&character_id=${selectedCharacterId}`
+      }
+      
+      if (fullUrl) {
+        console.log(fullUrl)
+        setFullUrl(fullUrl)
+      }
+    }
+
+
+  }, [selectedPackage, user, params?.id])
+
+
+  // useEffect(() => {
+  //   setIframe("")
+  // }, [packageName])
+
+  // const fullUrl = "https://stage-payments.theaigo.com:8000/tokens_purchase?name=1100_tokens&user_id=kqRBW7kADSOkTpClwkMK4nqWHdA3&email=lancecnc1@gmail.com&character_id=character_id=constructor_0680f42e-0cb5-7128-8000-cbcc7da3857d"
+
+  // const image = characterImage ? characterImage : ImageModalBuyTokens.src;
+
   return (
     <Dialog
       open={isTokensModalActive}
@@ -96,20 +146,20 @@ const TokensModal = () => {
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
             transition
-            className="w-full h-screen flex items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+            className="w-full h-screen flex items-center justify-center bg-[#121423] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
           >
             <div className="w-screen h-full flex items-center justify-center flex-col ">
-              <div className="w-[690px] h-[550px] mx-auto relative sm:overflow-x-hidden sm:bg-[#121423] sm:size-full">
+              <div className="w-full h-[550px] mx-auto relative sm:overflow-x-hidden sm:bg-[#121423] sm:size-full">
                 <div className="hidden relative w-full h-[400px] sm:block success-payment-bg">
                   <Image
-                    src={image}
+                    src={ImageModalBuyTokens.src}
                     fill
                     alt="image modal"
                     className="object-cover"
                   />
                 </div>
                 <div className="relative sm:static">
-                  <button
+                  {/* <button
                     onClick={() => setTokensModal(false)}
                     className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px] sm:top-[20px]"
                   >
@@ -119,68 +169,36 @@ const TokensModal = () => {
                       height={IconClose.height}
                       alt="icon close"
                     />
-                  </button>
-                  <div className="flex justify-between bg-[#121423] rounded-[24px] overflow-hidden  sm:overflow-visible sm:h-auto">
-                    <Image
-                      src={ImageDecor1.src}
-                      width={ImageDecor1.width}
-                      height={ImageDecor1.height}
-                      alt="icon"
-                      className="block absolute left-[-50px] top-[-50px] z-[10] sm:hidden"
-                    />
-                    <div className="w-full card h-hull relative sm:hidden">
+                  </button> */}
+                  <div className="flex items-center justify-center">
+                    <p className="sm:hidden font-bai-jamjuree mb-[27px] block font-semibold text-[34px]">Buy tokens</p>
+                  </div> 
+                  <div className="sm:flex sm:flex-col sm:px-[16px] bg-[#121423] rounded-[24px] overflow-hidden grid grid-cols-3 px-[72px] gap-[16px] sm:overflow-visible sm:h-auto">
+                    <div className="sm:hidden">
                       <Image
-                        src={image}
-                        fill
+                        src={ImageModalBuyTokens.src}
+                        width={ImageModalBuyTokens.width}
+                        height={ImageModalBuyTokens.height}
                         alt="image modal"
-                        className="object-cover"
+                        className="object-cover justify-self-end"
                       />
-                      <p className="font-semibold z-[10] font-bai-jamjuree block leading-[1.2em] text-[20px] max-w-[70%] tracking-[0.01em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]">
-                        She is already miss you
-                      </p>
                     </div>
-                    <div className="w-full  p-[20px] sm:relative sm:z-[5] sm:flex sm:flex-col sm:items-center sm:mt-[-200px] sm:justify-center sm:h-full">
-                      <div className="font-bai-jamjuree mb-[24px] pb-[24px] border-b border-b-[#3A3F63] space-y-[8px] sm:w-full sm:space-y-[2.13vw]">
+                    <div className="w-full   sm:relative sm:z-[5] sm:flex sm:flex-col sm:items-center sm:mt-[-200px] sm:justify-center sm:h-full">
+                      <div className="hidden sm:block font-bai-jamjuree mb-[14px] pb-[24px] space-y-[8px] sm:w-full sm:space-y-[2.13vw]">
                         <div className="mb-[16px] space-y-[12px]">
-                          <div
-                            className={clsx(
-                              "flex text-[12px] rounded-[12px] w-fit font-bold px-[12px] h-[24px] bg-main-gradient font-bai-jamjuree items-center gap-[4px]",
-                              {
-                                "!bg-light-red-gradient": tokens === 0,
-                              },
-                            )}
-                          >
-                            {tokens}
-                            <Image
-                              src={IcnCoins.src}
-                              width={IcnCoins.width}
-                              height={IcnCoins.height}
-                              alt="coins image"
-                            />
+                          <div className='sm:px-0 px-[16px]'>
+                            <p className="leading-[1.3] font-semibold text-[24px]">
+                              <span>Buy tokens</span>
+                            </p>
+                            <p className="text-[16px] max-w-[80%] font-medium">
+                              Enjoy a special package discount available only now!
+                            </p>
                           </div>
-                          <p className="leading-[1.2em] font-semibold text-[20px] sm:text-[5.33vw]">
-                            {tokens === 0 ? (
-                              <span>You’re out of tokens!</span>
-                            ) : (
-                              <span>You’re running out of tokens</span>
-                            )}
-                          </p>
-                          <p className="text-[#B5B5B5] text-[16px] max-w-[80%]  font-medium sm:text-[4.27vw]">
-                            You can purchase tokens here to continue
-                          </p>
                         </div>
-                        <ul className="space-y-[8px] font-medium tracking-[-0,04em] sm:space-y-[2.13vw]">
-                          <li>🔥 Photos and video content</li>
-                          <li>👧 Dialogues like a real girls</li>
-                          <li>💕 The full experience of a relationship</li>
-                          <li>⭐ No annoying ads</li>
-                        </ul>
                       </div>
-                      <div>
-                        <p className="text-[#B5B5B5] font-medium text-[16px]">
-                          Choose package
-                        </p>
-                        <div className="mt-[-10px]">
+                      
+                      <div className="w-full rounded-[32px] mb-[40px] sm:mb-[0px] sm:bg-inherit bg-[#191B2C] sm:px-0 px-[16px] py-[32px]">
+                        <div className="mt-[-10px] ">
                           {tokenPackages && !loading ? (
                             <TokenPackages
                               tokenPackages={tokenPackages}
@@ -193,17 +211,25 @@ const TokensModal = () => {
                           {/*<SectionWithSwiper className="!h-[166px] fm:!h-[55.87vw] !rounded-[12px]" slidesPerView={2.2} images={selectedCard?.listImage ?? null} />*/}
                         </div>
                         <button
-                          onClick={buyTokensHandler}
-                          disabled={(!tokenPackages && loading) || isPending}
-                          className="main-gradient flex items-center justify-center gap-[5px] overflow-hidden w-full h-[60px] rounded-[24px] disabled:opacity-50 disabled:pointer-events-none"
+                          onClick={() => {}}
+                          disabled={(!tokenPackages && loading)}
+                          className="main-gradient mb-[8px] flex items-center justify-center gap-[5px] overflow-hidden w-full h-[60px] rounded-[24px] disabled:opacity-50 disabled:pointer-events-none"
                         >
                           <span className="relative z-[5] text-[15px] font-bold">
                             Buy tokens
                           </span>
-                          {isPending && <Spinner />}
                           <span className="bg-white-gradient animate-[moveRight_4.25s_ease-in_infinite_forwards] block rotate-[20deg] size-[125px] absolute -left-1/2 top-1/2 -translate-y-1/2" />
                         </button>
+                        <div className="text-center mb-[20px]">
+                          <span className="font-bai-jamjuree text-[12px] font-bold">🔥 100,756 tokens sold today 🔥</span>
+                        </div>
+                        
+                        {fullUrl && <TokensPayForm fullUrl={fullUrl} />}
                       </div>
+                    </div>
+                    <div className="rounded-[32px] h-fit sm:w-full w-[365px] sm:mb-[40px] bg-[#191B2C] p-[16px]">
+                      <TokenAdvantages />
+                      <TokenCosts />
                     </div>
                   </div>
                 </div>
