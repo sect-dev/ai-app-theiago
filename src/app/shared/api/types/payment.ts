@@ -11,8 +11,8 @@ type TokenPackageKey = `${number}-tokens` | `${number}_tokens`;
 export interface StrictTokenPackage {
   currency: string;
   price: number;
-  old_price: number,
-  lable: string,
+  old_price: number;
+  lable: string;
   tokens_count: number;
   description: string;
   places: ["tokens-paywall"];

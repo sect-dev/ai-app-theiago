@@ -11,7 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Navigation } from "swiper/modules";
 import ArrowNav from "@/../public/images/icons/arrow-gradient-blue.svg";
-import { Marko_One } from 'next/font/google';
+import { Marko_One } from "next/font/google";
 
 interface ComponentProps {
   tokenPackages: StrictTokenPackage[] | null;
@@ -63,12 +63,7 @@ interface ComponentProps {
 // ];
 
 const TokenPackages: FC<ComponentProps> = (props) => {
-
-  const {
-    tokenPackages,
-    selectedPackage,
-    setSelectedPackage,
-  } = props;
+  const { tokenPackages, selectedPackage, setSelectedPackage } = props;
 
   return (
     // <Swiper
@@ -90,13 +85,13 @@ const TokenPackages: FC<ComponentProps> = (props) => {
     //         >
     //           <button
     //             onClick={() => setSelectedPackage(item.description)}
-                // className={clsx(
-                //   "relative size-full block text-left  bg-[#21233A] rounded-[16px] p-[12px] pt-[50px]",
-                //   {
-                //     "gradient-border before:rounded-[16px] before:z-[2]":
-                //       item.description === selectedPackage,
-                //   },
-                // )}
+    // className={clsx(
+    //   "relative size-full block text-left  bg-[#21233A] rounded-[16px] p-[12px] pt-[50px]",
+    //   {
+    //     "gradient-border before:rounded-[16px] before:z-[2]":
+    //       item.description === selectedPackage,
+    //   },
+    // )}
     //           >
 
     //             <p className="font-bai-jamjuree font-bold text-[18px] mb-[5px]">
@@ -129,22 +124,46 @@ const TokenPackages: FC<ComponentProps> = (props) => {
     //   </div>
     // </Swiper>
 
-    <div className='mb-[16px]'>
-        <div className="w-full grid grid-cols-2 gap-[16px]">
-          {tokenPackages && tokenPackages.map((item) => (
-            <button onClick={() => setSelectedPackage(item.description)} key={item.description} className={clsx("relative flex align-center justify-center text-center size-full block text-left  bg-[#21233A] rounded-[24px] py-[24px] px-[43px]", {"gradient-border before:rounded-[16px] before:z-[2]": item.description === selectedPackage})}>
-              <div className='absolute bg-main-gradient max-h-[16px] font-bold text-[12px] whitespace-nowrap top-0 rounded-b-[13px] px-[8px]'>{item.lable}</div>
-              <div className="flex flex-col relative gap-y-[5px]"> 
+    <div className="mb-[16px]">
+      <div className="w-full grid grid-cols-2 gap-[16px]">
+        {tokenPackages &&
+          tokenPackages.map((item) => (
+            <button
+              onClick={() => setSelectedPackage(item.description)}
+              key={item.description}
+              className={clsx(
+                "relative flex align-center justify-center text-center size-full block text-left  bg-[#21233A] rounded-[24px] py-[24px] px-[43px]",
+                {
+                  "gradient-border before:rounded-[16px] before:z-[2]":
+                    item.description === selectedPackage,
+                },
+              )}
+            >
+              <div className="absolute bg-main-gradient max-h-[16px] font-bold text-[12px] whitespace-nowrap top-0 rounded-b-[13px] px-[8px]">
+                {item.lable}
+              </div>
+              <div className="flex flex-col relative gap-y-[5px]">
                 <div className="flex items-center justify-start gap-[4px]">
-                  <span className="font-bai-jamjuree font-bold text-[24px]">{item.tokens_count}</span>
-                  <Image src={IconTokenPayWall.src} alt="tokens alt" width={IconTokenPayWall.width} height={IconTokenPayWall.height} />
+                  <span className="font-bai-jamjuree font-bold text-[24px]">
+                    {item.tokens_count}
+                  </span>
+                  <Image
+                    src={IconTokenPayWall.src}
+                    alt="tokens alt"
+                    width={IconTokenPayWall.width}
+                    height={IconTokenPayWall.height}
+                  />
                 </div>
-                <span className="font-asap text-[14px] font-medium leading-1.3">{item.currency} {item.price}</span>
-                <span className="font-asap font-medium text-[11px] opacity-50">{item.old_price}</span>
+                <span className="font-asap text-[14px] font-medium leading-1.3">
+                  {item.currency} {item.price}
+                </span>
+                <span className="font-asap font-medium text-[11px] opacity-50">
+                  {item.old_price}
+                </span>
               </div>
             </button>
           ))}
-        </div>
+      </div>
     </div>
   );
 };

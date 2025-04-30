@@ -21,7 +21,7 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const { setTokensModal, tokens } = usePaymentStore();
 
   const getTokensHandle = () => {
-    setTokensModal(true);
+    navigate.push("/tokens")
   };
 
   const handleSignOut = async () => {

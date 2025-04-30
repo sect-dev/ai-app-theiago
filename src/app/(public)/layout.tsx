@@ -40,7 +40,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
         <div
           className={clsx(
-            "hidden animate-fadeIn absolute left-1/2 bottom-[5vw] -translate-x-1/2 z-[10] md:block md:rounded-[24px] md:backdrop-blur-[10px] md:bg-opacity-50 md:bg-[#121423]",
+            "hidden animate-fadeIn fixed left-1/2 bottom-[5vw] -translate-x-1/2 z-[10] md:block md:rounded-[24px] md:backdrop-blur-[10px] md:bg-opacity-50 md:bg-[#121423]",
             {
               "!hidden": isMobileChatOpen || isMenuOpen,
             },

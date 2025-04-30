@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { activateTokens } from "@/app/shared/api/payment";
+import notification from "@/app/widgets/Notification";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -59,13 +60,18 @@ const HomePage: FC<ComponentProps> = ({
         setSelectedCharacterId(characterId);
         localStorage.setItem("tokens", totalTokens.toString());
         setTokens(totalTokens);
-        if (characterId === "None") {
-          navigate.push("/")
-        } else {
-          navigate.push("/chats");
-        }
+        notification.open({
+          title: "Successful purchase",
+          type: "success",
+          description: `${productItem} tokens added to your balance`,
+        });
       }
     } catch (error) {
+      notification.open({
+        title: "Successful purchase",
+        type: "error",
+        description: "Something went wrong while adding tokens",
+      });
       console.log("error");
     }
   };
@@ -89,6 +95,11 @@ const HomePage: FC<ComponentProps> = ({
       orderNumber &&
       product
     ) {
+      if (characterId === "None") {
+        navigate.push("/")
+      } else {
+        navigate.push("/chats");
+      }
       getTokens(orderNumber, product);
     }
     if (!accessToken && !tempToken && !action) {
