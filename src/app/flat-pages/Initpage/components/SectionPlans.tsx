@@ -4,6 +4,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import ImageArrow from "@/../public/images/icons/icon-payment-arrow.svg";
 import IconExpand from '@/../public/images/icons/icon-expand-white.svg';
+import { sendGTMEvent } from '@next/third-parties/google'
 import {PaymentPlan} from "@/app/shared/api/payment";
 import {calculateCostPerDay} from "@/app/shared/helpers";
 import Link from "next/link";
@@ -34,6 +35,7 @@ const SectionPlans:FC<ComponentProps> = ({paymentPlans}) => {
 
   const paymentHandle = async (item: PaymentPlan) => {
     setSelectedPrice(item)
+    sendGTMEvent({event: "switch_plan_click", type: `${selectedPrice?.id}`})
     setPlan(item.id ?? paymentPlans[1].id ?? '1_month_premium_access')
   };
 

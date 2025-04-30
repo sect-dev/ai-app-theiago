@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState, Suspense } from 'react';
 import Initpage from "@/app/flat-pages/Initpage";
+import { sendGTMEvent } from '@next/third-parties/google'
 import { getPaymentPlans } from "@/app/shared/api/payment";
 import { getCharacterInfoByConstructor } from "@/app/shared/api/getCharacterById";
 import { useSearchParams } from 'next/navigation';
@@ -14,6 +15,10 @@ const PageContent = () => {
 
   const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[] | null>(null);
   const [character, setCharacter] = useState<CharacterByConstructor | null>(null);
+
+  if (character_id && typeof window !== "undefined") {
+    sendGTMEvent({event: "paywall_show", placement: "quiz"})
+  }
 
   useEffect(() => {
     const fetchData = async () => {

@@ -7,6 +7,7 @@ import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
 import {PaymentModalType, usePaymentStore} from "@/app/shared/store/paymentStore";
 import {useRouter} from "next/navigation";
 import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import { sendGTMEvent } from '@next/third-parties/google'
 import {activateTokens} from "@/app/shared/api/payment";
 
 interface ComponentProps {
@@ -45,6 +46,7 @@ const HomePage:FC<ComponentProps> = ({avatars,action,characterId,orderNumber, pr
     const accessToken = localStorage.getItem("accessToken");
     const tempToken = localStorage.getItem("tempToken");
     if(avatars && (action && action === 'subscription_success' || action === 'auth_success')) {
+      sendGTMEvent({event: "paywall_complete_buy", placement: "quiz", product_name: "subscription"})
       setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
     }
     if(action === 'subscription_tokens' && characterId && orderNumber && product) {
