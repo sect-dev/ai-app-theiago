@@ -83,14 +83,6 @@ const Page = () => {
     }
   }, []);
 
-  const testNotif = () => {
-    notification.open({
-          title: "Error",
-          type: "error",
-          description: "To buy tokens, you need to authorize",
-        });
-  }
-
   // const buyTokensHandler = async () => {
   //   try {
   //     const packageName = selectedPackage.split(" ").join("_");
@@ -151,7 +143,6 @@ const Page = () => {
     </div>
     <div className="bg-[#121423]">
       <div className="flex items-center justify-center">
-        <button onClick={testNotif}>test</button>
         <p className="sm:hidden font-bai-jamjuree mb-[27px] mt-[24px] block font-semibold text-[34px]">
           Buy tokens
         </p>
