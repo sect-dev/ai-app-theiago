@@ -375,7 +375,6 @@ export const getUserStatus = async (): Promise<{
       params: { token },
     });
     if (response.data) {
-      console.log(response.data);
       return { status: response.data, token: token };
     } else {
       console.error("No data received from user status API");

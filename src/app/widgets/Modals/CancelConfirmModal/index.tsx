@@ -6,8 +6,7 @@ import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { useRouter } from "next/navigation";
 
 const CancelConfirmModal = () => {
-  const { recentChats, confirmCancelSubscription, declineCancelSubscription } =
-    useSubscriptionStore();
+  const { recentChats, confirmCancelSubscription, declineCancelSubscription } = useSubscriptionStore();
   const { setSelectedCharacterId } = useSelectedCardStore();
   const router = useRouter();
 
@@ -96,34 +95,7 @@ const CancelConfirmModal = () => {
                   Cancel anyway
                 </span>
               </button>
-              {/* <div className="w-full h-full flex">
-					{recentCharacters.map((char) => (
-						<div key={char.id} className=" card-shadow card overflow-hidden cursor-grab group animate-fadeIn flex items-end relative p-[12px] h-full rounded-[20px] md:rounded-[24px]">
-							<Image
-								src={`${char.image}?format=webp&quality=85&width=282&height=332`}
-								// sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
-								// fill
-								height={332}
-								width={282}
-								alt="image"
-								loading="lazy"
-								className=""
-							/>
-						</div>
-					))}
-				</div> */}
-
-              {/* <button onClick={declineCancelSubscription}>
-					Вернуться
-				</button>
-				<button 
-					onClick={confirmCancelSubscription}
-					className="confirm-button"
-				>
-					Да, отменить
-				</button> */}
             </div>
-            {/* {recentChats?.map((item) => (<li key={item.id}>{item.id}</li>))} */}
           </div>
         </DialogPanel>
       </div>
