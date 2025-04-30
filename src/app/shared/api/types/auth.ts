@@ -1,7 +1,7 @@
 import { User } from "firebase/auth";
 
 export interface FirebaseUser extends User {
-  accessToken: string
+  accessToken: string;
   stsTokenManager: {
     refreshToken: string;
     accessToken: string;
@@ -13,8 +13,8 @@ export interface FirebaseUser extends User {
   appName: string;
 }
 
-export type EmailLinkAuthResponse = 
-  | { 
+export type EmailLinkAuthResponse =
+  | {
       success: true;
       message: string;
     }

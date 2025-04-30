@@ -1,20 +1,22 @@
-'use client'
-import React, { useEffect, useState, Suspense } from 'react';
+"use client";
+import React, { useEffect, useState, Suspense } from "react";
 import Initpage from "@/app/flat-pages/Initpage";
 import { sendGTMEvent } from '@next/third-parties/google'
 import { getPaymentPlans } from "@/app/shared/api/payment";
 import { getCharacterInfoByConstructor } from "@/app/shared/api/getCharacterById";
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
 import { PaymentPlan } from "@/app/shared/api/payment";
 import { CharacterByConstructor } from "@/app/shared/api/types";
 import InitpageSkeleton from "@/app/flat-pages/Initpage/InitpageSkeleton";
 
 const PageContent = () => {
   const searchParams = useSearchParams();
-  const character_id = searchParams.get('character_id');
+  const character_id = searchParams.get("character_id");
 
   const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[] | null>(null);
-  const [character, setCharacter] = useState<CharacterByConstructor | null>(null);
+  const [character, setCharacter] = useState<CharacterByConstructor | null>(
+    null,
+  );
 
   if (character_id && typeof window !== "undefined") {
     sendGTMEvent({event: "paywall_show", placement: "quiz"})
@@ -25,12 +27,14 @@ const PageContent = () => {
       try {
         const [plans, characterData] = await Promise.all([
           getPaymentPlans(),
-          getCharacterInfoByConstructor(character_id ?? 'constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10')
+          getCharacterInfoByConstructor(
+            character_id ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
+          ),
         ]);
         setPaymentPlans(plans);
         setCharacter(characterData);
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
 

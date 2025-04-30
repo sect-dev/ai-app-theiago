@@ -1,85 +1,95 @@
-import React, {FC, useRef} from 'react';
-import {useClickOutside} from "@/app/shared/hooks/useClickOutside";
+import React, { FC, useRef } from "react";
+import { useClickOutside } from "@/app/shared/hooks/useClickOutside";
 
 const photoPrompt = [
   {
-    title: 'Breasts ',
-    value: 'Show me your gorgeous naked breasts please',
+    title: "Breasts ",
+    value: "Show me your gorgeous naked breasts please",
     id: 1,
-    image: '🍒'
+    image: "🍒",
   },
   {
-    title: 'Butt ',
-    value: 'Send me a photo of your beautiful butt please',
+    title: "Butt ",
+    value: "Send me a photo of your beautiful butt please",
     id: 2,
-    image: '🌰'
+    image: "🌰",
   },
   {
-    title: 'Pussy ',
-    value: 'Send me a photo of how you are lying on your back and masturbating your wet dripping pussy please',
+    title: "Pussy ",
+    value:
+      "Send me a photo of how you are lying on your back and masturbating your wet dripping pussy please",
     id: 3,
-    image: '🐱'
+    image: "🐱",
   },
   {
-    title: 'Sex ',
-    value: 'Send me a photo how you are enjoying hot and passionate sexual intercourse in a cowgirl pose please',
+    title: "Sex ",
+    value:
+      "Send me a photo how you are enjoying hot and passionate sexual intercourse in a cowgirl pose please",
     id: 4,
-    image: '🔞'
+    image: "🔞",
   },
   {
-    title: 'Anal ',
-    value: 'Send me a photo of you having an intense anal doggystyle sex',
+    title: "Anal ",
+    value: "Send me a photo of you having an intense anal doggystyle sex",
     id: 5,
-    image: '🍆'
+    image: "🍆",
   },
   {
-    title: 'Blowjob ',
-    value: 'Send me a selfie how you are doing a blowjob on your knees please',
+    title: "Blowjob ",
+    value: "Send me a selfie how you are doing a blowjob on your knees please",
     id: 6,
-    image: '🫦'
+    image: "🫦",
   },
   {
-    title: 'Custom ',
+    title: "Custom ",
     id: 7,
-    image: '✏️'
+    image: "✏️",
   },
-]
+];
 
 const textPrompt = [
   {
-    title: 'Send me... ',
-    id: 1
+    title: "Send me... ",
+    id: 1,
   },
   {
-    title: 'Show me... ',
-    id: 2
+    title: "Show me... ",
+    id: 2,
   },
   {
-    title: 'Send... ',
-    id: 3
+    title: "Send... ",
+    id: 3,
   },
   {
-    title: 'Can i see... ',
-    id: 4
+    title: "Can i see... ",
+    id: 4,
   },
-]
+];
 
 interface ComponentProps {
   closeModal: () => void;
   onSelectMessage: (text: string) => void;
 }
 
-const ChatsMessageModal:FC<ComponentProps> = ({closeModal,onSelectMessage}) => {
+const ChatsMessageModal: FC<ComponentProps> = ({
+  closeModal,
+  onSelectMessage,
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
   useClickOutside(modalRef, closeModal);
 
   return (
-    <div ref={modalRef} className="animate-fadeIn chats-suggestion-modal w-[187px] absolute right-[60px] bottom-[calc(100%+10px)] space-y-[4px] z-[5]">
+    <div
+      ref={modalRef}
+      className="animate-fadeIn chats-suggestion-modal w-[187px] absolute right-[60px] bottom-[calc(100%+10px)] space-y-[4px] z-[5]"
+    >
       <div className="py-[12px] px-[6px] bg-[#21233A] rounded-t-[12px] rounded-b-[4px]">
         <p className="text-[14px] font-semibold mb-[10px]">Ask a photo with</p>
         <ul className="">
           {photoPrompt.map((item) => {
-            const prompt = item.title.includes('Custom') ? 'Send me ' : `${item.value}`
+            const prompt = item.title.includes("Custom")
+              ? "Send me "
+              : `${item.value}`;
             return (
               <li key={item.id} className="">
                 <button
@@ -87,26 +97,30 @@ const ChatsMessageModal:FC<ComponentProps> = ({closeModal,onSelectMessage}) => {
                   className="flex items-center gap-[8px] text-left w-full py-[6px] group"
                 >
                   <span className="text-[14px]">{item.image}</span>
-                  <span className="text-[12px] font-medium border-b border-b-transparent transition-border duration-300 group-hover:border-b-white">{item.title}</span>
+                  <span className="text-[12px] font-medium border-b border-b-transparent transition-border duration-300 group-hover:border-b-white">
+                    {item.title}
+                  </span>
                 </button>
               </li>
-            )
+            );
           })}
         </ul>
       </div>
       <div className="py-[12px] px-[6px] bg-[#21233A] rounded-b-[12px] rounded-t-[4px] ">
         <ul className="mb-[12px]">
-          {textPrompt.map(item => {
+          {textPrompt.map((item) => {
             return (
               <li key={item.id} className="group">
                 <button
                   onClick={() => onSelectMessage(item.title)}
                   className="block text-left w-full py-[6px] text-[12px] font-medium "
                 >
-                  <span className="border-b border-b-transparent transition-border duration-300 group-hover:border-b-white">{item.title}</span>
+                  <span className="border-b border-b-transparent transition-border duration-300 group-hover:border-b-white">
+                    {item.title}
+                  </span>
                 </button>
               </li>
-            )
+            );
           })}
         </ul>
         <p className="text-[10px] font-medium opacity-50 leading-[1.2em] tracking-[-0.04em]">

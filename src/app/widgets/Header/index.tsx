@@ -6,8 +6,8 @@ import IcnPlus from "@/../public/images/icons/icon-plus.svg";
 import IcnCoins from "@/../public/images/icons/icon-coins.svg";
 import clsx from "clsx";
 import { useAuthStore } from "@/app/shared/store/authStore";
-import {signOutUser} from "@/app/shared/api/auth";
-import {useRouter} from "next/navigation";
+import { signOutUser } from "@/app/shared/api/auth";
+import { useRouter } from "next/navigation";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 
 interface ComponentProps {
@@ -21,13 +21,13 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const { setTokensModal, tokens } = usePaymentStore();
 
   const getTokensHandle = () => {
-    setTokensModal(true);
+    navigate.push("/tokens")
   };
 
   const handleSignOut = async () => {
     try {
       await signOutUser();
-      navigate.push('/')
+      navigate.push("/");
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -48,7 +48,7 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
                   {
                     "origin-[2px] rotate-[45deg] sm:origin-[0.356vw]":
                       isMenuOpen,
-                  }
+                  },
                 )}
               />
               <span
@@ -56,7 +56,7 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
                   "block h-[2px] w-full rounded-[5px] bg-white transition-opacity duration-300",
                   {
                     "opacity-0": isMenuOpen,
-                  }
+                  },
                 )}
               />
               <span
@@ -65,7 +65,7 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
                   {
                     "origin-[1px] rotate-[-45deg] sm:origin-[0.565vw]":
                       isMenuOpen,
-                  }
+                  },
                 )}
               />
             </button>

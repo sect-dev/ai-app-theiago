@@ -10,7 +10,9 @@ type TokenPackageKey = `${number}-tokens` | `${number}_tokens`;
 
 export interface StrictTokenPackage {
   currency: string;
-  amount: number;
+  price: number;
+  old_price: number;
+  lable: string;
   tokens_count: number;
   description: string;
   places: ["tokens-paywall"];
@@ -24,21 +26,17 @@ interface TokenPackages {
 
 const tokenPackages: TokenPackages = {
   "100-tokens": {
-    "currency": "USD",
-    "amount": 9.99,
-    "tokens_count": 100,
-    "description": "100 tokens",
-    "places": [
-      "tokens-paywall"
-    ]
+    currency: "USD",
+    amount: 9.99,
+    tokens_count: 100,
+    description: "100 tokens",
+    places: ["tokens-paywall"],
   },
   "500_tokens": {
-    "currency": "USD",
-    "amount": 49.99,
-    "tokens_count": 500,
-    "description": "500 tokens",
-    "places": [
-      "tokens-paywall"
-    ]
-  }
+    currency: "USD",
+    amount: 49.99,
+    tokens_count: 500,
+    description: "500 tokens",
+    places: ["tokens-paywall"],
+  },
 };

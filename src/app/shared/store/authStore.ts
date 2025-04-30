@@ -8,30 +8,44 @@ import {
 } from "firebase/auth";
 import { auth } from "@/firebase";
 // import notification from "@/app/widgets/Notification";
-import {FirebaseUser} from "@/app/shared/api/types/auth";
-import {getUserSubscriptionInfo, registerUserAfterPayment} from "@/app/shared/api/auth";
-import {usePaymentStore} from "@/app/shared/store/paymentStore";
-import {clearAccessTokenCookie, safeLocalStorage, setAccessTokenCookie} from "@/app/shared/helpers";
-import {ACTION_AUTH_SUCCESS, ACTION_ORGANIC, REDIRECT_URL} from "@/app/shared/consts";
+import { FirebaseUser } from "@/app/shared/api/types/auth";
+import {
+  getUserSubscriptionInfo,
+  registerUserAfterPayment,
+} from "@/app/shared/api/auth";
+import { usePaymentStore } from "@/app/shared/store/paymentStore";
+import {
+  clearAccessTokenCookie,
+  safeLocalStorage,
+  setAccessTokenCookie,
+} from "@/app/shared/helpers";
+import {
+  ACTION_AUTH_SUCCESS,
+  ACTION_ORGANIC,
+  REDIRECT_URL,
+} from "@/app/shared/consts";
 
-const loadCharactersFromLocalStorage = (): {premium: boolean | null } => {
+const loadCharactersFromLocalStorage = (): { premium: boolean | null } => {
   if (typeof window === "undefined") return { premium: null };
-  const storedPremium = localStorage.getItem('hasPremium');
+  const storedPremium = localStorage.getItem("hasPremium");
   return {
-    premium: storedPremium ? JSON.parse(storedPremium) : null
-  }
+    premium: storedPremium ? JSON.parse(storedPremium) : null,
+  };
 };
-import { IS_CLIENT } from '../consts';
+import { IS_CLIENT } from "../consts";
 
 interface AuthState {
-  isPremium: boolean | null
+  isPremium: boolean | null;
   user: User | null;
   loading: boolean;
   setUser: (user: User | null) => void;
-  isAuthModalActive: boolean
-  modalType: "login" | "register" | "forgotPass" | null,
-  setIsPremium: (value: boolean) => void
-  setAuthModal: (value: { modalType: "login" | "register" | "forgotPass" | null; isAuthModalActive: boolean }) => void;
+  isAuthModalActive: boolean;
+  modalType: "login" | "register" | "forgotPass" | null;
+  setIsPremium: (value: boolean) => void;
+  setAuthModal: (value: {
+    modalType: "login" | "register" | "forgotPass" | null;
+    isAuthModalActive: boolean;
+  }) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => {
@@ -44,9 +58,16 @@ export const useAuthStore = create<AuthState>((set) => {
     isAuthModalActive: false,
     modalType: "register",
     setUser: (user: User | null) => set({ user, loading: false }),
-    setAuthModal: (value: { modalType: "login" | "register" | "forgotPass" | null; isAuthModalActive: boolean }) => set({modalType: value.modalType, isAuthModalActive:value.isAuthModalActive}),
-    setIsPremium: (isPremium: boolean) => set({isPremium}),
-  }
+    setAuthModal: (value: {
+      modalType: "login" | "register" | "forgotPass" | null;
+      isAuthModalActive: boolean;
+    }) =>
+      set({
+        modalType: value.modalType,
+        isAuthModalActive: value.isAuthModalActive,
+      }),
+    setIsPremium: (isPremium: boolean) => set({ isPremium }),
+  };
 });
 
 onAuthStateChanged(auth, async (firebaseUser) => {
@@ -62,23 +83,29 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Проверка, является ли вход социальным (Google, Facebook, Twitter)
   const isSocialLogin = (user: User) =>
-    user.providerData.some(p =>
-      ['google.com', 'facebook.com', 'twitter.com'].includes(p.providerId)
+    user.providerData.some((p) =>
+      ["google.com", "facebook.com", "twitter.com"].includes(p.providerId),
     );
 
   // Получаем данные из URL и localStorage
-  const email = safeLocalStorage.get('emailForSignIn');
-  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-  const authSuccess = searchParams?.get('action') === ACTION_AUTH_SUCCESS;
-  const organicAuth = searchParams?.get('action') === ACTION_ORGANIC;
+  const email = safeLocalStorage.get("emailForSignIn");
+  const searchParams =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search)
+      : null;
+  const authSuccess = searchParams?.get("action") === ACTION_AUTH_SUCCESS;
+  const organicAuth = searchParams?.get("action") === ACTION_ORGANIC;
 
   // Обработка входа через email-ссылку
-  if (typeof window !== 'undefined' && isSignInWithEmailLink(auth, window.location.href)) {
+  if (
+    typeof window !== "undefined" &&
+    isSignInWithEmailLink(auth, window.location.href)
+  ) {
     try {
       const result = await signInWithEmailLink(
         auth,
         email ?? "",
-        window.location.href
+        window.location.href,
       );
       const user = result.user as FirebaseUser;
       if (result) {
@@ -88,8 +115,12 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Регистрация после успешной оплаты
         if (authSuccess) {
-          await registerUserAfterPayment(email,searchParams?.toString() ?? '');
-          window.history.replaceState({}, document.title, window.location.pathname);
+          await registerUserAfterPayment(email, searchParams?.toString() ?? "");
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+          );
         }
 
         // Загружаем данные о подписке и токенах
@@ -122,12 +153,18 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Обработка входа через социальные сети
   if (isSocialLogin(firebaseUser)) {
-    if (searchParams?.get('action') === 'subscription_success') {
+    if (searchParams?.get("action") === "subscription_success") {
       // Если пользователь пришёл после оплаты, регистрируем и показываем модалку
-      searchParams.set('action', ACTION_AUTH_SUCCESS);
+      searchParams.set("action", ACTION_AUTH_SUCCESS);
       const newUrl = `${window.location.pathname}?${searchParams.toString()}${window.location.hash}`;
-      await registerUserAfterPayment(firebaseUser.email,searchParams.toString());
-      setSuccessPaymentModal({ isSuccessPaymentModalActive: true, successPaymentModalType: ACTION_AUTH_SUCCESS });
+      await registerUserAfterPayment(
+        firebaseUser.email,
+        searchParams.toString(),
+      );
+      setSuccessPaymentModal({
+        isSuccessPaymentModalActive: true,
+        successPaymentModalType: ACTION_AUTH_SUCCESS,
+      });
       window.history.replaceState({}, document.title, newUrl);
     }
 
@@ -139,9 +176,9 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     setTokens(userInfo?.tokens ?? 0);
     setAuthModal({ modalType: null, isAuthModalActive: false });
     // Если зашел через соц.сети и нет премиума то редиректим на квиз
-    if (!userInfo?.subscription?.active) {
-      return (window.location.href = REDIRECT_URL);
-    }
+    // if (!userInfo?.subscription?.active) {
+    //   return (window.location.href = REDIRECT_URL);
+    // }
     return;
   }
 

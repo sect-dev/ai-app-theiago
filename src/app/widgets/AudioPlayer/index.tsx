@@ -2,11 +2,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import WaveSurfer from "wavesurfer.js";
 import Image from "next/image";
-import IconPlay from '@/../public/images/icons/icon-play.svg';
-import IconPause from '@/../public/images/icons/icon-pause.svg';
-import IconArrow from '@/../public/images/icons/icon-arrow-translate.svg';
+import IconPlay from "@/../public/images/icons/icon-play.svg";
+import IconPause from "@/../public/images/icons/icon-pause.svg";
+import IconArrow from "@/../public/images/icons/icon-arrow-translate.svg";
 import clsx from "clsx";
-import {useMediaStore} from "@/app/shared/store/mediaStore";
+import { useMediaStore } from "@/app/shared/store/mediaStore";
 
 interface AudioPlayerProps {
   audioUrl: string;
@@ -19,7 +19,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showText, setShowText] = useState(false);
   const { currentPlaying, setCurrentPlaying } = useMediaStore();
-  const audioUrlNoSpace = audioUrl.replace(' ', '%20');
+  const audioUrlNoSpace = audioUrl.replace(" ", "%20");
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -36,7 +36,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
       fillParent: true,
     });
 
-
     wavesurferRef.current?.load(audioUrlNoSpace);
 
     wavesurferRef.current?.on("finish", () => {
@@ -44,7 +43,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
     });
 
     return () => {
-      if(wavesurferRef.current && typeof window !== 'undefined') {
+      if (wavesurferRef.current && typeof window !== "undefined") {
         wavesurferRef.current?.destroy();
       }
       setCurrentPlaying(null);
@@ -54,7 +53,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   const togglePlay = () => {
     if (wavesurferRef.current) {
       if (!isPlaying) {
-        setCurrentPlaying('audio');
+        setCurrentPlaying("audio");
         wavesurferRef.current?.playPause();
         setIsPlaying(wavesurferRef.current?.isPlaying());
       } else {
@@ -65,12 +64,11 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   };
 
   useEffect(() => {
-    if (currentPlaying === 'video' && wavesurferRef.current) {
+    if (currentPlaying === "video" && wavesurferRef.current) {
       wavesurferRef.current?.pause();
       setIsPlaying(false);
     }
   }, [currentPlaying]);
-
 
   const handleShowText = () => {
     setShowText(!showText);
@@ -85,14 +83,30 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
           onClick={togglePlay}
         >
           {isPlaying ? (
-            <Image src={IconPause.src} width={10} height={11} alt="Pause icon" className="relative z-[5]" />
+            <Image
+              src={IconPause.src}
+              width={10}
+              height={11}
+              alt="Pause icon"
+              className="relative z-[5]"
+            />
           ) : (
-            <Image src={IconPlay.src} width={10} height={13} alt="Play icon" className="relative z-[5]" />
+            <Image
+              src={IconPlay.src}
+              width={10}
+              height={13}
+              alt="Play icon"
+              className="relative z-[5]"
+            />
           )}
         </button>
 
         {/* Визуализация аудиоволн */}
-        <div id={audioUrlNoSpace} ref={containerRef} className="w-full h-[20px]" />
+        <div
+          id={audioUrlNoSpace}
+          ref={containerRef}
+          className="w-full h-[20px]"
+        />
 
         {/* Кнопка для показа текста */}
         <button
@@ -104,7 +118,10 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
             width={5}
             height={10}
             alt="icon arrow"
-            className={clsx("w-[5px] h-[10px] transition-transform duration-300", { "rotate-[-90deg]": showText })}
+            className={clsx(
+              "w-[5px] h-[10px] transition-transform duration-300",
+              { "rotate-[-90deg]": showText },
+            )}
           />
           {!showText && (
             <span className="text-[#0680E6] font-medium text-[12px]">A</span>
@@ -113,7 +130,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
       </div>
 
       {showText && (
-        <p className="animate-fadeIn pt-[10px] text-[14px] !opacity-50 font-medium leading-[1.2em]">{text}</p>
+        <p className="animate-fadeIn pt-[10px] text-[14px] !opacity-50 font-medium leading-[1.2em]">
+          {text}
+        </p>
       )}
     </div>
   );

@@ -30,7 +30,7 @@ export default {
       backgroundImage: {
         "main-gradient": "linear-gradient(180deg, #049AEF 0%, #0862DC 100%)",
         "card-gradient":
-          "linear-gradient(180deg, rgba(0, 0, 0, 0) 66.81%, rgba(0, 0, 0, 0.35) 85.47%)",
+          "linear-gradient(180deg, rgba(0, 0, 0, 0) 66.81%, rgba(0, 0, 0, 0.35) 85.47%)", 
         "white-gradient":
           "linear-gradient(246.16deg, rgba(217, 217, 217, 0.38) 9.56%, rgba(217, 217, 217, 0) 85.17%)",
         "button-gradient": `linear-gradient(95.62deg, #8E59FF 9.06%, #B659FF 104.43%), linear-gradient(180deg, #9208FF 0%, #B009FF 100%)`,

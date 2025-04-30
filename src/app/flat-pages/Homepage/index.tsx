@@ -1,61 +1,112 @@
-'use client'
-import React, {FC, useEffect} from 'react';
+"use client";
+import React, { FC, useEffect } from "react";
 import FavoritesGirls from "@/app/widgets/FavoritesGirls";
-import {Character} from "@/app/shared/api/types";
+import { Character } from "@/app/shared/api/types";
 import CardsList from "@/app/widgets/CardsList";
-import {signInAnonymouslyHandler} from "@/app/shared/api/auth";
-import {PaymentModalType, usePaymentStore} from "@/app/shared/store/paymentStore";
-import {useRouter} from "next/navigation";
-import {useSelectedCardStore} from "@/app/shared/store/publicStore";
+import { signInAnonymouslyHandler } from "@/app/shared/api/auth";
+import {
+  PaymentModalType,
+  usePaymentStore,
+} from "@/app/shared/store/paymentStore";
+import { useRouter } from "next/navigation";
+import { useSelectedCardStore } from "@/app/shared/store/publicStore";
+import { activateTokens } from "@/app/shared/api/payment";
 import { sendGTMEvent } from '@next/third-parties/google'
-import {activateTokens} from "@/app/shared/api/payment";
+import notification from "@/app/widgets/Notification";
 
 interface ComponentProps {
-  avatars: Character[] | null
-  action: PaymentModalType | null
-  characterId: string | null
-  orderNumber: string | null
-  product: string | null
+  avatars: Character[] | null;
+  action: PaymentModalType | null;
+  characterId: string | null;
+  orderNumber: string | null;
+  product: string | null;
 }
 
-const HomePage:FC<ComponentProps> = ({avatars,action,characterId,orderNumber, product}) => {
-  const {setSuccessPaymentModal,setTokens, tokens} = usePaymentStore()
-  const {setSelectedCharacterId} = useSelectedCardStore()
+const HomePage: FC<ComponentProps> = ({
+  avatars,
+  action,
+  characterId,
+  orderNumber,
+  product,
+}) => {
+  const { setSuccessPaymentModal, setTokens, tokens } = usePaymentStore();
+  const { setSelectedCharacterId } = useSelectedCardStore();
   const navigate = useRouter();
-  const favoriteAvatars = avatars && avatars?.filter(item => item.top_horizontal_list_position).sort((a,b) => a.top_horizontal_list_position - b.top_horizontal_list_position) || null
-  const simpleAvatars = avatars && avatars?.filter(item => item.tags).filter(item => !item.top_horizontal_list_position).sort((a,b) => a.position - b.position) || null
-  const tags: string[] = Array.from(new Set(simpleAvatars?.flatMap(avatar => avatar.tags ?? [])));
+  const favoriteAvatars =
+    (avatars &&
+      avatars
+        ?.filter((item) => item.top_horizontal_list_position)
+        .sort(
+          (a, b) =>
+            a.top_horizontal_list_position - b.top_horizontal_list_position,
+        )) ||
+    null;
+  const simpleAvatars =
+    (avatars &&
+      avatars
+        ?.filter((item) => item.tags)
+        .filter((item) => !item.top_horizontal_list_position)
+        .sort((a, b) => a.position - b.position)) ||
+    null;
+  const tags: string[] = Array.from(
+    new Set(simpleAvatars?.flatMap((avatar) => avatar.tags ?? [])),
+  );
 
-  const getTokens = async (orderNumber:string, product: string) => {
+  const getTokens = async (orderNumber: string, product: string) => {
     try {
-      const response = await activateTokens(orderNumber)
-      if(response) {
-        const productItem = product.split('_')[0];
+      const response = await activateTokens(orderNumber);
+      if (response) {
+        const productItem = product.split("_")[0];
         const totalTokens = +tokens + +productItem;
         setSelectedCharacterId(characterId);
-        localStorage.setItem('tokens', totalTokens.toString());
+        localStorage.setItem("tokens", totalTokens.toString());
         setTokens(totalTokens);
-        navigate.push('/chats');
+        notification.open({
+          title: "Successful purchase",
+          type: "success",
+          description: `${productItem} tokens added to your balance`,
+        });
       }
     } catch (error) {
-      console.log('error')
+      notification.open({
+        title: "Successful purchase",
+        type: "error",
+        description: "Something went wrong while adding tokens",
+      });
+      console.log("error");
     }
-  }
+  };
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     const tempToken = localStorage.getItem("tempToken");
-    if(avatars && (action && action === 'subscription_success' || action === 'auth_success')) {
+    if (
+      avatars &&
+      ((action && action === "subscription_success") ||
+        action === "auth_success")
+    ) {
       sendGTMEvent({event: "paywall_complete_buy", placement: "quiz", product_name: "subscription"})
-      setSuccessPaymentModal({isSuccessPaymentModalActive:true, successPaymentModalType:action})
+      setSuccessPaymentModal({
+        isSuccessPaymentModalActive: true,
+        successPaymentModalType: action,
+      });
     }
-    if(action === 'subscription_tokens' && characterId && orderNumber && product) {
-      getTokens(orderNumber, product)
+    if (
+      action === "subscription_tokens" &&
+      characterId &&
+      orderNumber &&
+      product
+    ) {
+      if (characterId === "None") {
+        navigate.push("/")
+      } else {
+        navigate.push("/chats");
+      }
+      getTokens(orderNumber, product);
     }
     if (!accessToken && !tempToken && !action) {
       signInAnonymouslyHandler();
     }
-
   }, []);
 
   return (

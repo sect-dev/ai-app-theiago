@@ -1,28 +1,28 @@
 export interface IAvatar {
-  avatar: string
-  image: string
+  avatar: string;
+  image: string;
   description: {
-    en: string
-  }
-  name: string
+    en: string;
+  };
+  name: string;
   shortDescription: {
-    en: string
-  }
-  visible: boolean
-  id: number
-  position: number
-  gender: string
-  isPremium: boolean
-  tags: string[]
-  voice: string
-  style: string
-  listMsgs: ListMsgs[]
-  listImage: string[]
-  top_horizontal_list_position: number
+    en: string;
+  };
+  visible: boolean;
+  id: number;
+  position: number;
+  gender: string;
+  isPremium: boolean;
+  tags: string[];
+  voice: string;
+  style: string;
+  listMsgs: ListMsgs[];
+  listImage: string[];
+  top_horizontal_list_position: number;
 }
 
 interface ListMsgs {
-  en: string
+  en: string;
 }
 
 interface Localization {
@@ -114,20 +114,28 @@ type UrlType = string | { en: string };
 
 export interface Message {
   text: string;
-  type: "text" | "image" | "video" | "audio" | "audio_paywall" | "video_paywall" | "text_paywall" | "image_paywall";
+  type:
+    | "text"
+    | "image"
+    | "video"
+    | "audio"
+    | "audio_paywall"
+    | "video_paywall"
+    | "text_paywall"
+    | "image_paywall";
   url?: UrlType;
   sender: "user" | "bot";
 }
 
 export interface PreparedAvatar {
-  id: number | string,
-  image: string,
-  listMsgs: Message[]
-  name: string
-  photos: string[]
-  videos: string[]
-  lastMessageTime: Date
-  startPhotosCount: number
+  id: number | string;
+  image: string;
+  listMsgs: Message[];
+  name: string;
+  photos: string[];
+  videos: string[];
+  lastMessageTime: Date;
+  startPhotosCount: number;
 }
 
 export interface MessageResponse {
@@ -144,11 +152,25 @@ export interface SendMessageResponse {
   character_id: string;
   response: MessageResponse[];
   tokens_remaining: number;
-  is_premium: boolean
+  is_premium: boolean;
 }
 
 export interface SendMessageParam {
-  userId: string,
-  characterId: string,
-  message: string
+  userId: string;
+  characterId: string;
+  message: string;
+}
+
+export interface UserStatus {
+  subscription?: {
+    active: boolean;
+    cancelled: boolean;
+    end: string;
+    start: string;
+    orderNumber: string;
+    originalOrderNumber: string;
+    price: number;
+    product_id: string;
+  };
+  tokens: number;
 }
