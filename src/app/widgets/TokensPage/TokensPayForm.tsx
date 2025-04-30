@@ -1,12 +1,13 @@
+import { forwardRef } from 'react';
 interface Props {
   fullUrl: string;
 }
 
-const TokensPayForm = (props: Props) => {
+const TokensPayForm = forwardRef<HTMLDivElement, Props>(function TokensPayForm(props, ref) {
   const { fullUrl } = props;
 
   return (
-    <div className="relative w-full h-[1040px] bg-white rounded-[20px] overflow-hidden">
+    <div ref={ref} className="relative w-full h-[1040px] bg-white rounded-[20px] overflow-hidden">
       <iframe
         loading="eager"
         width="100%"
@@ -19,6 +20,6 @@ const TokensPayForm = (props: Props) => {
       />
     </div>
   );
-};
+});
 
 export default TokensPayForm;

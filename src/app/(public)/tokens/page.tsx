@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Dialog, DialogPanel } from "@headlessui/react";
 // import ImageModal from "@/../public/images/img/image-modal.webp";
 import ImageModalBuyTokens from "@/../public/images/img/image-buy-tokens.png";
+import ImageModalBuyTokensMobile from "@/../public/images/img/image-buy-tokens-mobile.png";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import ImageDecor1 from "@/../public/images/icons/payment/icon-decor1.png";
 // import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
@@ -35,6 +36,7 @@ const Page = () => {
   const { characters, selectedCharacterId, setSelectedCharacterId } =
     useSelectedCardStore();
   const params = useParams();
+  const targetRef = useRef<HTMLDivElement | null>(null);
   const navigate = useRouter();
   const { isTokensModalActive, setTokensModal, tokens } = usePaymentStore();
   const { user } = useAuthStore();
@@ -60,6 +62,15 @@ const Page = () => {
       setLoading(false);
     }
   };
+
+  const handleBuy = () => {
+    if (targetRef.current) {
+      targetRef.current.scrollIntoView({
+        behavior: 'smooth', // Плавная прокрутка
+        block: 'start',    // Выравнивание по верхнему краю
+      });
+    }
+  }
 
   useEffect(() => {
     getTokenPackages();
@@ -147,6 +158,19 @@ const Page = () => {
           Buy tokens
         </p>
       </div>
+        <div className="sm:block hidden relative">
+          <Image
+            src={ImageModalBuyTokensMobile.src}
+            width={ImageModalBuyTokensMobile.width}
+            height={ImageModalBuyTokensMobile.height}
+            alt="image modal"
+            className="object-cover"
+          />
+          <div className="grid grid-rows-2 absolute bottom-0 left-[16px]">
+            <span className="text-[24px] leading-1.3 font-semibold">Buy tokens</span>
+            <span className="text-[16px] leading-1 font-medium">Enjoy a special package discount<br />available only now!</span>
+          </div>
+        </div>
       <div className="sm:flex sm:flex-col sm:overflow-visible sm:h-auto grid grid-cols-3 gap-[16px] overflow-visible px-[20px]">
         <div className="sm:hidden">
           <Image
@@ -170,23 +194,25 @@ const Page = () => {
                 <TokenPackagesSkeleton />
               )}
             </div>
-            <button
-              onClick={() => {}}
-              disabled={!tokenPackages && loading}
-              className="main-gradient mb-[8px] flex items-center justify-center gap-[5px] overflow-hidden w-full h-[60px] rounded-[24px] disabled:opacity-50 disabled:pointer-events-none"
-            >
-              <span className="relative z-[5] text-[15px] font-bold">
-                Buy tokens
-              </span>
-              <span className="bg-white-gradient animate-[moveRight_4.25s_ease-in_infinite_forwards] block rotate-[20deg] size-[125px] absolute -left-1/2 top-1/2 -translate-y-1/2" />
-            </button>
-            <div className="text-center mb-[20px]">
-              <span className="font-bai-jamjuree text-[12px] font-bold">
-                🔥 100,756 tokens sold today 🔥
-              </span>
+            <div>
+              <button
+                onClick={handleBuy}
+                disabled={!tokenPackages && loading}
+                className="main-gradient mb-[8px] flex items-center justify-center gap-[5px] overflow-hidden w-full h-[60px] rounded-[24px] disabled:opacity-50 disabled:pointer-events-none"
+              >
+                <span className="relative z-[5] text-[15px] font-bold">
+                  Buy tokens
+                </span>
+                <span className="bg-white-gradient animate-[moveRight_4.25s_ease-in_infinite_forwards] block rotate-[20deg] size-[125px] absolute -left-1/2 top-1/2 -translate-y-1/2" />
+              </button>
+              <div className="text-center mb-[20px]">
+                <span className="font-bai-jamjuree text-[12px] font-bold">
+                  🔥 100,756 tokens sold today 🔥
+                </span>
+              </div>
             </div>
 
-            {fullUrl && <TokensPayForm fullUrl={fullUrl} />}
+            {fullUrl && <TokensPayForm ref={targetRef} fullUrl={fullUrl} />}
           </div>
           <Footer className='sm:hidden block mb-[80px]' />
         </div>

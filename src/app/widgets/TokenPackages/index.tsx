@@ -134,7 +134,7 @@ const TokenPackages: FC<ComponentProps> = (props) => {
               className={clsx(
                 "relative flex align-center justify-center text-center size-full block text-left  bg-[#21233A] rounded-[24px] py-[24px] px-[43px]",
                 {
-                  "gradient-border before:rounded-[16px] before:z-[2]":
+                  "gradient-border choosen-token-shadow before:rounded-[16px] before:z-[2]":
                     item.description === selectedPackage,
                 },
               )}
