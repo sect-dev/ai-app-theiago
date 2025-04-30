@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { activateTokens } from "@/app/shared/api/payment";
-import { sendGTMEvent } from '@next/third-parties/google'
+import { sendGTMEvent } from "@next/third-parties/google";
 import notification from "@/app/widgets/Notification";
 
 interface ComponentProps {
@@ -85,7 +85,11 @@ const HomePage: FC<ComponentProps> = ({
       ((action && action === "subscription_success") ||
         action === "auth_success")
     ) {
-      sendGTMEvent({event: "paywall_complete_buy", placement: "quiz", product_name: "subscription"})
+      sendGTMEvent({
+        event: "paywall_complete_buy",
+        placement: "quiz",
+        product_name: "subscription",
+      });
       setSuccessPaymentModal({
         isSuccessPaymentModalActive: true,
         successPaymentModalType: action,
@@ -98,7 +102,7 @@ const HomePage: FC<ComponentProps> = ({
       product
     ) {
       if (characterId === "None") {
-        navigate.push("/")
+        navigate.push("/");
       } else {
         navigate.push("/chats");
       }

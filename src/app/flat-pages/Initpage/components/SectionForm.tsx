@@ -5,7 +5,7 @@ import Image from "next/image";
 import IconMoneyback from "@/../public/images/icons/payment/icon-moneyback.svg";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import Spinner from "@/app/widgets/Spinner";
-import { sendGTMEvent } from '@next/third-parties/google'
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const SectionForm = () => {
   const { selectedPlan } = usePaymentStore();
@@ -24,8 +24,8 @@ const SectionForm = () => {
   }, [selectedPlan]);
 
   const handleOnLoad = () => {
-    sendGTMEvent({event: "iframe_up"})
-  }
+    sendGTMEvent({ event: "iframe_up" });
+  };
 
   return (
     <div

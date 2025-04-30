@@ -6,7 +6,8 @@ import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { useRouter } from "next/navigation";
 
 const CancelConfirmModal = () => {
-  const { recentChats, confirmCancelSubscription, declineCancelSubscription } = useSubscriptionStore();
+  const { recentChats, confirmCancelSubscription, declineCancelSubscription } =
+    useSubscriptionStore();
   const { setSelectedCharacterId } = useSelectedCardStore();
   const router = useRouter();
 
