@@ -1,8 +1,9 @@
 "use client";
-import React, { useEffect, useRef, useState, useTransition } from "react";
-import Image, { StaticImageData } from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import ImageModalBuyTokens from "@/../public/images/img/image-buy-tokens.png";
 import ImageModalBuyTokensMobile from "@/../public/images/img/image-buy-tokens-mobile.png";
+import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { getTokenPackageInfo } from "@/app/shared/api/payment";
 import { useParams, useRouter } from "next/navigation";
