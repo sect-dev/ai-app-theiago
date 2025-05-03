@@ -1,35 +1,26 @@
 "use client";
-import React, { useEffect, useRef, useState, useTransition } from "react";
-import Image, { StaticImageData } from "next/image";
-import { Dialog, DialogPanel } from "@headlessui/react";
-// import ImageModal from "@/../public/images/img/image-modal.webp";
-import ImageModalBuyTokens from "/public/images/img/image-buy-tokens.png";
-import ImageModalBuyTokensMobile from "/public/images/img/image-buy-tokens-mobile.png";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import ImageModalBuyTokens from "@/../public/images/img/image-buy-tokens.png";
+import ImageModalBuyTokensMobile from "@/../public/images/img/image-buy-tokens-mobile.png";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
-import ImageDecor1 from "@/../public/images/icons/payment/icon-decor1.png";
-// import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
-import IcnCoins from "@/../public/images/icons/icon-coins.svg";
 import { getTokenPackageInfo } from "@/app/shared/api/payment";
 import { useParams, useRouter } from "next/navigation";
-import IconClose from "@/../public/images/icons/icon-modal-close.svg";
 import { StrictTokenPackage } from "@/app/shared/api/types/payment";
 import TokenPackages from "@/app/widgets/TokenPackages";
 import TokenPackagesSkeleton from "@/app/widgets/TokenPackages/TokenPackagesSkeleton";
-import { PreparedAvatar } from "@/app/shared/api/types";
 import clsx from "clsx";
 import { useAuthStore } from "@/app/shared/store/authStore";
-import notification from "@/app/widgets/Notification";
-import Spinner from "@/app/widgets/Spinner";
 import TokensPayForm from "@/app/widgets/TokensPage/TokensPayForm";
 import TokenCosts from "@/app/widgets/TokensPage/TokenCosts";
 import TokenAdvantages from "@/app/widgets/TokensPage/TokenAdvantages";
 import SectionFooter from "@/app/flat-pages/Initpage/components/SectionFooter";
 import Link from "next/link";
-import ImageMastercard from "/public/images//icons/payment/1.png";
-import ImageVisa from "/public/images/icons/payment/2.png";
-import ImageStripe from "/public/images/icons/payment/3.svg";
-import ImageMc from "/public/images/icons/payment/4.svg";
+import ImageMastercard from "@/../public/images//icons/payment/1.png";
+import ImageVisa from "@/../public/images/icons/payment/2.png";
+import ImageStripe from "@/../public/images/icons/payment/3.svg";
+import ImageMc from "@/../public/images/icons/payment/4.svg";
 import PaymentDiscountBanner from '@/app/widgets/Payment/PaymentDiscountBanner';
 
 const Page = () => {
@@ -37,13 +28,10 @@ const Page = () => {
 		useSelectedCardStore();
 	const params = useParams();
 	const targetRef = useRef<HTMLDivElement | null>(null);
-	const navigate = useRouter();
-	const { isTokensModalActive, setTokensModal, tokens } = usePaymentStore();
 	const { user } = useAuthStore();
 	const [tokenPackages, setTokenPackages] = useState<
 		StrictTokenPackage[] | null
 	>();
-	const [characterImage, setCharacterImage] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [selectedPackage, setSelectedPackage] = useState<string>("");
 	const [fullUrl, setFullUrl] = useState<string | null>(null);
@@ -74,18 +62,6 @@ const Page = () => {
 
 	useEffect(() => {
 		getTokenPackages();
-		// if (params?.id && characters) {
-		//   console.log(characterId)
-		//   const characterId = Number(params.id);
-		//   if (!isNaN(characterId)) {
-		//     const currentCharacter = characters.find(
-		//       (item: PreparedAvatar) =>
-		//         item.id !== undefined && Number(item.id) === characterId,
-		//     );
-		//     console.log(currentCharacter)
-		//     setCharacterImage(currentCharacter?.image ?? "");
-		//   }
-		// }
 
 		if (Array.isArray(characters) && characters.length > 0) {
 			const firstCharacter = characters[0];
@@ -138,14 +114,6 @@ const Page = () => {
 			}
 		}
 	}, [selectedPackage, user, params?.id]);
-
-	// useEffect(() => {
-	//   setIframe("")
-	// }, [packageName])
-
-	// const fullUrl = "https://stage-payments.theaigo.com:8000/tokens_purchase?name=1100_tokens&user_id=kqRBW7kADSOkTpClwkMK4nqWHdA3&email=lancecnc1@gmail.com&character_id=character_id=constructor_0680f42e-0cb5-7128-8000-cbcc7da3857d"
-
-	// const image = characterImage ? characterImage : ImageModalBuyTokens.src;
 
 	return (
 		<>
