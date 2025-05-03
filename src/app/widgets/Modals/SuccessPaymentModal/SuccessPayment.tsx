@@ -251,7 +251,7 @@ const SuccessPayment = () => {
                   alt="icon X"
                 />
               </button>
-              <button
+              {/* <button
                 onClick={onFacebookSignInHandler}
                 className="transition-transform duration-300 hover:scale-[1.025]"
               >
@@ -261,7 +261,7 @@ const SuccessPayment = () => {
                   height={IconFacebook.height}
                   alt="icon discord"
                 />
-              </button>
+              </button> */}
               <button
                 onClick={onGoogleSignInHandler}
                 className="transition-transform duration-300 hover:scale-[1.025]"

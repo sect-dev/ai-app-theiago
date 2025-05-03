@@ -83,29 +83,6 @@ const ChatsHeader: FC<ComponentProps> = ({ avatar, name }) => {
       </div>
       <div className="flex items-center gap-[8px]">
         <button
-          onClick={getTokensHandle}
-          className="block main-gradient h-[24px] rounded-[15px] px-[12px]"
-        >
-          <span className="relative z-[5] flex items-center">
-            <Image
-              src={IcnPlus.src}
-              width={IcnPlus.width}
-              height={IcnPlus.height}
-              alt="plus image"
-              className="size-[8px]"
-            />
-            <span className="text-[12px] font-bold pl-[8px] pr-[4px]">
-              {tokens}
-            </span>
-            <Image
-              src={IcnCoins.src}
-              width={IcnCoins.width}
-              height={IcnCoins.height}
-              alt="coins image"
-            />
-          </span>
-        </button>
-        <button
           onClick={() => setInfoCollapse(false)}
           className={clsx(
             "hidden animate-fadeIn z-[5] flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]",

@@ -5,6 +5,7 @@ import Image from "next/image";
 import IconMoneyback from "@/../public/images/icons/payment/icon-moneyback.svg";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import Spinner from "@/app/widgets/Spinner";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const SectionForm = () => {
   const { selectedPlan } = usePaymentStore();
@@ -21,6 +22,10 @@ const SectionForm = () => {
       setIframeUrl(fullUrl);
     }
   }, [selectedPlan]);
+
+  const handleOnLoad = () => {
+    sendGTMEvent({ event: "iframe_up" });
+  };
 
   return (
     <div
@@ -43,6 +48,7 @@ const SectionForm = () => {
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
             className="animate-fadeIn"
+            onLoad={handleOnLoad}
           />
         )}
       </div>

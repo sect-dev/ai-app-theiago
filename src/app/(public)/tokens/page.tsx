@@ -15,7 +15,6 @@ import { useAuthStore } from "@/app/shared/store/authStore";
 import TokensPayForm from "@/app/widgets/TokensPage/TokensPayForm";
 import TokenCosts from "@/app/widgets/TokensPage/TokenCosts";
 import TokenAdvantages from "@/app/widgets/TokensPage/TokenAdvantages";
-import SectionFooter from "@/app/flat-pages/Initpage/components/SectionFooter";
 import Link from "next/link";
 import ImageMastercard from "@/../public/images//icons/payment/1.png";
 import ImageVisa from "@/../public/images/icons/payment/2.png";
@@ -66,31 +65,8 @@ const Page = () => {
     if (Array.isArray(characters) && characters.length > 0) {
       const firstCharacter = characters[0];
       setSelectedCharacterId(firstCharacter.id);
-      console.log(selectedCharacterId);
     }
   }, []);
-
-  // const buyTokensHandler = async () => {
-  //   try {
-  //     const packageName = selectedPackage.split(" ").join("_");
-  //     console.log(packageName)
-  //     if ((user && !user?.email) || !user) {
-  //       return notification.open({
-  //         title: "Error",
-  //         type: "error",
-  //         description: "To buy tokens, you need to authorize",
-  //       });
-  //     }
-  //     // const resp = await buyTokens(packageName, user.uid, user?.email ?? '')
-  //     startTransition(() => {
-  //       navigate.push(
-  //         `${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${packageName}&user_id=${user.uid}&email=${user?.email}&character_id=${selectedCharacterId}`,
-  //       );
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   // TODO: переписать на URLParams
   useEffect(() => {
@@ -109,7 +85,6 @@ const Page = () => {
       }
 
       if (fullUrl) {
-        console.log(fullUrl);
         setFullUrl(fullUrl);
       }
     }
