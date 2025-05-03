@@ -96,7 +96,7 @@ const HomePage: FC<ComponentProps> = ({
       product
     ) {
       if (characterId === "None") {
-        navigate.push("/")
+        navigate.push("/");
       } else {
         navigate.push("/chats");
       }
