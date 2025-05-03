@@ -4,7 +4,7 @@ stages:
 
 type-check:
   stage: type-check
-  image: node:18
+  image: node:22
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
@@ -17,7 +17,7 @@ type-check:
 
 prettier:
   stage: prettier
-  image: node:18
+  image: node:22
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
