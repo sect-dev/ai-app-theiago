@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier . --write"
+    "prettier": "prettier . --write",
+    "type-lint": "tsc --noEmit"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
