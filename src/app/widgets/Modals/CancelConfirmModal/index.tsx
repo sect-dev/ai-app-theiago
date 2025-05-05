@@ -31,13 +31,13 @@ const CancelConfirmModal = () => {
       <div className="fixed inset-0 flex w-screen items-center justify-center">
         <DialogPanel
           transition
-          className="w-full h-screen flex items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+          className="data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
         >
-          <div className="flex items-center justify-center flex-col">
-            <div className="fm:p-0 fm:h-screen fm:w-screen flex items-center rounded-3xl justify-center flex-col relative bg-[#121423] p-[20px] fm:rounded-none">
+          <div className="flex flex-col items-center justify-center">
+            <div className="relative flex flex-col items-center justify-center rounded-3xl bg-[#121423] p-[20px] fm:h-screen fm:w-screen fm:rounded-none fm:p-0">
               <div className="flex items-start">
-                <div className="flex flex-col items-center justify-center mb-[16px]">
-                  <span className="fm:mt-[12px] text-[32px] font-semibold flex items-start">
+                <div className="mb-[16px] flex flex-col items-center justify-center">
+                  <span className="flex items-start text-[32px] font-semibold fm:mt-[12px]">
                     You&apos;re leaving us?
                   </span>
                   <span className="text-[16px] font-normal opacity-50">
@@ -46,7 +46,7 @@ const CancelConfirmModal = () => {
                 </div>
                 <button
                   onClick={declineCancelSubscription}
-                  className="fm:hidden right-0 top-0 mr-[20px] mt-[20px] absolute p-[8px] bg-[#191B2C] rounded-[12px] flex items-center justify-center"
+                  className="absolute right-0 top-0 mr-[20px] mt-[20px] flex items-center justify-center rounded-[12px] bg-[#191B2C] p-[8px] fm:hidden"
                 >
                   <Image
                     src={IconClose.src}
@@ -56,43 +56,43 @@ const CancelConfirmModal = () => {
                   />
                 </button>
               </div>
-              <div className="fm:pl-[16px] fm:w-full flex w-[688px]  mb-[27px] overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] gap-[8px]">
+              <div className="mb-[27px] flex w-[688px] gap-[8px] overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] fm:w-full fm:pl-[16px] [&::-webkit-scrollbar]:hidden">
                 {recentChats &&
                   recentChats.map((char) => (
                     <div
                       key={char.id}
-                      className="w-[282px] h-[332px] relative flex-shrink-0 "
+                      className="relative h-[332px] w-[282px] flex-shrink-0"
                     >
                       <Image
                         src={`${char.image}?format=webp&quality=100&width=282&height=332&fit=crop`}
                         width={282}
                         height={332}
                         alt="Character"
-                        className="object-cover w-full h-full rounded-[24px]"
+                        className="h-full w-full rounded-[24px] object-cover"
                         loading="lazy"
                       />
 
-                      <div className="absolute inset-0 bg-card-gradient rounded-[24px]" />
+                      <div className="absolute inset-0 rounded-[24px] bg-card-gradient" />
 
                       <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <p className="text-white font-medium text-lg truncate">
+                        <p className="truncate text-lg font-medium text-white">
                           {char.name}
                         </p>
                       </div>
                     </div>
                   ))}
               </div>
-              <div className="px-[16px] w-full flex items-center justify-center mb-[20px]">
+              <div className="mb-[20px] flex w-full items-center justify-center px-[16px]">
                 <button
                   onClick={() => handleChatChange(recentChats[0].id)}
-                  className="button-gradient main-gradient fm:w-full w-[308px] rounded-[24px] h-[60px] text-[14px] font-bold"
+                  className="button-gradient main-gradient h-[60px] w-[308px] rounded-[24px] text-[14px] font-bold fm:w-full"
                 >
                   <span className="relative z-[5]">Go to chat</span>
                 </button>
               </div>
 
               <button onClick={confirmCancelSubscription}>
-                <span className="text-[14px] font-bold font-noto-sans">
+                <span className="font-noto-sans text-[14px] font-bold">
                   Cancel anyway
                 </span>
               </button>

@@ -35,7 +35,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
-            className="animate-pulse w-[48%] h-[157px] rounded-[12px] bg-[#1F2237]"
+            className="h-[157px] w-[48%] animate-pulse rounded-[12px] bg-[#1F2237]"
           />
         ))}
       </div>
@@ -46,16 +46,16 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
 
   return (
     <>
-      <div className="photos-container animate-fadeIn flex flex-wrap gap-[8px]">
+      <div className="photos-container flex animate-fadeIn flex-wrap gap-[8px]">
         {content.map((photo, i) => {
           const isLocked = !isPremium && i > 1;
           return (
             <div
               key={photo}
               className={clsx(
-                "gradient-border relative animate-fadeIn duration-150 overflow-hidden rounded-[12px] w-full h-[157px] cursor-pointer md:h-[190px] before:rounded-[12px] before:z-[2] before:opacity-0",
+                "gradient-border relative h-[157px] w-full animate-fadeIn cursor-pointer overflow-hidden rounded-[12px] duration-150 before:z-[2] before:rounded-[12px] before:opacity-0 md:h-[190px]",
                 {
-                  "hover:before:opacity-100 pointer-events-auto": !isLocked,
+                  "pointer-events-auto hover:before:opacity-100": !isLocked,
                   "pointer-events-none": isLocked,
                 },
               )}
@@ -74,7 +74,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
                   width={ImageLock.width}
                   height={ImageLock.height}
                   alt="lock"
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[10] size-[64px]"
+                  className="absolute left-1/2 top-1/2 z-[10] size-[64px] -translate-x-1/2 -translate-y-1/2"
                 />
               )}
             </div>

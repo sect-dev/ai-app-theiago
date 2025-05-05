@@ -88,7 +88,7 @@ const ChatsMessageText: FC<ComponentProps> = ({
             <div
               onClick={() => openLightbox(imageIndex)}
               key={index}
-              className="relative w-[240px] h-[350px] overflow-hidden rounded-[20px] rounded-bl-none"
+              className="relative h-[350px] w-[240px] overflow-hidden rounded-[20px] rounded-bl-none"
             >
               <Image
                 sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 240px"
@@ -104,11 +104,11 @@ const ChatsMessageText: FC<ComponentProps> = ({
           <div
             key={index}
             className={clsx(
-              "animate-fadeIn w-fit max-w-[80%] py-[10px] px-[20px] text-[14px] font-medium rounded-[20px]",
+              "w-fit max-w-[80%] animate-fadeIn rounded-[20px] px-[20px] py-[10px] text-[14px] font-medium",
               {
-                "bg-main-gradient text-white rounded-br-none ml-auto":
+                "ml-auto rounded-br-none bg-main-gradient text-white":
                   msg.sender === "user",
-                "bg-[#21233A] rounded-bl-none": msg.sender === "bot",
+                "rounded-bl-none bg-[#21233A]": msg.sender === "bot",
               },
             )}
           >
@@ -122,10 +122,10 @@ const ChatsMessageText: FC<ComponentProps> = ({
       {/* Спиннер загрузки */}
       {loading && (
         <div className="animate-fadeIn space-y-[6px] pt-[32px]">
-          <div className="animate-fadeIn flex items-center justify-center bg-[#21233A] w-[80px] h-[28px] text-[14px] font-medium rounded-[20px] rounded-bl-none">
+          <div className="flex h-[28px] w-[80px] animate-fadeIn items-center justify-center rounded-[20px] rounded-bl-none bg-[#21233A] text-[14px] font-medium">
             <MessageLoading />
           </div>
-          <p className="font-medium text-[12px] opacity-50 tracking-[-0.04em]">
+          <p className="text-[12px] font-medium tracking-[-0.04em] opacity-50">
             Typing message
           </p>
         </div>

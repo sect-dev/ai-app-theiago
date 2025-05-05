@@ -2,7 +2,7 @@ import React from "react";
 
 const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="font-bai-jamjuree h-[100svh] overflow-visible">
+    <main className="h-[100svh] overflow-visible font-bai-jamjuree">
       {children}
     </main>
   );

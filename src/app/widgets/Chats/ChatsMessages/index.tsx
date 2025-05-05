@@ -191,11 +191,11 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   return (
     <div
       className={clsx(
-        "flex flex-col justify-end p-[20px] rounded-[8px] bg-[#121423] h-[calc(100vh-142px)] transition-transform duration-300 md:h-[calc(100vh-262px)]  md:rounded-[16px] md:py-[14px] md:px-[12px] ",
+        "flex h-[calc(100vh-142px)] flex-col justify-end rounded-[8px] bg-[#121423] p-[20px] transition-transform duration-300 md:h-[calc(100vh-262px)] md:rounded-[16px] md:px-[12px] md:py-[14px]",
         {},
       )}
     >
-      <div className="h-full flex flex-col justify-between">
+      <div className="flex h-full flex-col justify-between">
         <div className="space-y-[12px] overflow-auto pb-[20px]">
           <ChatsMessageText
             loading={loading}
@@ -207,7 +207,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
           {!loading && (
             <div
               className={clsx("transition-opacity duration-300", {
-                "opacity-0 pointer-events-none absolute": loading,
+                "pointer-events-none absolute opacity-0": loading,
               })}
             >
               <SuggestionAnswer
@@ -220,7 +220,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
           )}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="relative flex gap-[8px] items-end"
+            className="relative flex items-end gap-[8px]"
           >
             {showModal && (
               <ChatsMessageModal
@@ -238,7 +238,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
                   textAreaRef.current = e;
                 }}
                 id="message"
-                className="block rounded-[16px] bg-[#21233A] w-full p-[12px] leading-[1.5em] min-h-[48px] text-[14px] pr-[160px] placeholder:text-[14px] resize-none placeholder:opacity-50 focus:outline-none md:pr-[135px] sm:pr-[30px] sm:text-[16px] "
+                className="block min-h-[48px] w-full resize-none rounded-[16px] bg-[#21233A] p-[12px] pr-[160px] text-[14px] leading-[1.5em] placeholder:text-[14px] placeholder:opacity-50 focus:outline-none md:pr-[135px] sm:pr-[30px] sm:text-[16px]"
                 placeholder="Your message here"
                 minRows={1}
                 maxRows={3}
@@ -253,7 +253,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
                   }
                 }}
               />
-              <div className="flex items-center gap-[10px] absolute right-[20px] top-1/2 -translate-y-1/2 sm:right-[10px]">
+              <div className="absolute right-[20px] top-1/2 flex -translate-y-1/2 items-center gap-[10px] sm:right-[10px]">
                 {messageValue && (
                   <button onClick={onReset} className={"animate-fadeIn"}>
                     <Image
@@ -268,7 +268,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
                   onClick={handleModal}
                   type="button"
                   className={clsx(
-                    "bg-[#121423] rounded-[9px] flex items-center gap-[6px] h-[24px] px-[9px] transition-opacity duration-300",
+                    "flex h-[24px] items-center gap-[6px] rounded-[9px] bg-[#121423] px-[9px] transition-opacity duration-300",
                     {
                       "gradient-border": showModal,
                       "md:hidden": isTextareaFocused || messageValue,
@@ -283,7 +283,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
                     className="size-[14px]"
                   />
                   <span
-                    className={clsx("font-medium text-[12px]", {
+                    className={clsx("text-[12px] font-medium", {
                       "logo-gradient": showModal,
                     })}
                   >
@@ -297,7 +297,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
               type="submit"
               disabled={!messageValue?.trim() || loading}
               className={clsx(
-                "size-[48px] flex items-center justify-center rounded-[16px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B] disabled:pointer-events-none",
+                "transition-bg flex size-[48px] shrink-0 items-center justify-center rounded-[16px] bg-[#21233A] duration-300 hover:bg-[#2E335B] disabled:pointer-events-none",
                 {
                   "bg-main-gradient": messageValue?.trim() && !loading,
                 },
@@ -309,7 +309,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
                 height={IconSend.height}
                 alt="send message icon"
                 className={clsx(
-                  "size-[24px] transition-opacity duration-300 opacity-20",
+                  "size-[24px] opacity-20 transition-opacity duration-300",
                   {
                     "!opacity-100": messageValue?.trim() && !loading,
                   },

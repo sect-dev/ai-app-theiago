@@ -111,23 +111,23 @@ const SubscriptionModal = () => {
       className="relative z-10 font-bai-jamjuree"
       onClose={requestCancelSubscription}
     >
-      <div className="fixed inset-0 z-10 w-screen  overflow-y-auto">
+      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
             transition
-            className="w-full h-screen flex items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+            className="data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
           >
-            <div className="fm:w-screen fm:h-fit flex fm:flex-col flex-row gap-[20px] h-[447px] bg-[#121423] p-[20px] rounded-3xl fm:rounded-none">
+            <div className="flex h-[447px] flex-row gap-[20px] rounded-3xl bg-[#121423] p-[20px] fm:h-fit fm:w-screen fm:flex-col fm:rounded-none">
               <div className="fm:pt-[370px]">
-                <DialogTitle className="text-[20px] mb-[16px] font-semibold text-left">
+                <DialogTitle className="mb-[16px] text-left text-[20px] font-semibold">
                   Nice to see you again,
                   <br />
                   {`${user?.displayName}`}
                 </DialogTitle>
                 <div className="">
-                  <div className="flex justify-between items-start bg-blue-500 text-white p-[16px] rounded-t-[24px] bg-[#21233A] transition-bg duration-300 hover:bg-[#2E335B] mb-[4px]">
+                  <div className="bg-blue-500 transition-bg mb-[4px] flex items-start justify-between rounded-t-[24px] bg-[#21233A] p-[16px] text-white duration-300 hover:bg-[#2E335B]">
                     <div className="flex flex-col">
-                      <span className="text-[16px] font-semibold mb-[8px]">
+                      <span className="mb-[8px] text-[16px] font-semibold">
                         {calculateSubscriptionPeriod(start, end)} subscription
                       </span>
                       <span
@@ -146,21 +146,21 @@ const SubscriptionModal = () => {
                       )}
                     </div>
 
-                    <div className="main-gradient py-[2px] rounded-[8px] px-[8px] flex items-center justify-center">
-                      <span className="text-[14px] font-medium text-white relative z-[5]">
+                    <div className="main-gradient flex items-center justify-center rounded-[8px] px-[8px] py-[2px]">
+                      <span className="relative z-[5] text-[14px] font-medium text-white">
                         {active ? "Active" : "Expired"}
                       </span>
                     </div>
                   </div>
                   <button
-                    className="fm:mb-0 bg-blue-500 text-[14px] mb-[106px] font-bold w-full pt-[8px] pb-[8px] text-white rounded-t-[4px] rounded-b-[24px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]"
+                    className="bg-blue-500 transition-bg mb-[106px] w-full shrink-0 rounded-b-[24px] rounded-t-[4px] bg-[#21233A] pb-[8px] pt-[8px] text-[14px] font-bold text-white duration-300 hover:bg-[#2E335B] fm:mb-0"
                     onClick={requestCancelSubscription}
                   >
                     Cancel Subscription
                   </button>
 
-                  <div className="fm:hidden flex flex-col items-center justify-center text-center">
-                    <span className="text-[12px] font-medium opacity-80 leading-[16px] p-[10px]">
+                  <div className="flex flex-col items-center justify-center text-center fm:hidden">
+                    <span className="p-[10px] text-[12px] font-medium leading-[16px] opacity-80">
                       If you can&apos;t cancel your subscription, feel free to
                       <br />
                       reach out to us at:{" "}
@@ -172,15 +172,15 @@ const SubscriptionModal = () => {
                         theaigo@aigo.com
                       </Link>
                     </span>
-                    <div className="flex text-[12px] font-medium opacity-50 leading-[24px] gap-[32px]">
+                    <div className="flex gap-[32px] text-[12px] font-medium leading-[24px] opacity-50">
                       <span className="block">Terms</span>
                       <span className="block">Privacy</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col fm:p-0 pl-[20px] border-l border-l-[#2B2D44] border-opacity-50 fm:border-none relative">
-                <div className="flex justify-between items-start mb-[16px] ">
+              <div className="relative flex flex-col border-l border-l-[#2B2D44] border-opacity-50 pl-[20px] fm:border-none fm:p-0">
+                <div className="mb-[16px] flex items-start justify-between">
                   <DialogTitle className="text-[20px] font-semibold">
                     <span className="fm:hidden">
                       Your subscription
@@ -193,7 +193,7 @@ const SubscriptionModal = () => {
                   </DialogTitle>
                   <button
                     onClick={closeSubscriptionModal}
-                    className="fm:hidden p-[8px] bg-[#191B2C] rounded-[12px] flex items-center justify-center"
+                    className="flex items-center justify-center rounded-[12px] bg-[#191B2C] p-[8px] fm:hidden"
                   >
                     <Image
                       src={IconClose.src}
@@ -204,12 +204,12 @@ const SubscriptionModal = () => {
                   </button>
                 </div>
 
-                <ul className="fm:mb-[10px] fm:flex-1 fm:min-h-0 overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <ul className="overflow-auto [-ms-overflow-style:none] [scrollbar-width:none] fm:mb-[10px] fm:min-h-0 fm:flex-1 [&::-webkit-scrollbar]:hidden">
                   {SUBSCRIPTION_INCLUDES.map((item) => (
                     <li
                       key={item.id}
                       className={clsx(
-                        "font-medium mb-[4px] p-[12px] bg-blue-500 text-white rounded-[4px] bg-[#21233A] shrink-0 transition-bg duration-300 hover:bg-[#2E335B]",
+                        "bg-blue-500 transition-bg mb-[4px] shrink-0 rounded-[4px] bg-[#21233A] p-[12px] font-medium text-white duration-300 hover:bg-[#2E335B]",
                         item.className,
                       )}
                     >
@@ -218,8 +218,8 @@ const SubscriptionModal = () => {
                   ))}
                 </ul>
 
-                <div className="hidden fm:block mb-[16px] flex flex-col items-center text-center">
-                  <span className=" text-[12px] font-medium opacity-80 leading-[16px] px-[10px] mx-auto">
+                <div className="mb-[16px] flex hidden flex-col items-center text-center fm:block">
+                  <span className="mx-auto px-[10px] text-[12px] font-medium leading-[16px] opacity-80">
                     If you can&apos;t cancel your subscription, feel free to
                     reach out to us at:{" "}
                     <Link
@@ -230,7 +230,7 @@ const SubscriptionModal = () => {
                       theaigo@aigo.com
                     </Link>
                   </span>
-                  <div className="flex mt-[10px] justify-center text-[12px] font-medium opacity-50 leading-[24px] gap-[32px]">
+                  <div className="mt-[10px] flex justify-center gap-[32px] text-[12px] font-medium leading-[24px] opacity-50">
                     <span className="block">Terms</span>
                     <span className="block">Privacy</span>
                   </div>

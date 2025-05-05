@@ -43,7 +43,7 @@ const ChatsListItem: FC<ComponentProps> = ({
       key={id}
       onClick={() => handleChatChange(id)}
       className={clsx(
-        "flex w-full  transition-bg duration-300 px-[20px] py-[6px] md:px-[16px] md:w-full",
+        "transition-bg flex w-full px-[20px] py-[6px] duration-300 md:w-full md:px-[16px]",
         {
           "bg-[#0680E642]":
             selectedCharacterId &&
@@ -53,7 +53,7 @@ const ChatsListItem: FC<ComponentProps> = ({
     >
       <span className="flex w-full items-center gap-[8px] md:w-full">
         <span className="relative">
-          <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
+          <span className="relative block size-[42px] overflow-hidden rounded-[16px]">
             <Image
               src={`${image}?format=webp&quality=95&width=100`}
               fill
@@ -71,7 +71,7 @@ const ChatsListItem: FC<ComponentProps> = ({
         </span>
         {!collapse && (
           <span className="animate-fadeIn text-left">
-            <span className="font-medium text-[14px] tracking-[-0.04em] line-clamp-1">
+            <span className="line-clamp-1 text-[14px] font-medium tracking-[-0.04em]">
               {name}
             </span>
             {lastMessage && (
@@ -83,8 +83,8 @@ const ChatsListItem: FC<ComponentProps> = ({
         )}
       </span>
       {!collapse && (
-        <span className="animate-fadeIn flex flex-col items-end pl-[5px] ">
-          <span className="text-[12px] font-medium opacity-50 tracking-[-0.04em]">
+        <span className="flex animate-fadeIn flex-col items-end pl-[5px]">
+          <span className="text-[12px] font-medium tracking-[-0.04em] opacity-50">
             {formattedTime}
           </span>
           {/*<span*/}

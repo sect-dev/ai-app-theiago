@@ -34,9 +34,9 @@ const TOKEN_COSTS = [
 
 const TokenCosts = () => {
   return (
-    <div className="grid grid-rows-[auto,1fr] p-[16px] gap-y-[8px] bg-[#21233A] rounded-[12px] font-bai-jamjuree">
+    <div className="grid grid-rows-[auto,1fr] gap-y-[8px] rounded-[12px] bg-[#21233A] p-[16px] font-bai-jamjuree">
       <div className="">
-        <span className="font-bold text-[16px] leading-[24px]">
+        <span className="text-[16px] font-bold leading-[24px]">
           Token Costs
         </span>
       </div>
@@ -45,14 +45,14 @@ const TokenCosts = () => {
           {TOKEN_COSTS.map((i) => (
             <div
               key={i.id}
-              className="flex justify-between text-[14px] font-medium leading-1"
+              className="leading-1 flex justify-between text-[14px] font-medium"
             >
               <div>
                 <span className="mr-[4px]">{i.emoji}</span>
                 <span className="">{i.desc}</span>
               </div>
 
-              <div className="flex flex-no-wrap">
+              <div className="flex-no-wrap flex">
                 <span className="mr-[4px]">{i.cost}</span>
                 <Image
                   src={i.icon}

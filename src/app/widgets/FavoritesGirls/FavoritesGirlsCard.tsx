@@ -15,22 +15,22 @@ const FavoritesGirlsCard: FC<ComponentProps> = ({ avatar }) => {
 
   return (
     <div className="size-full">
-      <div className="card-shadow card overflow-hidden cursor-grab group animate-fadeIn flex items-end relative p-[12px] h-full rounded-[20px] md:rounded-[24px]">
+      <div className="card-shadow card group relative flex h-full animate-fadeIn cursor-grab items-end overflow-hidden rounded-[20px] p-[12px] md:rounded-[24px]">
         <Image
           src={`${avatar.avatar}?format=webp&quality=85&width=600&height=660`}
           sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
           fill
           alt="image"
           loading="lazy"
-          className="object-cover swiper-lazy"
+          className="swiper-lazy object-cover"
         />
-        <div className="relative z-[2] transition-all duration-300 group-hover:mb-[50px] ">
-          <div className="flex items-center gap-[4px] mb-[8px] font-semibold font-semibold ">
+        <div className="relative z-[2] transition-all duration-300 group-hover:mb-[50px]">
+          <div className="mb-[8px] flex items-center gap-[4px] font-semibold">
             {avatar.tags.map((tag) => {
               return (
                 <div
                   key={tag}
-                  className="rounded-[8px] capitalize font-semibold h-[21px] text-[14px] px-[4px] backdop-blur-[8px] bg-[#3B3E5E8A] md:text-[12px]"
+                  className="backdop-blur-[8px] h-[21px] rounded-[8px] bg-[#3B3E5E8A] px-[4px] text-[14px] font-semibold capitalize md:text-[12px]"
                 >
                   {tag}
                 </div>
@@ -38,17 +38,17 @@ const FavoritesGirlsCard: FC<ComponentProps> = ({ avatar }) => {
             })}
           </div>
           <p className="text-[16px] font-semibold">{avatar.name}</p>
-          <p className="opacity-[60%] line-clamp-2 text-[14px] md:text-[12px]">
+          <p className="line-clamp-2 text-[14px] opacity-[60%] md:text-[12px]">
             {avatar.description?.en}
           </p>
         </div>
-        <div className="absolute left-1/2 -bottom-[40px] z-[10] w-full px-[16px] -translate-x-1/2 transition-all duration-300 group-hover:bottom-[12px] ">
+        <div className="absolute -bottom-[40px] left-1/2 z-[10] w-full -translate-x-1/2 px-[16px] transition-all duration-300 group-hover:bottom-[12px]">
           <button
             onClick={() => handleClick(avatar)}
             className={clsx(
-              "main-gradient cursor-pointer w-full  text-[14px] rounded-[12px] h-[40px] font-semibold text-white",
+              "main-gradient h-[40px] w-full cursor-pointer rounded-[12px] text-[14px] font-semibold text-white",
               {
-                "before:opacity-100 pointer-events-none": isLoading,
+                "pointer-events-none before:opacity-100": isLoading,
               },
             )}
           >

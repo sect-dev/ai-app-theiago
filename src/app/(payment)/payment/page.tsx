@@ -31,8 +31,8 @@ const PaymentContent = () => {
 
 const Page = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-[#121423] rounded-[24px] py-[25px] px-[25px] w-[370px] mx-auto">
+    <div className="flex h-screen items-center justify-center">
+      <div className="mx-auto w-[370px] rounded-[24px] bg-[#121423] px-[25px] py-[25px]">
         <Suspense fallback={<PaymentLoading status="sale" />}>
           <PaymentContent />
         </Suspense>

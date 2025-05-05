@@ -17,8 +17,8 @@ interface ComponentProps {
 
 const FavoritesGirls: FC<ComponentProps> = ({ avatars }) => {
   return (
-    <div className="bg-[#121423] p-[24px] rounded-l-[24px] md:p-[16px] md:rounded-none">
-      <p className="text-[20px] font-semibold tracking-[0.02vw] mb-[16px] sm:hidden">
+    <div className="rounded-l-[24px] bg-[#121423] p-[24px] md:rounded-none md:p-[16px]">
+      <p className="mb-[16px] text-[20px] font-semibold tracking-[0.02vw] sm:hidden">
         They crave to chat with you!
       </p>
       <Swiper
@@ -38,7 +38,7 @@ const FavoritesGirls: FC<ComponentProps> = ({ avatars }) => {
           return (
             <SwiperSlide
               key={avatar.id}
-              className="!w-[300px] !h-[330px]  mr-[12px]"
+              className="mr-[12px] !h-[330px] !w-[300px]"
             >
               <FavoritesGirlsCard avatar={avatar} />
             </SwiperSlide>
@@ -49,7 +49,7 @@ const FavoritesGirls: FC<ComponentProps> = ({ avatars }) => {
           role="button"
           aria-label="Next Slide"
           className={clsx(
-            "swiper-button-next gradient-border before:rounded-full flex items-center justify-center shadow-custom-purple !absolute !right-[20px] -translate-y-1/2 top-1/2 z-10 !w-[40px] !h-[40px] rounded-[50%] !bg-[#121423] after:hidden lg:!w-[4.796vw] lg:!h-[4.796vw] lg:!right-[30vw] sm:!right-[2vw] sm:!w-[11.111vw] sm:!h-[11.111vw]",
+            "swiper-button-next gradient-border shadow-custom-purple lg:!w-[4.796vw] lg:!h-[4.796vw] lg:!right-[30vw] !absolute !right-[20px] top-1/2 z-10 flex !h-[40px] !w-[40px] -translate-y-1/2 items-center justify-center rounded-[50%] !bg-[#121423] before:rounded-full after:hidden sm:!right-[2vw] sm:!h-[11.111vw] sm:!w-[11.111vw]",
             {},
           )}
         >

@@ -36,15 +36,15 @@ const SuccessPaymentModal = () => {
         })
       }
     >
-      <div className="fixed inset-0 z-[60] w-screen overflow-y-auto font-lato">
+      <div className="font-lato fixed inset-0 z-[60] w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
             transition
-            className="w-full h-screen flex items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+            className="data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
           >
-            <div className="w-screen h-full flex items-center justify-center flex-col pt-[45px] sm:pt-0">
-              <div className="w-[690px] h-[550px] mx-auto relative sm:overflow-x-hidden sm:bg-[#121423] sm:size-full">
-                <div className="hidden relative w-full h-[400px] sm:block success-payment-bg">
+            <div className="flex h-full w-screen flex-col items-center justify-center pt-[45px] sm:pt-0">
+              <div className="relative mx-auto h-[550px] w-[690px] sm:size-full sm:overflow-x-hidden sm:bg-[#121423]">
+                <div className="success-payment-bg relative hidden h-[400px] w-full sm:block">
                   <Image
                     src={ImageModal.src}
                     fill

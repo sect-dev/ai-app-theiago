@@ -27,8 +27,8 @@ const PaymentLoading: FC<ComponentProps> = ({ status }) => {
 
   return (
     <div className="py-[25px]">
-      <Spinner className="border-[#007AFF] border-t-transparent border-[6px] rounded-[12px] w-[90px] h-[90px] mx-auto" />
-      <div className="pt-[70px] text-center space-y-[12px]">
+      <Spinner className="mx-auto h-[90px] w-[90px] rounded-[12px] border-[6px] border-[#007AFF] border-t-transparent" />
+      <div className="space-y-[12px] pt-[70px] text-center">
         <p className="text-[24px] font-semibold leading-[1.2em]">
           Payment is being processed
         </p>

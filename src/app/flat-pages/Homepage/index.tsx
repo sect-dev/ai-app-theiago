@@ -114,11 +114,11 @@ const HomePage: FC<ComponentProps> = ({
   }, []);
 
   return (
-    <div className="animate-fadeIn overflow-y-auto h-[calc(100vh-60px)]">
+    <div className="h-[calc(100vh-60px)] animate-fadeIn overflow-y-auto">
       <div className="container !px-0">
         <div className="space-y-[8px] sm:space-y-0">
           <FavoritesGirls avatars={favoriteAvatars} />
-          <div className="bg-[#121423] p-[24px] rounded-l-[24px] md:p-[16px] sm:pt-0 md:rounded-none">
+          <div className="rounded-l-[24px] bg-[#121423] p-[24px] md:rounded-none md:p-[16px] sm:pt-0">
             <CardsList tags={tags} avatars={simpleAvatars} />
           </div>
         </div>

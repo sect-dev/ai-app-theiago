@@ -18,17 +18,17 @@ const QrModal = () => {
       className="relative z-10 focus:outline-none"
       onClose={() => setQrModal(false)}
     >
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto font-lato">
+      <div className="font-lato fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
             transition
-            className="w-full h-screen flex items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+            className="data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
           >
-            <div className="w-screen h-full flex items-center flex-col justify-center sm:pt-[80px]">
-              <div className="relative flex w-[690px] justify-between rounded-[24px] overflow-hidden md:w-[590px] sm:overflow-visible sm:w-[88vw]">
+            <div className="flex h-full w-screen flex-col items-center justify-center sm:pt-[80px]">
+              <div className="relative flex w-[690px] justify-between overflow-hidden rounded-[24px] md:w-[590px] sm:w-[88vw] sm:overflow-visible">
                 <button
                   onClick={() => setQrModal(false)}
-                  className="absolute z-[10] right-[20px] flex items-center justify-center top-[20px] bg-[#191B2C] rounded-[12px] size-[32px] sm:top-[-50px]"
+                  className="absolute right-[20px] top-[20px] z-[10] flex size-[32px] items-center justify-center rounded-[12px] bg-[#191B2C] sm:top-[-50px]"
                 >
                   <Image
                     src={IconClose.src}
@@ -37,7 +37,7 @@ const QrModal = () => {
                     alt="icon close"
                   />
                 </button>
-                <div className="w-full bg-[#121423] space-y-[16px] p-[20px] sm:flex sm:flex-col sm:items-center sm:justify-center sm:h-full">
+                <div className="w-full space-y-[16px] bg-[#121423] p-[20px] sm:flex sm:h-full sm:flex-col sm:items-center sm:justify-center">
                   <div className="space-y-[12px]">
                     <p className="text-[20px] font-semibold">
                       Get the App for full experience!
@@ -47,12 +47,12 @@ const QrModal = () => {
                       pocket!
                     </p>
                   </div>
-                  <div className="size-[308px] rounded-[32px] p-[26px] sm:size-[250px] bg-white">
+                  <div className="size-[308px] rounded-[32px] bg-white p-[26px] sm:size-[250px]">
                     <div className="relative size-[254px] sm:size-[200px]">
                       <Image src={ImageQr.src} fill alt="qr code image" />
                     </div>
                   </div>
-                  <div className="flex items-center gap-[8px] bg-[#282B42] rounded-[24px] py-[12px] px-[16px]">
+                  <div className="flex items-center gap-[8px] rounded-[24px] bg-[#282B42] px-[16px] py-[12px]">
                     <Image
                       src={IconCamera.src}
                       width={IconCamera.width}
@@ -64,7 +64,7 @@ const QrModal = () => {
                     </p>
                   </div>
                 </div>
-                <div className="w-full h-hull relative sm:hidden">
+                <div className="h-hull relative w-full sm:hidden">
                   <Image
                     src={ImageModal.src}
                     fill
@@ -73,9 +73,9 @@ const QrModal = () => {
                   />
                   <Link
                     href="/"
-                    className="font-bold block text-[34px] tracking-[0.04em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]"
+                    className="absolute bottom-[20px] left-[20px] block text-[34px] font-bold tracking-[0.04em] sm:text-[5.33vw]"
                   >
-                    <span className="logo-gradient ">Ai</span>
+                    <span className="logo-gradient">Ai</span>
                     <span className="">Go</span>
                   </Link>
                 </div>

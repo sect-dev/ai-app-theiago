@@ -75,11 +75,11 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   };
 
   return (
-    <div className="py-[10px] px-[20px] w-[250px] bg-[#21233A] rounded-[20px] rounded-bl-none">
+    <div className="w-[250px] rounded-[20px] rounded-bl-none bg-[#21233A] px-[20px] py-[10px]">
       <div className="flex items-center gap-2">
         {/* Кнопка Play/Pause */}
         <button
-          className="main-gradient size-[32px] rounded-[12px] shrink-0 flex items-center justify-center"
+          className="main-gradient flex size-[32px] shrink-0 items-center justify-center rounded-[12px]"
           onClick={togglePlay}
         >
           {isPlaying ? (
@@ -105,13 +105,13 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
         <div
           id={audioUrlNoSpace}
           ref={containerRef}
-          className="w-full h-[20px]"
+          className="h-[20px] w-full"
         />
 
         {/* Кнопка для показа текста */}
         <button
           onClick={handleShowText}
-          className="transcribate-button shrink-0 w-[24px] h-[20px] px-[4px] flex items-center justify-center rounded-[5px]"
+          className="transcribate-button flex h-[20px] w-[24px] shrink-0 items-center justify-center rounded-[5px] px-[4px]"
         >
           <Image
             src={IconArrow.src}
@@ -119,18 +119,18 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
             height={10}
             alt="icon arrow"
             className={clsx(
-              "w-[5px] h-[10px] transition-transform duration-300",
+              "h-[10px] w-[5px] transition-transform duration-300",
               { "rotate-[-90deg]": showText },
             )}
           />
           {!showText && (
-            <span className="text-[#0680E6] font-medium text-[12px]">A</span>
+            <span className="text-[12px] font-medium text-[#0680E6]">A</span>
           )}
         </button>
       </div>
 
       {showText && (
-        <p className="animate-fadeIn pt-[10px] text-[14px] !opacity-50 font-medium leading-[1.2em]">
+        <p className="animate-fadeIn pt-[10px] text-[14px] font-medium leading-[1.2em] !opacity-50">
           {text}
         </p>
       )}

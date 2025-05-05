@@ -7,10 +7,10 @@ const TokenPackagesSkeleton = () => {
         return (
           <div
             key={index}
-            className="bg-[#21233A] w-full h-[105px] rounded-[16px] p-[12px] pt-[50px] sm:!w-[41.89vw]"
+            className="h-[105px] w-full rounded-[16px] bg-[#21233A] p-[12px] pt-[50px] sm:!w-[41.89vw]"
           >
-            <p className="animate-pulse w-[80px] h-[20px] bg-[#121423] mb-[5px] rounded-full" />
-            <p className="animate-pulse w-[40px] h-[12px] bg-[#121423] rounded-full" />
+            <p className="mb-[5px] h-[20px] w-[80px] animate-pulse rounded-full bg-[#121423]" />
+            <p className="h-[12px] w-[40px] animate-pulse rounded-full bg-[#121423]" />
           </div>
         );
       })}
