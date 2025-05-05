@@ -20,13 +20,13 @@ const CardsList: FC<ComponentProps> = ({ avatars, tags }) => {
 
   return (
     <>
-      <p className="text-[20px] font-semibold tracking-[0.02vw] mb-[12px] sm:hidden">
+      <p className="mb-[12px] text-[20px] font-semibold tracking-[0.02vw] sm:hidden">
         Explore hottest AI Characters
       </p>
-      <div className="flex gap-[4px] mb-[16px] sm:overflow-hidden">
+      <div className="mb-[16px] flex gap-[4px] sm:overflow-hidden">
         <Tags tags={tags} />
       </div>
-      <div className="gap-[16px] cards-list sm:gap-[8px]">
+      <div className="cards-list gap-[16px] sm:gap-[8px]">
         {filteredAvatars?.map((avatar) => (
           <Card key={avatar.id} avatar={avatar} />
         ))}

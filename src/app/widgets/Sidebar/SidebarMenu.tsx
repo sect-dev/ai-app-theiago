@@ -118,7 +118,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 
   if (isHidden) {
     return (
-      <ul className="space-y-[4px] text-gray flex flex-col h-full min-w-[52px]">
+      <ul className="flex h-full min-w-[52px] flex-col space-y-[4px] text-gray">
         {navigationData.map((item, index) => {
           const checkUrl =
             item.href === "/"
@@ -131,7 +131,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
               <Link
                 href={item.href}
                 className={clsx(
-                  "flex items-center px-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",
+                  "transition-bg flex h-[40px] cursor-pointer items-center gap-[8px] bg-[#121423] px-[16px] text-[14px] font-semibold duration-300 hover:bg-[#2E335B]",
                   item.className,
                   {
                     "rounded-b-[12px]": isLastItem,
@@ -148,7 +148,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 
                 <span
                   className={clsx(
-                    "animate-fadeIn text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]",
+                    "group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)] animate-fadeIn text-[#9DB2CE]",
                     {
                       "logo-gradient transition-all duration-300": checkUrl,
                       "hidden md:!block": isChatPage,
@@ -170,11 +170,11 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
               href={item.href}
               onClick={item.onClick && handleSubscriptionClick}
               className={clsx(
-                "px-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[2px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",
+                "transition-bg h-[40px] cursor-pointer gap-[2px] bg-[#121423] px-[16px] text-[14px] font-semibold duration-300 hover:bg-[#2E335B]",
                 item.className,
                 {
                   "flex items-center justify-start gap-[8px]": index !== 0,
-                  "flex flex-col items-left gap-[2px]": index === 0,
+                  "items-left flex flex-col gap-[2px]": index === 0,
                 },
               )}
             >
@@ -192,7 +192,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
               )}
               <span
                 className={clsx(
-                  "animate-fadeIn gap-1 text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]",
+                  "group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)] animate-fadeIn gap-1 text-[#9DB2CE]",
                   {
                     "hidden md:!block": isChatPage,
                   },
@@ -230,7 +230,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
               onClick={handeClick}
               href={item.href}
               className={clsx(
-                "flex items-center px-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B]",
+                "transition-bg flex h-[40px] cursor-pointer items-center gap-[8px] bg-[#121423] px-[16px] text-[14px] font-semibold duration-300 hover:bg-[#2E335B]",
                 item.className,
                 {
                   "justify-center px-0": isChatPage,
@@ -246,7 +246,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
               />
               <span
                 className={clsx(
-                  "animate-fadeIn text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]",
+                  "group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)] animate-fadeIn text-[#9DB2CE]",
                   {
                     "logo-gradient transition-all duration-300": checkUrl,
                     "hidden md:!block": isChatPage,
@@ -265,7 +265,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
             href="https://quiz.theaigo.com/aigoweb#welcome"
             rel="nofollow"
             className={clsx(
-              "cursor-pointer animate-fadeIn block w-full font-semibold text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] h-[40px] main-gradient text-white ",
+              "main-gradient block h-[40px] w-full animate-fadeIn cursor-pointer rounded-b-[12px] rounded-t-[4px] px-[16px] py-[12px] text-[14px] font-semibold text-white",
               {
                 "!px-0 !py-0": isChatPage,
               },
@@ -273,7 +273,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
           >
             <span
               className={clsx(
-                "relative z-[5] h-full flex items-center gap-[8px]",
+                "relative z-[5] flex h-full items-center gap-[8px]",
                 {
                   "justify-center": isChatPage,
                 },

@@ -30,31 +30,31 @@ const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
 
   return (
     <div>
-      <div className="animate-fadeIn w-full mx-auto max-w-[840px] pt-[24px] fm:pt-0">
+      <div className="mx-auto w-full max-w-[840px] animate-fadeIn pt-[24px] fm:pt-0">
         <div className="flex gap-[16px] fm:flex-col">
           <div className="w-full max-w-[365px] fm:order-[-1] fm:max-w-full">
-            <div className="relative init-page-main h-[490px] fm:h-[120vw] sm:h-[150vw]">
+            <div className="init-page-main relative h-[490px] fm:h-[120vw] sm:h-[150vw]">
               <Image
                 src={mainImage ?? ""}
                 fill
                 alt="image"
-                className="object-cover rounded-[32px] fm:rounded-none"
+                className="rounded-[32px] object-cover fm:rounded-none"
               />
             </div>
-            <div className="relative mt-[-100px] z-[5] pl-[15px] fm:hidden">
-              <p className="text-[28px] font-bold text-center mb-[15px]">
+            <div className="relative z-[5] mt-[-100px] pl-[15px] fm:hidden">
+              <p className="mb-[15px] text-center text-[28px] font-bold">
                 Get closer to her
               </p>
               <SectionWithSwiper
-                className="rounded-[24px] !h-[320px] fm:!h-[85.87vw]"
+                className="!h-[320px] rounded-[24px] fm:!h-[85.87vw]"
                 character={character ?? null}
               />
             </div>
           </div>
-          <div className="bg-[#191B2C] py-[15px] overflow-x-hidden rounded-[32px] order-[-1] max-w-[475px] px-[20px] fm:relative fm:z-[10] fm:mt-[-225px] fm:bg-transparent fm:max-w-full">
+          <div className="order-[-1] max-w-[475px] overflow-x-hidden rounded-[32px] bg-[#191B2C] px-[20px] py-[15px] fm:relative fm:z-[10] fm:mt-[-225px] fm:max-w-full fm:bg-transparent">
             {character && <SectionSelect character={character} />}
             <div className="space-y-[12px] fm:space-y-[3.08vw]">
-              <div className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px] fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
+              <div className="flex items-center gap-[6px] rounded-[12px] bg-[#2B2D44] px-[15px] py-[10px] text-[14px] font-semibold fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
                 <Image
                   src={IconGender.src}
                   width={IconGender.width}
@@ -65,7 +65,7 @@ const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
                 Calm introvert with{" "}
                 <span className="lowercase"> {character?.personality}</span>
               </div>
-              <div className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px] fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
+              <div className="flex items-center gap-[6px] rounded-[12px] bg-[#2B2D44] px-[15px] py-[10px] text-[14px] font-semibold fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
                 <Image
                   src={IconGender.src}
                   width={IconGender.width}
@@ -76,7 +76,7 @@ const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
                 Will share emotions with{" "}
                 <span className="lowercase">{character?.occupation}</span>
               </div>
-              <div className="flex items-center text-[14px] bg-[#2B2D44] rounded-[12px] px-[15px] py-[10px] font-semibold gap-[6px] fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
+              <div className="flex items-center gap-[6px] rounded-[12px] bg-[#2B2D44] px-[15px] py-[10px] text-[14px] font-semibold fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
                 <Image
                   src={IconGender.src}
                   width={IconGender.width}
@@ -90,10 +90,10 @@ const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
                 </span>
               </div>
             </div>
-            <div className="hidden fm:pt-[24px] fm:block">
+            <div className="hidden fm:block fm:pt-[24px]">
               <SectionWithSwiper character={character ?? null} />
             </div>
-            <div className="hidden fm:py-[24px] fm:block">
+            <div className="hidden fm:block fm:py-[24px]">
               <PaymentDiscountBanner isMobileVersion />
             </div>
             <SectionAdvantages />
@@ -104,13 +104,13 @@ const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
               {/*  Pay with*/}
               {/*  <span className="text-[23px] font-semibold tracking-[-0.015em]  fm:text-[6.13vw]">Pay</span>*/}
               {/*</button>*/}
-              <button className="rounded-full w-full h-[50px] text-[#121423] flex items-center justify-center gap-[12px] gap-[4px]l bg-[#FFC43A] text-[14px] font-semibold fm:gap-[3.20vw] fm:text-[3.73vw]  fm:h-[13.33vw]">
+              <button className="gap-[4px]l flex h-[50px] w-full items-center justify-center gap-[12px] rounded-full bg-[#FFC43A] text-[14px] font-semibold text-[#121423] fm:h-[13.33vw] fm:gap-[3.20vw] fm:text-[3.73vw]">
                 <Image
                   src={IconPaypal.src}
                   width={IconPaypal.width}
                   height={IconPaypal.height}
                   alt="paypal icon"
-                  className="fm:w-[16vw] fm:h-[3.73vw]"
+                  className="fm:h-[3.73vw] fm:w-[16vw]"
                 />
                 Checkout
               </button>

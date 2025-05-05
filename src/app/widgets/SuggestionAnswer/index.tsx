@@ -44,7 +44,7 @@ const SuggestionAnswer: FC<ComponentProps> = ({
   };
 
   return (
-    <div className="animate-fadeIn bg-[#21233A] p-[8px] rounded-[12px] w-[365px] mb-[8px] md:w-full">
+    <div className="mb-[8px] w-[365px] animate-fadeIn rounded-[12px] bg-[#21233A] p-[8px] md:w-full">
       {loading ? (
         <div className="h-[32px]">
           <Spinner />{" "}
@@ -53,18 +53,18 @@ const SuggestionAnswer: FC<ComponentProps> = ({
         <button
           onClick={() => onSelectMessage(answer)}
           dangerouslySetInnerHTML={{ __html: marked(answer) }}
-          className="logo-gradient text-left text-[14px] font-medium line-clamp-2 leading-[1.2em] transition-text duration-300 hover:text-white"
+          className="logo-gradient transition-text line-clamp-2 text-left text-[14px] font-medium leading-[1.2em] duration-300 hover:text-white"
         ></button>
       )}
       <button
-        className={clsx("flex items-center gap-[4px] group", {
+        className={clsx("group flex items-center gap-[4px]", {
           "pointer-events-none opacity-20": loading,
         })}
         onClick={getRandomAnswer}
         disabled={loading}
       >
         <span className="text-[12px]">✨</span>
-        <span className="text-[12px] font-semibold tracking-[-0.04em] opacity-50 transition-border border-b border-b-transparent duration-300 group-hover:border-b-white">
+        <span className="transition-border border-b border-b-transparent text-[12px] font-semibold tracking-[-0.04em] opacity-50 duration-300 group-hover:border-b-white">
           {" "}
           Suggestion answer
         </span>

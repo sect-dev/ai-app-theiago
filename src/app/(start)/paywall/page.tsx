@@ -46,7 +46,7 @@ const PageContent = () => {
   }
 
   return (
-    <div className="bg-[#121423] rounded-[24px] p-[25px] fmLbg-transparent fm:p-0">
+    <div className="fmLbg-transparent rounded-[24px] bg-[#121423] p-[25px] fm:p-0">
       <Initpage paymentPlans={paymentPlans} character={character} />
     </div>
   );

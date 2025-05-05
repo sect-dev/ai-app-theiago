@@ -81,10 +81,10 @@ const ChatsMessageModal: FC<ComponentProps> = ({
   return (
     <div
       ref={modalRef}
-      className="animate-fadeIn chats-suggestion-modal w-[187px] absolute right-[60px] bottom-[calc(100%+10px)] space-y-[4px] z-[5]"
+      className="chats-suggestion-modal absolute bottom-[calc(100%+10px)] right-[60px] z-[5] w-[187px] animate-fadeIn space-y-[4px]"
     >
-      <div className="py-[12px] px-[6px] bg-[#21233A] rounded-t-[12px] rounded-b-[4px]">
-        <p className="text-[14px] font-semibold mb-[10px]">Ask a photo with</p>
+      <div className="rounded-b-[4px] rounded-t-[12px] bg-[#21233A] px-[6px] py-[12px]">
+        <p className="mb-[10px] text-[14px] font-semibold">Ask a photo with</p>
         <ul className="">
           {photoPrompt.map((item) => {
             const prompt = item.title.includes("Custom")
@@ -94,10 +94,10 @@ const ChatsMessageModal: FC<ComponentProps> = ({
               <li key={item.id} className="">
                 <button
                   onClick={() => onSelectMessage(prompt)}
-                  className="flex items-center gap-[8px] text-left w-full py-[6px] group"
+                  className="group flex w-full items-center gap-[8px] py-[6px] text-left"
                 >
                   <span className="text-[14px]">{item.image}</span>
-                  <span className="text-[12px] font-medium border-b border-b-transparent transition-border duration-300 group-hover:border-b-white">
+                  <span className="transition-border border-b border-b-transparent text-[12px] font-medium duration-300 group-hover:border-b-white">
                     {item.title}
                   </span>
                 </button>
@@ -106,16 +106,16 @@ const ChatsMessageModal: FC<ComponentProps> = ({
           })}
         </ul>
       </div>
-      <div className="py-[12px] px-[6px] bg-[#21233A] rounded-b-[12px] rounded-t-[4px] ">
+      <div className="rounded-b-[12px] rounded-t-[4px] bg-[#21233A] px-[6px] py-[12px]">
         <ul className="mb-[12px]">
           {textPrompt.map((item) => {
             return (
               <li key={item.id} className="group">
                 <button
                   onClick={() => onSelectMessage(item.title)}
-                  className="block text-left w-full py-[6px] text-[12px] font-medium "
+                  className="block w-full py-[6px] text-left text-[12px] font-medium"
                 >
-                  <span className="border-b border-b-transparent transition-border duration-300 group-hover:border-b-white">
+                  <span className="transition-border border-b border-b-transparent duration-300 group-hover:border-b-white">
                     {item.title}
                   </span>
                 </button>
@@ -123,7 +123,7 @@ const ChatsMessageModal: FC<ComponentProps> = ({
             );
           })}
         </ul>
-        <p className="text-[10px] font-medium opacity-50 leading-[1.2em] tracking-[-0.04em]">
+        <p className="text-[10px] font-medium leading-[1.2em] tracking-[-0.04em] opacity-50">
           You can request any photo by starting the message with these words.
         </p>
       </div>

@@ -41,7 +41,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
 
   return (
     <div>
-      <div className="space-y-[12px] mb-[24px]">
+      <div className="mb-[24px] space-y-[12px]">
         {paymentPlans.map((item) => {
           const days = item.interval_length * 30;
           const fullPricePerDay = calculateCostPerDay(
@@ -63,28 +63,28 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
               onClick={() => paymentHandle(item)}
               key={item.id}
               className={clsx(
-                "init-page-gradient-border relative before:z-[1] before:rounded-[16px] before:opacity-0 hover:before:opacity-100 cursor-pointer bg-[#2B2D44] rounded-[16px] p-[16px] hover:shadow-card-shadow fm:rounded-[4.27vw] fm:before:rounded-[4.27vw] fm:p-[4.27vw]",
+                "init-page-gradient-border relative cursor-pointer rounded-[16px] bg-[#2B2D44] p-[16px] before:z-[1] before:rounded-[16px] before:opacity-0 hover:shadow-card-shadow hover:before:opacity-100 fm:rounded-[4.27vw] fm:p-[4.27vw] fm:before:rounded-[4.27vw]",
                 {
-                  "before:opacity-100 shadow-card-shadow":
+                  "shadow-card-shadow before:opacity-100":
                     selectedPrice?.id === item.id,
                 },
               )}
             >
               <div
-                className={clsx("flex items-center justify-between ", {
+                className={clsx("flex items-center justify-between", {
                   "pt-[12px] fm:pt-[3.20vw]": selectedPrice?.id === item.id,
                 })}
               >
                 <div>
-                  <p className="font-semibold leading-[1.5em] text-[16px] fm:text-[4.27vw]">
+                  <p className="text-[16px] font-semibold leading-[1.5em] fm:text-[4.27vw]">
                     {item.interval_length} {item.interval_unit}
                   </p>
-                  <div className="flex items-center gap-[4px] text-[12px] fm:gap-[1.07vw] fm:text-[3.20vw] font-asap">
+                  <div className="flex items-center gap-[4px] font-asap text-[12px] fm:gap-[1.07vw] fm:text-[3.20vw]">
                     <p className="relative">
                       <span className="uppercase opacity-40">
                         {item.currency} {item.amount_recurring}
                       </span>
-                      <span className="w-full absolute bg-button-gradient h-[2px] z-[5] left-0 top-1/2 -translate-y-1/2" />
+                      <span className="absolute left-0 top-1/2 z-[5] h-[2px] w-full -translate-y-1/2 bg-button-gradient" />
                     </p>
                     <Image
                       src={ImageArrow.src}
@@ -99,14 +99,14 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-end gap-[6px] leading-[1.5em] font-asap fm:gap-[1.60vw]">
-                  <p className="flex items-center gap-[4px] ">
+                <div className="flex items-end gap-[6px] font-asap leading-[1.5em] fm:gap-[1.60vw]">
+                  <p className="flex items-center gap-[4px]">
                     <span className="text-[12px] font-semibold uppercase fm:text-[3.20vw]">
                       {item.currency}
                     </span>
                     <span className="relative text-[12px] fm:text-[3.20vw]">
                       <span className="opacity-40">{fullPricePerDay}</span>
-                      <span className="w-full absolute bg-button-gradient h-[2px] z-[5] left-0 top-1/2 -translate-y-1/2" />
+                      <span className="absolute left-0 top-1/2 z-[5] h-[2px] w-full -translate-y-1/2 bg-button-gradient" />
                     </span>
                   </p>
                   <p>
@@ -116,7 +116,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                       </span>
                       <span>,{discountPriceWithoutFirstLetter}</span>
                     </span>
-                    <span className="opacity-40 text-[12px] fm:text-[3.20vw]">
+                    <span className="text-[12px] opacity-40 fm:text-[3.20vw]">
                       {" "}
                       / day
                     </span>
@@ -124,7 +124,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                 </div>
               </div>
               <div className="pt-[12px] fm:pt-[3.20vw]">
-                <button className="text-[13px] w-full font-asap flex items-center justify-between fm:text-[3.47vw]">
+                <button className="flex w-full items-center justify-between font-asap text-[13px] fm:text-[3.47vw]">
                   Learn more
                   <Image
                     src={IconExpand.src}
@@ -136,7 +136,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                 </button>
                 {selectedPrice?.id === item.id && (
                   <div className="animate-fadeIn">
-                    <ul className="py-[12px] space-y-[6px] fm:space-y-[1.60vw] fm:py-[3.20vw]">
+                    <ul className="space-y-[6px] py-[12px] fm:space-y-[1.60vw] fm:py-[3.20vw]">
                       {additionalInfo.map((item, index) => {
                         return (
                           <li
@@ -150,22 +150,22 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                     </ul>
                     <Link
                       href="#form"
-                      className="relative flex items-center justify-center gap-[5px] overflow-hidden bg-button-gradient disabled:opacity-50 rounded-[24px] w-full h-[60px] text-white text-center fm:h-[16vw] fm:rounded-[6.40vw]"
+                      className="relative flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-button-gradient text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]"
                     >
-                      <span className="uppercase  font-bold font-noto-sans text-[14px] fm:text-[3.73vw]">
+                      <span className="font-noto-sans text-[14px] font-bold uppercase fm:text-[3.73vw]">
                         get your girlfriend
                       </span>
-                      <span className="bg-white-gradient  animate-[moveRight_4.25s_ease-in_infinite_forwards] block rotate-[20deg] size-[125px] absolute -left-1/2 top-1/2 -translate-y-1/2" />
+                      <span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
                     </Link>
-                    <p className="text-center font-bold text-center text-[12px] pt-[12px] fm:pt-[3.20vw] fm:text-[3.20vw]">
+                    <p className="pt-[12px] text-center text-[12px] font-bold fm:pt-[3.20vw] fm:text-[3.20vw]">
                       🔥 65,756 people received a girlfriend this week. 🔥
                     </p>
                   </div>
                 )}
               </div>
               {item.id === selectedPrice?.id && (
-                <div className="absolute animate-fadeIn w-full h-[17px] left-0 top-0 flex items-center justify-center rounded-t-[16px] bg-button-gradient fm:rounded-t-[4.27vw] fm:h-[4.53vw]">
-                  <span className="uppercase font-bold text-[11px] fm:text-[2.93vw]">
+                <div className="absolute left-0 top-0 flex h-[17px] w-full animate-fadeIn items-center justify-center rounded-t-[16px] bg-button-gradient fm:h-[4.53vw] fm:rounded-t-[4.27vw]">
+                  <span className="text-[11px] font-bold uppercase fm:text-[2.93vw]">
                     most popular
                   </span>
                 </div>

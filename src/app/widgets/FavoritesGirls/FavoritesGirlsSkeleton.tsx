@@ -2,16 +2,16 @@ import React from "react";
 
 export default function FavoritesGirlsSkeleton() {
   return (
-    <div className="skeleton-shadow flex items-end relative p-[12px] w-[300px] h-[330px] rounded-[24px] overflow-hidden shrink-0 ">
+    <div className="skeleton-shadow relative flex h-[330px] w-[300px] shrink-0 items-end overflow-hidden rounded-[24px] p-[12px]">
       <div className="relative z-[2]">
-        <div className="flex items-center gap-[2px] mb-[8px] md:gap-[4px]">
-          <div className="rounded-[8px] w-[46px] animate-pulse h-[21px] bg-skeleton" />
-          <div className="rounded-[8px] w-[50px] animate-pulse h-[21px] bg-skeleton" />
+        <div className="mb-[8px] flex items-center gap-[2px] md:gap-[4px]">
+          <div className="h-[21px] w-[46px] animate-pulse rounded-[8px] bg-skeleton" />
+          <div className="h-[21px] w-[50px] animate-pulse rounded-[8px] bg-skeleton" />
         </div>
-        <p className="w-[4.69vw] h-[1.09vw] animate-pulse bg-skeleton rounded-[8px] mb-[0.47vw] sm:rounded-[4.40vw] sm:h-[3.60vw] sm:w-[14vw] sm:mb-[2.13vw]" />
+        <p className="mb-[0.47vw] h-[1.09vw] w-[4.69vw] animate-pulse rounded-[8px] bg-skeleton sm:mb-[2.13vw] sm:h-[3.60vw] sm:w-[14vw] sm:rounded-[4.40vw]" />
         <div className="space-y-[0.47vw] sm:space-y-[1.7vw]">
-          <p className="bg-skeleton rounded-[0.63vw] animate-pulse w-[13.44vw] h-[1.09vw] sm:rounded-[4.40vw] sm:h-[3.80vw] sm:w-[55vw]" />
-          <p className="bg-skeleton rounded-[0.63vw] animate-pulse w-[7.19vw] h-[1.09vw] sm:rounded-[4.40vw] sm:h-[3.80vw] sm:w-[35vw]" />
+          <p className="h-[1.09vw] w-[13.44vw] animate-pulse rounded-[0.63vw] bg-skeleton sm:h-[3.80vw] sm:w-[55vw] sm:rounded-[4.40vw]" />
+          <p className="h-[1.09vw] w-[7.19vw] animate-pulse rounded-[0.63vw] bg-skeleton sm:h-[3.80vw] sm:w-[35vw] sm:rounded-[4.40vw]" />
         </div>
       </div>
     </div>

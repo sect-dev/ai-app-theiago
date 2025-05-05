@@ -12,7 +12,7 @@ const PaymentError = () => {
         alt="error image"
         className="mx-auto"
       />
-      <div className="pt-[32px] text-center space-y-[12px] mb-[34px] max-w-[275px] mx-auto">
+      <div className="mx-auto mb-[34px] max-w-[275px] space-y-[12px] pt-[32px] text-center">
         <p className="text-[24px] font-semibold leading-[1.2em]">
           Payment Cancelled
         </p>
@@ -20,7 +20,7 @@ const PaymentError = () => {
           We were unable to process this payment, please try again
         </p>
       </div>
-      <button className="w-full h-[52px] main-gradient rounded-[12px] text-[15px] font-bold text-center">
+      <button className="main-gradient h-[52px] w-full rounded-[12px] text-center text-[15px] font-bold">
         <span className="relative z-[5]">Try again</span>
       </button>
     </>

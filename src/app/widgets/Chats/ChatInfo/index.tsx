@@ -70,14 +70,14 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
     <>
       <div
         className={clsx(
-          "animate-fadeIn overflow-auto max-h-[calc(100vh-57px)] bg-[#121423] rounded-l-[8px] w-[292px] shrink-0 rounded-r-[24px] transition-all duration-300 md:h-[calc(100svh-60px)] md:absolute md:left-0 md:top-0 md:w-full md:-translate-x-[-105%]",
+          "max-h-[calc(100vh-57px)] w-[292px] shrink-0 animate-fadeIn overflow-auto rounded-l-[8px] rounded-r-[24px] bg-[#121423] transition-all duration-300 md:absolute md:left-0 md:top-0 md:h-[calc(100svh-60px)] md:w-full md:-translate-x-[-105%]",
           {
             "mr-[-310px]": characterInfoCollapse,
             "md:!translate-x-0": isMobileInfoOpen,
           },
         )}
       >
-        <div className="chatInfoImage relative flex items-end p-[20px] h-[293px] rounded-tl-[8px] rounded-tr-[24px] overflow-hidden">
+        <div className="chatInfoImage relative flex h-[293px] items-end overflow-hidden rounded-tl-[8px] rounded-tr-[24px] p-[20px]">
           {characterInfo?.imageZero && (
             <Image
               src={characterInfo?.imageZero}
@@ -96,19 +96,19 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 
           <button
             onClick={handleCollapse}
-            className="flex md:hidden absolute left-[20px] top-[20px] z-[5] items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]"
+            className="absolute left-[20px] top-[20px] z-[5] flex size-[32px] items-center justify-center rounded-[12px] bg-[#191B2C] md:hidden"
           >
             <Image
               src={IconCollapse.src}
               width={IconCollapse.width}
               height={IconCollapse.height}
               alt="collapse image"
-              className="size-[18px] block md:hidden"
+              className="block size-[18px] md:hidden"
             />
           </button>
           <button
             onClick={() => setMobileInfoOpen(false)}
-            className="hidden md:flex absolute left-[20px] top-[20px] z-[5] items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]"
+            className="absolute left-[20px] top-[20px] z-[5] hidden size-[32px] items-center justify-center rounded-[12px] bg-[#191B2C] md:flex"
           >
             <Image
               src={IconBack.src}
@@ -125,14 +125,14 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
           </p>
         </div>
         <div className="bg-[#121423]">
-          <div className="flex gap-[20px] px-[20px] ">
+          <div className="flex gap-[20px] px-[20px]">
             {tabsCaptions.map((item) => {
               return (
                 <button
                   onClick={() => handleTabs(item.title)}
                   key={item.id}
                   className={clsx(
-                    "text-[14px] px-[7px] h-[27px] font-semibold opacity-[20%] transition-all duration-300",
+                    "h-[27px] px-[7px] text-[14px] font-semibold opacity-[20%] transition-all duration-300",
                     {
                       "logo-gradient !opacity-100": tabs === item.title,
                     },
@@ -141,7 +141,7 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
                   {item.title}
                   <span
                     className={clsx(
-                      "block w-full h-[6px] rounded-t-[4px] transition-opacity duration-300 main-gradient opacity-0",
+                      "main-gradient block h-[6px] w-full rounded-t-[4px] opacity-0 transition-opacity duration-300",
                       {
                         "!opacity-100": tabs === item.title,
                       },
@@ -151,7 +151,7 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
               );
             })}
           </div>
-          <div className="px-[8px]  pb-[8px]">
+          <div className="px-[8px] pb-[8px]">
             {tabs === "Posts" && (
               <ChatsInfoPosts content={currentCharacter?.photos ?? null} />
             )}

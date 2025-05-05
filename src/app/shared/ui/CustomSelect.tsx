@@ -30,7 +30,7 @@ export const CustomSelect = ({
   return (
     <div className="relative w-full">
       <div
-        className="bg-[#21233A] font-bai-jamjuree flex items-center  px-[14px] text-[14px] placeholder:text-[14px] h-[48px] w-full rounded-[16px] fm:text-[3.73vw] fm:placeholder:text-[3.73vw] fm:px-[3.73vw] fm:rounded-[4.27vw] fm:h-[12.80vw]"
+        className="flex h-[48px] w-full items-center rounded-[16px] bg-[#21233A] px-[14px] font-bai-jamjuree text-[14px] placeholder:text-[14px] fm:h-[12.80vw] fm:rounded-[4.27vw] fm:px-[3.73vw] fm:text-[3.73vw] fm:placeholder:text-[3.73vw]"
         onClick={() => setIsOpen(!isOpen)}
       >
         {value ? (
@@ -40,7 +40,7 @@ export const CustomSelect = ({
         )}
         <div
           className={clsx(
-            "absolute right-[20px] transition-all duration-300  top-[50%] translate-y-[-50%]",
+            "absolute right-[20px] top-[50%] translate-y-[-50%] transition-all duration-300",
             {
               "rotate-[180deg]": isOpen,
             },
@@ -63,11 +63,11 @@ export const CustomSelect = ({
       </div>
 
       {isOpen && (
-        <div className="absolute left-0 top-full mt-2 w-full bg-[#21233A] space-y-[12px] rounded-[16px] p-[12px] z-[20] fm:p-[3.20vw] fm:rounded-[4.27vw] fm:space-y-[3.20vw]">
+        <div className="absolute left-0 top-full z-[20] mt-2 w-full space-y-[12px] rounded-[16px] bg-[#21233A] p-[12px] fm:space-y-[3.20vw] fm:rounded-[4.27vw] fm:p-[3.20vw]">
           {options.map((option) => (
             <div
               key={option.value}
-              className="text-[14px] cursor-pointer transition-all duration-300 hover:text-[#8F5AFF] fm:text-[3.73vw]"
+              className="cursor-pointer text-[14px] transition-all duration-300 hover:text-[#8F5AFF] fm:text-[3.73vw]"
               onClick={() => handleOptionClick(option.value)}
             >
               {option.label}

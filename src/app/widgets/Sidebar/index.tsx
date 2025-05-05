@@ -23,9 +23,9 @@ const Sidebar: FC<ComponentProps> = ({
   }, [isPremium]);
 
   return (
-    <div className="w-full h-[calc(100vh-46px)] pt-[15px] pb-[24px]">
+    <div className="h-[calc(100vh-46px)] w-full pb-[24px] pt-[15px]">
       <div className="container h-full">
-        <div className="flex flex-col justify-between gap-[0.5vw] h-full">
+        <div className="flex h-full flex-col justify-between gap-[0.5vw]">
           <SidebarMenu setIsMenuOpen={setIsMenuOpen} pathname={pathname} />
           <div className="space-y-[12px]">
             {!isChatPage && !isHidden && <SidebarBanner />}

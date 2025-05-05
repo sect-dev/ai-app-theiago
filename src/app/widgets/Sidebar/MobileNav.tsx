@@ -37,7 +37,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname }) => {
   const { setPaymentModal } = usePaymentStore();
   const isChatPage = pathname?.includes("chats");
   return (
-    <ul className="space-y-[4px] text-gray md:flex md:space-y-0 md:overflow-hidden md:h-[56px] md:w-[128px]  ">
+    <ul className="space-y-[4px] text-gray md:flex md:h-[56px] md:w-[128px] md:space-y-0 md:overflow-hidden">
       {navigationData.map((item) => {
         const checkUrl =
           item.href === "/"
@@ -52,10 +52,10 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname }) => {
             <Link
               href={item.href}
               className={clsx(
-                "flex items-center pl-[16px] cursor-pointer font-semibold bg-[#121423] text-[14px] gap-[8px] h-[40px] transition-bg duration-300 hover:bg-[#2E335B] md:hover:bg-transparent md:bg-transparent md:justify-center md:size-full md:rounded-none md:gap-0 md:text-[10px] md:flex-col md:pl-0",
+                "transition-bg flex h-[40px] cursor-pointer items-center gap-[8px] bg-[#121423] pl-[16px] text-[14px] font-semibold duration-300 hover:bg-[#2E335B] md:size-full md:flex-col md:justify-center md:gap-0 md:rounded-none md:bg-transparent md:pl-0 md:text-[10px] md:hover:bg-transparent",
                 item.className,
                 {
-                  "!pl-0 justify-center": isChatPage,
+                  "justify-center !pl-0": isChatPage,
                 },
               )}
             >
@@ -68,7 +68,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname }) => {
               />
               <span
                 className={clsx(
-                  "animate-fadeIn text-[#9DB2CE] group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)]",
+                  "group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)] animate-fadeIn text-[#9DB2CE]",
                   {
                     "logo-gradient transition-all duration-300": checkUrl,
                     "hidden md:!block": isChatPage,
@@ -85,7 +85,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname }) => {
         <button
           onClick={() => setPaymentModal(true)}
           className={clsx(
-            "cursor-pointer block w-full font-semibold text-[14px] py-[12px] rounded-t-[4px] rounded-b-[12px] px-[16px] h-[40px] main-gradient text-white md:hidden",
+            "main-gradient block h-[40px] w-full cursor-pointer rounded-b-[12px] rounded-t-[4px] px-[16px] py-[12px] text-[14px] font-semibold text-white md:hidden",
             {
               "!px-0 !py-0": isChatPage,
             },
@@ -93,7 +93,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname }) => {
         >
           <span
             className={clsx(
-              "relative z-[5] h-full flex items-center  gap-[8px]",
+              "relative z-[5] flex h-full items-center gap-[8px]",
               {
                 "justify-center": isChatPage,
               },

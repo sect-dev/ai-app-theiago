@@ -33,7 +33,7 @@ const SectionSelect: FC<ComponentProps> = ({ character }) => {
 
   return (
     <div className="mb-[17px] pt-[20px] fm:mb-[4.36vw] fm:pt-[4.36vw]">
-      <h2 className="text-[28px] font-bold sm:text-[9.07vw] leading-[1.2em] fm:mx-auto fm:max-w-full fm:text-[8.72vw] fm:text-center fm:uppercase">
+      <h2 className="text-[28px] font-bold leading-[1.2em] fm:mx-auto fm:max-w-full fm:text-center fm:text-[8.72vw] fm:uppercase sm:text-[9.07vw]">
         Get your girlfriend
       </h2>
       <div className="grid grid-cols-[repeat(2,minmax(160px,1fr))] gap-[12px] pt-[25px] fm:gap-[5.13vw] fm:pt-[6.41vw]">
@@ -41,9 +41,9 @@ const SectionSelect: FC<ComponentProps> = ({ character }) => {
           return (
             <div
               key={item.title}
-              className="init-page-select-card bg-[#2B2D44] relative overflow-hidden flex gap-[10px] items-center p-[4px] rounded-[16px] fm:p-[2.56vw] fm:flex-col fm:w-full fm:h-[51.28vw] fm:before:!opacity-100 fm:bg-transparent"
+              className="init-page-select-card relative flex items-center gap-[10px] overflow-hidden rounded-[16px] bg-[#2B2D44] p-[4px] fm:h-[51.28vw] fm:w-full fm:flex-col fm:bg-transparent fm:p-[2.56vw] fm:before:!opacity-100"
             >
-              <div className="relative size-[84px] rounded-[16px] overflow-hidden fm:size-full">
+              <div className="relative size-[84px] overflow-hidden rounded-[16px] fm:size-full">
                 <Image
                   src={item.image}
                   fill
@@ -51,8 +51,8 @@ const SectionSelect: FC<ComponentProps> = ({ character }) => {
                   className="rounded-[16px] object-cover fm:absolute fm:left-0 fm:top-0"
                 />
               </div>
-              <div className="flex flex-col fm:flex-row fm:gap-[3px] fm:z-[12] fm:absolute fm:left-1/2 fm:bottom-[10px] fm:-translate-x-1/2">
-                <p className="text-[14px] font-semibold mb-[4px] fm:text-[3.59vw]">
+              <div className="flex flex-col fm:absolute fm:bottom-[10px] fm:left-1/2 fm:z-[12] fm:-translate-x-1/2 fm:flex-row fm:gap-[3px]">
+                <p className="mb-[4px] text-[14px] font-semibold fm:text-[3.59vw]">
                   {item.title}
                 </p>
                 <p className="text-[14px] font-bold fm:text-[3.59vw]">

@@ -47,7 +47,7 @@ const SectionWithSwiper: FC<ComponentProps> = ({
           return (
             <SwiperSlide
               key={item}
-              className={clsx(" overflow-hidden ", className)}
+              className={clsx("overflow-hidden", className)}
             >
               <Image src={item} fill alt="images" className="object-cover" />
             </SwiperSlide>
@@ -57,7 +57,7 @@ const SectionWithSwiper: FC<ComponentProps> = ({
         role="button"
         aria-label="Prev Slide"
         className={clsx(
-          "swiper-button-prev opacity-0 gradient-border-full flex items-center justify-center shadow-custom-purple rotate-[-180deg] !absolute !left-[0] top-1/2 z-10 !w-[40px] !h-[40px] rounded-[50%] !bg-[#121423] after:hidden lg:!w-[4.796vw] lg:!h-[4.796vw] lg:!left-[30vw] sm:!left-[2vw] sm:!w-[11.111vw] sm:!h-[11.111vw]",
+          "swiper-button-prev gradient-border-full shadow-custom-purple lg:!w-[4.796vw] lg:!h-[4.796vw] lg:!left-[30vw] !absolute !left-[0] top-1/2 z-10 flex !h-[40px] !w-[40px] rotate-[-180deg] items-center justify-center rounded-[50%] !bg-[#121423] opacity-0 after:hidden sm:!left-[2vw] sm:!h-[11.111vw] sm:!w-[11.111vw]",
           {},
         )}
       >
@@ -72,7 +72,7 @@ const SectionWithSwiper: FC<ComponentProps> = ({
         role="button"
         aria-label="Next Slide"
         className={clsx(
-          "swiper-button-next flex items-center justify-center gradient-border-full shadow-custom-purple !absolute !right-[0] top-1/2 z-10 !w-[40px] !h-[40px] rounded-[50%] !bg-[#121423] after:hidden lg:!w-[4.796vw] lg:!h-[4.796vw] lg:!right-[30vw] sm:!right-[2vw] sm:!w-[11.111vw] sm:!h-[11.111vw]",
+          "swiper-button-next gradient-border-full shadow-custom-purple lg:!w-[4.796vw] lg:!h-[4.796vw] lg:!right-[30vw] !absolute !right-[0] top-1/2 z-10 flex !h-[40px] !w-[40px] items-center justify-center rounded-[50%] !bg-[#121423] after:hidden sm:!right-[2vw] sm:!h-[11.111vw] sm:!w-[11.111vw]",
           {},
         )}
       >

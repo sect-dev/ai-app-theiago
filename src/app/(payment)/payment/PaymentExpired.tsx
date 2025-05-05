@@ -13,7 +13,7 @@ const PaymentExpired = () => {
         alt="error image"
         className="mx-auto"
       />
-      <div className="pt-[32px] text-center space-y-[12px] mb-[34px] max-w-[275px] mx-auto">
+      <div className="mx-auto mb-[34px] max-w-[275px] space-y-[12px] pt-[32px] text-center">
         <p className="text-[24px] font-semibold leading-[1.2em]">
           Payment Expired
         </p>
@@ -23,7 +23,7 @@ const PaymentExpired = () => {
       </div>
       <Link
         href="/paywall"
-        className="flex items-center justify-center w-full h-[52px] main-gradient rounded-[12px] text-[15px] font-bold text-center"
+        className="main-gradient flex h-[52px] w-full items-center justify-center rounded-[12px] text-center text-[15px] font-bold"
       >
         <span className="relative z-[5]">Try again</span>
       </Link>

@@ -56,18 +56,18 @@ const PaymentModal = () => {
       className="relative z-10 focus:outline-none"
       onClose={() => setPaymentModal(false)}
     >
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto font-lato">
+      <div className="font-lato fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
             transition
-            className="w-full h-screen flex items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+            className="data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
           >
-            <div className="w-screen h-full flex items-center flex-col pt-[45px] overflow-y-auto">
+            <div className="flex h-full w-screen flex-col items-center overflow-y-auto pt-[45px]">
               <PaymentDiscountBanner />
               <div className="relative sm:size-full">
                 <button
                   onClick={() => setPaymentModal(false)}
-                  className="absolute z-[10] left-[20px] top-[35px] flex items-center justify-center  bg-[#191B2C] rounded-[12px] size-[32px] sm:right-auto sm:left-[20px]"
+                  className="absolute left-[20px] top-[35px] z-[10] flex size-[32px] items-center justify-center rounded-[12px] bg-[#191B2C] sm:left-[20px] sm:right-auto"
                 >
                   <Image
                     src={IconClose.src}
@@ -82,14 +82,14 @@ const PaymentModal = () => {
                     Choose your relationships
                   </p>
                   <div className="flex gap-[15px] pt-[25px]">
-                    <div className="relative card-reverse shrink-0 overflow-hidden p-[25px] rounded-[34px] w-[365px] h-[523px]">
+                    <div className="card-reverse relative h-[523px] w-[365px] shrink-0 overflow-hidden rounded-[34px] p-[25px]">
                       <Image
                         src={image}
                         fill
                         alt="image"
                         className="object-cover"
                       />
-                      <p className="relative z-[5] text-[33px] font-semibold leading-[1.2em] font-bai-jamjuree">
+                      <p className="relative z-[5] font-bai-jamjuree text-[33px] font-semibold leading-[1.2em]">
                         Get closer with {character ? character.name : "them"}
                       </p>
                     </div>

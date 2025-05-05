@@ -34,13 +34,13 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   };
 
   return (
-    <div className="fixed bg-[#191B2C] top-0 left-0 z-50 w-full py-[6px] md:py-[14px] md:relative">
+    <div className="fixed left-0 top-0 z-50 w-full bg-[#191B2C] py-[6px] md:relative md:py-[14px]">
       <div className="container">
-        <div className="flex justify-between items-center font-bai-jamjuree">
+        <div className="flex items-center justify-between font-bai-jamjuree">
           <div className="flex items-center gap-[14px]">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex-col h-[12px] w-[18px] gap-[4px] hidden md:flex"
+              className="hidden h-[12px] w-[18px] flex-col gap-[4px] md:flex"
             >
               <span
                 className={clsx(
@@ -71,7 +71,7 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
             </button>
             <Link
               href="/"
-              className="font-bold block text-[20px] tracking-[0.04em] sm:text-[5.33vw] "
+              className="block text-[20px] font-bold tracking-[0.04em] sm:text-[5.33vw]"
             >
               <span className="logo-gradient">Ai</span>
               <span>Go</span>
@@ -79,12 +79,12 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
           </div>
 
           {loading ? (
-            <div className="animate-pulse block main-gradient h-[27px] w-[72px] flex items-center rounded-[8px] " />
+            <div className="main-gradient block flex h-[27px] w-[72px] animate-pulse items-center rounded-[8px]" />
           ) : user && !user?.isAnonymous ? (
             <div className="flex gap-2">
               <button
                 onClick={getTokensHandle}
-                className="block main-gradient h-[24px] rounded-[15px] px-[12px]"
+                className="main-gradient block h-[24px] rounded-[15px] px-[12px]"
               >
                 <span className="relative z-[5] flex items-center">
                   <Image
@@ -94,7 +94,7 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
                     alt="plus image"
                     className="size-[8px]"
                   />
-                  <span className="text-[12px] font-bold pl-[8px] pr-[4px]">
+                  <span className="pl-[8px] pr-[4px] text-[12px] font-bold">
                     {tokens}
                   </span>
                   <Image
@@ -107,7 +107,7 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
               </button>
               <button
                 onClick={handleSignOut}
-                className="animate-fadeIn relative gradient-border logo-gradient flex items-center justify-center gap-[8px] w-[64px] h-[24px]"
+                className="gradient-border logo-gradient relative flex h-[24px] w-[64px] animate-fadeIn items-center justify-center gap-[8px]"
               >
                 <span className="shrink-0 text-[12px] font-semibold">
                   Sign out
@@ -119,7 +119,7 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
               onClick={() =>
                 setAuthModal({ modalType: "login", isAuthModalActive: true })
               }
-              className="animate-fadeIn main-gradient px-[12px] h-[24px] font-bold text-[12px] rounded-[8px] md:px-[12px] md:h-[27px] md:text-[14px]"
+              className="main-gradient h-[24px] animate-fadeIn rounded-[8px] px-[12px] text-[12px] font-bold md:h-[27px] md:px-[12px] md:text-[14px]"
             >
               <span className="relative z-[5]">Sign in</span>
             </button>

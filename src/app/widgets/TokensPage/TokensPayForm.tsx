@@ -10,7 +10,7 @@ const TokensPayForm = forwardRef<HTMLDivElement, Props>(
     return (
       <div
         ref={ref}
-        className="relative w-full h-[1040px] bg-white rounded-[20px] overflow-hidden"
+        className="relative h-[1040px] w-full overflow-hidden rounded-[20px] bg-white"
       >
         <iframe
           loading="eager"
