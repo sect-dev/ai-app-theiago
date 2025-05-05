@@ -72,7 +72,7 @@ const SubscriptionModal = () => {
     requestCancelSubscription,
     isCancelSuccess,
   } = useSubscriptionStore();
-  const { user } = useAuthStore();
+
   if (!subscriptionData) {
     console.log("subscription data is not found");
     return null;
@@ -80,23 +80,6 @@ const SubscriptionModal = () => {
 
   const { active, cancelled, end, start, price, productId }: SubscriptionData =
     subscriptionData;
-
-  const calculateSubscriptionPeriod = (start: string, end: string): string => {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-
-    const diffMs = endDate.getTime() - startDate.getTime();
-
-    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
-
-    // Определяем тип подписки
-    if (diffDays <= 1) return "Daily";
-    if (diffDays <= 31) return "Monthly";
-    if (diffDays <= 93) return "3 Month"; // ~3 месяца (31*3)
-    if (diffDays <= 183) return "6 Month"; // ~6 месяцев (30.5*6)
-
-    return "premium";
-  };
 
   const chargeDate = formatISODate(end, {
     year: "numeric",
@@ -118,13 +101,13 @@ const SubscriptionModal = () => {
             className="data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
           >
             <div className="flex h-[447px] flex-row gap-[20px] rounded-3xl bg-[#121423] p-[20px] fm:h-fit fm:w-screen fm:flex-col fm:rounded-none">
-              <div className="fm:pt-[370px]">
-                <DialogTitle className="mb-[16px] text-left text-[20px] font-semibold">
-                  Nice to see you again,
-                  <br />
-                  {`${user?.displayName}`}
-                </DialogTitle>
-                <div className="">
+              <div className="grid h-full grid-rows-[auto_auto_1fr] fm:pt-[370px]">
+                <div>
+                  <DialogTitle className="mb-[16px] text-left text-[20px] font-semibold">
+                    Nice to see you again
+                  </DialogTitle>
+                </div>
+                <div>
                   <div className="bg-blue-500 transition-bg mb-[4px] flex items-start justify-between rounded-t-[24px] bg-[#21233A] p-[16px] text-white duration-300 hover:bg-[#2E335B]">
                     <div className="flex flex-col">
                       <span className="mb-[8px] text-[16px] font-semibold">
@@ -135,11 +118,17 @@ const SubscriptionModal = () => {
                           "mb-[8px]": isCancelSuccess,
                         })}
                       >
-                        You will be charged ${price} on
+                        You will be charged{" "}
+                        <span className="bg-main-gradient bg-clip-text text-transparent">
+                          ${price}
+                        </span>{" "}
+                        on
                         <br />
-                        {chargeDate}
+                        <span className="bg-main-gradient bg-clip-text text-transparent">
+                          {chargeDate}
+                        </span>
                       </span>
-                      {isCancelSuccess && (
+                      {(isCancelSuccess || cancelled) && (
                         <span className="text-[14px] font-medium">
                           No additional charges will be applied
                         </span>
@@ -153,29 +142,35 @@ const SubscriptionModal = () => {
                     </div>
                   </div>
                   <button
-                    className="bg-blue-500 transition-bg mb-[106px] w-full shrink-0 rounded-b-[24px] rounded-t-[4px] bg-[#21233A] pb-[8px] pt-[8px] text-[14px] font-bold text-white duration-300 hover:bg-[#2E335B] fm:mb-0"
+                    className={clsx(
+                      "bg-blue-500 transition-bg w-full shrink-0 rounded-b-[24px] rounded-t-[4px] bg-[#21233A] pb-[8px] pt-[8px] text-[14px] font-bold text-white duration-300 hover:bg-[#2E335B] fm:mb-0",
+                      {
+                        "cursor-default opacity-50 hover:bg-[#21233A]":
+                          isCancelSuccess || cancelled,
+                      },
+                    )}
                     onClick={requestCancelSubscription}
                   >
                     Cancel Subscription
                   </button>
+                </div>
 
-                  <div className="flex flex-col items-center justify-center text-center fm:hidden">
-                    <span className="p-[10px] text-[12px] font-medium leading-[16px] opacity-80">
-                      If you can&apos;t cancel your subscription, feel free to
-                      <br />
-                      reach out to us at:{" "}
-                      <Link
-                        href="mailto:theaigo@aigo.com"
-                        prefetch={false}
-                        className="underline"
-                      >
-                        theaigo@aigo.com
-                      </Link>
-                    </span>
-                    <div className="flex gap-[32px] text-[12px] font-medium leading-[24px] opacity-50">
-                      <span className="block">Terms</span>
-                      <span className="block">Privacy</span>
-                    </div>
+                <div className="flex flex-col items-center justify-center self-end text-center fm:hidden">
+                  <span className="p-[10px] text-[12px] font-medium leading-[16px] opacity-80">
+                    If you can&apos;t cancel your subscription, feel free to
+                    <br />
+                    reach out to us at:{" "}
+                    <Link
+                      href="mailto:theaigo@aigo.com"
+                      prefetch={false}
+                      className="underline"
+                    >
+                      theaigo@aigo.com
+                    </Link>
+                  </span>
+                  <div className="flex gap-[32px] text-[12px] font-medium leading-[24px] opacity-50">
+                    <Link href="https://app.theaigo.com/terms">Terms</Link>
+                    <Link href="https://app.theaigo.com/privacy">Privacy</Link>
                   </div>
                 </div>
               </div>
@@ -231,8 +226,8 @@ const SubscriptionModal = () => {
                     </Link>
                   </span>
                   <div className="mt-[10px] flex justify-center gap-[32px] text-[12px] font-medium leading-[24px] opacity-50">
-                    <span className="block">Terms</span>
-                    <span className="block">Privacy</span>
+                    <Link href="https://app.theaigo.com/terms">Terms</Link>
+                    <Link href="https://app.theaigo.com/privacy">Privacy</Link>
                   </div>
                 </div>
               </div>
@@ -245,3 +240,20 @@ const SubscriptionModal = () => {
 };
 
 export default SubscriptionModal;
+
+const calculateSubscriptionPeriod = (start: string, end: string): string => {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  const diffMs = endDate.getTime() - startDate.getTime();
+
+  const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+  // Определяем тип подписки
+  if (diffDays <= 1) return "Daily";
+  if (diffDays <= 31) return "Monthly";
+  if (diffDays <= 93) return "3 Month"; // ~3 месяца (31*3)
+  if (diffDays <= 183) return "6 Month"; // ~6 месяцев (30.5*6)
+
+  return "premium";
+};
