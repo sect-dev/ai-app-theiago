@@ -40,14 +40,14 @@ const ChatsHeader: FC<ComponentProps> = ({ avatar, name }) => {
   return (
     <div
       className={clsx(
-        "animate-fadeIn shrink-0 flex items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] py-[16px] px-[24px] transition-transform duration-300 md:shrink-0 md:rounded-[16px] md:py-[14px] md:px-[12px]",
+        "flex shrink-0 animate-fadeIn items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] px-[24px] py-[16px] transition-transform duration-300 md:shrink-0 md:rounded-[16px] md:px-[12px] md:py-[14px]",
         {},
       )}
     >
       <div className="flex items-center gap-[10px]">
         <div
           onClick={handleBack}
-          className="hidden size-[28px] rounded-[8px] bg-[#191B2C] flex items-center justify-center md:flex"
+          className="flex hidden size-[28px] items-center justify-center rounded-[8px] bg-[#191B2C] md:flex"
         >
           <Image
             src={IconBack.src}
@@ -58,7 +58,7 @@ const ChatsHeader: FC<ComponentProps> = ({ avatar, name }) => {
         </div>
         <div onClick={handleInfoOpen} className="flex items-center gap-[12px]">
           <div className="flex items-center gap-[12px]">
-            <span className="relative block overflow-hidden rounded-[16px] size-[42px]">
+            <span className="relative block size-[42px] overflow-hidden rounded-[16px]">
               <Image
                 src={avatar ?? ""}
                 fill
@@ -68,12 +68,12 @@ const ChatsHeader: FC<ComponentProps> = ({ avatar, name }) => {
               />
             </span>
             <div className="text-left">
-              <p className="font-medium text-[17px] tracking-[-0.04em] mb-[2px]">
+              <p className="mb-[2px] text-[17px] font-medium tracking-[-0.04em]">
                 {name}
               </p>
-              <p className="flex items-center gap-[4px] font-medium max-w-[125px] ">
-                <span className="block rounded-full bg-[#4DCF9F] size-[4px]" />
-                <span className="text-[12px] opacity-50 line-clamp-1 tracking-[-0.04em]">
+              <p className="flex max-w-[125px] items-center gap-[4px] font-medium">
+                <span className="block size-[4px] rounded-full bg-[#4DCF9F]" />
+                <span className="line-clamp-1 text-[12px] tracking-[-0.04em] opacity-50">
                   Online
                 </span>
               </p>
@@ -85,7 +85,7 @@ const ChatsHeader: FC<ComponentProps> = ({ avatar, name }) => {
         <button
           onClick={() => setInfoCollapse(false)}
           className={clsx(
-            "hidden animate-fadeIn z-[5] flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px]",
+            "z-[5] flex hidden size-[32px] animate-fadeIn items-center justify-center rounded-[12px] bg-[#191B2C]",
             {
               "!flex": characterInfoCollapse,
             },

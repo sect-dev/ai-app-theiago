@@ -28,7 +28,7 @@ const ChatsContent: FC<ComponentProps> = ({ characterInfo }) => {
   return (
     <div
       className={clsx(
-        "w-full space-y-[8px] transition-all duration-300 md:absolute md:h-full md:left-0 md:top-0 md:w-full md:-translate-x-[105%]",
+        "w-full space-y-[8px] transition-all duration-300 md:absolute md:left-0 md:top-0 md:h-full md:w-full md:-translate-x-[105%]",
         {
           "md:!translate-x-0 md:delay-500": isMobileChatOpen,
         },

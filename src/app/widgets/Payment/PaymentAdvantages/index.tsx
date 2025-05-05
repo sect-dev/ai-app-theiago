@@ -48,15 +48,15 @@ const advantagesData: advantagesData[] = [
 
 const PaymentAdvantages = () => {
   return (
-    <div className="flex gap-[10px] h-[523px] shrink-0 w-[365px] font-bai-jamjuree flex-wrap bg-[#191B2C] p-[20px] rounded-[32px]">
+    <div className="flex h-[523px] w-[365px] shrink-0 flex-wrap gap-[10px] rounded-[32px] bg-[#191B2C] p-[20px] font-bai-jamjuree">
       {advantagesData.map((item) => {
         return (
           <div
             style={{ background: item.bg }}
             key={item.id}
-            className="p-[15px] rounded-[12px] w-[48%]"
+            className="w-[48%] rounded-[12px] p-[15px]"
           >
-            <div className="p-[5px] rounded-[12px] bg-[#121423] size-[44px] flex items-center justify-center mb-[12px]">
+            <div className="mb-[12px] flex size-[44px] items-center justify-center rounded-[12px] bg-[#121423] p-[5px]">
               <Image
                 src={item.image.src}
                 width={item.image.width}
@@ -65,10 +65,10 @@ const PaymentAdvantages = () => {
                 className=""
               />
             </div>
-            <p className="text-[16px] font-bold mb-[7px] tracking-[-0.04em]">
+            <p className="mb-[7px] text-[16px] font-bold tracking-[-0.04em]">
               {item.title}
             </p>
-            <p className="text-[14px] font-semibold tracking-[-0.04em] leading-[1.2em]">
+            <p className="text-[14px] font-semibold leading-[1.2em] tracking-[-0.04em]">
               {item.description}
             </p>
           </div>

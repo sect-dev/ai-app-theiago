@@ -29,20 +29,20 @@ const ChatsList: FC<ComponentProps> = ({ characterInfo }) => {
     return (
       <div
         className={clsx(
-          "animate-fadeIn shrink-0 h-full w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-all duration-300 md:!rounded-[16px] md:translate-x-0 md:max-w-full",
+          "h-full w-full max-w-[260px] shrink-0 animate-fadeIn rounded-l-[24px] rounded-r-[8px] bg-[#121423] py-[20px] transition-all duration-300 md:max-w-full md:translate-x-0 md:!rounded-[16px]",
           {
-            "!max-w-[82px] ": collapse,
+            "!max-w-[82px]": collapse,
             "!translate-x-[105%] delay-500": isMobileChatOpen,
           },
         )}
       >
-        <div className="flex items-center justify-between px-[20px] mb-[9px]">
+        <div className="mb-[9px] flex items-center justify-between px-[20px]">
           {!collapse && (
             <p className="animate-fadeIn text-[17px] font-medium">Chats</p>
           )}
           <button
             onClick={handleCollapse}
-            className="flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px] md:hidden"
+            className="flex size-[32px] items-center justify-center rounded-[12px] bg-[#191B2C] md:hidden"
           >
             <Image
               src={IconCollapse.src}
@@ -67,20 +67,20 @@ const ChatsList: FC<ComponentProps> = ({ characterInfo }) => {
   return (
     <div
       className={clsx(
-        "animate-fadeIn shrink-0 h-full w-full max-w-[260px] bg-[#121423] py-[20px] rounded-l-[24px] rounded-r-[8px] transition-all duration-300 md:!rounded-[16px] md:translate-x-0 md:max-w-full",
+        "h-full w-full max-w-[260px] shrink-0 animate-fadeIn rounded-l-[24px] rounded-r-[8px] bg-[#121423] py-[20px] transition-all duration-300 md:max-w-full md:translate-x-0 md:!rounded-[16px]",
         {
-          "!max-w-[82px] ": collapse,
+          "!max-w-[82px]": collapse,
           "!translate-x-[105%] delay-500": isMobileChatOpen,
         },
       )}
     >
-      <div className="flex items-center justify-between px-[20px] mb-[9px]">
+      <div className="mb-[9px] flex items-center justify-between px-[20px]">
         {!collapse && (
           <p className="animate-fadeIn text-[17px] font-medium">Chats</p>
         )}
         <button
           onClick={handleCollapse}
-          className="flex items-center justify-center bg-[#191B2C] size-[32px] rounded-[12px] md:hidden"
+          className="flex size-[32px] items-center justify-center rounded-[12px] bg-[#191B2C] md:hidden"
         >
           <Image
             src={IconCollapse.src}

@@ -5,14 +5,14 @@ import Link from "next/link";
 
 const SidebarBanner = () => {
   return (
-    <div className="relative animate-fadeIn overflow-hidden rounded-[16px] p-[12px] bg-main-gradient">
+    <div className="relative animate-fadeIn overflow-hidden rounded-[16px] bg-main-gradient p-[12px]">
       <Image
         src={ImageBg.src}
         width={ImageBg.width}
         height={ImageBg.height}
         alt="background image"
         sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 15.23vw"
-        className="absolute right-[-1vw] top-[-1vw] size-[10.23vw] z-[1]"
+        className="absolute right-[-1vw] top-[-1vw] z-[1] size-[10.23vw]"
       />
       <div className="relative z-[2]">
         <div className="mb-[10px]">
@@ -21,20 +21,20 @@ const SidebarBanner = () => {
             With no limits
           </p>
         </div>
-        <ul className="text-[14px] mb-[1.25vw]">
-          <li className="flex font-semibold gap-[6px]">
+        <ul className="mb-[1.25vw] text-[14px]">
+          <li className="flex gap-[6px] font-semibold">
             <span className="text-[14px]">🔥</span> Unlimited photos
           </li>
-          <li className="flex font-semibold gap-[6px]">
+          <li className="flex gap-[6px] font-semibold">
             <span className="text-[14px]">💕</span> Creating bots
           </li>
-          <li className="flex font-semibold gap-[6px]">
+          <li className="flex gap-[6px] font-semibold">
             <span className="text-[14px]">⭐</span> No ads
           </li>
         </ul>
         <Link
           href="https://quiz.theaigo.com/aigoweb"
-          className="text-blue block flex items-center justify-center text-[14px] h-[28px] font-semibold bg-white rounded-[16px] w-full "
+          className="block flex h-[28px] w-full items-center justify-center rounded-[16px] bg-white text-[14px] font-semibold text-blue"
         >
           See more
         </Link>

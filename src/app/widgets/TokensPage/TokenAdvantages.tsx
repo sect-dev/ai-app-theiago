@@ -45,14 +45,14 @@ const ITEMS: advantagesData[] = [
 
 const TokenAdvantages = () => {
   return (
-    <div className="grid grid-cols-2 gap-[8px] font-bai-jamjuree mb-[8px]">
+    <div className="mb-[8px] grid grid-cols-2 gap-[8px] font-bai-jamjuree">
       {ITEMS.map((i) => (
         <div
           key={i.id}
-          className="p-[16px] rounded-[12px]"
+          className="rounded-[12px] p-[16px]"
           style={{ background: i.bg }}
         >
-          <div className="mb-[12px] bg-[#121423] rounded-[12px] w-fit p-[8px]">
+          <div className="mb-[12px] w-fit rounded-[12px] bg-[#121423] p-[8px]">
             <Image
               src={i.image}
               alt="advantage img"
@@ -60,11 +60,11 @@ const TokenAdvantages = () => {
               height={i.image.height}
             />
           </div>
-          <div className="grid grid-row-2 gap-[7px]">
-            <span className="font-bold text-[20px] leading-[24px]">
+          <div className="grid-row-2 grid gap-[7px]">
+            <span className="text-[20px] font-bold leading-[24px]">
               {i.title}
             </span>
-            <span className="font-semibold text-[14px] leading-[18px]">
+            <span className="text-[14px] font-semibold leading-[18px]">
               {i.desc}
             </span>
           </div>

@@ -18,27 +18,27 @@ const PaymentDiscountBanner: FC<ComponentProps> = ({ isMobileVersion }) => {
   return (
     <div
       className={clsx(
-        "animate-fadeIn relative bg-[#191B2C] banner-bg w-full py-[5px]",
+        "banner-bg relative w-full animate-fadeIn bg-[#191B2C] py-[5px]",
         {
-          "bg-[#8F59FF4F] rounded-[6.40vw] overflow-hidden !py-[3.20vw] px-[4.27vw] !pb-[4.27vw]":
+          "overflow-hidden rounded-[6.40vw] bg-[#8F59FF4F] !py-[3.20vw] px-[4.27vw] !pb-[4.27vw]":
             isMobileVersion,
         },
       )}
     >
       <span
         className={clsx("hidden", {
-          "!block bg-[#121423] size-[8.53vw] rounded-full absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2":
+          "absolute left-0 top-1/2 !block size-[8.53vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#121423]":
             isMobileVersion,
         })}
       />
       <span
         className={clsx("hidden", {
-          "!block bg-[#121423] size-[8.53vw] rounded-full absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2":
+          "absolute right-0 top-1/2 !block size-[8.53vw] -translate-y-1/2 translate-x-1/2 rounded-full bg-[#121423]":
             isMobileVersion,
         })}
       />
       <div
-        className={clsx("flex justify-center items-center gap-[8px]", {
+        className={clsx("flex items-center justify-center gap-[8px]", {
           "flex-col justify-start gap-[2.13vw]": isMobileVersion,
         })}
       >
@@ -51,7 +51,7 @@ const PaymentDiscountBanner: FC<ComponentProps> = ({ isMobileVersion }) => {
             className={clsx("", { "size-[6.40vw] shrink-0": isMobileVersion })}
           />
           <p
-            className={clsx("text-[12px] font-bai-jamjuree font-semibold", {
+            className={clsx("font-bai-jamjuree text-[12px] font-semibold", {
               "text-[4.27vw] font-semibold leading-[1.5em]": isMobileVersion,
             })}
           >
@@ -63,15 +63,15 @@ const PaymentDiscountBanner: FC<ComponentProps> = ({ isMobileVersion }) => {
         </div>
         <div
           className={clsx("flex items-center gap-[8px]", {
-            "pt-[6.40vw] mt-[3.20vw] gap-[2.13vw] border-t border-[#8E59FF]":
+            "mt-[3.20vw] gap-[2.13vw] border-t border-[#8E59FF] pt-[6.40vw]":
               isMobileVersion,
           })}
         >
           <div
             className={clsx(
-              "flex items-center h-[24px] gap-[4px] bg-[#121423] px-[7px] rounded-[7px]",
+              "flex h-[24px] items-center gap-[4px] rounded-[7px] bg-[#121423] px-[7px]",
               {
-                "order-[2] !h-[12vw] px-[3.20vw] !bg-[#121423] !rounded-[1.87vw] w-[46.13vw]":
+                "order-[2] !h-[12vw] w-[46.13vw] !rounded-[1.87vw] !bg-[#121423] px-[3.20vw]":
                   isMobileVersion,
               },
             )}
@@ -85,9 +85,9 @@ const PaymentDiscountBanner: FC<ComponentProps> = ({ isMobileVersion }) => {
             />
             <span
               className={clsx(
-                "uppercase text-[12px] font-bai-jamjuree font-semibold",
+                "font-bai-jamjuree text-[12px] font-semibold uppercase",
                 {
-                  "text-white text-[4.27vw] font-semibold": isMobileVersion,
+                  "text-[4.27vw] font-semibold text-white": isMobileVersion,
                 },
               )}
             >
@@ -97,7 +97,7 @@ const PaymentDiscountBanner: FC<ComponentProps> = ({ isMobileVersion }) => {
           <CountDownTimer
             setIsVisible={setIsVisible}
             isVisible={isVisible}
-            className="text-white fm:text-[5.87vw] fm:h-[12vw] fm:px-[6.67vw] fm:rounded-[1.87vw] fm:before:opacity-0 fm:!bg-red-gradient"
+            className="text-white fm:h-[12vw] fm:rounded-[1.87vw] fm:!bg-red-gradient fm:px-[6.67vw] fm:text-[5.87vw] fm:before:opacity-0"
           />
         </div>
       </div>

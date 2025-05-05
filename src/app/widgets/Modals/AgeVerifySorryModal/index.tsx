@@ -13,32 +13,32 @@ const AgeVerifySorryModal = () => {
       <div className="fixed inset-0 flex w-screen items-center justify-center">
         <DialogPanel
           transition
-          className="w-full h-screen flex items-center justify-center bg-black"
+          className="flex h-screen w-full items-center justify-center bg-black"
         >
-          <div className="flex items-center justify-center flex-col">
-            <div className="w-[328px] h-[368px] flex items-center justify-center flex-col relative bg-[#121423] p-[20px] rounded-3xl">
+          <div className="flex flex-col items-center justify-center">
+            <div className="relative flex h-[368px] w-[328px] flex-col items-center justify-center rounded-3xl bg-[#121423] p-[20px]">
               <div>
                 <Image
                   src={ImageAgeConfirmation.src}
                   width={ImageAgeConfirmation.width}
                   height={ImageAgeConfirmation.height}
                   alt="image modal"
-                  className="object-cover mb-[24px]"
+                  className="mb-[24px] object-cover"
                 />
               </div>
-              <div className="text-center mb-[24px]">
-                <span className="block font-semibold text-[24px] text-center leading-[28px] tracking-normal mb-[12px]">
+              <div className="mb-[24px] text-center">
+                <span className="mb-[12px] block text-center text-[24px] font-semibold leading-[28px] tracking-normal">
                   Sorry, please come
                   <br />
                   back later
                 </span>
-                <span className="block font-medium text-[16px]">
+                <span className="block text-[16px] font-medium">
                   This website can only be used by those who are 18 years or
                   older
                 </span>
               </div>
 
-              <div className="flex w-full text-[12px] gap-[8px] font-normal justify-center">
+              <div className="flex w-full justify-center gap-[8px] text-[12px] font-normal">
                 <span className="">Do you consider this an error?</span>
                 <Link href="mailto:support@theaigo.com" prefetch={false}>
                   <span className="logo-gradient transition-text duration-300 hover:text-white">

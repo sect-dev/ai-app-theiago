@@ -9,20 +9,20 @@ import ImageEmodji from "@/../public/images/img/initpage/image-emidji.webp";
 
 const SectionReviews = () => {
   return (
-    <div className="pt-[24px] mb-[20px]">
-      <p className="text-center text-[28px] font-semibold max-w-[300px] leading-[1.2em] mx-auto mb-[24px] tracking-[-0.03em] fm:max-w-[80vw] fm:mb-[6.40vw] fm:mb-[6.40vw] fm:text-[7.47vw]">
+    <div className="mb-[20px] pt-[24px]">
+      <p className="mx-auto mb-[24px] max-w-[300px] text-center text-[28px] font-semibold leading-[1.2em] tracking-[-0.03em] fm:mb-[6.40vw] fm:max-w-[80vw] fm:text-[7.47vw]">
         They have already evaluated
       </p>
-      <div className="pb-[16px] relative sm:pb-[4.27vw]">
+      <div className="relative pb-[16px] sm:pb-[4.27vw]">
         <Image
           src={ImageEmodji.src}
           width={ImageEmodji.width}
           height={ImageEmodji.height}
           alt="emodji love"
-          className="absolute z-[5] left-[-20px] bottom-0 fm:w-[15.73vw] fm:h-[19vw]"
+          className="absolute bottom-0 left-[-20px] z-[5] fm:h-[19vw] fm:w-[15.73vw]"
         />
-        <div className="rounded-[10px] shadow-[0.33px_4.29px_9.24px_0px_rgba(0,0,0,0.2)] p-[10px] bg-[#2B2D44] max-w-[230px] ml-auto flex gap-[10px] fm:mr-[-12vw] fm:rounded-[2.67vw] fm:max-w-[61.33vw] fm:gap-[2.67vw] fm:p-[2.67vw]">
-          <div className="relative shrink-0 rounded-full overflow-hidden size-[25px] fm:size-[6.67vw]">
+        <div className="ml-auto flex max-w-[230px] gap-[10px] rounded-[10px] bg-[#2B2D44] p-[10px] shadow-[0.33px_4.29px_9.24px_0px_rgba(0,0,0,0.2)] fm:mr-[-12vw] fm:max-w-[61.33vw] fm:gap-[2.67vw] fm:rounded-[2.67vw] fm:p-[2.67vw]">
+          <div className="relative size-[25px] shrink-0 overflow-hidden rounded-full fm:size-[6.67vw]">
             <Image
               src={ImageReview1.src}
               fill
@@ -31,7 +31,7 @@ const SectionReviews = () => {
             />
           </div>
           <div className="space-y-[5px] sm:space-y-[1.33vw]">
-            <p className="text-[#9B50FC] font-medium text-[9px] leading-[1.2em] fm:text-[2.40vw]">
+            <p className="text-[9px] font-medium leading-[1.2em] text-[#9B50FC] fm:text-[2.40vw]">
               Max Knight
             </p>
             <p className="text-[11px] leading-[1.2em] tracking-[-0.02em] fm:text-[2.93vw]">
@@ -43,12 +43,12 @@ const SectionReviews = () => {
               width={IconRating.width}
               height={IconRating.height}
               alt="icon star"
-              className="fm:w-[12vw] fm:h-[1.87vw]"
+              className="fm:h-[1.87vw] fm:w-[12vw]"
             />
           </div>
         </div>
-        <div className="rounded-[10px] shadow-[1.65px_16.84px_16.84px_0px_rgba(0,0,0,0.17)] ml-[-25px] mt-[-50px] p-[10px] bg-[#2B2D44] max-w-[200px] flex gap-[15px] fm:ml-[-15vw]  fm:rounded-[2.67vw] fm:max-w-[53.33vw] fm:gap-[2.67vw] fm:p-[2.67vw]">
-          <div className="relative shrink-0 rounded-full overflow-hidden size-[25px] fm:size-[6.67vw]">
+        <div className="ml-[-25px] mt-[-50px] flex max-w-[200px] gap-[15px] rounded-[10px] bg-[#2B2D44] p-[10px] shadow-[1.65px_16.84px_16.84px_0px_rgba(0,0,0,0.17)] fm:ml-[-15vw] fm:max-w-[53.33vw] fm:gap-[2.67vw] fm:rounded-[2.67vw] fm:p-[2.67vw]">
+          <div className="relative size-[25px] shrink-0 overflow-hidden rounded-full fm:size-[6.67vw]">
             <Image
               src={ImageReview2.src}
               fill
@@ -57,10 +57,10 @@ const SectionReviews = () => {
             />
           </div>
           <div className="space-y-[5px]">
-            <p className="text-[#9B50FC] font-medium text-[9px] leading-[1.2em] fm:text-[2.40vw]">
+            <p className="text-[9px] font-medium leading-[1.2em] text-[#9B50FC] fm:text-[2.40vw]">
               Charles Johnson
             </p>
-            <p className="text-[11px] leading-[1.2em] tracking-[-0.02em] max-w-[120px] max-w-[32vw] fm:text-[2.93vw]">
+            <p className="max-w-[120px] max-w-[32vw] text-[11px] leading-[1.2em] tracking-[-0.02em] fm:text-[2.93vw]">
               I really enjoy the variety of girls.
             </p>
             <Image
@@ -68,12 +68,12 @@ const SectionReviews = () => {
               width={IconRating.width}
               height={IconRating.height}
               alt="icon star"
-              className="fm:w-[12vw] fm:h-[1.87vw]"
+              className="fm:h-[1.87vw] fm:w-[12vw]"
             />
           </div>
         </div>
-        <div className="rounded-[10px] shadow-[3.96px_37.97px_22.78px_0px_rgba(0,0,0,0.1)] mt-[12px] ml-[-25px] p-[10px] bg-[#2B2D44] max-w-[350px] fm:rounded-[2.67vw] flex gap-[15px] fm:mt-[3.20vw] fm:p-[2.67vw] fm:max-w-[94.67vw] fm:ml-[-22vw]">
-          <div className="relative shrink-0 rounded-full overflow-hidden size-[44px] fm:size-[11.73vw]">
+        <div className="ml-[-25px] mt-[12px] flex max-w-[350px] gap-[15px] rounded-[10px] bg-[#2B2D44] p-[10px] shadow-[3.96px_37.97px_22.78px_0px_rgba(0,0,0,0.1)] fm:ml-[-22vw] fm:mt-[3.20vw] fm:max-w-[94.67vw] fm:rounded-[2.67vw] fm:p-[2.67vw]">
+          <div className="relative size-[44px] shrink-0 overflow-hidden rounded-full fm:size-[11.73vw]">
             <Image
               src={ImageReview3.src}
               fill
@@ -82,10 +82,10 @@ const SectionReviews = () => {
             />
           </div>
           <div className="space-y-[7px] fm:space-y-[1.87vw]">
-            <p className="text-[#9B50FC] font-medium text-[15px] leading-[1.2em] fm:text-[4vw]">
+            <p className="text-[15px] font-medium leading-[1.2em] text-[#9B50FC] fm:text-[4vw]">
               Samuel Lane
             </p>
-            <p className="text-[15px] leading-[1.2em] tracking-[-0.02em] fm:text-[4vw] fm:max-w-[70vw]">
+            <p className="text-[15px] leading-[1.2em] tracking-[-0.02em] fm:max-w-[70vw] fm:text-[4vw]">
               This is so cool! I didn&apos;t expect such a level of realism!
               Wow!
             </p>
@@ -94,12 +94,12 @@ const SectionReviews = () => {
               width={IconRating.width}
               height={IconRating.height}
               alt="icon star"
-              className="h-[12px] w-[75px] fm:w-[21.33vw] fm:h-[3.20vw]"
+              className="h-[12px] w-[75px] fm:h-[3.20vw] fm:w-[21.33vw]"
             />
           </div>
         </div>
-        <div className="rounded-[10px] shadow-[6.93px_67.35px_27.07px_0px_rgba(0,0,0,0.03)] mt-[12px] ml-auto mr-[30px] p-[10px] bg-[#2B2D44] max-w-[320px] flex gap-[15px] fm:mr-[-3vw] fm:gap-[2.67vw] fm:mt-[3.20vw] fm:p-[2.67vw] fm:rounded-[2.67vw] fm:max-w-[88vw]">
-          <div className="relative shrink-0 rounded-full overflow-hidden size-[44px] fm:size-[9.60vw]">
+        <div className="ml-auto mr-[30px] mt-[12px] flex max-w-[320px] gap-[15px] rounded-[10px] bg-[#2B2D44] p-[10px] shadow-[6.93px_67.35px_27.07px_0px_rgba(0,0,0,0.03)] fm:mr-[-3vw] fm:mt-[3.20vw] fm:max-w-[88vw] fm:gap-[2.67vw] fm:rounded-[2.67vw] fm:p-[2.67vw]">
+          <div className="relative size-[44px] shrink-0 overflow-hidden rounded-full fm:size-[9.60vw]">
             <Image
               src={ImageReview4.src}
               fill
@@ -108,7 +108,7 @@ const SectionReviews = () => {
             />
           </div>
           <div className="space-y-[6px] pt-[10px] fm:space-y-[1.60vw] fm:pt-[2.67vw]">
-            <p className="text-[#9B50FC] font-medium text-[12px] leading-[1.2em] fm:text-[3.20vw]">
+            <p className="text-[12px] font-medium leading-[1.2em] text-[#9B50FC] fm:text-[3.20vw]">
               Thomas Smith
             </p>
             <p className="text-[14px] leading-[1.2em] tracking-[-0.02em] fm:text-[3.73vw]">
@@ -120,7 +120,7 @@ const SectionReviews = () => {
               width={IconRating.width}
               height={IconRating.height}
               alt="icon star"
-              className="h-[10px] w-[63px] fm:w-[16.80vw] fm:h-[2.67vw]"
+              className="h-[10px] w-[63px] fm:h-[2.67vw] fm:w-[16.80vw]"
             />
           </div>
         </div>

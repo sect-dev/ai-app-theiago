@@ -6,11 +6,11 @@ const TagsSkeleton = ({ seed }: { seed: number }) => {
     <>
       <div
         style={{ width: `${width}px` }}
-        className="block rounded-[12px] animate-pulse bg-[#1D1F37] h-[30px] sm:hidden"
+        className="block h-[30px] animate-pulse rounded-[12px] bg-[#1D1F37] sm:hidden"
       />
       <div
         style={{ width: `${mobileWidth}px` }}
-        className="hidden shrink-0 rounded-[2.94vw] animate-pulse bg-[#1D1F37] h-[7.47vw] sm:block"
+        className="hidden h-[7.47vw] shrink-0 animate-pulse rounded-[2.94vw] bg-[#1D1F37] sm:block"
       />
     </>
   );

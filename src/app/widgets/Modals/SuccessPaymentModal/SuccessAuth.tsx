@@ -88,7 +88,7 @@ const SuccessAuth = () => {
   };
 
   return (
-    <div className="flex justify-between bg-[#121423] rounded-[24px] overflow-hidden  sm:overflow-visible sm:h-auto">
+    <div className="flex justify-between overflow-hidden rounded-[24px] bg-[#121423] sm:h-auto sm:overflow-visible">
       <Image
         src={ImageDecor1.src}
         width={ImageDecor1.width}
@@ -103,9 +103,9 @@ const SuccessAuth = () => {
         alt="icon"
         className="absolute right-[-50px] top-[30%] z-[10]"
       />
-      <div className="w-full h-hull relative sm:hidden">
+      <div className="h-hull relative w-full sm:hidden">
         {characterLoading && !charInfo ? (
-          <div className="animate-pulse w-full h-full bg-[#21233A] px-[16px] rounded-[12px] h-[48px]" />
+          <div className="h-[48px] h-full w-full animate-pulse rounded-[12px] bg-[#21233A] px-[16px]" />
         ) : (
           <Image
             src={characterImage}
@@ -115,19 +115,19 @@ const SuccessAuth = () => {
           />
         )}
         {characterLoading && !charInfo ? (
-          <div className="absolute w-full left-[20px] bottom-[20px] space-y-[5px]">
-            <p className="w-[60%] bg-[#191B2C] h-[25px] rounded-[12px]" />
-            <p className="w-[20%] bg-[#191B2C] h-[25px] rounded-[12px]" />
+          <div className="absolute bottom-[20px] left-[20px] w-full space-y-[5px]">
+            <p className="h-[25px] w-[60%] rounded-[12px] bg-[#191B2C]" />
+            <p className="h-[25px] w-[20%] rounded-[12px] bg-[#191B2C]" />
           </div>
         ) : (
-          <p className="font-semibold font-bai-jamjuree block leading-[1.2em] text-[20px] max-w-[70%] tracking-[0.01em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]">
+          <p className="absolute bottom-[20px] left-[20px] block max-w-[70%] font-bai-jamjuree text-[20px] font-semibold leading-[1.2em] tracking-[0.01em] sm:text-[5.33vw]">
             {charFromPaywall?.name} is eager to talk with you!
           </p>
         )}
       </div>
-      <div className="w-full  p-[20px] sm:relative sm:z-[5] sm:flex sm:flex-col sm:items-center sm:mt-[-200px] sm:justify-center sm:h-full">
-        <div className="font-bai-jamjuree mb-[24px] pb-[24px] border-b border-b-[#3A3F63] space-y-[8px] sm:w-full">
-          <p className="leading-[1.2em] font-semibold text-[20px] mb-[24px]">
+      <div className="w-full p-[20px] sm:relative sm:z-[5] sm:mt-[-200px] sm:flex sm:h-full sm:flex-col sm:items-center sm:justify-center">
+        <div className="mb-[24px] space-y-[8px] border-b border-b-[#3A3F63] pb-[24px] font-bai-jamjuree sm:w-full">
+          <p className="mb-[24px] text-[20px] font-semibold leading-[1.2em]">
             Thanks for your purchase! <br /> Now you have{" "}
           </p>
           <ul className="space-y-[8px] font-medium tracking-[-0,04em]">
@@ -138,26 +138,26 @@ const SuccessAuth = () => {
           </ul>
         </div>
         <div>
-          <p className="text-[#B5B5B5] font-medium text-[16px]">Look at me!</p>
-          <div className="pt-[12px] mb-[24px] max-w-[320px]">
+          <p className="text-[16px] font-medium text-[#B5B5B5]">Look at me!</p>
+          <div className="mb-[24px] max-w-[320px] pt-[12px]">
             {!characterLoading && charInfo ? (
               <SectionWithSwiper
-                className="animate-fadeIn !h-[166px] fm:!h-[55.87vw] !rounded-[12px]"
+                className="!h-[166px] animate-fadeIn !rounded-[12px] fm:!h-[55.87vw]"
                 slidesPerView={2.2}
                 character={charFromPaywall ?? null}
                 imagesList={charInfo?.listProfilePhoto ?? [""]}
               />
             ) : (
-              <div className="animate-fadeIn flex gap-[12px]">
-                <div className="animate-pulse bg-[#21233A] !h-[166px] w-[48%] fm:!h-[55.87vw] !rounded-[12px]" />
-                <div className="animate-pulse bg-[#21233A] !h-[166px] w-[48%] fm:!h-[55.87vw] !rounded-[12px]" />
+              <div className="flex animate-fadeIn gap-[12px]">
+                <div className="!h-[166px] w-[48%] animate-pulse !rounded-[12px] bg-[#21233A] fm:!h-[55.87vw]" />
+                <div className="!h-[166px] w-[48%] animate-pulse !rounded-[12px] bg-[#21233A] fm:!h-[55.87vw]" />
               </div>
             )}
           </div>
           <button
             onClick={handleStartChat}
             disabled={isPending || loading || characterLoading || !characterId}
-            className="main-gradient flex justify-center items-center gap-[5px] w-full text-[15px] h-[40px] rounded-[12px] disabled:opacity-50 disabled:pointer-events-none"
+            className="main-gradient flex h-[40px] w-full items-center justify-center gap-[5px] rounded-[12px] text-[15px] disabled:pointer-events-none disabled:opacity-50"
           >
             <span className="relative z-[5]">Start chat</span>
             {(isPending || loading || characterLoading) && <Spinner />}

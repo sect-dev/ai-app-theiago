@@ -51,10 +51,10 @@ const Tags: FC<ComponentProps> = ({ tags }) => {
     >
       {tags.map((item) => {
         return (
-          <SwiperSlide key={item} className="!w-fit mr-[4px]">
+          <SwiperSlide key={item} className="mr-[4px] !w-fit">
             <div
               className={clsx(
-                "rounded-[12px] animate-fadeIn bg-[#1D1F37] border border-transparent transition-border duration-300 hover:border-[#049AEF]",
+                "transition-border animate-fadeIn rounded-[12px] border border-transparent bg-[#1D1F37] duration-300 hover:border-[#049AEF]",
                 {
                   "!border-[#049AEF]": selectedTag === item,
                 },
@@ -63,7 +63,7 @@ const Tags: FC<ComponentProps> = ({ tags }) => {
               <button
                 onClick={() => handleTagsSelect(item)}
                 style={{ color: tagColors[item] }}
-                className="block capitalize font-semibold text-[12px] px-[12px] py-[6px] leading-[1.2em]"
+                className="block px-[12px] py-[6px] text-[12px] font-semibold capitalize leading-[1.2em]"
               >
                 {item}
               </button>

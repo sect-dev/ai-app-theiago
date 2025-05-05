@@ -9,7 +9,7 @@ const Spinner: FC<ComponentProps> = ({ className }) => {
   return (
     <div
       className={clsx(
-        "w-4 h-4 border-2 border-gray-200 border-t-[#007AFF] rounded-full animate-spin",
+        "border-gray-200 h-4 w-4 animate-spin rounded-full border-2 border-t-[#007AFF]",
         className,
       )}
     />

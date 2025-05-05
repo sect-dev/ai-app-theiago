@@ -81,11 +81,11 @@ const CountDownTimer: FC<ComponentProps> = ({
     <div
       ref={observerRef}
       className={clsx(
-        "relative flex justify-center text-[#F80C2B] text-[12px] items-center bg-[#191B2C] overflow-hidden countdown-bg px-[12px] h-[24px] rounded-[7px]",
+        "countdown-bg relative flex h-[24px] items-center justify-center overflow-hidden rounded-[7px] bg-[#191B2C] px-[12px] text-[12px] text-[#F80C2B]",
         className,
       )}
     >
-      <span className="relative z-[5]  font-bold ">{formatTime(timeLeft)}</span>
+      <span className="relative z-[5] font-bold">{formatTime(timeLeft)}</span>
     </div>
   );
 };

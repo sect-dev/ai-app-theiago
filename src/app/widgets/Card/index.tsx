@@ -19,7 +19,7 @@ const Card: FC<ComponentProps> = ({ avatar }) => {
     <button
       onClick={() => handleClick(avatar)}
       className={clsx(
-        "flex card items-end w-full group text-left relative animate-fadeIn cursor-pointer p-[16px] h-[386px] rounded-[20px] overflow-hidden transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]",
+        "card group relative flex h-[386px] w-full animate-fadeIn cursor-pointer items-end overflow-hidden rounded-[20px] p-[16px] text-left transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]",
         {
           "pointer-events-none": isLoading,
         },
@@ -35,7 +35,7 @@ const Card: FC<ComponentProps> = ({ avatar }) => {
           priority={false}
         />
 
-        <span className="flex bg-[#3B3E5E59] backdrop-blur-[3px] bg-opacity-20 text-[12px] font-medium px-[4px] rounded-[8px] h-[18px] items-center gap-[4px] absolute right-[20px] top-[16px]">
+        <span className="absolute right-[20px] top-[16px] flex h-[18px] items-center gap-[4px] rounded-[8px] bg-[#3B3E5E59] bg-opacity-20 px-[4px] text-[12px] font-medium backdrop-blur-[3px]">
           <Image
             src={IconMessage.src}
             width={IconMessage.width}
@@ -45,10 +45,10 @@ const Card: FC<ComponentProps> = ({ avatar }) => {
           />
           {getMessageSize(5, avatar.position)}
         </span>
-        <div className="relative z-[2] transition-all duration-300 group-hover:mb-[45px] md:group-hover:mb-[40px] ">
+        <div className="relative z-[2] transition-all duration-300 group-hover:mb-[45px] md:group-hover:mb-[40px]">
           {avatar.tags?.length > 0 && (
-            <div className="flex items-center gap-[4px] mb-[14px] font-semibold font-semibold ">
-              <div className="rounded-[20px] capitalize bg-[#426EFD] font-semibold h-[21px] text-[14px] px-[4px] md:text-[12px]">
+            <div className="mb-[14px] flex items-center gap-[4px] font-semibold">
+              <div className="h-[21px] rounded-[20px] bg-[#426EFD] px-[4px] text-[14px] font-semibold capitalize md:text-[12px]">
                 {avatar.tags[0]}
               </div>
             </div>
@@ -56,18 +56,18 @@ const Card: FC<ComponentProps> = ({ avatar }) => {
           <p className="text-[16px] font-semibold md:text-[14px]">
             {avatar.name}
           </p>
-          <p className="card-description opacity-[60%] text-[14px] leading-[1.2em] line-clamp-2 md:text-[12px]">
+          <p className="card-description line-clamp-2 text-[14px] leading-[1.2em] opacity-[60%] md:text-[12px]">
             {avatar.description.en}
           </p>
         </div>
-        <div className="w-full absolute left-1/2 -bottom-[35px] z-[10] -translate-x-1/2 px-[16px] transition-all duration-300 group-hover:bottom-[14px] md:-bottom-[35px] md:group-hover:bottom-[9px] md:px-[12px]">
+        <div className="absolute -bottom-[35px] left-1/2 z-[10] w-full -translate-x-1/2 px-[16px] transition-all duration-300 group-hover:bottom-[14px] md:-bottom-[35px] md:px-[12px] md:group-hover:bottom-[9px]">
           <div
             className={clsx(
-              "main-gradient w-full text-[14px] rounded-[12px] h-[35px] font-semibold text-white md:h-[30px] md:text-[12px]",
+              "main-gradient h-[35px] w-full rounded-[12px] text-[14px] font-semibold text-white md:h-[30px] md:text-[12px]",
               {},
             )}
           >
-            <span className="relative z-[5] h-full flex items-center justify-center gap-[8px] ">
+            <span className="relative z-[5] flex h-full items-center justify-center gap-[8px]">
               <svg
                 width="20"
                 height="20"

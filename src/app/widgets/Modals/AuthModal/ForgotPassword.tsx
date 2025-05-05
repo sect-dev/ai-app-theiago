@@ -40,20 +40,20 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex justify-between rounded-[24px] overflow-hidden h-full">
-      <div className="w-full bg-[#121423] p-[20px] sm:flex sm:flex-col sm:items-center sm:justify-center sm:h-full">
-        <p className="mb-[24px] leading-[1.2em] font-semibold text-[20px]">
+    <div className="flex h-full justify-between overflow-hidden rounded-[24px]">
+      <div className="w-full bg-[#121423] p-[20px] sm:flex sm:h-full sm:flex-col sm:items-center sm:justify-center">
+        <p className="mb-[24px] text-[20px] font-semibold leading-[1.2em]">
           Recover your password
         </p>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-[16px] pb-[32px] mb-[32px] border-b border-b-[#3A3F63] sm:w-full"
+          className="mb-[32px] space-y-[16px] border-b border-b-[#3A3F63] pb-[32px] sm:w-full"
         >
           {/* Поле Email */}
           <div className="relative">
             <label
               htmlFor="email"
-              className="block text-[12px] pl-[16px] leading-[1.2em] mb-[8px]"
+              className="mb-[8px] block pl-[16px] text-[12px] leading-[1.2em]"
             >
               Email
             </label>
@@ -62,7 +62,7 @@ const ForgotPassword = () => {
               type="email"
               placeholder="Input your E-mail"
               className={clsx(
-                "w-full bg-[#191B2C] px-[16px] rounded-[12px] h-[48px] text-[14px] border border-transparent font-medium leading-[1.5em] transition-all duration-300  focus:border-[#049AEF] placeholder-text:opacity-50 focus:outline-none focus:outline-none outline-offset-0 focus:outline-offset-0",
+                "placeholder-text:opacity-50 h-[48px] w-full rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
                 {
                   "!border-[#BD0000]": errors.email,
                 },
@@ -73,7 +73,7 @@ const ForgotPassword = () => {
               })}
             />
             {errors.email && (
-              <p className="text-[#BD0000] text-[12px] absolute right-0 top-0">
+              <p className="absolute right-0 top-0 text-[12px] text-[#BD0000]">
                 {errors.email.message}
               </p>
             )}
@@ -83,14 +83,14 @@ const ForgotPassword = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full !mt-[28px] main-gradient flex items-center justify-center gap-[10px] text-[20px] h-[40px] font-bold rounded-[12px] disabled:bg-none disabled:bg-[#778899] disabled:pointer-events-none"
+            className="main-gradient !mt-[28px] flex h-[40px] w-full items-center justify-center gap-[10px] rounded-[12px] text-[20px] font-bold disabled:pointer-events-none disabled:bg-[#778899] disabled:bg-none"
           >
             <span className="relative z-[5]">Recover</span>
             {loading && <Spinner />}
           </button>
           {result && <p className="animate-fadeIn text-center">{result}</p>}
         </form>
-        <div className="flex flex-col justify-center items-center gap-[24px]">
+        <div className="flex flex-col items-center justify-center gap-[24px]">
           <div className="flex gap-[8px] text-[12px]">
             <p>Dont have an account?</p>
             <Link
@@ -102,7 +102,7 @@ const ForgotPassword = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-hull relative sm:hidden">
+      <div className="h-hull relative w-full sm:hidden">
         <Image
           src={ImageModal.src}
           fill
@@ -111,9 +111,9 @@ const ForgotPassword = () => {
         />
         <Link
           href="/"
-          className="font-bold block text-[34px] tracking-[0.04em] sm:text-[5.33vw] absolute left-[20px] bottom-[20px]"
+          className="absolute bottom-[20px] left-[20px] block text-[34px] font-bold tracking-[0.04em] sm:text-[5.33vw]"
         >
-          <span className="logo-gradient ">Ai</span>
+          <span className="logo-gradient">Ai</span>
           <span className="">Go</span>
         </Link>
       </div>

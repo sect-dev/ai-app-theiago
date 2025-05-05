@@ -9,7 +9,7 @@ interface ComponentProps {
 const LastMessage: FC<ComponentProps> = ({ message }) => {
   if (message.type === "audio") {
     return (
-      <p className="text-[12px] font-medium line-clamp-1 tracking-[-0.04em] text-[#0680E6]">
+      <p className="line-clamp-1 text-[12px] font-medium tracking-[-0.04em] text-[#0680E6]">
         Audio
       </p>
     );
@@ -17,7 +17,7 @@ const LastMessage: FC<ComponentProps> = ({ message }) => {
 
   if (message.type === "video" || message.type === "video_paywall") {
     return (
-      <p className="text-[12px] font-medium line-clamp-1 tracking-[-0.04em] text-[#0680E6]">
+      <p className="line-clamp-1 text-[12px] font-medium tracking-[-0.04em] text-[#0680E6]">
         Video
       </p>
     );
@@ -37,14 +37,14 @@ const LastMessage: FC<ComponentProps> = ({ message }) => {
             className="object-cover object-top"
           />
         </div>
-        <p className="text-[12px] font-medium line-clamp-1 tracking-[-0.04em] text-[#0680E6]">
+        <p className="line-clamp-1 text-[12px] font-medium tracking-[-0.04em] text-[#0680E6]">
           Picture
         </p>
       </>
     );
   }
   return (
-    <p className="font-medium text-[12px] max-w-[125px] opacity-50 line-clamp-1 tracking-[-0.04em]">
+    <p className="line-clamp-1 max-w-[125px] text-[12px] font-medium tracking-[-0.04em] opacity-50">
       {message.text}
     </p>
   );
