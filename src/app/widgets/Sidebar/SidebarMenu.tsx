@@ -8,6 +8,7 @@ import IconChats from "@/../public/images/icons/icon-chats.svg";
 import IconChatsActive from "@/../public/images/icons/icon-chats-active.svg";
 import IconDiscoverActive from "@/../public/images/icons/icon-discover-active.svg";
 import IconStars from "@/../public/images/icons/icon-stars.svg";
+import IconCreatePage from "@/../public/images/icons/icon-create-page.svg";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import IconDollar from "@/../public/images/icons/icon-dollar.svg";
 import IconQuestionMark from "@/../public/images/icons/icon-questionmark.svg";
@@ -35,8 +36,16 @@ const navigationData = [
     className: "rounded-b-[4px] rounded-t-[12px]",
   },
   {
-    title: "Chats",
+    title: "Create image",
     id: 2,
+    icon: IconCreatePage,
+    activeIcon: IconCreatePage,
+    href: "/create",
+    className: "rounded-[4px]",
+  },
+  {
+    title: "Chats",
+    id: 3,
     icon: IconChats,
     activeIcon: IconChatsActive,
     href: "/chats",
