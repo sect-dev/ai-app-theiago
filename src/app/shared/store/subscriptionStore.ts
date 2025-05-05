@@ -55,9 +55,11 @@ export const useSubscriptionStore = create<SubscriptionStore>((set, get) => ({
     }),
 
   requestCancelSubscription: async () => {
+    const { isCancelSuccess, subscriptionData } = get();
     try {
       const recentChats = localStorage.getItem("chatStartedCharacters");
-      if (!recentChats) return;
+      if (!recentChats || isCancelSuccess || subscriptionData?.cancelled)
+        return;
 
       const parsed = JSON.parse(recentChats);
       const lastFour = Array.isArray(parsed) ? parsed.slice(-4) : [];

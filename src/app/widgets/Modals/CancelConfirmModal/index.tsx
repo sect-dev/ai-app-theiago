@@ -64,7 +64,7 @@ const CancelConfirmModal = () => {
                       className="relative h-[332px] w-[282px] flex-shrink-0"
                     >
                       <Image
-                        src={`${char.image}?format=webp&quality=100&width=282&height=332&fit=crop`}
+                        src={`${char.image}?format=webp&quality=100&width=600&height=660&fit=crop`}
                         width={282}
                         height={332}
                         alt="Character"
