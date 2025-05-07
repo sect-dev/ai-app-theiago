@@ -23,3 +23,18 @@ export const getCharactersList = async () => {
     }
   }
 };
+
+export const getAllCharacters = async () => {
+  try {
+    const response = await apiClient.get("/characters_list_full");
+    if (response.data) {
+      return response.data
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message, error.response?.data);
+    } else {
+      console.error("Unexpected error:", error);
+    }
+  }
+} 

@@ -7,6 +7,8 @@ import { useAgeVerification } from "@/app/shared/hooks/useAgeVerification";
 import { useSubscriptionStore } from "../shared/store/subscriptionStore";
 import SubscriptionModal from "../widgets/Modals/SubscriptionModal";
 import CancelConfirmModal from "../widgets/Modals/CancelConfirmModal";
+import { useCharacterCreateStore } from '../shared/store/createCharacterStore';
+import CharacterChangeModal from '../widgets/Modals/ChangeCharacter';
 
 const AuthModal = dynamic(() => import("@/app/widgets/Modals/AuthModal"), {
   ssr: false,
@@ -34,6 +36,8 @@ const AgeVerifySorryModal = dynamic(
   { ssr: false },
 );
 
+// TODO: add other modals
+
 export default function ModalsProvider() {
   const { isAuthModalActive } = useAuthStore();
   const { isQrModalActive } = useSelectedCardStore();
@@ -46,6 +50,7 @@ export default function ModalsProvider() {
     useAgeVerification();
   const { isSubscriptionModalActive, isCancelConfirmModalActive } =
     useSubscriptionStore();
+  const { isChangeCharacterModalActive } = useCharacterCreateStore();
 
   return (
     <>
@@ -60,6 +65,7 @@ export default function ModalsProvider() {
       {showSorry && <AgeVerifySorryModal />}
       {isSubscriptionModalActive && <SubscriptionModal />}
       {isCancelConfirmModalActive && <CancelConfirmModal />}
+      {isChangeCharacterModalActive && <CharacterChangeModal />}
     </>
   );
 }

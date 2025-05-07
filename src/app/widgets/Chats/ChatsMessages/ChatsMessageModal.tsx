@@ -1,5 +1,14 @@
 import React, { FC, useRef } from "react";
 import { useClickOutside } from "@/app/shared/hooks/useClickOutside";
+import { useRouter } from "next/navigation";
+import { IS_CLIENT } from '@/app/shared/consts';
+
+interface PhotoItem {
+  title: string,
+  value?: string,
+  id: number,
+  image: string;
+}
 
 const photoPrompt = [
   {
@@ -42,6 +51,7 @@ const photoPrompt = [
   },
   {
     title: "Custom ",
+    value: " ",
     id: 7,
     image: "✏️",
   },
@@ -76,7 +86,20 @@ const ChatsMessageModal: FC<ComponentProps> = ({
   onSelectMessage,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   useClickOutside(modalRef, closeModal);
+
+  const handleCustomClick = (item: PhotoItem, prompt: string) => {
+    if (item.title.includes("Custom")) {
+      closeModal();
+      if (IS_CLIENT) {
+        router.push("/create")
+      }
+    } else {
+      onSelectMessage(prompt)
+    }
+
+  }
 
   return (
     <div
@@ -87,13 +110,11 @@ const ChatsMessageModal: FC<ComponentProps> = ({
         <p className="mb-[10px] text-[14px] font-semibold">Ask a photo with</p>
         <ul className="">
           {photoPrompt.map((item) => {
-            const prompt = item.title.includes("Custom")
-              ? "Send me "
-              : `${item.value}`;
+            const prompt = item.value;
             return (
               <li key={item.id} className="">
                 <button
-                  onClick={() => onSelectMessage(prompt)}
+                  onClick={() => handleCustomClick(item, prompt)}
                   className="group flex w-full items-center gap-[8px] py-[6px] text-left"
                 >
                   <span className="text-[14px]">{item.image}</span>
