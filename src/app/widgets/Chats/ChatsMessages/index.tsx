@@ -204,7 +204,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
           />
         </div>
         <div>
-          {!loading && (
+          {/* {!loading && (
             <div
               className={clsx("transition-opacity duration-300", {
                 "pointer-events-none absolute opacity-0": loading,
@@ -217,7 +217,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
                 onSelectMessage={handleSelectMessage}
               />
             </div>
-          )}
+          )} */}
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="relative flex items-end gap-[8px]"
