@@ -5,7 +5,7 @@ export type PaymentModalType =
   | "subscription_success"
   | "auth_success"
   | "auth_organic"
-  | "subscription_tokens"
+  | "tokens_success"
   | null;
 
 const loadCharactersFromLocalStorage = (): { tokens: number } => {
