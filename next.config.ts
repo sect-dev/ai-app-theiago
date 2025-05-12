@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://*.payprocc.com"
+            value: "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://*.payprocc.com https://cdn.aigo.sect.dev https://aigo.b-cdn.net; img-src 'self' data: https://*.payprocc.com https://cdn.aigo.sect.dev https://aigo.b-cdn.net; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.payprocc.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.payprocc.com https://stage.theaigo.com:8000;"
           }
         ]
       }
