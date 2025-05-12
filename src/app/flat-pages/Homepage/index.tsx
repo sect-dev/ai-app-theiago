@@ -96,7 +96,7 @@ const HomePage: FC<ComponentProps> = ({
       });
     }
     if (
-      action === "subscription_tokens" &&
+      action === "tokens_success" &&
       characterId &&
       orderNumber &&
       product
