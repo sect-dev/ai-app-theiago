@@ -6,6 +6,19 @@ const nextConfig: NextConfig = {
     formats: ["image/webp"],
     unoptimized: true,
   },
+  headers: async () => {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://*.payprocc.com"
+          }
+        ]
+      }
+    ]
+  }
 };
 
 export default nextConfig;
