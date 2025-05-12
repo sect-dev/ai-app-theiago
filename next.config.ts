@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://*.payprocc.com https://cdn.aigo.sect.dev https://aigo.b-cdn.net https://*.googleapis.com https://*.google.com; img-src 'self' data: https://*.payprocc.com https://cdn.aigo.sect.dev https://aigo.b-cdn.net https://*.google.com https://*.googletagmanager.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.payprocc.com https://*.googletagmanager.com https://*.google.com https://*.googleapis.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.payprocc.com https://identitytoolkit.googleapis.com https://*.googleapis.com https://*.google.com https://*.googletagmanager.com;"
+            value: "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://*.payprocc.com https://cdn.aigo.sect.dev https://aigo.b-cdn.net https://*.googleapis.com https://*.google.com; img-src 'self' data: https://*.payprocc.com https://cdn.aigo.sect.dev https://aigo.b-cdn.net https://*.google.com https://*.googletagmanager.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.payprocc.com https://*.googletagmanager.com https://*.google.com https://*.googleapis.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.payprocc.com https://identitytoolkit.googleapis.com https://*.googleapis.com https://*.google.com https://*.googletagmanager.com https://*.theaigo.com:*;"
           }
         ]
       }
