@@ -8,6 +8,7 @@ import { STEPS } from '@/app/shared/consts/suggestions';
 import Image from "next/image";
 import SwitchButton from '@/app/shared/ui/Switch';
 import { assembleRequest } from '@/app/shared/api/assembleRequest';
+import { AssembledImageResponse } from '@/app/shared/api/types/assembleRequest';
 
 
 type SuggestionKey = keyof typeof STEPS;
@@ -44,7 +45,7 @@ const CreateImageBlock = () => {
 	const [activeTagId, setActiveTagId] = useState<number>(1);
 	const [suggestions, setSuggestions] = useState<string[]>([]);
 	const [imagePaths, setImagePaths] = useState<string[]>([]);
-	const { censorship, setRequest, request, characterId, type, setIsLoading } = useCharacterCreateStore();
+	const { censorship, setRequest, request, characterId, type, setIsLoading, setGeneratedAssets, generatedAssets } = useCharacterCreateStore();
 
 	
 	// console.log("suggestions", suggestions)
@@ -83,12 +84,23 @@ const CreateImageBlock = () => {
 		try {
 			setIsLoading(true);
 
-			const response = await assembleRequest({
+			const response = await assembleRequest<AssembledImageResponse>({
 			type: type,
 			characterId: characterId !== null ? characterId : 1,
 			request: request,
 			censorship: censorship
 		  })
+
+		  if (response) {
+			
+			const newAsset = {
+				url: response.url,
+				nsfw: response.nsfw,
+				hasVideo: response.has_video
+			}
+
+			setGeneratedAssets([...generatedAssets, newAsset])
+		  }
 
 		console.log("response", response)
 		} catch (error) {

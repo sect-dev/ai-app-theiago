@@ -5,6 +5,12 @@ interface Character {
 	description: string
 }
 
+interface GeneratedAsset {
+  hasVideo: boolean;
+  nsfw: boolean;
+  url: string;
+}
+
 type ContentType = "video" | "image";
 
 type Censorship = "low" | "high"
@@ -17,6 +23,7 @@ interface CharacterStore {
   request: string;
   censorship: Censorship;
   isLoading: boolean;
+  generatedAssets: GeneratedAsset[];
 	// openChangeCharacterModal: (data: Character[]) => void;
   setCharacterData: (data: Character[]) => void,
 	setChangeCharacterModal: (isChangeCharacterModalActive: boolean) => void,
@@ -25,6 +32,7 @@ interface CharacterStore {
   setRequest: (request: string) => void;
   setCensorship: (censorship: Censorship) => void;
   setIsLoading: (isLoading: boolean) => void;
+  setGeneratedAssets: (assets: GeneratedAsset[]) => void;
 }
 
 export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
@@ -35,6 +43,7 @@ export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
   request: "asd",
   censorship: "high",
   isLoading: false,
+  generatedAssets: [],
 
   setCharacterData: (data: Character[]) => {
     set({characterData: data})
@@ -76,6 +85,10 @@ export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
 
   setIsLoading: (isLoading) => {
     set({isLoading: isLoading})
+  },
+
+  setGeneratedAssets: (assets: GeneratedAsset[]) => {
+    set({generatedAssets: assets})
   }
 
 }));

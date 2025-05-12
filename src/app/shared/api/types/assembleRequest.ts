@@ -25,3 +25,16 @@ export interface AssembledRequestProps {
 	request: string;
 	censorship: string;
 }
+
+export interface LastAssebledContentProps {
+	type: string;
+	characterId: number;
+}
+
+export interface LastAssembledContentPayload {
+	token: string;
+	type: string;
+	character_id: string;
+	count: number;
+}
+

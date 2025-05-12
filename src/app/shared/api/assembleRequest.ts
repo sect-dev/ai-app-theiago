@@ -1,7 +1,7 @@
 import { apiClient, getCurrentToken } from "@/app/shared/api/index";
-import { AssembledImageResponse, AssembledRequestPayload, AssembledRequestProps, AssembledVideoResponse } from "./types/assembleRequest";
+import { AssembledRequestPayload, AssembledRequestProps, LastAssebledContentProps, LastAssembledContentPayload } from "./types/assembleRequest";
 
-export const assembleRequest = async (props: AssembledRequestProps): Promise<AssembledImageResponse | AssembledVideoResponse | null> => {
+export const assembleRequest = async <T>(props: AssembledRequestProps): Promise<T | null> => {
 	const {censorship, characterId, request, type} = props
 	const token = await getCurrentToken();
 
@@ -18,7 +18,7 @@ export const assembleRequest = async (props: AssembledRequestProps): Promise<Ass
 	}
 
 	try {
-		const response = await apiClient.post<AssembledImageResponse | AssembledVideoResponse>(
+		const response = await apiClient.post<T>(
 			"/assemble_content",
 			payload
 		)
@@ -32,4 +32,28 @@ export const assembleRequest = async (props: AssembledRequestProps): Promise<Ass
 		console.log(error)
 		return null;
 	}
+}
+
+export const lastAssembledRequest = async <T>(props: LastAssebledContentProps): Promise<T | null> => {
+ const {type, characterId} = props;
+
+ const token = await getCurrentToken();
+
+ const payload: LastAssembledContentPayload = {
+	token: token || "",
+	type: type,
+	character_id: characterId?.toString() ?? "",
+	count: 20
+ }
+
+ try {
+  const response = await apiClient.post<T>("/last_assembled_content", payload)
+
+  if (response.data) {return response.data}
+
+  return null
+ } catch (e) {
+	console.log(e)
+	return null
+ }
 }
