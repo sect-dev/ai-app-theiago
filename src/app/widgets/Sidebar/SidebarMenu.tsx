@@ -262,7 +262,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
       {!isHidden && (
         <li>
           <Link
-            href="https://quiz.theaigo.com/aigoweb#welcome"
+            href={process.env.NEXT_PUBLIC_QUIZ_URL ?? ""}
             rel="nofollow"
             className={clsx(
               "main-gradient block h-[40px] w-full animate-fadeIn cursor-pointer rounded-b-[12px] rounded-t-[4px] px-[16px] py-[12px] text-[14px] font-semibold text-white",

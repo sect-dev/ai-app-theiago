@@ -161,7 +161,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
           setAuthModal({ modalType: "login", isAuthModalActive: true });
         }
         if (isPaywallMessage && user?.emailVerified) {
-          return navigate.push("https://quiz.theaigo.com/aigoweb");
+          return navigate.push(process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
         }
       }
     } catch (error) {

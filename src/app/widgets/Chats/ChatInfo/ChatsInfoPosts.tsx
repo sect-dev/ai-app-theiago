@@ -23,7 +23,7 @@ const ChatsInfoPosts: FC<ComponentProps> = ({ content }) => {
       setOpen(true);
     } else {
       if (user?.emailVerified && !isPremium) {
-        return router.push("https://quiz.theaigo.com/aigoweb");
+        return router.push(process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
       }
       setAuthModal({ modalType: "login", isAuthModalActive: true });
     }
