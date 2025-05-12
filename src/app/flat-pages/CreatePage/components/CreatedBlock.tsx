@@ -2,27 +2,34 @@
 
 import Image from "next/image";
 import TagsButton from './TagsButton';
-import { useState } from 'react';
+import { useCharacterCreateStore } from '@/app/shared/store/createCharacterStore';
 
+interface Tag {
+	id: number,
+	text: string,
+	type: "image" | "video"
+}
 
-const IMAGES_VIDEOS = [
+const IMAGES_VIDEOS: Tag[] = [
 	{
 		id: 1,
-		text: "Images"
+		text: "Images",
+		type: "image"
 	},
 	{
 		id: 2,
-		text: "Videos"
+		text: "Videos",
+		type: "video",
 	}
 ]
 
 const CreatedBlock = () => {
-	const [activeTagType, setActiveTagType] = useState<number | null>(null); 
+	const {type, setContentType, isLoading} = useCharacterCreateStore()
 
-
-		const handleTagTypeClick = (tagId: number) => {
-    	setActiveTagType(activeTagType === tagId ? null : tagId);
-  	};
+	// TODO: убрать, тип не должен меняться кнопкой. Сначала запрос image всегда
+	const handleTagTypeClick = (tagType: "image" | "video") => {
+		setContentType(tagType);
+	};
 
 
 
@@ -32,7 +39,7 @@ const CreatedBlock = () => {
 						<div className="flex flex-col">
 							<span className="text-[16px] font-semibold mb-[12px]">Created</span>
 							<div className="flex gap-x-[4px]">
-								{IMAGES_VIDEOS.map((tag) => (<TagsButton key={tag.id} isActive={activeTagType === tag.id} onClick={() => handleTagTypeClick(tag.id)} text={tag.text} />))}
+								{IMAGES_VIDEOS.map((tag) => (<TagsButton key={tag.id} isActive={type === tag.type} onClick={() => handleTagTypeClick(tag.type)} text={tag.text} />))}
 							</div>
 						</div>
 						<div className="bg-[#191B2C] rounded-[24px] px-[20px] py-[16px]">
@@ -43,10 +50,16 @@ const CreatedBlock = () => {
 								height={80}
 								className="mb-[8px]"
 							/>
+							{isLoading ? (
+								<div className="flex flex-col">
+									<span className="text-[16px] font-bold">Loading...</span>
+									<span className="text-[14px] font-medium opacity-50">Please wait while we generate the content</span>
+								</div>
+							) : (
 							<div className='flex flex-col'>
 								<span className="text-[16px] font-bold">It&apos;s empty here for now</span>
 								<span className="text-[14px] font-medium opacity-50">Later, all the created content will<br />appear here</span>
-							</div>
+							</div>)}
 						</div>
 				</div>
 			</div>

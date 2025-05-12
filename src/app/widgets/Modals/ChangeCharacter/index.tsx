@@ -8,11 +8,17 @@ const CharacterChangeModal = () => {
 	const {charactersList} = useSelectedCardStore();
 	const {setChangeCharacterModal} = useCharacterCreateStore();
 	const charactersArray = charactersList ? Object.values(charactersList) : []
+	const {characterId, setCharacterId} = useCharacterCreateStore();
 
 	console.log("modal", charactersList)
 
 	const handleClose = () => {
 		console.log("closed modal");
+		setChangeCharacterModal(false)
+	}
+
+	const handleCharacterChange = (id: number) => {
+		setCharacterId(id)
 		setChangeCharacterModal(false)
 	}
 
@@ -29,8 +35,8 @@ const CharacterChangeModal = () => {
 						transition
 						className="data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
 					>
-						<div className="bg-[#121423] p-[20px] rounded-[24px] font-bai-jamjuree">
-							<div className="flex flex-row justify-between items-center">
+						<div className="bg-[#121423] p-[20px] rounded-[24px] font-bai-jamjuree w-[807px] max-h-[677px] overflow-auto">
+							<div className="flex flex-row justify-between items-center mb-[20px]">
 								<span className="text-[24px] font-semibold">Choose character</span>
 								<button
 									onClick={handleClose}
@@ -44,14 +50,26 @@ const CharacterChangeModal = () => {
 									/>
 								</button>
 							</div>
-							<div>
-								
-								{/* {charactersArray.map((char) => (
-									<div key={char.id}>
-										<span>{char.name}</span>
-										<span>{char.age}</span>
+							<div className='grid grid-cols-3 gap-[16px]'>
+
+								{charactersArray.map((char) => (
+									<button onClick={() => handleCharacterChange(Number(char.id))} key={char.id} className="w-full">
+									<div className="h-[293px] relative">
+										<Image
+											src={`${char?.avatar}?format=webp&quality=85&width=500`}
+											fill
+											sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
+											alt="image"
+											className="object-cover rounded-tl-[24px] rounded-t-[20px]"
+											priority={false}
+										/>
 									</div>
-								))} */}
+									<div className="grid grid-rows-[auto_1f] p-[16px] gap-[4px] bg-[#2C3355] rounded-b-[20px]">
+										<span className="text-[16px] leading-[1.3] font-bold">{char?.name}</span>
+							      		<span className="text-[14px] leading-[1.5] font-normal text-[#A8A9B1]">{char?.description.en}</span>
+									</div>
+								</button>
+								))}
 							</div>
 						</div>
 					</DialogPanel>

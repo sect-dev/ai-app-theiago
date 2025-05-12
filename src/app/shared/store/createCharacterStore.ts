@@ -7,27 +7,34 @@ interface Character {
 
 type ContentType = "video" | "image";
 
+type Censorship = "low" | "high"
+
 interface CharacterStore {
 	isChangeCharacterModalActive: boolean;
 	characterData: Character[] | null;
   type: ContentType;
-  character_id: number | null;
+  characterId: number | null;
   request: string;
-
+  censorship: Censorship;
+  isLoading: boolean;
 	// openChangeCharacterModal: (data: Character[]) => void;
   setCharacterData: (data: Character[]) => void,
 	setChangeCharacterModal: (isChangeCharacterModalActive: boolean) => void,
   setContentType: (type: ContentType) => void; 
   setCharacterId: (id: number | null) => void; 
   setRequest: (request: string) => void;
+  setCensorship: (censorship: Censorship) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
-export const useCharacterCreateStore = create<CharacterStore>((set) => ({
+export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
   isChangeCharacterModalActive: false,
   characterData: null,
   type: "image",
-  character_id: null,
-  request: " ",
+  characterId: null,
+  request: "asd",
+  censorship: "high",
+  isLoading: false,
 
   setCharacterData: (data: Character[]) => {
     set({characterData: data})
@@ -43,11 +50,32 @@ export const useCharacterCreateStore = create<CharacterStore>((set) => ({
   },
 
    setCharacterId: (id) => {
-    set({ character_id: id });
+    set({ characterId: id });
   },
 
-  setRequest: (request) => {
-    set({request: request})
+  setRequest: (newRequest) => {
+
+    if (newRequest === "reset") {
+    set({request: ""});
+    return;
+  }
+
+    const {request} = get();
+
+     if (!request || request.trim() === "") {
+    set({request: newRequest});
+  } else {
+    // Иначе добавляем запятую и новое значение
+    set({request: `${request}, ${newRequest}`});
+  }
+  },
+
+  setCensorship: (censorship) => {
+    set({censorship: censorship})
+  },
+
+  setIsLoading: (isLoading) => {
+    set({isLoading: isLoading})
   }
 
 }));

@@ -1,12 +1,13 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import ChangeButton from './ChangeButton';
 import { getCharactersList } from '@/app/shared/api/characters';
 import { Character } from '@/app/shared/api/types';
 import Image from "next/image";
 import { useSelectedCardStore } from '@/app/shared/store/publicStore';
 import { getCharacterInfoById } from '@/app/shared/api/getCharacterById';
+import { useCharacterCreateStore } from '@/app/shared/store/createCharacterStore';
 
 interface Props {
 	characters: Character[];
@@ -15,16 +16,25 @@ interface Props {
 const CharacterBlock = React.memo((props: Props) => {
 	const {characters} = props;
 	const {selectedCharacterId, charactersList, setCharactersList} = useSelectedCardStore();
+	const {characterId, setCharacterId} = useCharacterCreateStore();
 	const [character, setCharacter] = useState<Character | null>(null);
 	const charactersArray = characters ? Object.values(characters) : [];
+
+	// console.log(charactersArray)
 
 	useEffect(() => {
 		if (charactersArray.length > 0) {
 			setCharactersList(characters)
 		}
+
+		if (selectedCharacterId) {
+			setCharacterId(typeof selectedCharacterId === "string" ? Number(selectedCharacterId) : selectedCharacterId)
+		} else if (charactersArray[0]?.id){
+			setCharacterId(Number(charactersArray[0].id))
+		}
 	}, [])
 
-	console.log("charlist", charactersList)
+	// console.log("charlist", charactersList)
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -41,7 +51,18 @@ const CharacterBlock = React.memo((props: Props) => {
 		fetchData()
 	}, [])
 
-	const mainChar = selectedCharacterId ? character : characters[2]
+	console.log(characterId)
+
+	const mainChar = useMemo(() => {
+		if (characterId) {
+			return charactersArray.find(char => char.id == characterId) || null
+		}
+		return selectedCharacterId ? character : charactersArray[2] || null;
+	}, [characterId, selectedCharacterId, character, charactersArray])
+
+	// const mainChar = charactersArray[0]
+
+	// console.log("mainchar", mainChar)
 
 
 	return (
