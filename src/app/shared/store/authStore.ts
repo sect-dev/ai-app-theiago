@@ -130,7 +130,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Органическая регистрация — редирект на квиз ( если нет платной пописки )
         if (organicAuth && !userInfo?.subscription?.active) {
-          return (window.location.href = REDIRECT_URL);
+          return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
         }
       }
     } catch (error) {
@@ -176,9 +176,9 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     setTokens(userInfo?.tokens ?? 0);
     setAuthModal({ modalType: null, isAuthModalActive: false });
     // Если зашел через соц.сети и нет премиума то редиректим на квиз
-    // if (!userInfo?.subscription?.active) {
-    //   return (window.location.href = REDIRECT_URL);
-    // }
+    if (!userInfo?.subscription?.active) {
+      return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
+    }
     return;
   }
 

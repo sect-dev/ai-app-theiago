@@ -33,7 +33,7 @@ const SidebarBanner = () => {
           </li>
         </ul>
         <Link
-          href="https://quiz.theaigo.com/aigoweb"
+          href={process.env.NEXT_PUBLIC_QUIZ_URL ?? ""}
           className="block flex h-[28px] w-full items-center justify-center rounded-[16px] bg-white text-[14px] font-semibold text-blue"
         >
           See more

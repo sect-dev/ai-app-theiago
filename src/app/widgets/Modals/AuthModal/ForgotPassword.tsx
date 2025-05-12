@@ -94,7 +94,7 @@ const ForgotPassword = () => {
           <div className="flex gap-[8px] text-[12px]">
             <p>Dont have an account?</p>
             <Link
-              href="https://quiz.theaigo.com/aigoweb"
+              href={process.env.NEXT_PUBLIC_QUIZ_URL ?? ""}
               className="logo-gradient"
             >
               Register now
