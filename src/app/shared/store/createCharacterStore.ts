@@ -41,7 +41,7 @@ export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
   type: "image",
   characterId: null,
   request: "asd",
-  censorship: "high",
+  censorship: "low",
   isLoading: false,
   generatedAssets: [],
 

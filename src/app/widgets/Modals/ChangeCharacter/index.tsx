@@ -2,7 +2,6 @@ import { useCharacterCreateStore } from '@/app/shared/store/createCharacterStore
 import { useSelectedCardStore } from '@/app/shared/store/publicStore';
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
-import { useId } from 'react';
 
 const CharacterChangeModal = () => {
 	const {charactersList} = useSelectedCardStore();

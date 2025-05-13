@@ -18,10 +18,6 @@ const CharacterBlock = React.memo((props: Props) => {
 	const {selectedCharacterId, charactersList, setCharactersList} = useSelectedCardStore();
 	const {characterId, setCharacterId} = useCharacterCreateStore();
 	const [character, setCharacter] = useState<Character | null>(null);
-	// const charactersArray = characters ? Object.values(characters) : [];
-
-	console.log(characters)
-	// console.log(characters)
 
 	useEffect(() => {
 		if (characters.length > 0) {
@@ -34,8 +30,6 @@ const CharacterBlock = React.memo((props: Props) => {
 			setCharacterId(Number(characters[3].id))
 		}
 	}, [])
-
-	// console.log("charlist", charactersList)
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -52,7 +46,6 @@ const CharacterBlock = React.memo((props: Props) => {
 		fetchData()
 	}, [])
 
-	console.log(characterId)
 
 	const mainChar = useMemo(() => {
 		if (characterId) {
@@ -61,13 +54,22 @@ const CharacterBlock = React.memo((props: Props) => {
 		return selectedCharacterId ? character : characters[2] || null;
 	}, [characterId, selectedCharacterId, character, characters])
 
-	// const mainChar = charactersArray[0]
-
-	// console.log("mainchar", mainChar)
-
 
 	return (
-		<div className="bg-[#121423] max-w-[293px] rounded-tl-[24px] rounded-bl-[24px] rounded-tr-[8px] rounded-br-[8px] ">
+		<>
+		<div className='xs:flex hidden flex-col items-center justify-center gap-[12px]'>
+			<span>Create Image</span>
+			        <Image
+          src={`${mainChar?.avatar}?format=webp&quality=85&width=500`}
+          width={88}
+		  height={88}
+          alt="image"
+          className="object-cover rounded-[24px]"
+          priority={false}
+        />
+		</div>
+
+		<div className="xs:hidden block rounded-tl-[24px]  rounded-tr-[8px] ">
 			<div className="h-[293px] w-full relative">
         <Image
           src={`${mainChar?.avatar}?format=webp&quality=85&width=500`}
@@ -83,12 +85,15 @@ const CharacterBlock = React.memo((props: Props) => {
 					<span className="text-[14px] leading-[1.5] font-medium opacity-60">{mainChar?.occupation}</span>
 				</div>
 			</div>
-			<div className="p-[20px]">
-				<span className="text-[14px] leading-1.5 font-normal opacity-60 align-middle">
+			<div className="p-[20px] bg-[#121423] rounded-bl-[24px] rounded-br-[8px]">
+				<span className="text-[14px] leading-[150%] font-normal opacity-60 align-middle">
 					{mainChar?.description.en}
 				</span>
 			</div>
 		</div>
+		</>
+
+		
 	)
 })
 

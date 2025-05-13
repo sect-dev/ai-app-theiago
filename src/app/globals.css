@@ -47,6 +47,17 @@
   background-color: #202044;
 }
 
+.custom-x-scrollbar::-webkit-scrollbar {
+  height: 8px;
+  /* Высота горизонтального скроллбара */
+}
+
+.custom-x-scrollbar::-webkit-scrollbar-thumb {
+  background: #2A2D4D;
+  /* Цвет ползунка */
+  border-radius: 7px;
+}
+
 html {
   scroll-behavior: smooth;
 }

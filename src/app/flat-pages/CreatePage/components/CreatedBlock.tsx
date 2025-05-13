@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { lastAssembledRequest } from '@/app/shared/api/assembleRequest';
 import { LastAssembledContentResponse } from '@/app/shared/api/types/assembleRequest';
 import { Character } from '@/app/shared/api/types';
+import CreatedContent from './CreatedContent';
 interface Tag {
 	id: number,
 	text: string,
@@ -49,6 +50,11 @@ const CreatedBlock = () => {
 	}	
 
 	useEffect(() => {
+
+    if (generatedAssets && generatedAssets.length > 0) {
+      return;
+    }
+
 		fetchContent(contentType)
 	}, [contentType, characterId])
 
@@ -69,27 +75,10 @@ const CreatedBlock = () => {
         </div>
       ) : generatedAssets.length > 0 ? (
         // Показываем ассеты из generatedAssets, когда они есть
-        <div className="grid grid-cols-3 gap-3">
-          {generatedAssets.map((asset) => (
-            <div key={asset.url} className="relative rounded-lg overflow-hidden h-32 w-full">
-              <Image src={asset.url} alt="generated asset" fill className="object-cover" />
-              {asset.hasVideo && (
-                <button className="absolute bottom-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs">
-                  generate video
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
+        <CreatedContent content={generatedAssets} />
       ) : lastAssembledContent && lastAssembledContent.length > 0 ? (
         // Показываем ассеты из lastAssembledContent, если generatedAssets пусто
-        <div className="grid grid-cols-3 gap-3">
-          {lastAssembledContent.map((item, index) => (
-            <div key={index} className="relative rounded-lg overflow-hidden h-32 w-full">
-              <Image src={item.url} alt="assembled content" fill className="object-cover" />
-            </div>
-          ))}
-        </div>
+        <CreatedContent content={lastAssembledContent} />
       ) : (
         // Показываем Empty, когда ни generatedAssets, ни lastAssembledContent не доступны
         <div className="bg-[#191B2C] rounded-[24px] px-[20px] py-[16px]">
@@ -101,8 +90,8 @@ const CreatedBlock = () => {
             className="mb-[8px]"
           />
           <div className='flex flex-col'>
-            <span className="text-[16px] font-bold">It&apos;s empty here for now</span>
-            <span className="text-[14px] font-medium opacity-50">Later, all the created content will<br />appear here</span>
+            <span className="text-[16px] font-bold leading-[28px]">It&apos;s empty here for now</span>
+            <span className="text-[14px] font-medium opacity-50 leading-1 align-middle">Later, all the created content will appear here</span>
           </div>
         </div>
       )}
