@@ -130,7 +130,8 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Органическая регистрация — редирект на квиз ( если нет платной пописки )
         if (organicAuth && !userInfo?.subscription?.active) {
-          return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
+          return (window.location.href =
+            process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
         }
       }
     } catch (error) {
