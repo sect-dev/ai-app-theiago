@@ -4,7 +4,7 @@ import clsx from 'clsx';
 interface Props {
 	text: string;
 	isActive: boolean;
-	onClick: () => void;
+	onClick?: () => void;
 }
 
 const TagsButton = (props: Props) => {

@@ -1,5 +1,5 @@
 import { apiClient, getCurrentToken } from "@/app/shared/api/index";
-import { AssembledRequestPayload, AssembledRequestProps, LastAssebledContentProps, LastAssembledContentPayload } from "./types/assembleRequest";
+import { AssembledRequestPayload, AssembledRequestProps, LastAssebledContentProps, LastAssembledContentPayload, LastAssembledContentResponse } from "./types/assembleRequest";
 
 export const assembleRequest = async <T>(props: AssembledRequestProps): Promise<T | null> => {
 	const {censorship, characterId, request, type} = props
@@ -34,7 +34,7 @@ export const assembleRequest = async <T>(props: AssembledRequestProps): Promise<
 	}
 }
 
-export const lastAssembledRequest = async <T>(props: LastAssebledContentProps): Promise<T | null> => {
+export const lastAssembledRequest = async (props: LastAssebledContentProps): Promise<LastAssembledContentResponse[] | null> => {
  const {type, characterId} = props;
 
  const token = await getCurrentToken();
@@ -47,7 +47,7 @@ export const lastAssembledRequest = async <T>(props: LastAssebledContentProps): 
  }
 
  try {
-  const response = await apiClient.post<T>("/last_assembled_content", payload)
+  const response = await apiClient.post<LastAssembledContentResponse[]>("/last_assembled_content", payload)
 
   if (response.data) {return response.data}
 

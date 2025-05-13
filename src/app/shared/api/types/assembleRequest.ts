@@ -38,3 +38,9 @@ export interface LastAssembledContentPayload {
 	count: number;
 }
 
+export interface LastAssembledContentResponse {
+	created_at: string;
+	request: string;
+	nsfw: boolean;
+	url: string;
+}

@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useSelectedCardStore } from '@/app/shared/store/publicStore';
 import { getCharacterInfoById } from '@/app/shared/api/getCharacterById';
 import { useCharacterCreateStore } from '@/app/shared/store/createCharacterStore';
-
+ 
 interface Props {
 	characters: Character[];
 }
@@ -18,19 +18,20 @@ const CharacterBlock = React.memo((props: Props) => {
 	const {selectedCharacterId, charactersList, setCharactersList} = useSelectedCardStore();
 	const {characterId, setCharacterId} = useCharacterCreateStore();
 	const [character, setCharacter] = useState<Character | null>(null);
-	const charactersArray = characters ? Object.values(characters) : [];
+	// const charactersArray = characters ? Object.values(characters) : [];
 
-	// console.log(charactersArray)
+	console.log(characters)
+	// console.log(characters)
 
 	useEffect(() => {
-		if (charactersArray.length > 0) {
+		if (characters.length > 0) {
 			setCharactersList(characters)
 		}
 
 		if (selectedCharacterId) {
 			setCharacterId(typeof selectedCharacterId === "string" ? Number(selectedCharacterId) : selectedCharacterId)
-		} else if (charactersArray[0]?.id){
-			setCharacterId(Number(charactersArray[0].id))
+		} else if (characters[3]?.id){
+			setCharacterId(Number(characters[3].id))
 		}
 	}, [])
 
@@ -55,10 +56,10 @@ const CharacterBlock = React.memo((props: Props) => {
 
 	const mainChar = useMemo(() => {
 		if (characterId) {
-			return charactersArray.find(char => char.id == characterId) || null
+			return characters.find(char => char.id == characterId) || null
 		}
-		return selectedCharacterId ? character : charactersArray[2] || null;
-	}, [characterId, selectedCharacterId, character, charactersArray])
+		return selectedCharacterId ? character : characters[2] || null;
+	}, [characterId, selectedCharacterId, character, characters])
 
 	// const mainChar = charactersArray[0]
 
