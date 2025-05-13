@@ -86,7 +86,7 @@ const InitpageSkeleton = () => {
             {/*  Pay with*/}
             {/*  <span className="text-[23px] font-semibold tracking-[-0.015em]  fm:text-[6.13vw]">Pay</span>*/}
             {/*</button>*/}
-            <button className="gap-[4px]l flex h-[50px] w-full items-center justify-center gap-[12px] rounded-full bg-[#FFC43A] text-[14px] font-semibold text-[#121423] fm:h-[13.33vw] fm:gap-[3.20vw] fm:text-[3.73vw]">
+            {/* <button className="gap-[4px]l flex h-[50px] w-full items-center justify-center gap-[12px] rounded-full bg-[#FFC43A] text-[14px] font-semibold text-[#121423] fm:h-[13.33vw] fm:gap-[3.20vw] fm:text-[3.73vw]">
               <Image
                 src={IconPaypal.src}
                 width={IconPaypal.width}
@@ -95,7 +95,7 @@ const InitpageSkeleton = () => {
                 className="fm:h-[3.73vw] fm:w-[16vw]"
               />
               Checkout
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
