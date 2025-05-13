@@ -95,12 +95,7 @@ const HomePage: FC<ComponentProps> = ({
         successPaymentModalType: action,
       });
     }
-    if (
-      action === "tokens_success" &&
-      characterId &&
-      orderNumber &&
-      product
-    ) {
+    if (action === "tokens_success" && characterId && orderNumber && product) {
       if (characterId === "None") {
         navigate.push("/");
       } else {
