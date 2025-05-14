@@ -28,12 +28,6 @@ const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
     localStorage.setItem("charFromPaywall", JSON.stringify(character));
   }, []);
 
-  console.log(paymentPlans);
-
-  // useEffect(() => {
-  //   fbq.event("Purchase", { product_name: paymentPlans[0].name, placement: "quiz" });
-  // }, [])
-
   return (
     <div>
       <div className="mx-auto w-full max-w-[840px] animate-fadeIn pt-[24px] fm:pt-0">
