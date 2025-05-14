@@ -66,6 +66,12 @@ const HomePage: FC<ComponentProps> = ({
           type: "success",
           description: `${productItem} tokens added to your balance`,
         });
+        sendGTMEvent({
+          event: "token_complete_buy",
+          placement: "quiz",
+          product_name: product,
+          tokens: productItem,
+        });
       }
     } catch (error) {
       notification.open({

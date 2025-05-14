@@ -17,6 +17,7 @@ import TokenCosts from "@/app/widgets/TokensPage/TokenCosts";
 import TokenAdvantages from "@/app/widgets/TokensPage/TokenAdvantages";
 import Link from "next/link";
 import Spinner from "@/app/widgets/Spinner";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const TokensPage = () => {
   const { characters, selectedCharacterId, setSelectedCharacterId } =
@@ -29,6 +30,22 @@ const TokensPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<string>("");
   const [fullUrl, setFullUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    sendGTMEvent({
+      event: "token_show",
+      placement: "quiz",
+      product_name: selectedPackage,
+    });
+  }, []);
+
+  const handleClickBuyAnalytics = () => {
+    sendGTMEvent({
+      event: "token_buy",
+      placement: "quiz",
+      product_name: selectedPackage,
+    });
+  };
 
   const getTokenPackages = async () => {
     setLoading(true);
@@ -136,9 +153,8 @@ const TokensPage = () => {
                   </div>
                 ) : (
                   <Link
+                    onClick={handleClickBuyAnalytics}
                     href={fullUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="main-gradient mb-[8px] flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] disabled:pointer-events-none disabled:opacity-50"
                   >
                     <span className="relative z-[5] text-[15px] font-bold">

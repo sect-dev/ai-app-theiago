@@ -47,6 +47,17 @@ export default function ModalsProvider() {
   const { isSubscriptionModalActive, isCancelConfirmModalActive } =
     useSubscriptionStore();
 
+  const isAnyOtherModalActive =
+    isAuthModalActive ||
+    isPaymentModalActive ||
+    isSuccessPaymentModalActive ||
+    isQrModalActive ||
+    isTokensModalActive ||
+    isSubscriptionModalActive ||
+    isCancelConfirmModalActive;
+
+  const shouldShowAgeVerify = showAgeVerify && !isAnyOtherModalActive;
+
   return (
     <>
       {isAuthModalActive && <AuthModal />}
@@ -54,7 +65,7 @@ export default function ModalsProvider() {
       {isSuccessPaymentModalActive && <SuccessPaymentModal />}
       {isQrModalActive && <QrModal />}
       {isTokensModalActive && <TokensModal />}
-      {showAgeVerify && (
+      {shouldShowAgeVerify && (
         <AgeVerifyModal onConfirm={handleConfirm} onDecline={handleDecline} />
       )}
       {showSorry && <AgeVerifySorryModal />}
