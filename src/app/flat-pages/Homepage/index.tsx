@@ -13,6 +13,8 @@ import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { activateTokens } from "@/app/shared/api/payment";
 import { sendGTMEvent } from "@next/third-parties/google";
 import notification from "@/app/widgets/Notification";
+import * as fbq from "@/app/shared/lib/fbPixel";
+import { TOKENS } from "@/app/shared/consts";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -20,6 +22,7 @@ interface ComponentProps {
   characterId: string | null;
   orderNumber: string | null;
   product: string | null;
+  price?: string | null;
 }
 
 const HomePage: FC<ComponentProps> = ({
@@ -28,6 +31,7 @@ const HomePage: FC<ComponentProps> = ({
   characterId,
   orderNumber,
   product,
+  price,
 }) => {
   const { setSuccessPaymentModal, setTokens, tokens } = usePaymentStore();
   const { setSelectedCharacterId } = useSelectedCardStore();
@@ -72,6 +76,11 @@ const HomePage: FC<ComponentProps> = ({
           product_name: product,
           tokens: productItem,
         });
+        // TODO: burn TOKENS with fire
+        fbq.event("Purchase", {
+          currency: "USD",
+          value: TOKENS.find((item) => item.name === product)?.price,
+        });
       }
     } catch (error) {
       notification.open({
@@ -94,7 +103,11 @@ const HomePage: FC<ComponentProps> = ({
       sendGTMEvent({
         event: "paywall_complete_buy",
         placement: "quiz",
-        product_name: "subscription",
+        product_name: product,
+      });
+      fbq.event("Purchase", {
+        currency: "USD",
+        value: parseFloat(price || "0"),
       });
       setSuccessPaymentModal({
         isSuccessPaymentModalActive: true,

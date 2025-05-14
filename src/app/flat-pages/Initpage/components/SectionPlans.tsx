@@ -10,7 +10,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import Link from "next/link";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import Spinner from "@/app/widgets/Spinner";
-
+import * as fbq from "@/app/shared/lib/fbPixel";
 const additionalInfo = [
   "💬 Unlimited dialogues on any topics",
   "🔥 300 photos in any poses",
@@ -59,6 +59,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
       placement: "quiz",
       product_name: selectedPrice?.id,
     });
+    fbq.event("InitiateCheckout");
   };
 
   return (

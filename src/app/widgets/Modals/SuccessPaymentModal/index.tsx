@@ -6,6 +6,7 @@ import ImageModal from "@/../public/images/img/image-modal.webp";
 import SuccessPayment from "@/app/widgets/Modals/SuccessPaymentModal/SuccessPayment";
 import SuccessAuth from "@/app/widgets/Modals/SuccessPaymentModal/SuccessAuth";
 import { sendGTMEvent } from "@next/third-parties/google";
+import * as fbq from "@/app/shared/lib/fbPixel";
 
 const SuccessPaymentModal = () => {
   const {
@@ -14,14 +15,6 @@ const SuccessPaymentModal = () => {
     setSuccessPaymentModal,
     selectedPlan,
   } = usePaymentStore();
-
-  useEffect(() => {
-    sendGTMEvent({
-      event: "paywall_complete_buy",
-      product_name: selectedPlan,
-      placement: "quiz",
-    });
-  }, [selectedPlan]);
 
   const renderContent = () => {
     switch (successPaymentModalType) {

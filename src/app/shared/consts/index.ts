@@ -41,3 +41,36 @@ export const IS_CLIENT = typeof window !== "undefined";
 export const REDIRECT_URL = "https://quiz.theaigo.com/aigoweb";
 export const ACTION_AUTH_SUCCESS = "auth_success";
 export const ACTION_ORGANIC = "auth_organic";
+
+export const TOKENS = [
+  {
+    name: "70_tokens",
+    price: 3.99,
+    tokens: 70,
+  },
+  {
+    name: "200_tokens",
+    price: 9.99,
+    tokens: 200,
+  },
+  {
+    name: "750_tokens",
+    price: 34.99,
+    tokens: 750,
+  },
+  {
+    name: "1100_tokens",
+    price: 49.99,
+    tokens: 1100,
+  },
+  {
+    name: "2300_tokens",
+    price: 99.99,
+    tokens: 2300,
+  },
+  {
+    name: "4800_tokens",
+    price: 199.99,
+    tokens: 4800,
+  },
+];
