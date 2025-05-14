@@ -53,6 +53,14 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     setPlan(item.id ?? paymentPlans[1].id ?? "1_month_premium_access");
   };
 
+  const handleClickBuyAnalytics = () => {
+    sendGTMEvent({
+      event: "paywall_buy",
+      placement: "quiz",
+      product_name: selectedPrice?.id,
+    });
+  };
+
   return (
     <div>
       <div className="mb-[24px] space-y-[12px]">
@@ -169,8 +177,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                     ) : (
                       <Link
                         href={iframeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        onClick={handleClickBuyAnalytics}
                         className="relative flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-button-gradient text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]"
                       >
                         <span className="font-noto-sans text-[14px] font-bold uppercase fm:text-[3.73vw]">
