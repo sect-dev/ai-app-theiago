@@ -10,11 +10,13 @@ interface PageProps {
     character_id: string;
     order_number: string | null;
     product: string | null;
+    price?: string | null;
   }>;
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  const { action, character_id, order_number, product } = await searchParams;
+  const { action, character_id, order_number, product, price } =
+    await searchParams;
   const charactersList = await getCharactersList();
   const charactersListData = Object.values(charactersList ?? {}) as Character[];
 
@@ -25,6 +27,7 @@ const Page = async ({ searchParams }: PageProps) => {
       characterId={character_id ?? null}
       avatars={charactersListData}
       action={action}
+      price={price}
     />
   );
 };

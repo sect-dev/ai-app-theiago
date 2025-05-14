@@ -18,6 +18,7 @@ import TokenAdvantages from "@/app/widgets/TokensPage/TokenAdvantages";
 import Link from "next/link";
 import Spinner from "@/app/widgets/Spinner";
 import { sendGTMEvent } from "@next/third-parties/google";
+import * as fbq from "@/app/shared/lib/fbPixel";
 
 const TokensPage = () => {
   const { characters, selectedCharacterId, setSelectedCharacterId } =
@@ -37,6 +38,7 @@ const TokensPage = () => {
       placement: "quiz",
       product_name: selectedPackage,
     });
+    fbq.event("AddtoCart");
   }, []);
 
   const handleClickBuyAnalytics = () => {
@@ -45,6 +47,7 @@ const TokensPage = () => {
       placement: "quiz",
       product_name: selectedPackage,
     });
+    fbq.event("InitiateCheckout");
   };
 
   const getTokenPackages = async () => {

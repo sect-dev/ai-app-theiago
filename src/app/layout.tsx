@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { baiJamjuree, asap, notoSans } from "@/app/fonts/fonts";
 import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
+import FacebookPixel from "./shared/components/FbPixelComponent";
 
 export const metadata: Metadata = {
   title:
@@ -24,6 +25,7 @@ export default function RootLayout({
         className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
       >
         {gtmToken && <GoogleTagManager gtmId={gtmToken} />}
+        <FacebookPixel />
         {children}
       </body>
     </html>
