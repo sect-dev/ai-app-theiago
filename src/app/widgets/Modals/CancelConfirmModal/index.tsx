@@ -11,16 +11,15 @@ const CancelConfirmModal = () => {
   const { setSelectedCharacterId } = useSelectedCardStore();
   const router = useRouter();
 
-  const handleChatChange = (chatId: number | string) => {
+  const handleChatChange = (chatId: number | string | undefined) => {
     declineCancelSubscription();
-    setSelectedCharacterId(chatId);
+
+    if (chatId) {
+      setSelectedCharacterId(chatId);
+    }
+
     router.push(`/chats`);
   };
-
-  if (!recentChats) {
-    console.log("could load recent chats");
-    return null;
-  }
 
   return (
     <Dialog
@@ -40,11 +39,11 @@ const CancelConfirmModal = () => {
                   <span className="flex items-start text-[32px] font-semibold fm:mt-[12px]">
                     You&apos;re leaving us?
                   </span>
-                  {recentChats && (
+                  {recentChats && recentChats.length > 0 && (
                     <span className="text-[16px] font-normal opacity-50">
-                    {recentChats[0].name} will be sad
-                  </span>
-                  )}   
+                      {recentChats[0].name} will be sad
+                    </span>
+                  )}
                 </div>
                 <button
                   onClick={declineCancelSubscription}
@@ -60,6 +59,7 @@ const CancelConfirmModal = () => {
               </div>
               <div className="mb-[27px] flex w-[688px] gap-[8px] overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] fm:w-full fm:pl-[16px] [&::-webkit-scrollbar]:hidden">
                 {recentChats &&
+                  recentChats.length > 0 &&
                   recentChats.map((char) => (
                     <div
                       key={char.id}
@@ -85,12 +85,20 @@ const CancelConfirmModal = () => {
                   ))}
               </div>
               <div className="mb-[20px] flex w-full items-center justify-center px-[16px]">
-                <button
-                  onClick={() => handleChatChange(recentChats[0].id)}
-                  className="button-gradient main-gradient h-[60px] w-[308px] rounded-[24px] text-[14px] font-bold fm:w-full"
-                >
-                  <span className="relative z-[5]">Go to chat</span>
-                </button>
+                {recentChats && (
+                  <button
+                    onClick={() =>
+                      handleChatChange(
+                        recentChats && recentChats.length > 0
+                          ? recentChats[0].id
+                          : undefined,
+                      )
+                    }
+                    className="button-gradient main-gradient h-[60px] w-[308px] rounded-[24px] text-[14px] font-bold fm:w-full"
+                  >
+                    <span className="relative z-[5]">Go to chat</span>
+                  </button>
+                )}
               </div>
 
               <button onClick={confirmCancelSubscription}>

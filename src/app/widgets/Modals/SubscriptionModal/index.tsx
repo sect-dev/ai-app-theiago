@@ -92,7 +92,7 @@ const SubscriptionModal = () => {
       open={true}
       as="div"
       className="relative z-10 font-bai-jamjuree"
-      onClose={requestCancelSubscription}
+      onClose={() => {}}
     >
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center">
