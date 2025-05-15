@@ -171,45 +171,41 @@ const SuccessPayment = () => {
             {/* Поле Email */}
 
             <div className="relative">
-              {characterLoading ? (
-                <div className="h-[48px] w-full animate-pulse rounded-[12px] bg-[#191B2C] px-[16px]" />
-              ) : (
-                <div className="relative">
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="Input your E-mail"
-                    className={clsx(
-                      "placeholder-text:opacity-50 h-[48px] w-full animate-fadeIn rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] pr-[32px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all delay-300 duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
-                      {
-                        "!border-[#BD0000]": errors.email,
-                      },
-                    )}
-                    {...register("email", {
-                      required: "Email обязателен",
-                      pattern: {
-                        value: /^\S+@\S+\.\S+$/,
-                        message: "Некорректный email",
-                      },
-                    })}
-                  />
-                  {messageValue && (
-                    <button
-                      onClick={() => reset()}
-                      className={
-                        "absolute right-[10px] top-1/2 -translate-y-1/2 animate-fadeIn"
-                      }
-                    >
-                      <Image
-                        src={IconClose.src}
-                        width={IconClose.width}
-                        height={IconClose.height}
-                        alt="clean form"
-                      />
-                    </button>
+              <div className="relative">
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Input your E-mail"
+                  className={clsx(
+                    "placeholder-text:opacity-50 h-[48px] w-full animate-fadeIn rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] pr-[32px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all delay-300 duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
+                    {
+                      "!border-[#BD0000]": errors.email,
+                    },
                   )}
-                </div>
-              )}
+                  {...register("email", {
+                    required: "Email обязателен",
+                    pattern: {
+                      value: /^\S+@\S+\.\S+$/,
+                      message: "Некорректный email",
+                    },
+                  })}
+                />
+                {messageValue && (
+                  <button
+                    onClick={() => reset()}
+                    className={
+                      "absolute right-[10px] top-1/2 -translate-y-1/2 animate-fadeIn"
+                    }
+                  >
+                    <Image
+                      src={IconClose.src}
+                      width={IconClose.width}
+                      height={IconClose.height}
+                      alt="clean form"
+                    />
+                  </button>
+                )}
+              </div>
 
               <p className="px-[8px] pt-[8px] font-bai-jamjuree text-[12px] font-medium leading-[1.2em] opacity-50">
                 This email will be used to login to your account. You can change
@@ -279,7 +275,9 @@ const SuccessPayment = () => {
       )}
       <div className="h-hull relative w-full sm:hidden">
         {characterLoading ? (
-          <div className="size-full animate-pulse bg-[#2B2D44]" />
+          <div className="flex h-full w-full items-center justify-center">
+            <Spinner />
+          </div>
         ) : (
           <Image
             src={characterImage}
