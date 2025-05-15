@@ -177,9 +177,9 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     setTokens(userInfo?.tokens ?? 0);
     setAuthModal({ modalType: null, isAuthModalActive: false });
     // Если зашел через соц.сети и нет премиума то редиректим на квиз
-    if (!userInfo?.subscription?.active) {
-      return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
-    }
+    // if (!userInfo?.subscription?.active) {
+    //   return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
+    // }
     return;
   }
 
