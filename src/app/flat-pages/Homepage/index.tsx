@@ -15,6 +15,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import notification from "@/app/widgets/Notification";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import { TOKENS } from "@/app/shared/consts";
+import ym from "react-yandex-metrika";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -81,6 +82,11 @@ const HomePage: FC<ComponentProps> = ({
           currency: "USD",
           value: TOKENS.find((item) => item.name === product)?.price,
         });
+        ym("reachGoal", "token_complete_buy", {
+          placement: "quiz",
+          product_name: product,
+          tokens: productItem,
+        });
       }
     } catch (error) {
       notification.open({
@@ -108,6 +114,10 @@ const HomePage: FC<ComponentProps> = ({
       fbq.event("Purchase", {
         currency: "USD",
         value: parseFloat(price || "0"),
+      });
+      ym("reachGoal", "paywall_complete_buy", {
+        placement: "quiz",
+        product_name: product,
       });
       setSuccessPaymentModal({
         isSuccessPaymentModalActive: true,

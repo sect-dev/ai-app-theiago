@@ -19,6 +19,7 @@ import Link from "next/link";
 import Spinner from "@/app/widgets/Spinner";
 import { sendGTMEvent } from "@next/third-parties/google";
 import * as fbq from "@/app/shared/lib/fbPixel";
+import ym from "react-yandex-metrika";
 
 const TokensPage = () => {
   const { characters, selectedCharacterId, setSelectedCharacterId } =
@@ -39,6 +40,10 @@ const TokensPage = () => {
       product_name: selectedPackage,
     });
     fbq.event("AddtoCart");
+    ym("reachGoal", "token_show", {
+      placement: "quiz",
+      product_name: selectedPackage,
+    });
   }, []);
 
   const handleClickBuyAnalytics = () => {
@@ -48,6 +53,10 @@ const TokensPage = () => {
       product_name: selectedPackage,
     });
     fbq.event("InitiateCheckout");
+    ym("reachGoal", "token_buy", {
+      placement: "quiz",
+      product_name: selectedPackage,
+    });
   };
 
   const getTokenPackages = async () => {
