@@ -40,9 +40,11 @@ const CancelConfirmModal = () => {
                   <span className="flex items-start text-[32px] font-semibold fm:mt-[12px]">
                     You&apos;re leaving us?
                   </span>
-                  <span className="text-[16px] font-normal opacity-50">
+                  {recentChats && (
+                    <span className="text-[16px] font-normal opacity-50">
                     {recentChats[0].name} will be sad
                   </span>
+                  )}   
                 </div>
                 <button
                   onClick={declineCancelSubscription}

@@ -6,14 +6,14 @@ const TOKEN_COSTS = [
     id: 1,
     emoji: "💬",
     desc: "1 answer",
-    cost: "0.1",
+    cost: "0",
     icon: IconTokenPayWall,
   },
   {
     id: 2,
     emoji: "🗣️",
     desc: "1 voice",
-    cost: "1",
+    cost: "2",
     icon: IconTokenPayWall,
   },
   {
@@ -27,7 +27,7 @@ const TOKEN_COSTS = [
     id: 4,
     emoji: "📹",
     desc: "1 video",
-    cost: "5",
+    cost: "3",
     icon: IconTokenPayWall,
   },
 ];
