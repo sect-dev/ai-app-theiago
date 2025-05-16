@@ -101,29 +101,37 @@ const HomePage: FC<ComponentProps> = ({
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     const tempToken = localStorage.getItem("tempToken");
+    let analyticsTimer: NodeJS.Timeout | undefined;
+
     if (
       avatars &&
       ((action && action === "subscription_success") ||
         action === "auth_success")
     ) {
-      sendGTMEvent({
-        event: "paywall_complete_buy",
-        placement: "quiz",
-        product_name: product,
-      });
-      fbq.event("Purchase", {
-        currency: "USD",
-        value: parseFloat(price || "0"),
-      });
-      ym("reachGoal", "paywall_complete_buy", {
-        placement: "quiz",
-        product_name: product,
-      });
+      analyticsTimer = setTimeout(() => {
+        sendGTMEvent({
+          event: "paywall_complete_buy",
+          placement: "quiz",
+          product_name: product,
+        });
+
+        fbq.event("Purchase", {
+          currency: "USD",
+          value: parseFloat(price || "0"),
+        });
+
+        ym("reachGoal", "paywall_complete_buy", {
+          placement: "quiz",
+          product_name: product,
+        });
+      }, 1000);
+
       setSuccessPaymentModal({
         isSuccessPaymentModalActive: true,
         successPaymentModalType: action,
       });
     }
+
     if (action === "tokens_success" && characterId && orderNumber && product) {
       if (characterId === "None") {
         navigate.push("/");
@@ -135,6 +143,13 @@ const HomePage: FC<ComponentProps> = ({
     if (!accessToken && !tempToken && !action) {
       signInAnonymouslyHandler();
     }
+
+    return () => {
+      if (analyticsTimer) {
+        clearTimeout(analyticsTimer);
+        console.log("Analytics timer cleared");
+      }
+    };
   }, []);
 
   return (
