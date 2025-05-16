@@ -58,10 +58,9 @@ export const useSubscriptionStore = create<SubscriptionStore>((set, get) => ({
     const { isCancelSuccess, subscriptionData } = get();
     try {
       const recentChats = localStorage.getItem("chatStartedCharacters");
-      if (!recentChats || isCancelSuccess || subscriptionData?.cancelled)
-        return;
+      if (isCancelSuccess || subscriptionData?.cancelled) return;
 
-      const parsed = JSON.parse(recentChats);
+      const parsed = recentChats ? JSON.parse(recentChats) : [];
       const lastFour = Array.isArray(parsed) ? parsed.slice(-4) : [];
       set({
         isSubscriptionModalActive: false, // Сначала закрываем модалку подписки

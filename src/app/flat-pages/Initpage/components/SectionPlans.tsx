@@ -11,6 +11,7 @@ import Link from "next/link";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import Spinner from "@/app/widgets/Spinner";
 import * as fbq from "@/app/shared/lib/fbPixel";
+import ym from "react-yandex-metrika";
 const additionalInfo = [
   "💬 Unlimited dialogues on any topics",
   "🔥 300 photos in any poses",
@@ -51,6 +52,10 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     setSelectedPrice(item);
     sendGTMEvent({ event: "switch_plan_click", type: `${selectedPrice?.id}` });
     setPlan(item.id ?? paymentPlans[1].id ?? "1_month_premium_access");
+    ym("reachGoal", "switch_plan_click", {
+      placement: "quiz",
+      type: `${selectedPrice?.id}`,
+    });
   };
 
   const handleClickBuyAnalytics = () => {
@@ -60,6 +65,10 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
       product_name: selectedPrice?.id,
     });
     fbq.event("InitiateCheckout");
+    ym("reachGoal", "paywall_buy", {
+      placement: "quiz",
+      product_name: selectedPrice?.id,
+    });
   };
 
   return (

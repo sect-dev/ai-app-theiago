@@ -9,6 +9,8 @@ import { PaymentPlan } from "@/app/shared/api/payment";
 import { CharacterByConstructor } from "@/app/shared/api/types";
 import InitpageSkeleton from "@/app/flat-pages/Initpage/InitpageSkeleton";
 import * as fbq from "@/app/shared/lib/fbPixel";
+import ym from "react-yandex-metrika";
+
 const PageContent = () => {
   const searchParams = useSearchParams();
   const character_id = searchParams.get("character_id");
@@ -21,6 +23,7 @@ const PageContent = () => {
   if (character_id && typeof window !== "undefined") {
     sendGTMEvent({ event: "paywall_show", placement: "quiz" });
     fbq.event("AddtoCart");
+    ym("reachGoal", "paywall_show", { placement: "quiz" });
   }
 
   useEffect(() => {
