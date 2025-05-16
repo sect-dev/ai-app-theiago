@@ -92,7 +92,7 @@ const SubscriptionModal = () => {
       open={true}
       as="div"
       className="relative z-10 font-bai-jamjuree"
-      onClose={requestCancelSubscription}
+      onClose={() => {}}
     >
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center">
@@ -161,11 +161,11 @@ const SubscriptionModal = () => {
                     <br />
                     reach out to us at:{" "}
                     <Link
-                      href="mailto:theaigo@aigo.com"
+                      href="mailto:support@theaigo.com"
                       prefetch={false}
                       className="underline"
                     >
-                      theaigo@aigo.com
+                      support@theaigo.com
                     </Link>
                   </span>
                   <div className="flex gap-[32px] text-[12px] font-medium leading-[24px] opacity-50">
@@ -218,11 +218,11 @@ const SubscriptionModal = () => {
                     If you can&apos;t cancel your subscription, feel free to
                     reach out to us at:{" "}
                     <Link
-                      href="mailto:theaigo@aigo.com"
+                      href="mailto:support@theaigo.com"
                       prefetch={false}
                       className="underline"
                     >
-                      theaigo@aigo.com
+                      support@theaigo.com
                     </Link>
                   </span>
                   <div className="mt-[10px] flex justify-center gap-[32px] text-[12px] font-medium leading-[24px] opacity-50">
