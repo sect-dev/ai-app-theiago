@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (isPremium === false) {
+    if (isPremium === false || isPremium === null) {
       router.push("/");
     }
   }, [isPremium]);
