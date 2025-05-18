@@ -138,6 +138,14 @@ const SuccessAuth = () => {
           </ul>
         </div>
         <div>
+          <button
+            onClick={handleStartChat}
+            disabled={isPending || loading || characterLoading || !characterId}
+            className="main-gradient flex h-[40px] w-full items-center justify-center mb-[12px] gap-[5px] rounded-[12px] text-[15px] disabled:pointer-events-none disabled:opacity-50"
+          >
+            <span className="relative z-[5]">Start chat</span>
+            {(isPending || loading || characterLoading) && <Spinner />}
+          </button>
           <p className="text-[16px] font-medium text-[#B5B5B5]">Look at me!</p>
           <div className="mb-[24px] max-w-[320px] pt-[12px]">
             {!characterLoading && charInfo ? (
@@ -154,14 +162,6 @@ const SuccessAuth = () => {
               </div>
             )}
           </div>
-          <button
-            onClick={handleStartChat}
-            disabled={isPending || loading || characterLoading || !characterId}
-            className="main-gradient flex h-[40px] w-full items-center justify-center gap-[5px] rounded-[12px] text-[15px] disabled:pointer-events-none disabled:opacity-50"
-          >
-            <span className="relative z-[5]">Start chat</span>
-            {(isPending || loading || characterLoading) && <Spinner />}
-          </button>
         </div>
       </div>
     </div>
