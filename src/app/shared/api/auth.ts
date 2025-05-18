@@ -308,19 +308,37 @@ export const handleEmailLinkAuth = async (
 export const registerUserAfterPayment = async (
   email: string | null,
   searchParams: string,
+  maxRetries = 3,
+  retryDelay = 1000,
 ) => {
   const token = await getCurrentToken();
-  try {
-    await apiClient.get(
-      `/register_paid_web_user?token=${token}&${searchParams}&email=${email}`,
-    );
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error:", error.message, error.response?.data);
-    } else {
-      console.error("Unexpected error:", error);
+  let retries = 0;
+
+  const attemptRegistration = async () => {
+    try {
+      await apiClient.get(
+        `/register_paid_web_user?token=${token}&${searchParams}&email=${email}`,
+      );
+    } catch (error) {
+      if (retries < maxRetries) {
+        retries++;
+        console.warn(
+          `Payment registration failed, retry ${retries}/${maxRetries}...`,
+        );
+
+        await new Promise((resolve) => setTimeout(resolve, retryDelay));
+        return attemptRegistration();
+      }
+
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.message, error.response?.data);
+      } else {
+        console.error("Unexpected error:", error);
+      }
     }
-  }
+  };
+
+  return attemptRegistration();
 };
 
 export const getEmailByOrderNumber = async (orderId: string) => {

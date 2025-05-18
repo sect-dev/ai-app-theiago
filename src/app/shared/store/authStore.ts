@@ -115,7 +115,12 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Регистрация после успешной оплаты
         if (authSuccess) {
-          await registerUserAfterPayment(email, searchParams?.toString() ?? "");
+          await registerUserAfterPayment(
+            email,
+            searchParams?.toString() ?? "",
+            5,
+            1500,
+          );
           window.history.replaceState(
             {},
             document.title,
@@ -125,6 +130,11 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Загружаем данные о подписке и токенах
         const userInfo = await getUserSubscriptionInfo();
+
+        if (authSuccess && !userInfo?.subscription?.active) {
+          console.warn("Payment was successful but subscription is not active");
+        }
+
         setIsPremium(userInfo?.subscription?.active ?? false);
         setTokens(userInfo?.tokens ?? 0);
 
@@ -161,6 +171,8 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       await registerUserAfterPayment(
         firebaseUser.email,
         searchParams.toString(),
+        5,
+        1500,
       );
       setSuccessPaymentModal({
         isSuccessPaymentModalActive: true,
@@ -177,9 +189,9 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     setTokens(userInfo?.tokens ?? 0);
     setAuthModal({ modalType: null, isAuthModalActive: false });
     // Если зашел через соц.сети и нет премиума то редиректим на квиз
-    // if (!userInfo?.subscription?.active) {
-    //   return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
-    // }
+    if (!userInfo?.subscription?.active) {
+      return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
+    }
     return;
   }
 
