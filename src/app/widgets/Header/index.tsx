@@ -16,7 +16,7 @@ interface ComponentProps {
 }
 
 const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
-  const { user, loading, setAuthModal } = useAuthStore();
+  const { user, loading, setAuthModal, isPremium } = useAuthStore();
   const navigate = useRouter();
   const { setTokensModal, tokens } = usePaymentStore();
 
@@ -82,29 +82,31 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
             <div className="main-gradient block flex h-[27px] w-[72px] animate-pulse items-center rounded-[8px]" />
           ) : user && !user?.isAnonymous ? (
             <div className="flex gap-2">
-              <button
-                onClick={getTokensHandle}
-                className="main-gradient block h-[24px] rounded-[15px] px-[12px]"
-              >
-                <span className="relative z-[5] flex items-center">
-                  <Image
-                    src={IcnPlus.src}
-                    width={IcnPlus.width}
-                    height={IcnPlus.height}
-                    alt="plus image"
-                    className="size-[8px]"
-                  />
-                  <span className="pl-[8px] pr-[4px] text-[12px] font-bold">
-                    {tokens}
+              {isPremium && (
+                <button
+                  onClick={getTokensHandle}
+                  className="main-gradient block h-[24px] rounded-[15px] px-[12px]"
+                >
+                  <span className="relative z-[5] flex items-center">
+                    <Image
+                      src={IcnPlus.src}
+                      width={IcnPlus.width}
+                      height={IcnPlus.height}
+                      alt="plus image"
+                      className="size-[8px]"
+                    />
+                    <span className="pl-[8px] pr-[4px] text-[12px] font-bold">
+                      {tokens}
+                    </span>
+                    <Image
+                      src={IcnCoins.src}
+                      width={IcnCoins.width}
+                      height={IcnCoins.height}
+                      alt="coins image"
+                    />
                   </span>
-                  <Image
-                    src={IcnCoins.src}
-                    width={IcnCoins.width}
-                    height={IcnCoins.height}
-                    alt="coins image"
-                  />
-                </span>
-              </button>
+                </button>
+              )}
               <button
                 onClick={handleSignOut}
                 className="gradient-border logo-gradient relative flex h-[24px] w-[64px] animate-fadeIn items-center justify-center gap-[8px]"

@@ -1,5 +1,7 @@
 import TokensPage from "@/app/flat-pages/TokensPage";
 
-const Page = () => <TokensPage />;
+const Page = () => {
+  return <TokensPage />;
+};
 
 export default Page;
