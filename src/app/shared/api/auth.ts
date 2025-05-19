@@ -283,12 +283,14 @@ export const handleEmailLinkAuth = async (
   if (!email) throw new Error("Email is required");
 
   try {
-    const actionCodeSettings = {
-      url: redirectUrl,
-      handleCodeInApp: true,
-    };
+    const response = await apiClient.get(`/send_authorization_email`, {
+      params: { email, url: redirectUrl },
+    });
 
-    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    if (response.status !== 200) {
+      throw new Error(`Email sending failed with status: ${response.status}`);
+    }
+
     window.localStorage.setItem("emailForSignIn", email);
 
     return {
@@ -296,11 +298,12 @@ export const handleEmailLinkAuth = async (
       message: "The login link has been sent to your email.",
     };
   } catch (error) {
-    const firebaseError = error as AuthError;
-    console.error("Email link sending error:", firebaseError);
+    // const firebaseError = error as AuthError;
+    console.error("Email link sending error:", error);
     return {
       success: false,
-      message: firebaseError.message || "Ошибка отправки ссылки",
+      message:
+        error instanceof Error ? error.message : "error while sending email",
     };
   }
 };
