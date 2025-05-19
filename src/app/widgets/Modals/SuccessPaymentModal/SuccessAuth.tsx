@@ -141,7 +141,7 @@ const SuccessAuth = () => {
           <button
             onClick={handleStartChat}
             disabled={isPending || loading || characterLoading || !characterId}
-            className="main-gradient flex h-[40px] w-full items-center justify-center mb-[12px] gap-[5px] rounded-[12px] text-[15px] disabled:pointer-events-none disabled:opacity-50"
+            className="main-gradient mb-[12px] flex h-[40px] w-full items-center justify-center gap-[5px] rounded-[12px] text-[15px] disabled:pointer-events-none disabled:opacity-50"
           >
             <span className="relative z-[5]">Start chat</span>
             {(isPending || loading || characterLoading) && <Spinner />}
