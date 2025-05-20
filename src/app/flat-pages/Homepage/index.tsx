@@ -196,53 +196,6 @@ const HomePage: FC<ComponentProps> = ({
     };
   }, []);
 
-  useEffect(() => {
-    const checkAndActivateSubscription = async () => {
-      const pendingActivation = localStorage.getItem(
-        "pendingSubscriptionActivation",
-      );
-
-      if (pendingActivation) {
-        try {
-          const activationData = JSON.parse(pendingActivation);
-
-          try {
-            const success = await registerUserAfterPayment(
-              activationData.email,
-              activationData.searchParams,
-              5,
-              1500,
-            );
-
-            if (success) {
-              localStorage.removeItem("pendingSubscriptionActivation");
-              console.log("Successfully activated pending subscription");
-
-              const userInfo = await getUserSubscriptionInfo();
-              setIsPremium(userInfo?.subscription?.active ?? false);
-
-              notification.open({
-                title: "Subscription activated",
-                type: "success",
-                description:
-                  "Your subscription has been successfully activated",
-              });
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        } catch (error) {
-          console.log(error);
-          if (error instanceof SyntaxError) {
-            localStorage.removeItem("pendingSubscriptionActivation");
-          }
-        }
-      }
-    };
-
-    checkAndActivateSubscription();
-  }, []);
-
   return (
     <div className="h-[calc(100vh-60px)] animate-fadeIn overflow-y-auto">
       <div className="container !px-0">

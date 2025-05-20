@@ -99,6 +99,7 @@ const SuccessPayment = () => {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
+      // Отправляем email на почту
       const resp = await handleEmailLinkAuth(data.email);
 
       if (resp && resp?.success) {
