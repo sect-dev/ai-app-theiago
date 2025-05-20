@@ -117,12 +117,15 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Регистрация после успешной оплаты
         if (authSuccess) {
-          await registerUserAfterPayment(
+          const success = await registerUserAfterPayment(
             email,
             searchParams?.toString() ?? "",
             5,
             1500,
           );
+          if (success) {
+            safeLocalStorage.remove("pendingSubscriptionActivation");
+          }
           window.history.replaceState(
             {},
             document.title,
@@ -165,39 +168,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Обработка входа через социальные сети
   if (isSocialLogin(firebaseUser)) {
-    if (searchParams?.get("action") === "subscription_success") {
-      // Кладём данные о подписке в localStorage
-      localStorage.setItem(
-        "pendingSubscriptionActivation",
-        JSON.stringify({
-          email: firebaseUser.email,
-          searchParams: searchParams.toString(),
-        }),
-      );
-
-      // Если пользователь пришёл после оплаты, регистрируем и показываем модалку
-      searchParams.set("action", ACTION_AUTH_SUCCESS);
-      const newUrl = `${window.location.pathname}?${searchParams.toString()}${window.location.hash}`;
-      const success = await registerUserAfterPayment(
-        firebaseUser.email,
-        searchParams.toString(),
-        5,
-        1500,
-      );
-
-      if (success) {
-        // Удаляем данные о подписке из localStorage после активации подписки
-        localStorage.removeItem("pendingSubscriptionActivation");
-      }
-
-      // Показываем модалку
-      setSuccessPaymentModal({
-        isSuccessPaymentModalActive: true,
-        successPaymentModalType: ACTION_AUTH_SUCCESS,
-      });
-      window.history.replaceState({}, document.title, newUrl);
-    }
-
     const userInfo = await getUserSubscriptionInfo();
     cleanLocalStorage();
     safeLocalStorage.set("accessToken", token);
@@ -210,6 +180,16 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
     }
     return;
+  }
+
+  // Сохраняем данные о подписке в localStorage
+  if (searchParams?.get("action") === "subscription_success") {
+    safeLocalStorage.set(
+      "pendingSubscriptionActivation",
+      JSON.stringify({
+        searchParams: searchParams.toString(),
+      }),
+    );
   }
 
   // Анонимный вход — сохраняем временный токен
