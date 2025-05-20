@@ -66,7 +66,9 @@ export const useAuthStore = create<AuthState>((set) => {
         modalType: value.modalType,
         isAuthModalActive: value.isAuthModalActive,
       }),
-    setIsPremium: (isPremium: boolean) => set({ isPremium }),
+    setIsPremium: (isPremium: boolean) => {
+      set({ isPremium });
+    },
   };
 });
 
@@ -130,7 +132,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Загружаем данные о подписке и токенах
         const userInfo = await getUserSubscriptionInfo();
-
         if (authSuccess && !userInfo?.subscription?.active) {
           console.warn("Payment was successful but subscription is not active");
         }
@@ -165,15 +166,31 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   // Обработка входа через социальные сети
   if (isSocialLogin(firebaseUser)) {
     if (searchParams?.get("action") === "subscription_success") {
+      // Кладём данные о подписке в localStorage
+      localStorage.setItem(
+        "pendingSubscriptionActivation",
+        JSON.stringify({
+          email: firebaseUser.email,
+          searchParams: searchParams.toString(),
+        }),
+      );
+
       // Если пользователь пришёл после оплаты, регистрируем и показываем модалку
       searchParams.set("action", ACTION_AUTH_SUCCESS);
       const newUrl = `${window.location.pathname}?${searchParams.toString()}${window.location.hash}`;
-      await registerUserAfterPayment(
+      const success = await registerUserAfterPayment(
         firebaseUser.email,
         searchParams.toString(),
         5,
         1500,
       );
+
+      if (success) {
+        // Удаляем данные о подписке из localStorage после активации подписки
+        localStorage.removeItem("pendingSubscriptionActivation");
+      }
+
+      // Показываем модалку
       setSuccessPaymentModal({
         isSuccessPaymentModalActive: true,
         successPaymentModalType: ACTION_AUTH_SUCCESS,

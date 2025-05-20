@@ -313,15 +313,16 @@ export const registerUserAfterPayment = async (
   searchParams: string,
   maxRetries = 3,
   retryDelay = 1000,
-) => {
+): Promise<boolean> => {
   const token = await getCurrentToken();
   let retries = 0;
 
   const attemptRegistration = async () => {
     try {
-      await apiClient.get(
+      const response = await apiClient.get(
         `/register_paid_web_user?token=${token}&${searchParams}&email=${email}`,
       );
+      return response.status >= 200 && response.status < 300;
     } catch (error) {
       if (retries < maxRetries) {
         retries++;
@@ -338,6 +339,8 @@ export const registerUserAfterPayment = async (
       } else {
         console.error("Unexpected error:", error);
       }
+
+      return false;
     }
   };
 
