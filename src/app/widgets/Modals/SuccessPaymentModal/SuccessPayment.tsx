@@ -35,13 +35,20 @@ interface FormData {
 const SuccessPayment = () => {
   const { charFromPaywall } = useSelectedCardStore();
   const searchParams = useSearchParams();
-  const orderNumber = searchParams.get("order_number");
-  const characterId = searchParams.get("character_id");
+  const [orderNumber, setOrderNumber] = useState<string | null>(
+    searchParams.get("order_number"),
+  );
+  const [characterId, setCharacterId] = useState<string | null>(
+    searchParams.get("character_id"),
+  );
 
   const [loading, setLoading] = useState<boolean>(false);
   const [charInfo, setCharInfo] = useState<Character | null>(null);
   const [characterLoading, setCharacterLoading] = useState<boolean>(false);
   const [emailSent, setEmailSent] = useState<string>("");
+  const [pendingActivationParams, setPendingActivationParams] = useState<
+    string | null
+  >(null);
   // const [authError, setAuthError] = useState<string | null>(null);
   const {
     register,
@@ -80,14 +87,49 @@ const SuccessPayment = () => {
     const charId = characterId ? characterId : charFromPaywall?.character_id;
     const emailForSighIn =
       typeof window !== "undefined" && localStorage.getItem("emailForSignIn");
+
+    // Получаем параметры из pendingSubscriptionActivation
+    const pendingActivation =
+      typeof window !== "undefined"
+        ? localStorage.getItem("pendingSubscriptionActivation")
+        : null;
+
+    if (pendingActivation) {
+      try {
+        const activationData = JSON.parse(pendingActivation);
+        if (activationData.searchParams) {
+          setPendingActivationParams(activationData.searchParams);
+
+          // Извлекаем order_number и character_id из searchParams
+          const params = new URLSearchParams(activationData.searchParams);
+          const pendingOrderNumber = params.get("order_number");
+          const pendingCharacterId = params.get("character_id");
+
+          if (pendingOrderNumber) {
+            setOrderNumber(pendingOrderNumber);
+          }
+
+          if (pendingCharacterId) {
+            setCharacterId(pendingCharacterId);
+          }
+        }
+      } catch (error) {
+        console.error("Error parsing pendingActivation:", error);
+      }
+    }
+
     if (charId) {
       getCharacterInfoById(charId ?? "");
-      getUserEmail(orderNumber ?? "");
     }
+
+    if (orderNumber) {
+      getUserEmail(orderNumber);
+    }
+
     if (emailForSighIn) {
       setEmailSent(emailForSighIn);
     }
-  }, []);
+  }, [orderNumber, characterId]);
 
   const changeEmailHandler = () => {
     setEmailSent("");
@@ -100,7 +142,11 @@ const SuccessPayment = () => {
     setLoading(true);
     try {
       // Отправляем email на почту
-      const resp = await handleEmailLinkAuth(data.email);
+      const resp = await handleEmailLinkAuth(
+        data.email,
+        false,
+        pendingActivationParams,
+      );
 
       if (resp && resp?.success) {
         notification.open({

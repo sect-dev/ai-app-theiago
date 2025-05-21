@@ -33,6 +33,7 @@ const loadCharactersFromLocalStorage = (): { premium: boolean | null } => {
   };
 };
 import { IS_CLIENT } from "../consts";
+import { FirebaseError } from "firebase/app";
 
 interface AuthState {
   isPremium: boolean | null;
