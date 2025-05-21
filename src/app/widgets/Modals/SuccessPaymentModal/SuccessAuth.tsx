@@ -21,7 +21,7 @@ const SuccessAuth = () => {
   const { charFromPaywall, setCharacters, setSelectedCharacterId } =
     useSelectedCardStore();
   const { setSuccessPaymentModal, setTokens } = usePaymentStore();
-  const { user, setIsPremium } = useAuthStore();
+  const { user, setIsPremium, isRegistrationComplete } = useAuthStore();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [isPending, setIsPending] = useTransition();
@@ -54,6 +54,10 @@ const SuccessAuth = () => {
   }, []);
 
   const handleStartChat = async () => {
+    if (!isRegistrationComplete) {
+      return;
+    }
+
     try {
       setLoading(true);
       const startChat = await startConversation({
