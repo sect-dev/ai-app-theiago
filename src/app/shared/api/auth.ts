@@ -268,12 +268,26 @@ export const registerAnonymousUser = async (token: string): Promise<void> => {
 export const handleEmailLinkAuth = async (
   email?: string,
   isOrganicAuth?: boolean,
+  customSearchParams?: string | null,
 ): Promise<EmailLinkAuthResponse> => {
-  const currentSearchParams = new URLSearchParams(window.location.search);
-  const subscribe = currentSearchParams.get("action");
-  if (subscribe && subscribe === "subscription_success") {
-    currentSearchParams.set("action", "auth_success");
+  let currentSearchParams;
+
+  if (customSearchParams) {
+    currentSearchParams = new URLSearchParams(customSearchParams);
+
+    if (currentSearchParams.get("action") === "subscription_success") {
+      currentSearchParams.set("action", "auth_success");
+    }
+
+  } else {
+    // Иначе используем текущие параметры URL
+    currentSearchParams = new URLSearchParams(window.location.search);
+    const subscribe = currentSearchParams.get("action");
+    if (subscribe && subscribe === "subscription_success") {
+      currentSearchParams.set("action", "auth_success");
+    }
   }
+
   if (isOrganicAuth) {
     currentSearchParams.set("action", "auth_organic");
   }
@@ -298,7 +312,6 @@ export const handleEmailLinkAuth = async (
       message: "The login link has been sent to your email.",
     };
   } catch (error) {
-    // const firebaseError = error as AuthError;
     console.error("Email link sending error:", error);
     return {
       success: false,
