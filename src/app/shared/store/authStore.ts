@@ -235,7 +235,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       }
     }
 
-    cleanLocalStorage();
+    await cleanLocalStorage();
     safeLocalStorage.set("accessToken", token);
     setIsPremium(userInfo?.subscription?.active ?? false);
     setUser(firebaseUser);
@@ -270,7 +270,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   const userInfo = await getUserSubscriptionInfo();
   setIsPremium(userInfo?.subscription?.active ?? false);
   setTokens(userInfo?.tokens ?? 0);
-  cleanLocalStorage();
+  await cleanLocalStorage();
   safeLocalStorage.set("accessToken", token);
   setAuthModal({ modalType: null, isAuthModalActive: false });
   setUser(firebaseUser);
