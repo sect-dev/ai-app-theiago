@@ -47,6 +47,8 @@ interface AuthState {
     modalType: "login" | "register" | "forgotPass" | null;
     isAuthModalActive: boolean;
   }) => void;
+  isRegistrationComplete: boolean;
+  setRegistrationComplete: (isComplete: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => {
@@ -70,13 +72,17 @@ export const useAuthStore = create<AuthState>((set) => {
     setIsPremium: (isPremium: boolean) => {
       set({ isPremium });
     },
+    isRegistrationComplete: false,
+    setRegistrationComplete: (isComplete: boolean) =>
+      set({ isRegistrationComplete: isComplete }),
   };
 });
 
 onAuthStateChanged(auth, async (firebaseUser) => {
   // Получаем методы управления состоянием из стора
   const { setSuccessPaymentModal, setTokens } = usePaymentStore.getState();
-  const { setAuthModal, setUser, setIsPremium } = useAuthStore.getState();
+  const { setAuthModal, setUser, setIsPremium, setRegistrationComplete } =
+    useAuthStore.getState();
 
   // Удаляет временные значения из localStorage
   const cleanLocalStorage = () => {
@@ -143,6 +149,8 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         setIsPremium(userInfo?.subscription?.active ?? false);
         setTokens(userInfo?.tokens ?? 0);
 
+        setRegistrationComplete(true);
+
         // Органическая регистрация — редирект на квиз ( если нет платной пописки )
         if (organicAuth && !userInfo?.subscription?.active) {
           return (window.location.href =
@@ -162,6 +170,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     setUser(null);
     setIsPremium(false);
     setTokens(0);
+    setRegistrationComplete(false);
     return;
   }
 
@@ -170,12 +179,67 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   // Обработка входа через социальные сети
   if (isSocialLogin(firebaseUser)) {
     const userInfo = await getUserSubscriptionInfo();
+
+    const pendingActivation = safeLocalStorage.get(
+      "pendingSubscriptionActivation",
+    );
+
+    if (pendingActivation) {
+      try {
+        const activationData = JSON.parse(pendingActivation);
+        if (activationData.searchParams) {
+          console.log(
+            "Found pendingSubscriptionActivation, activating subscription...",
+          );
+
+          // Получаем email пользователя из Firebase
+          const userEmail = firebaseUser.email;
+
+          if (userEmail) {
+            // Регистрируем пользователя после оплаты
+            const success = await registerUserAfterPayment(
+              userEmail,
+              activationData.searchParams,
+              5,
+              1500,
+            );
+
+            if (success) {
+              console.log("Subscription activated successfully");
+
+              // Обновляем информацию о подписке
+              const updatedUserInfo = await getUserSubscriptionInfo();
+              setIsPremium(updatedUserInfo?.subscription?.active ?? false);
+              setTokens(updatedUserInfo?.tokens ?? 0);
+
+              // Если подписка активирована, не делаем редирект на квиз
+              if (updatedUserInfo?.subscription?.active) {
+                // Очищаем localStorage и устанавливаем токен
+                cleanLocalStorage();
+                safeLocalStorage.set("accessToken", token);
+                setUser(firebaseUser);
+                setAuthModal({ modalType: null, isAuthModalActive: false });
+                return;
+              }
+            } else {
+              console.warn("Failed to activate subscription");
+            }
+          } else {
+            console.warn("User email is missing, cannot activate subscription");
+          }
+        }
+      } catch (error) {
+        console.error("Error processing pendingSubscriptionActivation:", error);
+      }
+    }
+
     cleanLocalStorage();
     safeLocalStorage.set("accessToken", token);
     setIsPremium(userInfo?.subscription?.active ?? false);
     setUser(firebaseUser);
     setTokens(userInfo?.tokens ?? 0);
     setAuthModal({ modalType: null, isAuthModalActive: false });
+    setRegistrationComplete(true);
     // Если зашел через соц.сети и нет премиума то редиректим на квиз
     if (!userInfo?.subscription?.active) {
       return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
