@@ -171,6 +171,8 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     setIsPremium(false);
     setTokens(0);
     setRegistrationComplete(false);
+    safeLocalStorage.remove("pendingSubscriptionActivation");
+    safeLocalStorage.remove("emailForSignIn");
     return;
   }
 
