@@ -277,10 +277,8 @@ export const handleEmailLinkAuth = async (
 
     if (currentSearchParams.get("action") === "subscription_success") {
       currentSearchParams.set("action", "auth_success");
-      console.log(1);
     }
 
-    // console.log("Using custom searchParams:", customSearchParams);
   } else {
     // Иначе используем текущие параметры URL
     currentSearchParams = new URLSearchParams(window.location.search);
@@ -289,8 +287,6 @@ export const handleEmailLinkAuth = async (
       currentSearchParams.set("action", "auth_success");
     }
   }
-
-  // console.log(currentSearchParams)
 
   if (isOrganicAuth) {
     currentSearchParams.set("action", "auth_organic");
@@ -316,7 +312,6 @@ export const handleEmailLinkAuth = async (
       message: "The login link has been sent to your email.",
     };
   } catch (error) {
-    // const firebaseError = error as AuthError;
     console.error("Email link sending error:", error);
     return {
       success: false,
