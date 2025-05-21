@@ -181,58 +181,58 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   if (isSocialLogin(firebaseUser)) {
     const userInfo = await getUserSubscriptionInfo();
 
-    const pendingActivation = safeLocalStorage.get(
-      "pendingSubscriptionActivation",
-    );
+    // const pendingActivation = safeLocalStorage.get(
+    //   "pendingSubscriptionActivation",
+    // );
 
-    if (pendingActivation) {
-      try {
-        const activationData = JSON.parse(pendingActivation);
-        if (activationData.searchParams) {
-          console.log(
-            "Found pendingSubscriptionActivation, activating subscription...",
-          );
+    // if (pendingActivation) {
+    //   try {
+    //     const activationData = JSON.parse(pendingActivation);
+    //     if (activationData.searchParams) {
+    //       console.log(
+    //         "Found pendingSubscriptionActivation, activating subscription...",
+    //       );
 
-          // Получаем email пользователя из Firebase
-          const userEmail = firebaseUser.email;
+    //       // Получаем email пользователя из Firebase
+    //       const userEmail = firebaseUser.email;
 
-          if (userEmail) {
-            // Регистрируем пользователя после оплаты
-            const success = await registerUserAfterPayment(
-              userEmail,
-              activationData.searchParams,
-              5,
-              1500,
-            );
+    //       if (userEmail) {
+    //         // Регистрируем пользователя после оплаты
+    //         const success = await registerUserAfterPayment(
+    //           userEmail,
+    //           activationData.searchParams,
+    //           5,
+    //           1500,
+    //         );
 
-            if (success) {
-              console.log("Subscription activated successfully");
+    //         if (success) {
+    //           console.log("Subscription activated successfully");
 
-              // Обновляем информацию о подписке
-              const updatedUserInfo = await getUserSubscriptionInfo();
-              setIsPremium(updatedUserInfo?.subscription?.active ?? false);
-              setTokens(updatedUserInfo?.tokens ?? 0);
+    //           // Обновляем информацию о подписке
+    //           const updatedUserInfo = await getUserSubscriptionInfo();
+    //           setIsPremium(updatedUserInfo?.subscription?.active ?? false);
+    //           setTokens(updatedUserInfo?.tokens ?? 0);
 
-              // Если подписка активирована, не делаем редирект на квиз
-              if (updatedUserInfo?.subscription?.active) {
-                // Очищаем localStorage и устанавливаем токен
-                cleanLocalStorage();
-                safeLocalStorage.set("accessToken", token);
-                setUser(firebaseUser);
-                setAuthModal({ modalType: null, isAuthModalActive: false });
-                return;
-              }
-            } else {
-              console.warn("Failed to activate subscription");
-            }
-          } else {
-            console.warn("User email is missing, cannot activate subscription");
-          }
-        }
-      } catch (error) {
-        console.error("Error processing pendingSubscriptionActivation:", error);
-      }
-    }
+    //           // Если подписка активирована, не делаем редирект на квиз
+    //           if (updatedUserInfo?.subscription?.active) {
+    //             // Очищаем localStorage и устанавливаем токен
+    //             cleanLocalStorage();
+    //             safeLocalStorage.set("accessToken", token);
+    //             setUser(firebaseUser);
+    //             setAuthModal({ modalType: null, isAuthModalActive: false });
+    //             return;
+    //           }
+    //         } else {
+    //           console.warn("Failed to activate subscription");
+    //         }
+    //       } else {
+    //         console.warn("User email is missing, cannot activate subscription");
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error("Error processing pendingSubscriptionActivation:", error);
+    //   }
+    // }
 
     cleanLocalStorage();
     safeLocalStorage.set("accessToken", token);
