@@ -39,7 +39,6 @@ const Login = () => {
   const [loading, setLoading] = useState<boolean>(false);
   // const [showPassword, setShowPassword] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string | null>(null);
-  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
   const {
     register,
     reset,
@@ -47,18 +46,6 @@ const Login = () => {
     formState: { errors },
   } = useForm<FormData>();
   // const [isChecked, setIsChecked] = useState(false);
-
-  useEffect(() => {
-    // Проверяем наличие pendingSubscriptionActivation в localStorage
-    const pendingActivation = localStorage.getItem(
-      "pendingSubscriptionActivation",
-    );
-    const emailForSignIn = localStorage.getItem("emailForSignIn");
-
-    if (pendingActivation && emailForSignIn) {
-      setPendingEmail(emailForSignIn);
-    }
-  }, []);
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -115,77 +102,69 @@ const Login = () => {
         <p className="mb-[24px] text-[20px] font-semibold leading-[1.2em]">
           Nice to see you again
         </p>
-        {pendingEmail ? (
-          <div className="mb-[24px] rounded-[12px] bg-[#191B2C] p-[16px] text-[14px] text-[#B5B5B5]">
-            Check your email{" "}
-            <span className="font-medium text-white">{pendingEmail}</span> to
-            continue using the app.
-          </div>
-        ) : (
-          <>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="mb-[32px] space-y-[16px] border-b border-b-[#3A3F63] pb-[32px] sm:w-full"
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mb-[32px] space-y-[16px] border-b border-b-[#3A3F63] pb-[32px] sm:w-full"
+        >
+          {/* Поле Email */}
+          <div className="relative">
+            <label
+              htmlFor="email"
+              className="mb-[8px] block pl-[16px] text-[12px] leading-[1.2em]"
             >
-              {/* Поле Email */}
-              <div className="relative">
-                <label
-                  htmlFor="email"
-                  className="mb-[8px] block pl-[16px] text-[12px] leading-[1.2em]"
-                >
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="Input your E-mail"
-                  className={clsx(
-                    "placeholder-text:opacity-50 h-[48px] w-full rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
-                    {
-                      "!border-[#BD0000]": errors.email,
-                    },
-                  )}
-                  {...register("email", {
-                    required: "Email обязателен",
-                    pattern: {
-                      value: /^\S+@\S+\.\S+$/,
-                      message: "Некорректный email",
-                    },
-                  })}
-                />
-                {errors.email && (
-                  <p className="absolute right-0 top-0 text-[12px] text-[#BD0000]">
-                    {errors.email.message}
-                  </p>
-                )}
-              </div>
-              {authError && (
-                <p className="text-[14px] text-[#BD0000]">{authError}</p>
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Input your E-mail"
+              className={clsx(
+                "placeholder-text:opacity-50 h-[48px] w-full rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
+                {
+                  "!border-[#BD0000]": errors.email,
+                },
               )}
+              {...register("email", {
+                required: "Email обязателен",
+                pattern: {
+                  value: /^\S+@\S+\.\S+$/,
+                  message: "Некорректный email",
+                },
+              })}
+            />
+            {errors.email && (
+              <p className="absolute right-0 top-0 text-[12px] text-[#BD0000]">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+          {authError && (
+            <p className="text-[14px] text-[#BD0000]">{authError}</p>
+          )}
 
-              {/* Кнопка отправки */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="main-gradient flex h-[40px] w-full items-center justify-center gap-[10px] rounded-[12px] text-[20px] font-bold disabled:pointer-events-none disabled:bg-[#778899] disabled:bg-none"
-              >
-                <span className="relative z-[5]">Sign in</span>
-                {loading && <Spinner />}
-              </button>
-            </form>
-            <div className="flex gap-[20px]">
-              <button
-                onClick={onXSignInHandler}
-                className="transition-transform duration-300 hover:scale-[1.025]"
-              >
-                <Image
-                  src={IconX.src}
-                  width={IconX.width}
-                  height={IconX.height}
-                  alt="icon X"
-                />
-              </button>
-              {/* <button
+          {/* Кнопка отправки */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="main-gradient flex h-[40px] w-full items-center justify-center gap-[10px] rounded-[12px] text-[20px] font-bold disabled:pointer-events-none disabled:bg-[#778899] disabled:bg-none"
+          >
+            <span className="relative z-[5]">Sign in</span>
+            {loading && <Spinner />}
+          </button>
+        </form>
+        <div className="mb-[10px] flex justify-center gap-[20px]">
+          <button
+            onClick={onXSignInHandler}
+            className="transition-transform duration-300 hover:scale-[1.025]"
+          >
+            <Image
+              src={IconX.src}
+              width={IconX.width}
+              height={IconX.height}
+              alt="icon X"
+            />
+          </button>
+          {/* <button
               onClick={onFacebookSignInHandler}
               className="transition-transform duration-300 hover:scale-[1.025]"
             >
@@ -196,20 +175,18 @@ const Login = () => {
                 alt="icon discord"
               />
             </button> */}
-              <button
-                onClick={onGoogleSignInHandler}
-                className="transition-transform duration-300 hover:scale-[1.025]"
-              >
-                <Image
-                  src={IconGoogle.src}
-                  width={IconGoogle.width}
-                  height={IconGoogle.height}
-                  alt="icon google"
-                />
-              </button>
-            </div>
-          </>
-        )}
+          <button
+            onClick={onGoogleSignInHandler}
+            className="transition-transform duration-300 hover:scale-[1.025]"
+          >
+            <Image
+              src={IconGoogle.src}
+              width={IconGoogle.width}
+              height={IconGoogle.height}
+              alt="icon google"
+            />
+          </button>
+        </div>
 
         {/*/!* Поле Password *!/*/}
         {/*<div className="relative">*/}

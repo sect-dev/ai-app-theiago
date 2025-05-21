@@ -278,7 +278,6 @@ export const handleEmailLinkAuth = async (
     if (currentSearchParams.get("action") === "subscription_success") {
       currentSearchParams.set("action", "auth_success");
     }
-
   } else {
     // Иначе используем текущие параметры URL
     currentSearchParams = new URLSearchParams(window.location.search);
