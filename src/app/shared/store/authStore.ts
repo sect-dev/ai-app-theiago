@@ -218,8 +218,13 @@ onAuthStateChanged(auth, async (firebaseUser) => {
                 // Очищаем localStorage и устанавливаем токен
                 await cleanLocalStorage();
                 safeLocalStorage.set("accessToken", token);
+                safeLocalStorage.remove("pendingSubscriptionActivation");
                 setUser(firebaseUser);
-                setAuthModal({ modalType: null, isAuthModalActive: false });
+                setTokens(updatedUserInfo?.tokens ?? 0);
+                setSuccessPaymentModal({
+                  isSuccessPaymentModalActive: false,
+                  successPaymentModalType: null,
+                });
                 setRegistrationComplete(true);
                 return;
               }
