@@ -85,7 +85,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     useAuthStore.getState();
 
   // Удаляет временные значения из localStorage
-  const cleanLocalStorage = () => {
+  const cleanLocalStorage = async () => {
     safeLocalStorage.remove("tempToken");
     safeLocalStorage.remove("emailForSignIn");
   };
@@ -118,7 +118,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       );
       const user = result.user as FirebaseUser;
       if (result) {
-        cleanLocalStorage();
+        await cleanLocalStorage();
         safeLocalStorage.set("accessToken", user.accessToken);
         setUser(user);
 
@@ -171,6 +171,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     setIsPremium(false);
     setTokens(0);
     setRegistrationComplete(false);
+    safeLocalStorage.remove("pendingSubscriptionActivation");
     return;
   }
 
