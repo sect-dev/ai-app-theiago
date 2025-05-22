@@ -12,6 +12,7 @@ import { FirebaseUser } from "@/app/shared/api/types/auth";
 import {
   getUserSubscriptionInfo,
   registerUserAfterPayment,
+  signInAnonymouslyHandler,
 } from "@/app/shared/api/auth";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import {
@@ -172,6 +173,17 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     setTokens(0);
     setRegistrationComplete(false);
     safeLocalStorage.remove("pendingSubscriptionActivation");
+
+    try {
+      await signInAnonymouslyHandler();
+
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        setUser(currentUser);
+      }
+    } catch (error) {
+      console.error("Failed to sign in anonymously:", error);
+    }
     return;
   }
 
