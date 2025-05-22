@@ -268,12 +268,25 @@ export const registerAnonymousUser = async (token: string): Promise<void> => {
 export const handleEmailLinkAuth = async (
   email?: string,
   isOrganicAuth?: boolean,
+  customSearchParams?: string | null,
 ): Promise<EmailLinkAuthResponse> => {
-  const currentSearchParams = new URLSearchParams(window.location.search);
-  const subscribe = currentSearchParams.get("action");
-  if (subscribe && subscribe === "subscription_success") {
-    currentSearchParams.set("action", "auth_success");
+  let currentSearchParams;
+
+  if (customSearchParams) {
+    currentSearchParams = new URLSearchParams(customSearchParams);
+
+    if (currentSearchParams.get("action") === "subscription_success") {
+      currentSearchParams.set("action", "auth_success");
+    }
+  } else {
+    // Иначе используем текущие параметры URL
+    currentSearchParams = new URLSearchParams(window.location.search);
+    const subscribe = currentSearchParams.get("action");
+    if (subscribe && subscribe === "subscription_success") {
+      currentSearchParams.set("action", "auth_success");
+    }
   }
+
   if (isOrganicAuth) {
     currentSearchParams.set("action", "auth_organic");
   }
@@ -283,12 +296,14 @@ export const handleEmailLinkAuth = async (
   if (!email) throw new Error("Email is required");
 
   try {
-    const actionCodeSettings = {
-      url: redirectUrl,
-      handleCodeInApp: true,
-    };
+    const response = await apiClient.get(`/send_authorization_email`, {
+      params: { email, url: redirectUrl },
+    });
 
-    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    if (response.status !== 200) {
+      throw new Error(`Email sending failed with status: ${response.status}`);
+    }
+
     window.localStorage.setItem("emailForSignIn", email);
 
     return {
@@ -296,11 +311,11 @@ export const handleEmailLinkAuth = async (
       message: "The login link has been sent to your email.",
     };
   } catch (error) {
-    const firebaseError = error as AuthError;
-    console.error("Email link sending error:", firebaseError);
+    console.error("Email link sending error:", error);
     return {
       success: false,
-      message: firebaseError.message || "Ошибка отправки ссылки",
+      message:
+        error instanceof Error ? error.message : "error while sending email",
     };
   }
 };
@@ -310,15 +325,16 @@ export const registerUserAfterPayment = async (
   searchParams: string,
   maxRetries = 3,
   retryDelay = 1000,
-) => {
+): Promise<boolean> => {
   const token = await getCurrentToken();
   let retries = 0;
 
   const attemptRegistration = async () => {
     try {
-      await apiClient.get(
+      const response = await apiClient.get(
         `/register_paid_web_user?token=${token}&${searchParams}&email=${email}`,
       );
+      return response.status >= 200 && response.status < 300;
     } catch (error) {
       if (retries < maxRetries) {
         retries++;
@@ -335,6 +351,8 @@ export const registerUserAfterPayment = async (
       } else {
         console.error("Unexpected error:", error);
       }
+
+      return false;
     }
   };
 
