@@ -18,7 +18,23 @@ interface ComponentProps {
 const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const { user, loading, setAuthModal, isPremium } = useAuthStore();
   const navigate = useRouter();
-  const { setTokensModal, tokens } = usePaymentStore();
+  const { setTokensModal, tokens, setSuccessPaymentModal } = usePaymentStore();
+
+  const handleSingInClick = () => {
+    const pendingActivation = localStorage.getItem(
+      "pendingSubscriptionActivation",
+    );
+
+    if (pendingActivation) {
+      setSuccessPaymentModal({
+        isSuccessPaymentModalActive: true,
+        successPaymentModalType: "subscription_success",
+      });
+      return;
+    }
+
+    setAuthModal({ modalType: "login", isAuthModalActive: true });
+  };
 
   const getTokensHandle = () => {
     navigate.push("/tokens");
@@ -118,9 +134,7 @@ const Header: FC<ComponentProps> = ({ isMenuOpen, setIsMenuOpen }) => {
             </div>
           ) : (
             <button
-              onClick={() =>
-                setAuthModal({ modalType: "login", isAuthModalActive: true })
-              }
+              onClick={handleSingInClick}
               className="main-gradient h-[24px] animate-fadeIn rounded-[8px] px-[12px] text-[12px] font-bold md:h-[27px] md:px-[12px] md:text-[14px]"
             >
               <span className="relative z-[5]">Sign in</span>

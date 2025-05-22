@@ -12,6 +12,7 @@ import { FirebaseUser } from "@/app/shared/api/types/auth";
 import {
   getUserSubscriptionInfo,
   registerUserAfterPayment,
+  signInAnonymouslyHandler,
 } from "@/app/shared/api/auth";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import {
@@ -33,6 +34,7 @@ const loadCharactersFromLocalStorage = (): { premium: boolean | null } => {
   };
 };
 import { IS_CLIENT } from "../consts";
+import { FirebaseError } from "firebase/app";
 
 interface AuthState {
   isPremium: boolean | null;
@@ -46,6 +48,8 @@ interface AuthState {
     modalType: "login" | "register" | "forgotPass" | null;
     isAuthModalActive: boolean;
   }) => void;
+  isRegistrationComplete: boolean;
+  setRegistrationComplete: (isComplete: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => {
@@ -66,17 +70,23 @@ export const useAuthStore = create<AuthState>((set) => {
         modalType: value.modalType,
         isAuthModalActive: value.isAuthModalActive,
       }),
-    setIsPremium: (isPremium: boolean) => set({ isPremium }),
+    setIsPremium: (isPremium: boolean) => {
+      set({ isPremium });
+    },
+    isRegistrationComplete: false,
+    setRegistrationComplete: (isComplete: boolean) =>
+      set({ isRegistrationComplete: isComplete }),
   };
 });
 
 onAuthStateChanged(auth, async (firebaseUser) => {
   // Получаем методы управления состоянием из стора
   const { setSuccessPaymentModal, setTokens } = usePaymentStore.getState();
-  const { setAuthModal, setUser, setIsPremium } = useAuthStore.getState();
+  const { setAuthModal, setUser, setIsPremium, setRegistrationComplete } =
+    useAuthStore.getState();
 
   // Удаляет временные значения из localStorage
-  const cleanLocalStorage = () => {
+  const cleanLocalStorage = async () => {
     safeLocalStorage.remove("tempToken");
     safeLocalStorage.remove("emailForSignIn");
   };
@@ -109,18 +119,21 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       );
       const user = result.user as FirebaseUser;
       if (result) {
-        cleanLocalStorage();
+        await cleanLocalStorage();
         safeLocalStorage.set("accessToken", user.accessToken);
         setUser(user);
 
         // Регистрация после успешной оплаты
         if (authSuccess) {
-          await registerUserAfterPayment(
+          const success = await registerUserAfterPayment(
             email,
             searchParams?.toString() ?? "",
             5,
             1500,
           );
+          if (success) {
+            safeLocalStorage.remove("pendingSubscriptionActivation");
+          }
           window.history.replaceState(
             {},
             document.title,
@@ -130,13 +143,14 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Загружаем данные о подписке и токенах
         const userInfo = await getUserSubscriptionInfo();
-
         if (authSuccess && !userInfo?.subscription?.active) {
           console.warn("Payment was successful but subscription is not active");
         }
 
         setIsPremium(userInfo?.subscription?.active ?? false);
         setTokens(userInfo?.tokens ?? 0);
+
+        setRegistrationComplete(true);
 
         // Органическая регистрация — редирект на квиз ( если нет платной пописки )
         if (organicAuth && !userInfo?.subscription?.active) {
@@ -157,6 +171,19 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     setUser(null);
     setIsPremium(false);
     setTokens(0);
+    setRegistrationComplete(false);
+    safeLocalStorage.remove("pendingSubscriptionActivation");
+
+    try {
+      await signInAnonymouslyHandler();
+
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        setUser(currentUser);
+      }
+    } catch (error) {
+      console.error("Failed to sign in anonymously:", error);
+    }
     return;
   }
 
@@ -164,35 +191,89 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Обработка входа через социальные сети
   if (isSocialLogin(firebaseUser)) {
-    if (searchParams?.get("action") === "subscription_success") {
-      // Если пользователь пришёл после оплаты, регистрируем и показываем модалку
-      searchParams.set("action", ACTION_AUTH_SUCCESS);
-      const newUrl = `${window.location.pathname}?${searchParams.toString()}${window.location.hash}`;
-      await registerUserAfterPayment(
-        firebaseUser.email,
-        searchParams.toString(),
-        5,
-        1500,
-      );
-      setSuccessPaymentModal({
-        isSuccessPaymentModalActive: true,
-        successPaymentModalType: ACTION_AUTH_SUCCESS,
-      });
-      window.history.replaceState({}, document.title, newUrl);
+    const userInfo = await getUserSubscriptionInfo();
+
+    const pendingActivation = safeLocalStorage.get(
+      "pendingSubscriptionActivation",
+    );
+
+    if (pendingActivation) {
+      try {
+        const activationData = JSON.parse(pendingActivation);
+        if (activationData.searchParams) {
+          console.log(
+            "Found pendingSubscriptionActivation, activating subscription...",
+          );
+
+          // Получаем email пользователя из Firebase
+          const userEmail = firebaseUser.email;
+
+          if (userEmail) {
+            // Регистрируем пользователя после оплаты
+            const success = await registerUserAfterPayment(
+              userEmail,
+              activationData.searchParams,
+              5,
+              1500,
+            );
+
+            if (success) {
+              console.log("Subscription activated successfully");
+
+              // Обновляем информацию о подписке
+              const updatedUserInfo = await getUserSubscriptionInfo();
+              setIsPremium(updatedUserInfo?.subscription?.active ?? false);
+              setTokens(updatedUserInfo?.tokens ?? 0);
+
+              // Если подписка активирована, не делаем редирект на квиз
+              if (updatedUserInfo?.subscription?.active) {
+                // Очищаем localStorage и устанавливаем токен
+                await cleanLocalStorage();
+                safeLocalStorage.set("accessToken", token);
+                safeLocalStorage.remove("pendingSubscriptionActivation");
+                setUser(firebaseUser);
+                setTokens(updatedUserInfo?.tokens ?? 0);
+                setSuccessPaymentModal({
+                  isSuccessPaymentModalActive: false,
+                  successPaymentModalType: null,
+                });
+                setRegistrationComplete(true);
+                return;
+              }
+            } else {
+              console.warn("Failed to activate subscription");
+            }
+          } else {
+            console.warn("User email is missing, cannot activate subscription");
+          }
+        }
+      } catch (error) {
+        console.error("Error processing pendingSubscriptionActivation:", error);
+      }
     }
 
-    const userInfo = await getUserSubscriptionInfo();
-    cleanLocalStorage();
+    await cleanLocalStorage();
     safeLocalStorage.set("accessToken", token);
     setIsPremium(userInfo?.subscription?.active ?? false);
     setUser(firebaseUser);
     setTokens(userInfo?.tokens ?? 0);
     setAuthModal({ modalType: null, isAuthModalActive: false });
+    setRegistrationComplete(true);
     // Если зашел через соц.сети и нет премиума то редиректим на квиз
     if (!userInfo?.subscription?.active) {
       return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
     }
     return;
+  }
+
+  // Сохраняем данные о подписке в localStorage
+  if (searchParams?.get("action") === "subscription_success") {
+    safeLocalStorage.set(
+      "pendingSubscriptionActivation",
+      JSON.stringify({
+        searchParams: searchParams.toString(),
+      }),
+    );
   }
 
   // Анонимный вход — сохраняем временный токен
@@ -206,7 +287,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   const userInfo = await getUserSubscriptionInfo();
   setIsPremium(userInfo?.subscription?.active ?? false);
   setTokens(userInfo?.tokens ?? 0);
-  cleanLocalStorage();
+  await cleanLocalStorage();
   safeLocalStorage.set("accessToken", token);
   setAuthModal({ modalType: null, isAuthModalActive: false });
   setUser(firebaseUser);

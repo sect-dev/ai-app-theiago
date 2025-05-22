@@ -3,7 +3,11 @@ import React, { FC, useEffect } from "react";
 import FavoritesGirls from "@/app/widgets/FavoritesGirls";
 import { Character } from "@/app/shared/api/types";
 import CardsList from "@/app/widgets/CardsList";
-import { signInAnonymouslyHandler } from "@/app/shared/api/auth";
+import {
+  getUserSubscriptionInfo,
+  registerUserAfterPayment,
+  signInAnonymouslyHandler,
+} from "@/app/shared/api/auth";
 import {
   PaymentModalType,
   usePaymentStore,
@@ -16,6 +20,7 @@ import notification from "@/app/widgets/Notification";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import { TOKENS } from "@/app/shared/consts";
 import ym from "react-yandex-metrika";
+import { useAuthStore } from "@/app/shared/store/authStore";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -36,6 +41,7 @@ const HomePage: FC<ComponentProps> = ({
 }) => {
   const { setSuccessPaymentModal, setTokens, tokens } = usePaymentStore();
   const { setSelectedCharacterId } = useSelectedCardStore();
+  const { setIsPremium } = useAuthStore();
   const navigate = useRouter();
   const favoriteAvatars =
     (avatars &&
@@ -57,7 +63,10 @@ const HomePage: FC<ComponentProps> = ({
     new Set(simpleAvatars?.flatMap((avatar) => avatar.tags ?? [])),
   );
 
-  const getTokens = async (orderNumber: string, product: string) => {
+  const getTokens = async (
+    orderNumber: string,
+    product: string,
+  ): Promise<boolean> => {
     try {
       const response = await activateTokens(orderNumber);
       if (response) {
@@ -71,23 +80,9 @@ const HomePage: FC<ComponentProps> = ({
           type: "success",
           description: `${productItem} tokens added to your balance`,
         });
-        sendGTMEvent({
-          event: "token_complete_buy",
-          placement: "quiz",
-          product_name: product,
-          tokens: productItem,
-        });
-        // TODO: burn TOKENS with fire
-        fbq.event("Purchase", {
-          currency: "USD",
-          value: TOKENS.find((item) => item.name === product)?.price,
-        });
-        ym("reachGoal", "token_complete_buy", {
-          placement: "quiz",
-          product_name: product,
-          tokens: productItem,
-        });
+        return true;
       }
+      return false;
     } catch (error) {
       notification.open({
         title: "Successful purchase",
@@ -95,6 +90,7 @@ const HomePage: FC<ComponentProps> = ({
         description: "Something went wrong while adding tokens",
       });
       console.log("error");
+      return false;
     }
   };
 
@@ -132,14 +128,6 @@ const HomePage: FC<ComponentProps> = ({
       });
     }
 
-    if (action === "tokens_success" && characterId && orderNumber && product) {
-      if (characterId === "None") {
-        navigate.push("/");
-      } else {
-        navigate.push("/chats");
-      }
-      getTokens(orderNumber, product);
-    }
     if (!accessToken && !tempToken && !action) {
       signInAnonymouslyHandler();
     }
@@ -148,6 +136,62 @@ const HomePage: FC<ComponentProps> = ({
       if (analyticsTimer) {
         clearTimeout(analyticsTimer);
         console.log("Analytics timer cleared");
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | undefined;
+
+    const handleTokensPurchase = async () => {
+      if (
+        action === "tokens_success" &&
+        characterId &&
+        orderNumber &&
+        product
+      ) {
+        if (characterId === "None") {
+          navigate.push("/");
+        } else {
+          navigate.push("/chats");
+        }
+
+        try {
+          const success = await getTokens(orderNumber, product);
+
+          if (success) {
+            const productItem = product.split("_")[0];
+
+            timeout = setTimeout(() => {
+              sendGTMEvent({
+                event: "token_complete_buy",
+                placement: "quiz",
+                product_name: product,
+                tokens: productItem,
+              });
+              // TODO: burn TOKENS with fire
+              fbq.event("Purchase", {
+                currency: "USD",
+                value: TOKENS.find((item) => item.name === product)?.price,
+              });
+              ym("reachGoal", "token_complete_buy", {
+                placement: "quiz",
+                product_name: product,
+                tokens: productItem,
+              });
+            }, 1000);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    handleTokensPurchase();
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
       }
     };
   }, []);
