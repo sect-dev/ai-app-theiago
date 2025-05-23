@@ -24,7 +24,7 @@ import {
 import { apiClient, getCurrentToken } from "@/app/shared/api/index";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import axios from "axios";
-import { clearAccessTokenCookie } from "@/app/shared/helpers";
+import { clearAccessTokenCookie, safeLocalStorage } from "@/app/shared/helpers";
 import { UserStatus } from "./types";
 
 export const signUpWithEmailAndPassword = async (
@@ -44,10 +44,10 @@ export const signUpWithEmailAndPassword = async (
       ).stsTokenManager.accessToken;
 
       if (user.accessToken) {
-        localStorage.setItem("accessToken", user.accessToken);
-        localStorage.removeItem("uid");
-        localStorage.removeItem("tempToken");
-      }
+        safeLocalStorage.set("accessToken", user.accessToken);
+        safeLocalStorage.remove("uid");
+        safeLocalStorage.remove("tempToken");
+      } 
 
       const setUser = useAuthStore.getState().setUser;
       const { setAuthModal } = useAuthStore.getState();
@@ -68,7 +68,7 @@ export const signUpWithEmailAndPassword = async (
       ).stsTokenManager.accessToken;
 
       if (user.accessToken) {
-        localStorage.setItem("accessToken", user.accessToken);
+        safeLocalStorage.set("accessToken", user.accessToken);
       }
 
       return user;
@@ -96,7 +96,7 @@ export const signInWithEmailAndPasswordHandler = async (
     ).stsTokenManager.accessToken;
 
     if (user.accessToken) {
-      localStorage.setItem("accessToken", user.accessToken);
+      safeLocalStorage.set("accessToken", user.accessToken);
     }
 
     return user;
@@ -123,10 +123,10 @@ export const resetPasswordHandler = async (email: string) => {
 export const signOutUser = async () => {
   try {
     await signOut(auth);
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("tempToken");
-    localStorage.removeItem("hasPremium");
-    localStorage.removeItem("uid");
+    safeLocalStorage.remove("accessToken");
+    safeLocalStorage.remove("tempToken");
+    safeLocalStorage.remove("hasPremium");
+    safeLocalStorage.remove("uid");
     clearAccessTokenCookie();
   } catch (error) {
     console.log(error);
@@ -144,7 +144,7 @@ export const signInWithGoogle = async () => {
 
     const user = result.user;
     if (accessToken) {
-      localStorage.setItem("accessToken", accessToken);
+      safeLocalStorage.set("accessToken", accessToken);
       return user;
     }
     return user;
@@ -180,7 +180,7 @@ export const signInWithFacebook = async () => {
     const accessToken = credential?.accessToken;
 
     if (accessToken) {
-      localStorage.setItem("accessToken", accessToken);
+      safeLocalStorage.set("accessToken", accessToken);
     }
 
     return { user, accessToken };
@@ -214,7 +214,7 @@ export const signInWithX = async () => {
 
     const user = result.user;
     if (accessToken) {
-      localStorage.setItem("accessToken", accessToken);
+      safeLocalStorage.set("accessToken", accessToken);
       return user;
     }
     return user;
@@ -244,8 +244,8 @@ export const signInAnonymouslyHandler = async () => {
     const user = userCredential.user;
     if (user.uid && user.isAnonymous) {
       const token = await user.getIdToken();
-      localStorage.setItem("uid", user.uid);
-      localStorage.setItem("tempToken", token);
+      safeLocalStorage.set("uid", user.uid);
+      safeLocalStorage.set("tempToken", token);
       await registerAnonymousUser(token);
       return;
     }

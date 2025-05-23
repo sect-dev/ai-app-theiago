@@ -34,8 +34,8 @@ export const saveCharacterToLocalStorage = (
       };
       characters.push(newCharacter);
     }
-    localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
-    localStorage.setItem("tokens", JSON.stringify(tokens));
+    safeLocalStorage.set("chatStartedCharacters", JSON.stringify(characters));
+    safeLocalStorage.set("tokens", JSON.stringify(tokens));
     return characters;
   }
 };
