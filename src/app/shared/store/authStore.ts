@@ -106,6 +106,16 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   const authSuccess = searchParams?.get("action") === ACTION_AUTH_SUCCESS;
   const organicAuth = searchParams?.get("action") === ACTION_ORGANIC;
 
+    // Сохраняем данные о подписке в localStorage
+  if (searchParams?.get("action") === "subscription_success") {
+    safeLocalStorage.set(
+      "pendingSubscriptionActivation",
+      JSON.stringify({
+        searchParams: searchParams.toString(),
+      }),
+    );
+  }
+
   // Обработка входа через email-ссылку
   if (
     typeof window !== "undefined" &&
@@ -264,16 +274,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
     }
     return;
-  }
-
-  // Сохраняем данные о подписке в localStorage
-  if (searchParams?.get("action") === "subscription_success") {
-    safeLocalStorage.set(
-      "pendingSubscriptionActivation",
-      JSON.stringify({
-        searchParams: searchParams.toString(),
-      }),
-    );
   }
 
   // Анонимный вход — сохраняем временный токен
