@@ -152,7 +152,7 @@ const Login = () => {
             {loading && <Spinner />}
           </button>
         </form>
-        <div className="mb-[10px] flex justify-center gap-[20px]">
+        {/* <div className="mb-[10px] flex justify-center gap-[20px]">
           <button
             onClick={onXSignInHandler}
             className="transition-transform duration-300 hover:scale-[1.025]"
@@ -163,7 +163,7 @@ const Login = () => {
               height={IconX.height}
               alt="icon X"
             />
-          </button>
+          </button> */}
           {/* <button
               onClick={onFacebookSignInHandler}
               className="transition-transform duration-300 hover:scale-[1.025]"
@@ -175,7 +175,7 @@ const Login = () => {
                 alt="icon discord"
               />
             </button> */}
-          <button
+          {/* <button
             onClick={onGoogleSignInHandler}
             className="transition-transform duration-300 hover:scale-[1.025]"
           >
@@ -186,7 +186,7 @@ const Login = () => {
               alt="icon google"
             />
           </button>
-        </div>
+        </div> */}
 
         {/*/!* Поле Password *!/*/}
         {/*<div className="relative">*/}
@@ -251,9 +251,9 @@ const Login = () => {
         {/*  Отображение ошибки авторизации */}
 
         <div className="flex flex-col items-center justify-center gap-[24px]">
-          <p className="text-[16px] font-medium text-[#B5B5B5]">
+          {/* <p className="text-[16px] font-medium text-[#B5B5B5]">
             or continue with
-          </p>
+          </p> */}
 
           <div className="flex gap-[8px] text-[12px]">
             <p>Dont have an account?</p>

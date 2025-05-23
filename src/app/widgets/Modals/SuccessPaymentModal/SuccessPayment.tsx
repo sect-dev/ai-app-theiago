@@ -279,10 +279,10 @@ const SuccessPayment = () => {
             </button>
           </form>
           <div className="flex flex-col items-center justify-center gap-[24px]">
-            <p className="text-[16px] font-medium text-[#B5B5B5]">
+            {/* <p className="text-[16px] font-medium text-[#B5B5B5]">
               or continue with
-            </p>
-            <div className="flex gap-[20px]">
+            </p> */}
+            {/* <div className="flex gap-[20px]">
               <button
                 onClick={onXSignInHandler}
                 className="transition-transform duration-300 hover:scale-[1.025]"
@@ -293,7 +293,7 @@ const SuccessPayment = () => {
                   height={IconX.height}
                   alt="icon X"
                 />
-              </button>
+              </button> */}
               {/* <button
                 onClick={onFacebookSignInHandler}
                 className="transition-transform duration-300 hover:scale-[1.025]"
@@ -305,7 +305,7 @@ const SuccessPayment = () => {
                   alt="icon discord"
                 />
               </button> */}
-              <button
+              {/* <button
                 onClick={onGoogleSignInHandler}
                 className="transition-transform duration-300 hover:scale-[1.025]"
               >
@@ -316,7 +316,7 @@ const SuccessPayment = () => {
                   alt="icon google"
                 />
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
