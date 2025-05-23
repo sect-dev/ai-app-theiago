@@ -214,7 +214,7 @@ export const signInWithX = async () => {
 
     const user = result.user;
     if (accessToken) {
-      localStorage.setItem("accessToken", accessToken);
+      safeLocalStorage.set("accessToken", accessToken);
       return user;
     }
     return user;
