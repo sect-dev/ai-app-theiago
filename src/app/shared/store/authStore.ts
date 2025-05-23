@@ -79,6 +79,8 @@ export const useAuthStore = create<AuthState>((set) => {
   };
 });
 
+let isEmailSignInHandled = false;
+
 onAuthStateChanged(auth, async (firebaseUser) => {
   // Получаем методы управления состоянием из стора
   const { setSuccessPaymentModal, setTokens } = usePaymentStore.getState();
@@ -119,14 +121,17 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   // Обработка входа через email-ссылку
   if (
     typeof window !== "undefined" &&
-    isSignInWithEmailLink(auth, window.location.href)
+    isSignInWithEmailLink(auth, window.location.href) &&
+    !isEmailSignInHandled
   ) {
+    isEmailSignInHandled = true;
     try {
       const result = await signInWithEmailLink(
         auth,
         email ?? "",
         window.location.href,
       );
+      
       const user = result.user as FirebaseUser;
       if (result) {
         await cleanLocalStorage();
@@ -141,14 +146,15 @@ onAuthStateChanged(auth, async (firebaseUser) => {
             5,
             1500,
           );
+          console.log("result after register", result)
           if (success) {
             safeLocalStorage.remove("pendingSubscriptionActivation");
-          }
-          window.history.replaceState(
+                      window.history.replaceState(
             {},
             document.title,
             window.location.pathname,
           );
+          }
         }
 
         // Загружаем данные о подписке и токенах
