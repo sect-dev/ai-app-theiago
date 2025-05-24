@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useMemo, useState, useTransition } from "react";
 import Image from "next/image";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import ImageDefault from "@/../public/images/img/payment/image-no-char-id.webp";
@@ -30,9 +30,15 @@ const SuccessAuth = () => {
   const [characterLoading, setCharacterLoading] = useState<boolean>(false);
   const navigate = useRouter();
   const characterImage = charInfo ? charInfo?.avatar : ImageDefault.src;
-  const characterId = charFromPaywall
+const characterId = useMemo(() => {
+  console.log("Computing characterId with:", { 
+    charFromPaywall, 
+    urlCharId: searchParams.get("character_id") 
+  });
+  return charFromPaywall
     ? charFromPaywall.character_id
     : searchParams.get("character_id");
+}, [charFromPaywall, searchParams]);
 
   const getCharacterInfoById = async (id: string) => {
     try {
