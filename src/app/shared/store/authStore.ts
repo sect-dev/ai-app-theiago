@@ -25,6 +25,8 @@ import {
   ACTION_ORGANIC,
   REDIRECT_URL,
 } from "@/app/shared/consts";
+import { FirebaseError } from "firebase/app";
+import * as Sentry from "@sentry/nextjs";
 
 const loadCharactersFromLocalStorage = (): { premium: boolean | null } => {
   if (typeof window === "undefined") return { premium: null };
@@ -33,8 +35,6 @@ const loadCharactersFromLocalStorage = (): { premium: boolean | null } => {
     premium: storedPremium ? JSON.parse(storedPremium) : null,
   };
 };
-import { IS_CLIENT } from "../consts";
-import { FirebaseError } from "firebase/app";
 
 interface AuthState {
   isPremium: boolean | null;
@@ -51,6 +51,61 @@ interface AuthState {
   isRegistrationComplete: boolean;
   setRegistrationComplete: (isComplete: boolean) => void;
 }
+
+// Вспомогательная функция для отправки ошибок в Sentry с контекстом
+const captureAuthError = (
+  error: Error | FirebaseError | unknown,
+  context: Record<string, unknown> = {},
+) => {
+  const authAction =
+    typeof context.action === "string" ? context.action : "unknown";
+  // Если это объект ошибки Firebase, извлекаем детали
+  if (error instanceof FirebaseError) {
+    Sentry.captureException(error, {
+      tags: {
+        auth_action: authAction,
+        firebase_error_code: error.code,
+      },
+      extra: {
+        ...context,
+        firebase_error_message: error.message,
+        firebase_error_details: error.customData,
+      },
+    });
+    console.error(`Auth error (${context.action}):`, error.code, error.message);
+  } else if (error instanceof Error) {
+    // Для стандартных ошибок JavaScript
+    Sentry.captureException(error, {
+      tags: {
+        auth_action: authAction,
+      },
+      extra: context,
+    });
+  } else {
+    // Для других типов ошибок
+    Sentry.captureException(error, {
+      tags: {
+        auth_action: authAction,
+      },
+      extra: context,
+    });
+    console.error(`Auth error (${context.action}):`, error);
+  }
+};
+
+// Добавляем функцию для отслеживания успешных действий (опционально)
+const trackAuthSuccess = (
+  action: string,
+  data: Record<string, unknown> = {},
+) => {
+  Sentry.addBreadcrumb({
+    category: "auth",
+    message: `Auth action successful: ${action}`,
+    level: "info",
+    data,
+  });
+  console.log(`Auth success (${action})`, data);
+};
 
 export const useAuthStore = create<AuthState>((set) => {
   const initialCharacters = loadCharactersFromLocalStorage();
@@ -108,7 +163,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   const authSuccess = searchParams?.get("action") === ACTION_AUTH_SUCCESS;
   const organicAuth = searchParams?.get("action") === ACTION_ORGANIC;
 
-    // Сохраняем данные о подписке в localStorage
+  // Сохраняем данные о подписке в localStorage
   if (searchParams?.get("action") === "subscription_success") {
     safeLocalStorage.set(
       "pendingSubscriptionActivation",
@@ -126,12 +181,19 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   ) {
     isEmailSignInHandled = true;
     try {
+      Sentry.addBreadcrumb({
+        category: "auth",
+        message: "Starting email link authentication",
+        level: "info",
+        data: { email, hasSearchParams: !!searchParams },
+      });
+
       const result = await signInWithEmailLink(
         auth,
         email ?? "",
         window.location.href,
       );
-      
+
       const user = result.user as FirebaseUser;
       if (result) {
         await cleanLocalStorage();
@@ -140,41 +202,131 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Регистрация после успешной оплаты
         if (authSuccess) {
-          const success = await registerUserAfterPayment(
-            email,
-            searchParams?.toString() ?? "",
-            5,
-            1500,
-          );
-          console.log("result after register", result)
-          if (success) {
-            safeLocalStorage.remove("pendingSubscriptionActivation");
-                      window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname,
-          );
+          // const success = await registerUserAfterPayment(
+          //   email,
+          //   searchParams?.toString() ?? "",
+          //   5,
+          //   1500,
+          // );
+          // console.log("result after register", result)
+          // if (success) {
+          //   safeLocalStorage.remove("pendingSubscriptionActivation");
+          //             window.history.replaceState(
+          //   {},
+          //   document.title,
+          //   window.location.pathname,
+          // );
+          // }
+
+          try {
+            Sentry.addBreadcrumb({
+              category: "auth",
+              message: "Starting payment registration",
+              level: "info",
+              data: { email, authSuccess },
+            });
+
+            const success = await registerUserAfterPayment(
+              email,
+              searchParams?.toString() ?? "",
+              5,
+              1500,
+            );
+
+            if (success) {
+              trackAuthSuccess("payment_registration", { email });
+              safeLocalStorage.remove("pendingSubscriptionActivation");
+              window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname,
+              );
+            } else {
+              // Регистрация не удалась, но не выбросила исключение
+              Sentry.captureMessage(
+                "Payment registration failed without error",
+                {
+                  level: "warning",
+                  tags: { auth_action: "payment_registration" },
+                  extra: { email, searchParams: searchParams?.toString() },
+                },
+              );
+            }
+          } catch (paymentError) {
+            captureAuthError(paymentError, {
+              action: "payment_registration",
+              email,
+              searchParams: searchParams?.toString(),
+            });
           }
         }
 
         // Загружаем данные о подписке и токенах
-        const userInfo = await getUserSubscriptionInfo();
-        if (authSuccess && !userInfo?.subscription?.active) {
-          console.warn("Payment was successful but subscription is not active");
-        }
+        // const userInfo = await getUserSubscriptionInfo();
+        // if (authSuccess && !userInfo?.subscription?.active) {
+        //   console.warn("Payment was successful but subscription is not active");
+        // }
 
-        setIsPremium(userInfo?.subscription?.active ?? false);
-        setTokens(userInfo?.tokens ?? 0);
+        // setIsPremium(userInfo?.subscription?.active ?? false);
+        // setTokens(userInfo?.tokens ?? 0);
 
-        setRegistrationComplete(true);
+        // setRegistrationComplete(true);
 
-        // Органическая регистрация — редирект на квиз ( если нет платной пописки )
-        if (organicAuth && !userInfo?.subscription?.active) {
-          return (window.location.href =
-            process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
+        try {
+          // Загружаем данные о подписке и токенах
+          const userInfo = await getUserSubscriptionInfo();
+          if (authSuccess && !userInfo?.subscription?.active) {
+            Sentry.captureMessage(
+              "Payment was successful but subscription is not active",
+              {
+                level: "warning",
+                tags: { auth_action: "subscription_check" },
+                extra: { email, userInfo },
+              },
+            );
+            console.warn(
+              "Payment was successful but subscription is not active",
+            );
+          }
+
+          setIsPremium(userInfo?.subscription?.active ?? false);
+          setTokens(userInfo?.tokens ?? 0);
+          setRegistrationComplete(true);
+
+          // Отслеживаем успешную аутентификацию
+          trackAuthSuccess("email_link_auth", {
+            subscription_active: userInfo?.subscription?.active,
+            is_organic: !!organicAuth,
+          });
+
+          // Органическая регистрация — редирект на квиз ( если нет платной пописки )
+          // if (organicAuth && !userInfo?.subscription?.active) {
+          //   return (window.location.href =
+          //     process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
+          // }
+          if (organicAuth && !userInfo?.subscription?.active) {
+            Sentry.addBreadcrumb({
+              category: "auth",
+              message: "Redirecting to quiz (organic auth)",
+              level: "info",
+            });
+            return (window.location.href =
+              process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
+          }
+        } catch (userInfoError) {
+          captureAuthError(userInfoError, {
+            action: "get_user_subscription",
+            email,
+            userId: user.uid,
+          });
         }
       }
     } catch (error) {
+      captureAuthError(error, {
+        action: "email_link_signin",
+        email,
+        url: window.location.href,
+      });
       console.error("Email link sign-in error:", error);
       window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -191,13 +343,25 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     safeLocalStorage.remove("pendingSubscriptionActivation");
 
     try {
+      Sentry.addBreadcrumb({
+        category: "auth",
+        message: "Starting anonymous sign in",
+        level: "info",
+      });
       await signInAnonymouslyHandler();
 
       const currentUser = auth.currentUser;
       if (currentUser) {
         setUser(currentUser);
+        trackAuthSuccess("anonymous_signin", { uid: currentUser.uid });
+      } else {
+        Sentry.captureMessage("Anonymous sign in completed but user is null", {
+          level: "warning",
+          tags: { auth_action: "anonymous_signin" },
+        });
       }
     } catch (error) {
+      captureAuthError(error, { action: "anonymous_signin" });
       console.error("Failed to sign in anonymously:", error);
     }
     return;

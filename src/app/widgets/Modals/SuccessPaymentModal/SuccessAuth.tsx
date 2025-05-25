@@ -31,14 +31,11 @@ const SuccessAuth = () => {
   const navigate = useRouter();
   const characterImage = charInfo ? charInfo?.avatar : ImageDefault.src;
 
-
-
-
-const characterId = useMemo(() => {
-  return charFromPaywall
-    ? charFromPaywall.character_id
-    : searchParams.get("character_id");
-}, [charFromPaywall, searchParams]);
+  const characterId = useMemo(() => {
+    return charFromPaywall
+      ? charFromPaywall.character_id
+      : searchParams.get("character_id");
+  }, [charFromPaywall, searchParams]);
 
   const getCharacterInfoById = async (id: string) => {
     try {
