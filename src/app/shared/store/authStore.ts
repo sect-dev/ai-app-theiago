@@ -98,11 +98,22 @@ const trackAuthSuccess = (
   action: string,
   data: Record<string, unknown> = {},
 ) => {
+  const message = `Auth success: ${action}`;
+
   Sentry.addBreadcrumb({
     category: "auth",
     message: `Auth action successful: ${action}`,
     level: "info",
     data,
+  });
+
+  Sentry.captureMessage(message, {
+    level: "info", // Используем уровень info для успешных действий
+    tags: {
+      auth_action: action,
+      auth_success: "true",
+    },
+    extra: data,
   });
   console.log(`Auth success (${action})`, data);
 };
