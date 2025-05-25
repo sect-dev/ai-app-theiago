@@ -47,7 +47,7 @@ export const signUpWithEmailAndPassword = async (
         safeLocalStorage.set("accessToken", user.accessToken);
         safeLocalStorage.remove("uid");
         safeLocalStorage.remove("tempToken");
-      } 
+      }
 
       const setUser = useAuthStore.getState().setUser;
       const { setAuthModal } = useAuthStore.getState();
