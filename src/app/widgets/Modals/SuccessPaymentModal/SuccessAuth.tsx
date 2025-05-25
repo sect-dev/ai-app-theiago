@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useMemo, useState, useTransition } from "react";
 import Image from "next/image";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import ImageDefault from "@/../public/images/img/payment/image-no-char-id.webp";
@@ -30,9 +30,15 @@ const SuccessAuth = () => {
   const [characterLoading, setCharacterLoading] = useState<boolean>(false);
   const navigate = useRouter();
   const characterImage = charInfo ? charInfo?.avatar : ImageDefault.src;
-  const characterId = charFromPaywall
+
+
+
+
+const characterId = useMemo(() => {
+  return charFromPaywall
     ? charFromPaywall.character_id
     : searchParams.get("character_id");
+}, [charFromPaywall, searchParams]);
 
   const getCharacterInfoById = async (id: string) => {
     try {
@@ -144,7 +150,7 @@ const SuccessAuth = () => {
         <div>
           <button
             onClick={handleStartChat}
-            disabled={isPending || loading || characterLoading || !characterId}
+            disabled={isPending || loading || characterLoading || !charInfo}
             className="main-gradient mb-[12px] flex h-[40px] w-full items-center justify-center gap-[5px] rounded-[12px] text-[15px] disabled:pointer-events-none disabled:opacity-50"
           >
             <span className="relative z-[5]">Start chat</span>
