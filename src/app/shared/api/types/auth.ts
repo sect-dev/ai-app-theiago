@@ -29,6 +29,8 @@ export interface UserSubscriptionInfo {
     end: string;
     active: boolean | null;
     purchases: Record<string, unknown>;
+    price: number;
+    currency: string;
   };
   tokens: number;
 }

@@ -12,6 +12,7 @@ import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import Spinner from "@/app/widgets/Spinner";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
+import { trackBuyButtonClick } from '@/app/shared/helpers/clickTracker';
 const additionalInfo = [
   "💬 Unlimited dialogues on any topics",
   "🔥 300 photos in any poses",
@@ -58,7 +59,9 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     });
   };
 
-  const handleClickBuyAnalytics = () => {
+  const handleClickBuy = async () => {
+    await trackBuyButtonClick();
+
     sendGTMEvent({
       event: "paywall_buy",
       placement: "quiz",
@@ -187,7 +190,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                     ) : (
                       <Link
                         href={iframeUrl}
-                        onClick={handleClickBuyAnalytics}
+                        onClick={handleClickBuy}
                         className="relative flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-button-gradient text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]"
                       >
                         <span className="font-noto-sans text-[14px] font-bold uppercase fm:text-[3.73vw]">
