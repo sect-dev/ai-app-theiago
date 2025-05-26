@@ -119,6 +119,8 @@ const HomePage: FC<ComponentProps> = ({
         ym("reachGoal", "paywall_complete_buy", {
           placement: "quiz",
           product_name: product,
+          currency: "USD",
+          order_price: parseFloat(price || "0"),
         });
       }, 1000);
 
