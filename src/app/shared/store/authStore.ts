@@ -213,21 +213,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
         // Регистрация после успешной оплаты
         if (authSuccess) {
-          // const success = await registerUserAfterPayment(
-          //   email,
-          //   searchParams?.toString() ?? "",
-          //   5,
-          //   1500,
-          // );
-          // console.log("result after register", result)
-          // if (success) {
-          //   safeLocalStorage.remove("pendingSubscriptionActivation");
-          //             window.history.replaceState(
-          //   {},
-          //   document.title,
-          //   window.location.pathname,
-          // );
-          // }
 
           try {
             Sentry.addBreadcrumb({
@@ -272,17 +257,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
           }
         }
 
-        // Загружаем данные о подписке и токенах
-        // const userInfo = await getUserSubscriptionInfo();
-        // if (authSuccess && !userInfo?.subscription?.active) {
-        //   console.warn("Payment was successful but subscription is not active");
-        // }
-
-        // setIsPremium(userInfo?.subscription?.active ?? false);
-        // setTokens(userInfo?.tokens ?? 0);
-
-        // setRegistrationComplete(true);
-
         try {
           // Загружаем данные о подписке и токенах
           const userInfo = await getUserSubscriptionInfo();
@@ -311,10 +285,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
           });
 
           // Органическая регистрация — редирект на квиз ( если нет платной пописки )
-          // if (organicAuth && !userInfo?.subscription?.active) {
-          //   return (window.location.href =
-          //     process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
-          // }
           if (organicAuth && !userInfo?.subscription?.active) {
             Sentry.addBreadcrumb({
               category: "auth",
