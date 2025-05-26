@@ -128,7 +128,7 @@ const SuccessAuth = () => {
           </div>
         ) : (
           <p className="absolute bottom-[20px] left-[20px] block max-w-[70%] font-bai-jamjuree text-[20px] font-semibold leading-[1.2em] tracking-[0.01em] sm:text-[5.33vw]">
-            {charFromPaywall?.name ? `${charFromPaywall.name} is` : "She is"} eager to talk with you!
+            {charInfo?.name} eager to talk with you!
           </p>
         )}
       </div>
