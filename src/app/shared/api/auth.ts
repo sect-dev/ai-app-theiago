@@ -26,6 +26,7 @@ import { useAuthStore } from "@/app/shared/store/authStore";
 import axios from "axios";
 import { clearAccessTokenCookie, safeLocalStorage } from "@/app/shared/helpers";
 import { UserStatus } from "./types";
+import { trackPurchaseSuccess } from '../helpers/clickTracker';
 
 export const signUpWithEmailAndPassword = async (
   email: string,
@@ -334,7 +335,16 @@ export const registerUserAfterPayment = async (
       const response = await apiClient.get(
         `/register_paid_web_user?token=${token}&${searchParams}&email=${email}`,
       );
-      return response.status >= 200 && response.status < 300;
+      const success = response.status >= 200 && response.status < 300;
+
+      if (success) {
+        const urlParams = new URLSearchParams(searchParams);
+        const price = parseFloat(urlParams.get("price") || "0");
+
+        await trackPurchaseSuccess(price);
+      }
+
+      return success;
     } catch (error) {
       if (retries < maxRetries) {
         retries++;

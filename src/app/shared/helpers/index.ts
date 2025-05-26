@@ -1,5 +1,14 @@
 import { Character, Message, PreparedAvatar } from "@/app/shared/api/types";
 
+export const safeLocalStorage = {
+  get: (key: string) =>
+    typeof window !== "undefined" ? localStorage.getItem(key) : null,
+  set: (key: string, value: string) =>
+    typeof window !== "undefined" && localStorage.setItem(key, value),
+  remove: (key: string) =>
+    typeof window !== "undefined" && localStorage.removeItem(key),
+};
+
 export const saveCharacterToLocalStorage = (
   avatar: Character | null,
   messages: Message[],
@@ -105,14 +114,6 @@ export const clearAccessTokenCookie = () => {
   }
 };
 
-export const safeLocalStorage = {
-  get: (key: string) =>
-    typeof window !== "undefined" ? localStorage.getItem(key) : null,
-  set: (key: string, value: string) =>
-    typeof window !== "undefined" && localStorage.setItem(key, value),
-  remove: (key: string) =>
-    typeof window !== "undefined" && localStorage.removeItem(key),
-};
 
 export const formatISODate = (
   isoString: string,
