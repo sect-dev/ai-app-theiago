@@ -341,7 +341,7 @@ export const registerUserAfterPayment = async (
         const urlParams = new URLSearchParams(searchParams);
         const price = parseFloat(urlParams.get("price") || "0");
 
-        // await trackPurchaseSuccess(price);
+        await trackPurchaseSuccess(price);
       }
 
       return success;
