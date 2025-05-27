@@ -28,11 +28,11 @@ const PageContent = () => {
     ym("reachGoal", "paywall_show", { placement: "quiz" });
   }
 
-  useEffect(() => {
-    if (clickId) {
-      saveClickId(clickId);
-    }
-  }, [clickId]);
+  // useEffect(() => {
+  //   if (clickId) {
+  //     saveClickId(clickId);
+  //   }
+  // }, [clickId]);
 
   useEffect(() => {
     const fetchData = async () => {

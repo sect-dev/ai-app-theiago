@@ -59,8 +59,8 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     });
   };
 
-  const handleClickBuy = async () => {
-    await trackBuyButtonClick();
+  const handleClickBuy = () => {
+    // await trackBuyButtonClick();
 
     sendGTMEvent({
       event: "paywall_buy",
