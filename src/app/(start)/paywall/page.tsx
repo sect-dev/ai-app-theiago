@@ -10,10 +10,12 @@ import { CharacterByConstructor } from "@/app/shared/api/types";
 import InitpageSkeleton from "@/app/flat-pages/Initpage/InitpageSkeleton";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
+import { saveClickId } from '@/app/shared/helpers/clickTracker';
 
 const PageContent = () => {
   const searchParams = useSearchParams();
   const character_id = searchParams.get("character_id");
+  const clickId = searchParams.get("clickid");
 
   const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[] | null>(null);
   const [character, setCharacter] = useState<CharacterByConstructor | null>(
@@ -25,6 +27,12 @@ const PageContent = () => {
     fbq.event("AddtoCart");
     ym("reachGoal", "paywall_show", { placement: "quiz" });
   }
+
+  // useEffect(() => {
+  //   if (clickId) {
+  //     saveClickId(clickId);
+  //   }
+  // }, [clickId]);
 
   useEffect(() => {
     const fetchData = async () => {

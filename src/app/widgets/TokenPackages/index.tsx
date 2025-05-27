@@ -157,7 +157,7 @@ const TokenPackages: FC<ComponentProps> = (props) => {
                 <span className="leading-1.3 font-asap text-[14px] font-medium">
                   {item.currency} {item.price}
                 </span>
-                <span className="font-asap text-[11px] font-medium opacity-50">
+                <span className="font-asap line-through text-[11px] font-medium opacity-50">
                   {item.old_price}
                 </span>
               </div>
