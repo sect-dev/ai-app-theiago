@@ -207,7 +207,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
       const user = result.user as FirebaseUser;
       if (result) {
-        await cleanLocalStorage();
         safeLocalStorage.set("accessToken", user.accessToken);
         setUser(user);
 
@@ -273,7 +272,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
               "Payment was successful but subscription is not active",
             );
           }
-
+          
           setIsPremium(userInfo?.subscription?.active ?? false);
           setTokens(userInfo?.tokens ?? 0);
           setRegistrationComplete(true);
@@ -301,6 +300,8 @@ onAuthStateChanged(auth, async (firebaseUser) => {
             userId: user.uid,
           });
         }
+
+        await cleanLocalStorage();
       }
     } catch (error) {
       captureAuthError(error, {
