@@ -142,29 +142,13 @@ const SuccessPayment = () => {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-      // Отправляем email на почту
-      // const resp = await handleEmailLinkAuth(
-      //   data.email,
-      //   false,
-      //   pendingActivationParams,
-      // );
-
-      // if (resp && resp?.success) {
-      //   notification.open({
-      //     title: "Message sent",
-      //     type: "success",
-      //     description: "We have sent you an email to confirm your address",
-      //   });
-      //   setEmailSent(data.email);
-      //   reset();
-
       // Сохраняем email в localStorage для последующего использования
       if (typeof window !== "undefined") {
         localStorage.setItem("emailForSignIn", data.email);
       }
 
       // Формируем URL для перенаправления
-      const autologinUrl = `https://stage.theaigo.com:8000/first_autologin?email=${encodeURIComponent(data.email)}`;
+      const autologinUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/first_autologin?email=${encodeURIComponent(data.email)}`;
 
       console.log("Перенаправляем пользователя на:", autologinUrl);
 
