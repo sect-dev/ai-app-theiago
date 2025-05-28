@@ -12,7 +12,7 @@ import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import Spinner from "@/app/widgets/Spinner";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
-import { trackBuyButtonClick } from '@/app/shared/helpers/clickTracker';
+import { trackBuyButtonClick } from "@/app/shared/helpers/clickTracker";
 const additionalInfo = [
   "💬 Unlimited dialogues on any topics",
   "🔥 300 photos in any poses",

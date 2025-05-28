@@ -26,7 +26,7 @@ import { useAuthStore } from "@/app/shared/store/authStore";
 import axios from "axios";
 import { clearAccessTokenCookie, safeLocalStorage } from "@/app/shared/helpers";
 import { UserStatus } from "./types";
-import { trackPurchaseSuccess } from '../helpers/clickTracker';
+import { trackPurchaseSuccess } from "../helpers/clickTracker";
 
 export const signUpWithEmailAndPassword = async (
   email: string,
@@ -331,10 +331,10 @@ export const registerUserAfterPayment = async (
   let retries = 0;
 
   const attemptRegistration = async () => {
-
-    console.log("attemptRegistration")
     // TODO: pomenyat na normalnoe hranenie v localstorage
-    const pendingActivation = safeLocalStorage.get("pendingSubscriptionActivation");
+    const pendingActivation = safeLocalStorage.get(
+      "pendingSubscriptionActivation",
+    );
     let fullSearchParams = "";
 
     if (pendingActivation) {
@@ -359,8 +359,6 @@ export const registerUserAfterPayment = async (
       if (success) {
         const urlParams = new URLSearchParams(searchParams);
         const price = parseFloat(urlParams.get("price") || "0");
-
-        console.log("successfull register")
 
         await trackPurchaseSuccess(price);
       }

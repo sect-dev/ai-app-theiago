@@ -115,7 +115,6 @@ const trackAuthSuccess = (
     },
     extra: data,
   });
-  console.log(`Auth success (${action})`, data);
 };
 
 export const useAuthStore = create<AuthState>((set) => {
@@ -201,14 +200,10 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
       const urlParams = new URLSearchParams(window.location.search);
       const emailFromUrl = urlParams.get("email");
-      
+
       // Используем email из URL или из localStorage, если URL не содержит email
       const emailToUse = emailFromUrl || email || "";
-      
-      console.log("Email для авторизации:", emailToUse);
-      console.log("Email из URL:", emailFromUrl);
-      console.log("Email из localStorage:", email);
-      
+
       // Если email найден в URL, сохраняем его в localStorage для будущего использования
       if (emailFromUrl && typeof window !== "undefined") {
         safeLocalStorage.set("emailForSignIn", emailFromUrl);
@@ -220,42 +215,35 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         window.location.href,
       );
 
-      console.log("successfull auth cherez firebase")
-      console.log(result)
-
       const user = result.user as FirebaseUser;
       if (result) {
         safeLocalStorage.set("accessToken", user.accessToken);
         setUser(user);
 
         // Регистрация после успешной оплаты
-        const action = searchParams?.get("action")
-        console.log(action)
+        const action = searchParams?.get("action");
 
         if (action && action === "auth_permanent") {
-          console.log("Обнаружен auth_permanent, перенаправление на /chats");
-          
           Sentry.addBreadcrumb({
             category: "auth",
             message: "Redirecting to chats (auth_permanent)",
             level: "info",
             data: { email: emailToUse },
           });
-          
+
           // Загружаем данные о подписке перед редиректом
           try {
             const userInfo = await getUserSubscriptionInfo();
-            console.log("userstatus 1")
             setIsPremium(userInfo?.subscription?.active ?? false);
             setTokens(userInfo?.tokens ?? 0);
             setRegistrationComplete(true);
-            
+
             // Отслеживаем успешную аутентификацию
             trackAuthSuccess("auth_permanent", {
               subscription_active: userInfo?.subscription?.active,
               email: emailToUse,
             });
-            
+
             // Очищаем URL и выполняем редирект
             window.history.replaceState({}, document.title, "/chats");
             return (window.location.href = "/chats");
@@ -265,7 +253,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
               email: emailToUse,
               userId: user.uid,
             });
-            
+
             // Даже при ошибке все равно выполняем редирект
             window.history.replaceState({}, document.title, "/chats");
             return (window.location.href = "/chats");
@@ -273,7 +261,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         }
 
         if (action && action === "auth_success") {
-
           try {
             Sentry.addBreadcrumb({
               category: "auth",
@@ -290,7 +277,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
             );
 
             if (success) {
-              console.log("successfull success register")
               trackAuthSuccess("payment_registration", { email });
               safeLocalStorage.remove("pendingSubscriptionActivation");
               window.history.replaceState(
@@ -299,7 +285,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
                 window.location.pathname,
               );
             } else {
-              console.log("payment registration failed")
               // Регистрация не удалась, но не выбросила исключение
               Sentry.captureMessage(
                 "Payment registration failed without error",
@@ -335,7 +320,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
               "Payment was successful but subscription is not active",
             );
           }
-          
+
           setIsPremium(userInfo?.subscription?.active ?? false);
           setTokens(userInfo?.tokens ?? 0);
           setRegistrationComplete(true);
@@ -498,12 +483,9 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     return;
   }
 
-  console.log("authSuccess", authSuccess)
-
   // Стандартный вход зарегистрированного пользователя
   if (!authSuccess) {
     const userInfo = await getUserSubscriptionInfo();
-    console.log("userstatus 2")
     setIsPremium(userInfo?.subscription?.active ?? false);
     setTokens(userInfo?.tokens ?? 0);
   }

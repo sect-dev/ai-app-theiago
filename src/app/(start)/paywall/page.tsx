@@ -10,7 +10,7 @@ import { CharacterByConstructor } from "@/app/shared/api/types";
 import InitpageSkeleton from "@/app/flat-pages/Initpage/InitpageSkeleton";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
-import { saveClickId } from '@/app/shared/helpers/clickTracker';
+import { saveClickId } from "@/app/shared/helpers/clickTracker";
 
 const PageContent = () => {
   const searchParams = useSearchParams();

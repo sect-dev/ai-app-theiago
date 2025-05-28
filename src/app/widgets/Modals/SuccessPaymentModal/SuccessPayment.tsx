@@ -27,7 +27,7 @@ import IconGoogle from "@/../public/images/icons/icon-google.svg";
 import ImageDefault from "@/../public/images/img/payment/image-no-char-id.webp";
 import ImageSuccess from "@/../public/images/img/payment/image-success.webp";
 import IconClose from "@/../public/images/icons/icon-close.svg";
-import { safeLocalStorage } from '@/app/shared/helpers';
+import { safeLocalStorage } from "@/app/shared/helpers";
 
 interface FormData {
   email: string;
@@ -149,8 +149,6 @@ const SuccessPayment = () => {
       //   pendingActivationParams,
       // );
 
-
-
       // if (resp && resp?.success) {
       //   notification.open({
       //     title: "Message sent",
@@ -160,25 +158,18 @@ const SuccessPayment = () => {
       //   setEmailSent(data.email);
       //   reset();
 
+      // Сохраняем email в localStorage для последующего использования
+      if (typeof window !== "undefined") {
+        localStorage.setItem("emailForSignIn", data.email);
+      }
 
-
-
-
-        // Сохраняем email в localStorage для последующего использования
-        if (typeof window !== "undefined") {
-          localStorage.setItem("emailForSignIn", data.email);
-        }
-
-        // Формируем URL для перенаправления
+      // Формируем URL для перенаправления
       const autologinUrl = `https://stage.theaigo.com:8000/first_autologin?email=${encodeURIComponent(data.email)}`;
 
       console.log("Перенаправляем пользователя на:", autologinUrl);
 
-
       // Перенаправляем пользователя на URL first_autologin
       window.location.href = autologinUrl;
-
-
     } catch (error) {
       console.error("Redirect error:", error);
       notification.open({

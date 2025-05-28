@@ -114,7 +114,6 @@ export const clearAccessTokenCookie = () => {
   }
 };
 
-
 export const formatISODate = (
   isoString: string,
   options: Intl.DateTimeFormatOptions = {
