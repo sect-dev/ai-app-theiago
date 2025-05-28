@@ -335,22 +335,24 @@ export const registerUserAfterPayment = async (
     console.log("attemptRegistration")
     // TODO: pomenyat na normalnoe hranenie v localstorage
     const pendingActivation = safeLocalStorage.get("pendingSubscriptionActivation");
-    let orderNumber = "";
-    let characterId = "";
+    let fullSearchParams = "";
 
     if (pendingActivation) {
-      const activationData = JSON.parse(pendingActivation);
-      if (activationData.searchParams) {
-        const params = new URLSearchParams(activationData.searchParams);
-        orderNumber = params.get("order_number") || "";
-        characterId = params.get("character_id") || "";
+      try {
+        const activationData = JSON.parse(pendingActivation);
+        if (activationData.searchParams) {
+          // Сохраняем полную строку параметров
+          fullSearchParams = activationData.searchParams;
+          console.log("Извлечена полная строка параметров:", fullSearchParams);
+        }
+      } catch (error) {
+        console.error("Ошибка при парсинге pendingActivation:", error);
       }
     }
-    console.log("orderNumber", orderNumber)
 
     try {
       const response = await apiClient.get(
-        `/register_paid_web_user?token=${token}&${searchParams}&email=${email}&order_number=${orderNumber}&character_id=${characterId}`,
+        `/register_paid_web_user?token=${token}&${fullSearchParams}&email=${email}`,
       );
       const success = response.status >= 200 && response.status < 300;
 
