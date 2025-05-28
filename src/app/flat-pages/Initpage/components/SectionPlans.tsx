@@ -13,6 +13,7 @@ import Spinner from "@/app/widgets/Spinner";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
 import { trackBuyButtonClick } from "@/app/shared/helpers/clickTracker";
+import { useRouter } from "next/navigation";
 const additionalInfo = [
   "💬 Unlimited dialogues on any topics",
   "🔥 300 photos in any poses",
@@ -29,6 +30,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
   const { setPlan, selectedPlan } = usePaymentStore();
   const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(null);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (paymentPlans && paymentPlans.length > 0) {
@@ -59,7 +61,8 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     });
   };
 
-  const handleClickBuy = async () => {
+  const handleClickBuy = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     await trackBuyButtonClick();
 
     sendGTMEvent({
@@ -72,6 +75,10 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
       placement: "quiz",
       product_name: selectedPrice?.id,
     });
+
+    if (iframeUrl) {
+      router.push(iframeUrl);
+    }
   };
 
   return (
