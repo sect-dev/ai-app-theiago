@@ -357,7 +357,7 @@ export const registerUserAfterPayment = async (
 
         console.log("successfull register")
 
-        // await trackPurchaseSuccess(price);
+        await trackPurchaseSuccess(price);
       }
 
       return success;
