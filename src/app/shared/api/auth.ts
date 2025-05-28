@@ -26,7 +26,7 @@ import { useAuthStore } from "@/app/shared/store/authStore";
 import axios from "axios";
 import { clearAccessTokenCookie, safeLocalStorage } from "@/app/shared/helpers";
 import { UserStatus } from "./types";
-import { trackPurchaseSuccess } from '../helpers/clickTracker';
+import { trackPurchaseSuccess } from "../helpers/clickTracker";
 
 export const signUpWithEmailAndPassword = async (
   email: string,
@@ -331,9 +331,28 @@ export const registerUserAfterPayment = async (
   let retries = 0;
 
   const attemptRegistration = async () => {
+    // TODO: pomenyat na normalnoe hranenie v localstorage
+    const pendingActivation = safeLocalStorage.get(
+      "pendingSubscriptionActivation",
+    );
+    let fullSearchParams = "";
+
+    if (pendingActivation) {
+      try {
+        const activationData = JSON.parse(pendingActivation);
+        if (activationData.searchParams) {
+          // Сохраняем полную строку параметров
+          fullSearchParams = activationData.searchParams;
+          console.log("Извлечена полная строка параметров:", fullSearchParams);
+        }
+      } catch (error) {
+        console.error("Ошибка при парсинге pendingActivation:", error);
+      }
+    }
+
     try {
       const response = await apiClient.get(
-        `/register_paid_web_user?token=${token}&${searchParams}&email=${email}`,
+        `/register_paid_web_user?token=${token}&${fullSearchParams}&email=${email}`,
       );
       const success = response.status >= 200 && response.status < 300;
 
@@ -341,7 +360,7 @@ export const registerUserAfterPayment = async (
         const urlParams = new URLSearchParams(searchParams);
         const price = parseFloat(urlParams.get("price") || "0");
 
-        // await trackPurchaseSuccess(price);
+        await trackPurchaseSuccess(price);
       }
 
       return success;
