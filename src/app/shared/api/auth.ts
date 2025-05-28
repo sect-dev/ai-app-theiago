@@ -331,15 +331,31 @@ export const registerUserAfterPayment = async (
   let retries = 0;
 
   const attemptRegistration = async () => {
+
+    console.log("attemptRegistration")
+    const pendingActivation = safeLocalStorage.get("pendingSubscriptionActivation");
+    let orderNumber = "";
+
+    if (pendingActivation) {
+      const activationData = JSON.parse(pendingActivation);
+      if (activationData.searchParams) {
+        const params = new URLSearchParams(activationData.searchParams);
+        orderNumber = params.get("order_number") || "";
+      }
+    }
+    console.log("orderNumber", orderNumber)
+
     try {
       const response = await apiClient.get(
-        `/register_paid_web_user?token=${token}&${searchParams}&email=${email}`,
+        `/register_paid_web_user?token=${token}&${searchParams}&email=${email}&order_number=${orderNumber}`,
       );
       const success = response.status >= 200 && response.status < 300;
 
       if (success) {
         const urlParams = new URLSearchParams(searchParams);
         const price = parseFloat(urlParams.get("price") || "0");
+
+        console.log("successfull register")
 
         // await trackPurchaseSuccess(price);
       }
