@@ -64,7 +64,7 @@ export const trackBuyButtonClick = async (): Promise<void> => {
   
   try {
     // Отправляем GET запрос на трекинг
-    const response = await axios.get(`https://track.theaigo.com/click.php?cnv_id=${clickId}&payout=0&cnv_status=buy_button`);
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/track?cnv_id=${clickId}&payout=0&cnv_status=buy_button`);
     
     if (response.status !== 200) {
       throw new Error(`Ошибка трекинга: ${response.status}`);
@@ -86,7 +86,7 @@ export const trackPurchaseSuccess = async (payout: number): Promise<void> => {
   
   try {
     // Отправляем GET запрос на трекинг успешной покупки
-    const response = await axios.get(`https://track.theaigo.com/click.php?cnv_id=${clickId}&payout=${payout}&cnv_status=purchase`);
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/track?cnv_id=${clickId}&payout=${payout}&cnv_status=purchase`);
     
     if (response.status !== 200) {
       throw new Error(`Ошибка трекинга: ${response.status}`);
