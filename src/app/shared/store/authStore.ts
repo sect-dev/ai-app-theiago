@@ -232,6 +232,46 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         const action = searchParams?.get("action")
         console.log(action)
 
+        if (action && action === "auth_permanent") {
+          console.log("Обнаружен auth_permanent, перенаправление на /chats");
+          
+          Sentry.addBreadcrumb({
+            category: "auth",
+            message: "Redirecting to chats (auth_permanent)",
+            level: "info",
+            data: { email: emailToUse },
+          });
+          
+          // Загружаем данные о подписке перед редиректом
+          try {
+            const userInfo = await getUserSubscriptionInfo();
+            console.log("userstatus 1")
+            setIsPremium(userInfo?.subscription?.active ?? false);
+            setTokens(userInfo?.tokens ?? 0);
+            setRegistrationComplete(true);
+            
+            // Отслеживаем успешную аутентификацию
+            trackAuthSuccess("auth_permanent", {
+              subscription_active: userInfo?.subscription?.active,
+              email: emailToUse,
+            });
+            
+            // Очищаем URL и выполняем редирект
+            window.history.replaceState({}, document.title, "/chats");
+            return (window.location.href = "/chats");
+          } catch (userInfoError) {
+            captureAuthError(userInfoError, {
+              action: "get_user_subscription_auth_permanent",
+              email: emailToUse,
+              userId: user.uid,
+            });
+            
+            // Даже при ошибке все равно выполняем редирект
+            window.history.replaceState({}, document.title, "/chats");
+            return (window.location.href = "/chats");
+          }
+        }
+
         if (action && action === "auth_success") {
 
           try {
@@ -462,8 +502,8 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
   // Стандартный вход зарегистрированного пользователя
   if (!authSuccess) {
-    console.log("authSuccess vizov")
     const userInfo = await getUserSubscriptionInfo();
+    console.log("userstatus 2")
     setIsPremium(userInfo?.subscription?.active ?? false);
     setTokens(userInfo?.tokens ?? 0);
   }

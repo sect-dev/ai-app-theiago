@@ -333,21 +333,24 @@ export const registerUserAfterPayment = async (
   const attemptRegistration = async () => {
 
     console.log("attemptRegistration")
+    // TODO: pomenyat na normalnoe hranenie v localstorage
     const pendingActivation = safeLocalStorage.get("pendingSubscriptionActivation");
     let orderNumber = "";
+    let characterId = "";
 
     if (pendingActivation) {
       const activationData = JSON.parse(pendingActivation);
       if (activationData.searchParams) {
         const params = new URLSearchParams(activationData.searchParams);
         orderNumber = params.get("order_number") || "";
+        characterId = params.get("character_id") || "";
       }
     }
     console.log("orderNumber", orderNumber)
 
     try {
       const response = await apiClient.get(
-        `/register_paid_web_user?token=${token}&${searchParams}&email=${email}&order_number=${orderNumber}`,
+        `/register_paid_web_user?token=${token}&${searchParams}&email=${email}&order_number=${orderNumber}&character_id=${characterId}`,
       );
       const success = response.status >= 200 && response.status < 300;
 
