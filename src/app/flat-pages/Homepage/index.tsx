@@ -100,9 +100,7 @@ const HomePage: FC<ComponentProps> = ({
     let analyticsTimer: NodeJS.Timeout | undefined;
 
     if (
-      avatars &&
-      ((action && action === "subscription_success") ||
-        action === "auth_success")
+      avatars && (action && action === "subscription_success") 
     ) {
       analyticsTimer = setTimeout(() => {
         sendGTMEvent({
