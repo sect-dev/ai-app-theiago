@@ -115,7 +115,6 @@ const trackAuthSuccess = (
     },
     extra: data,
   });
-  console.log(`Auth success (${action})`, data);
 };
 
 export const useAuthStore = create<AuthState>((set) => {
@@ -199,9 +198,20 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         data: { email, hasSearchParams: !!searchParams },
       });
 
+      const urlParams = new URLSearchParams(window.location.search);
+      const emailFromUrl = urlParams.get("email");
+
+      // Используем email из URL или из localStorage, если URL не содержит email
+      const emailToUse = emailFromUrl || email || "";
+
+      // Если email найден в URL, сохраняем его в localStorage для будущего использования
+      if (emailFromUrl && typeof window !== "undefined") {
+        safeLocalStorage.set("emailForSignIn", emailFromUrl);
+      }
+
       const result = await signInWithEmailLink(
         auth,
-        email ?? "",
+        emailToUse,
         window.location.href,
       );
 
@@ -211,8 +221,46 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         setUser(user);
 
         // Регистрация после успешной оплаты
-        if (authSuccess) {
+        const action = searchParams?.get("action");
 
+        if (action && action === "auth_permanent") {
+          Sentry.addBreadcrumb({
+            category: "auth",
+            message: "Redirecting to chats (auth_permanent)",
+            level: "info",
+            data: { email: emailToUse },
+          });
+
+          // Загружаем данные о подписке перед редиректом
+          try {
+            const userInfo = await getUserSubscriptionInfo();
+            setIsPremium(userInfo?.subscription?.active ?? false);
+            setTokens(userInfo?.tokens ?? 0);
+            setRegistrationComplete(true);
+
+            // Отслеживаем успешную аутентификацию
+            trackAuthSuccess("auth_permanent", {
+              subscription_active: userInfo?.subscription?.active,
+              email: emailToUse,
+            });
+
+            // Очищаем URL и выполняем редирект
+            window.history.replaceState({}, document.title, "/chats");
+            return (window.location.href = "/chats");
+          } catch (userInfoError) {
+            captureAuthError(userInfoError, {
+              action: "get_user_subscription_auth_permanent",
+              email: emailToUse,
+              userId: user.uid,
+            });
+
+            // Даже при ошибке все равно выполняем редирект
+            window.history.replaceState({}, document.title, "/chats");
+            return (window.location.href = "/chats");
+          }
+        }
+
+        if (action && action === "auth_success") {
           try {
             Sentry.addBreadcrumb({
               category: "auth",
@@ -222,7 +270,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
             });
 
             const success = await registerUserAfterPayment(
-              email,
+              emailToUse,
               searchParams?.toString() ?? "",
               5,
               1500,
@@ -272,7 +320,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
               "Payment was successful but subscription is not active",
             );
           }
-          
+
           setIsPremium(userInfo?.subscription?.active ?? false);
           setTokens(userInfo?.tokens ?? 0);
           setRegistrationComplete(true);
@@ -352,81 +400,81 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   const token = await firebaseUser.getIdToken();
 
   // Обработка входа через социальные сети
-  if (isSocialLogin(firebaseUser)) {
-    const userInfo = await getUserSubscriptionInfo();
+  // if (isSocialLogin(firebaseUser)) {
+  //   const userInfo = await getUserSubscriptionInfo();
 
-    const pendingActivation = safeLocalStorage.get(
-      "pendingSubscriptionActivation",
-    );
+  //   const pendingActivation = safeLocalStorage.get(
+  //     "pendingSubscriptionActivation",
+  //   );
 
-    if (pendingActivation) {
-      try {
-        const activationData = JSON.parse(pendingActivation);
-        if (activationData.searchParams) {
-          console.log(
-            "Found pendingSubscriptionActivation, activating subscription...",
-          );
+  //   if (pendingActivation) {
+  //     try {
+  //       const activationData = JSON.parse(pendingActivation);
+  //       if (activationData.searchParams) {
+  //         console.log(
+  //           "Found pendingSubscriptionActivation, activating subscription...",
+  //         );
 
-          // Получаем email пользователя из Firebase
-          const userEmail = firebaseUser.email;
+  //         // Получаем email пользователя из Firebase
+  //         const userEmail = firebaseUser.email;
 
-          if (userEmail) {
-            // Регистрируем пользователя после оплаты
-            const success = await registerUserAfterPayment(
-              userEmail,
-              activationData.searchParams,
-              5,
-              1500,
-            );
+  //         if (userEmail) {
+  //           // Регистрируем пользователя после оплаты
+  //           const success = await registerUserAfterPayment(
+  //             userEmail,
+  //             activationData.searchParams,
+  //             5,
+  //             1500,
+  //           );
 
-            if (success) {
-              console.log("Subscription activated successfully");
+  //           if (success) {
+  //             console.log("Subscription activated successfully");
 
-              // Обновляем информацию о подписке
-              const updatedUserInfo = await getUserSubscriptionInfo();
-              setIsPremium(updatedUserInfo?.subscription?.active ?? false);
-              setTokens(updatedUserInfo?.tokens ?? 0);
+  //             // Обновляем информацию о подписке
+  //             const updatedUserInfo = await getUserSubscriptionInfo();
+  //             setIsPremium(updatedUserInfo?.subscription?.active ?? false);
+  //             setTokens(updatedUserInfo?.tokens ?? 0);
 
-              // Если подписка активирована, не делаем редирект на квиз
-              if (updatedUserInfo?.subscription?.active) {
-                // Очищаем localStorage и устанавливаем токен
-                await cleanLocalStorage();
-                safeLocalStorage.set("accessToken", token);
-                safeLocalStorage.remove("pendingSubscriptionActivation");
-                setUser(firebaseUser);
-                setTokens(updatedUserInfo?.tokens ?? 0);
-                setSuccessPaymentModal({
-                  isSuccessPaymentModalActive: false,
-                  successPaymentModalType: null,
-                });
-                setRegistrationComplete(true);
-                return;
-              }
-            } else {
-              console.warn("Failed to activate subscription");
-            }
-          } else {
-            console.warn("User email is missing, cannot activate subscription");
-          }
-        }
-      } catch (error) {
-        console.error("Error processing pendingSubscriptionActivation:", error);
-      }
-    }
+  //             // Если подписка активирована, не делаем редирект на квиз
+  //             if (updatedUserInfo?.subscription?.active) {
+  //               // Очищаем localStorage и устанавливаем токен
+  //               await cleanLocalStorage();
+  //               safeLocalStorage.set("accessToken", token);
+  //               safeLocalStorage.remove("pendingSubscriptionActivation");
+  //               setUser(firebaseUser);
+  //               setTokens(updatedUserInfo?.tokens ?? 0);
+  //               setSuccessPaymentModal({
+  //                 isSuccessPaymentModalActive: false,
+  //                 successPaymentModalType: null,
+  //               });
+  //               setRegistrationComplete(true);
+  //               return;
+  //             }
+  //           } else {
+  //             console.warn("Failed to activate subscription");
+  //           }
+  //         } else {
+  //           console.warn("User email is missing, cannot activate subscription");
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error processing pendingSubscriptionActivation:", error);
+  //     }
+  //   }
 
-    await cleanLocalStorage();
-    safeLocalStorage.set("accessToken", token);
-    setIsPremium(userInfo?.subscription?.active ?? false);
-    setUser(firebaseUser);
-    setTokens(userInfo?.tokens ?? 0);
-    setAuthModal({ modalType: null, isAuthModalActive: false });
-    setRegistrationComplete(true);
-    // Если зашел через соц.сети и нет премиума то редиректим на квиз
-    if (!userInfo?.subscription?.active) {
-      return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
-    }
-    return;
-  }
+  //   await cleanLocalStorage();
+  //   safeLocalStorage.set("accessToken", token);
+  //   setIsPremium(userInfo?.subscription?.active ?? false);
+  //   setUser(firebaseUser);
+  //   setTokens(userInfo?.tokens ?? 0);
+  //   setAuthModal({ modalType: null, isAuthModalActive: false });
+  //   setRegistrationComplete(true);
+  //   // Если зашел через соц.сети и нет премиума то редиректим на квиз
+  //   if (!userInfo?.subscription?.active) {
+  //     return (window.location.href = process.env.NEXT_PUBLIC_QUIZ_URL ?? "");
+  //   }
+  //   return;
+  // }
 
   // Анонимный вход — сохраняем временный токен
   if (firebaseUser.isAnonymous) {
@@ -436,9 +484,12 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   }
 
   // Стандартный вход зарегистрированного пользователя
-  const userInfo = await getUserSubscriptionInfo();
-  setIsPremium(userInfo?.subscription?.active ?? false);
-  setTokens(userInfo?.tokens ?? 0);
+  if (!authSuccess) {
+    const userInfo = await getUserSubscriptionInfo();
+    setIsPremium(userInfo?.subscription?.active ?? false);
+    setTokens(userInfo?.tokens ?? 0);
+  }
+
   await cleanLocalStorage();
   safeLocalStorage.set("accessToken", token);
   setAuthModal({ modalType: null, isAuthModalActive: false });

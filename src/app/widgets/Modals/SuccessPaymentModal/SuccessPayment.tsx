@@ -27,6 +27,7 @@ import IconGoogle from "@/../public/images/icons/icon-google.svg";
 import ImageDefault from "@/../public/images/img/payment/image-no-char-id.webp";
 import ImageSuccess from "@/../public/images/img/payment/image-success.webp";
 import IconClose from "@/../public/images/icons/icon-close.svg";
+import { safeLocalStorage } from "@/app/shared/helpers";
 
 interface FormData {
   email: string;
@@ -142,23 +143,40 @@ const SuccessPayment = () => {
     setLoading(true);
     try {
       // Отправляем email на почту
-      const resp = await handleEmailLinkAuth(
-        data.email,
-        false,
-        pendingActivationParams,
-      );
+      // const resp = await handleEmailLinkAuth(
+      //   data.email,
+      //   false,
+      //   pendingActivationParams,
+      // );
 
-      if (resp && resp?.success) {
-        notification.open({
-          title: "Message sent",
-          type: "success",
-          description: "We have sent you an email to confirm your address",
-        });
-        setEmailSent(data.email);
-        reset();
+      // if (resp && resp?.success) {
+      //   notification.open({
+      //     title: "Message sent",
+      //     type: "success",
+      //     description: "We have sent you an email to confirm your address",
+      //   });
+      //   setEmailSent(data.email);
+      //   reset();
+
+      // Сохраняем email в localStorage для последующего использования
+      if (typeof window !== "undefined") {
+        localStorage.setItem("emailForSignIn", data.email);
       }
+
+      // Формируем URL для перенаправления
+      const autologinUrl = `https://stage.theaigo.com:8000/first_autologin?email=${encodeURIComponent(data.email)}`;
+
+      console.log("Перенаправляем пользователя на:", autologinUrl);
+
+      // Перенаправляем пользователя на URL first_autologin
+      window.location.href = autologinUrl;
     } catch (error) {
-      console.log("error", error);
+      console.error("Redirect error:", error);
+      notification.open({
+        title: "Error",
+        type: "error",
+        description: "Failed to redirect for authentication. Please try again.",
+      });
     } finally {
       setLoading(false);
     }

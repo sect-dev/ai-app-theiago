@@ -1,10 +1,9 @@
-import axios from 'axios';
-import { safeLocalStorage } from '.';
+import axios from "axios";
+import { safeLocalStorage } from ".";
 
-const CLICKID_KEY = 'clickid';
-const CLICKID_EXPIRY_KEY = 'clickid_expiry';
+const CLICKID_KEY = "clickid";
+const CLICKID_EXPIRY_KEY = "clickid_expiry";
 const DAYS_TO_EXPIRE = 30;
-
 
 /**
  * Сохраняет clickid в localStorage с временем истечения (30 дней)
@@ -12,17 +11,17 @@ const DAYS_TO_EXPIRE = 30;
  */
 export const saveClickId = (clickId: string): void => {
   if (!clickId) return;
-  
+
   try {
     // Вычисляем время истечения (текущее время + 30 дней в миллисекундах)
-    const expiryDate = Date.now() + (DAYS_TO_EXPIRE * 24 * 60 * 60 * 1000);
-    
+    const expiryDate = Date.now() + DAYS_TO_EXPIRE * 24 * 60 * 60 * 1000;
+
     // Сохраняем clickid и время истечения в localStorage
     safeLocalStorage.set(CLICKID_KEY, clickId);
     safeLocalStorage.set(CLICKID_EXPIRY_KEY, expiryDate.toString());
-    console.log('clickId сохранен', clickId);
+    console.log("clickId сохранен", clickId);
   } catch (error) {
-    console.error('Ошибка при сохранении clickId:', error);
+    console.error("Ошибка при сохранении clickId:", error);
   }
 };
 
@@ -34,12 +33,12 @@ export const getClickId = (): string | null => {
   try {
     const clickId = safeLocalStorage.get(CLICKID_KEY);
     const expiryString = safeLocalStorage.get(CLICKID_EXPIRY_KEY);
-    
+
     if (!clickId || !expiryString) return null;
-    
+
     const expiry = parseInt(expiryString, 10);
     const now = Date.now();
-    
+
     // Проверяем, не истек ли срок действия
     if (now > expiry) {
       // Если истек, удаляем данные и возвращаем null
@@ -47,10 +46,10 @@ export const getClickId = (): string | null => {
       safeLocalStorage.remove(CLICKID_EXPIRY_KEY);
       return null;
     }
-    console.log('clickId получен', clickId);
+    console.log("clickId получен", clickId);
     return clickId;
   } catch (error) {
-    console.error('Ошибка при получении clickId:', error);
+    console.error("Ошибка при получении clickId:", error);
     return null;
   }
 };
@@ -61,18 +60,20 @@ export const getClickId = (): string | null => {
 export const trackBuyButtonClick = async (): Promise<void> => {
   const clickId = getClickId();
   if (!clickId) return;
-  
+
   try {
     // Отправляем GET запрос на трекинг
-    const response = await axios.get(`https://track.theaigo.com/click.php?cnv_id=${clickId}&payout=0&cnv_status=buy_button`);
-    
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/track?cnv_id=${clickId}&payout=0&cnv_status=buy_button`,
+    );
+
     if (response.status !== 200) {
       throw new Error(`Ошибка трекинга: ${response.status}`);
     }
-    
+
     console.log(`Успешно отправлен трекинг buy_button для clickId: ${clickId}`);
   } catch (error) {
-    console.error('Ошибка при отправке трекинга buy_button:', error);
+    console.error("Ошибка при отправке трекинга buy_button:", error);
   }
 };
 
@@ -83,17 +84,21 @@ export const trackBuyButtonClick = async (): Promise<void> => {
 export const trackPurchaseSuccess = async (payout: number): Promise<void> => {
   const clickId = getClickId();
   if (!clickId) return;
-  
+
   try {
     // Отправляем GET запрос на трекинг успешной покупки
-    const response = await axios.get(`https://track.theaigo.com/click.php?cnv_id=${clickId}&payout=${payout}&cnv_status=purchase`);
-    
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/track?cnv_id=${clickId}&payout=${payout}&cnv_status=purchase`,
+    );
+
     if (response.status !== 200) {
       throw new Error(`Ошибка трекинга: ${response.status}`);
     }
-    
-    console.log(`Успешно отправлен трекинг purchase для clickId: ${clickId}, payout: ${payout}`);
+
+    console.log(
+      `Успешно отправлен трекинг purchase для clickId: ${clickId}, payout: ${payout}`,
+    );
   } catch (error) {
-    console.error('Ошибка при отправке трекинга purchase:', error);
+    console.error("Ошибка при отправке трекинга purchase:", error);
   }
 };
