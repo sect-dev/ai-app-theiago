@@ -111,6 +111,7 @@ const HomePage: FC<ComponentProps> = ({
           product_name: product,
           currency: "USD",
           value: parseFloat(price || "0"),
+          transaction_id: orderNumber,
         });
 
         fbq.event("Purchase", {
@@ -174,6 +175,7 @@ const HomePage: FC<ComponentProps> = ({
                 tokens: productItem,
                 currency: "USD",
                 value: TOKENS.find((item) => item.name === product)?.price,
+                transaction_id: orderNumber,
               });
               // TODO: burn TOKENS with fire
               fbq.event("Purchase", {
