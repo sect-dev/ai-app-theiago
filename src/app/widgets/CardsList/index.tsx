@@ -21,7 +21,7 @@ const CardsList: FC<ComponentProps> = ({ avatars, tags }) => {
   return (
     <>
       <p className="mb-[12px] text-[20px] font-semibold tracking-[0.02vw] sm:hidden">
-        Explore hottest AI Characters
+        Discover trending virtual companions
       </p>
       <div className="mb-[16px] flex gap-[4px] sm:overflow-hidden">
         <Tags tags={tags} />

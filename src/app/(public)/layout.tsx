@@ -12,6 +12,7 @@ const ModalsProvider = dynamic(() => import("@/app/providers/ModalsProvider"), {
   ssr: false,
 });
 import MobileNav from "@/app/widgets/Sidebar/MobileNav";
+import Footer from "../widgets/Footer";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -57,6 +58,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           )}
         >
           {children}
+          <Footer />
         </div>
       </div>
       <ModalsProvider />
