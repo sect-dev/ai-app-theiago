@@ -21,6 +21,7 @@ import * as fbq from "@/app/shared/lib/fbPixel";
 import { TOKENS } from "@/app/shared/consts";
 import ym from "react-yandex-metrika";
 import { useAuthStore } from "@/app/shared/store/authStore";
+import Footer from '@/app/widgets/Footer';
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -209,6 +210,9 @@ const HomePage: FC<ComponentProps> = ({
           <FavoritesGirls avatars={favoriteAvatars} />
           <div className="rounded-l-[24px] bg-[#121423] p-[24px] md:rounded-none md:p-[16px] sm:pt-0">
             <CardsList tags={tags} avatars={simpleAvatars} />
+            <div className="mt-[16px]">
+              <Footer />
+            </div>
           </div>
         </div>
       </div>
