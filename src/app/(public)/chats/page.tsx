@@ -11,7 +11,7 @@ import ChatsInfoSkeleton from "@/app/widgets/Chats/ChatInfo/ChatsInfoSkeleton";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { Character } from "@/app/shared/api/types";
 import { getCharacterInfoById } from "@/app/shared/api/getCharacterById";
-
+import Footer from "@/app/widgets/Footer";
 const Page = () => {
   const { selectedCharacterId, setSelectedCharacterId } =
     useSelectedCardStore();
