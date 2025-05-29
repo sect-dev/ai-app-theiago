@@ -7,7 +7,7 @@ import YandexMetrikaContainer from "./shared/components/YandexMetrikaComponent";
 
 export const metadata: Metadata = {
   title:
-    "AiGO - Create Your AI Girlfriend and Start Chatting with NSFW Character",
+    "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
   description: "",
   icons: {
     icon: "/icon.ico",
