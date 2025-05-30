@@ -6,8 +6,7 @@ import FacebookPixel from "./shared/components/FbPixelComponent";
 import YandexMetrikaContainer from "./shared/components/YandexMetrikaComponent";
 
 export const metadata: Metadata = {
-  title:
-    "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
+  title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
   description: "",
   icons: {
     icon: "/icon.ico",
