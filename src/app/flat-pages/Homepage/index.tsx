@@ -21,7 +21,7 @@ import * as fbq from "@/app/shared/lib/fbPixel";
 import { TOKENS } from "@/app/shared/consts";
 import ym from "react-yandex-metrika";
 import { useAuthStore } from "@/app/shared/store/authStore";
-import Footer from '@/app/widgets/Footer';
+import Footer from "@/app/widgets/Footer";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -100,9 +100,7 @@ const HomePage: FC<ComponentProps> = ({
     const tempToken = localStorage.getItem("tempToken");
     let analyticsTimer: NodeJS.Timeout | undefined;
 
-    if (
-      avatars && (action && action === "subscription_success") 
-    ) {
+    if (avatars && action && action === "subscription_success") {
       analyticsTimer = setTimeout(() => {
         sendGTMEvent({
           event: "paywall_complete_buy",
