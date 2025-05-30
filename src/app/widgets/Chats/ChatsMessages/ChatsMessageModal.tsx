@@ -83,7 +83,7 @@ const ChatsMessageModal: FC<ComponentProps> = ({
       ref={modalRef}
       className="chats-suggestion-modal absolute bottom-[calc(100%+10px)] right-[60px] z-[5] w-[187px] animate-fadeIn space-y-[4px]"
     >
-      <div className="rounded-b-[4px] rounded-t-[12px] bg-[#21233A] px-[6px] py-[12px]">
+      {/* <div className="rounded-b-[4px] rounded-t-[12px] bg-[#21233A] px-[6px] py-[12px]">
         <p className="mb-[10px] text-[14px] font-semibold">Ask a photo with</p>
         <ul className="">
           {photoPrompt.map((item) => {
@@ -105,7 +105,7 @@ const ChatsMessageModal: FC<ComponentProps> = ({
             );
           })}
         </ul>
-      </div>
+      </div> */}
       <div className="rounded-b-[12px] rounded-t-[4px] bg-[#21233A] px-[6px] py-[12px]">
         <ul className="mb-[12px]">
           {textPrompt.map((item) => {
