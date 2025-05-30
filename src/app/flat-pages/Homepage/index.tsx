@@ -21,7 +21,7 @@ import * as fbq from "@/app/shared/lib/fbPixel";
 import { TOKENS } from "@/app/shared/consts";
 import ym from "react-yandex-metrika";
 import { useAuthStore } from "@/app/shared/store/authStore";
-import Footer from '@/app/widgets/Footer';
+import Footer from "@/app/widgets/Footer";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -100,11 +100,7 @@ const HomePage: FC<ComponentProps> = ({
     const tempToken = localStorage.getItem("tempToken");
     let analyticsTimer: NodeJS.Timeout | undefined;
 
-    if (
-      avatars &&
-      ((action && action === "subscription_success") ||
-        action === "auth_success")
-    ) {
+    if (avatars && action && action === "subscription_success") {
       analyticsTimer = setTimeout(() => {
         sendGTMEvent({
           event: "paywall_complete_buy",
@@ -112,6 +108,7 @@ const HomePage: FC<ComponentProps> = ({
           product_name: product,
           currency: "USD",
           value: parseFloat(price || "0"),
+          transaction_id: orderNumber,
         });
 
         fbq.event("Purchase", {
@@ -175,6 +172,7 @@ const HomePage: FC<ComponentProps> = ({
                 tokens: productItem,
                 currency: "USD",
                 value: TOKENS.find((item) => item.name === product)?.price,
+                transaction_id: orderNumber,
               });
               // TODO: burn TOKENS with fire
               fbq.event("Purchase", {

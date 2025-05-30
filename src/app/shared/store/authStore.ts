@@ -224,6 +224,38 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         const action = searchParams?.get("action");
 
         if (action && action === "auth_permanent") {
+          const pendingSubscriptionActivation = safeLocalStorage.get(
+            "pendingSubscriptionActivation",
+          );
+
+          if (pendingSubscriptionActivation) {
+            const success = await registerUserAfterPayment(
+              emailToUse,
+              searchParams?.toString() ?? "",
+              5,
+              1500,
+            );
+
+            if (success) {
+              trackAuthSuccess("payment_registration_permanent", { email });
+              safeLocalStorage.remove("pendingSubscriptionActivation");
+              window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname,
+              );
+            } else {
+              // Регистрация не удалась, но не выбросила исключение
+              Sentry.captureMessage(
+                "Payment registration failed without error",
+                {
+                  level: "warning",
+                  tags: { auth_action: "payment_registration_permanent" },
+                  extra: { email, searchParams: searchParams?.toString() },
+                },
+              );
+            }
+          }
           Sentry.addBreadcrumb({
             category: "auth",
             message: "Redirecting to chats (auth_permanent)",
