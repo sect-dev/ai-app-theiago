@@ -186,6 +186,18 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     setFocus("message");
   };
 
+  const handleDeleteMessage = (messageIndex: number) => {
+    if (messages) {
+      // Создаем новый массив сообщений без удаленного сообщения
+      const updatedMessages = [...messages];
+      updatedMessages.splice(messageIndex, 1);
+
+      // Обновляем сообщения в состоянии или через API
+      setMessages(updatedMessages);
+      // Возможно, здесь нужно также сохранить изменения на сервере
+    }
+  };
+
   const messageValue = watch("message");
 
   return (
@@ -201,6 +213,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
             loading={loading}
             messages={messages}
             characterInfo={characterInfo}
+            onDeleteMessage={handleDeleteMessage}
           />
         </div>
         <div>
