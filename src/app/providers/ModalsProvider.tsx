@@ -5,8 +5,7 @@ import { useAuthStore } from "@/app/shared/store/authStore";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { useAgeVerification } from "@/app/shared/hooks/useAgeVerification";
 import { useSubscriptionStore } from "../shared/store/subscriptionStore";
-import SubscriptionModal from "../widgets/Modals/SubscriptionModal";
-import CancelConfirmModal from "../widgets/Modals/CancelConfirmModal";
+import { useReportStore } from "../shared/store/reportStore";
 
 const AuthModal = dynamic(() => import("@/app/widgets/Modals/AuthModal"), {
   ssr: false,
@@ -33,6 +32,24 @@ const AgeVerifySorryModal = dynamic(
   () => import("@/app/widgets/Modals/AgeVerifySorryModal"),
   { ssr: false },
 );
+const ReportMessage = dynamic(
+  () => import("@/app/widgets/Modals/ReportMessage"),
+  {
+    ssr: false,
+  },
+);
+const SubscriptionModal = dynamic(
+  () => import("@/app/widgets/Modals/SubscriptionModal"),
+  {
+    ssr: false,
+  },
+);
+const CancelConfirmModal = dynamic(
+  () => import("@/app/widgets/Modals/CancelConfirmModal"),
+  {
+    ssr: false,
+  },
+);
 
 export default function ModalsProvider() {
   const { isAuthModalActive } = useAuthStore();
@@ -46,6 +63,7 @@ export default function ModalsProvider() {
     useAgeVerification();
   const { isSubscriptionModalActive, isCancelConfirmModalActive } =
     useSubscriptionStore();
+  const { isReportModalActive } = useReportStore();
 
   const isAnyOtherModalActive =
     isAuthModalActive ||
@@ -71,6 +89,7 @@ export default function ModalsProvider() {
       {showSorry && <AgeVerifySorryModal />}
       {isSubscriptionModalActive && <SubscriptionModal />}
       {isCancelConfirmModalActive && <CancelConfirmModal />}
+      {isReportModalActive && <ReportMessage />}
     </>
   );
 }
