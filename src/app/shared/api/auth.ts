@@ -335,6 +335,7 @@ export const registerUserAfterPayment = async (
     const pendingActivation = safeLocalStorage.get(
       "pendingSubscriptionActivation",
     );
+    const paywallBuyParams = safeLocalStorage.get("paywallBuyParams");
     let fullSearchParams = "";
 
     if (pendingActivation) {
@@ -347,6 +348,17 @@ export const registerUserAfterPayment = async (
         }
       } catch (error) {
         console.error("Ошибка при парсинге pendingActivation:", error);
+      }
+    }
+
+    if (paywallBuyParams) {
+      try {
+        const paywallBuyParamsData = JSON.parse(paywallBuyParams);
+        if (paywallBuyParamsData.order_number) {
+          fullSearchParams = `order_number=${paywallBuyParamsData.order_number}&price=${paywallBuyParamsData.price}`;
+        }
+      } catch (error) {
+        console.error("Ошибка при парсинге paywallBuyParams:", error);
       }
     }
 
