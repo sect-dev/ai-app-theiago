@@ -154,6 +154,11 @@ const SuccessPayment = () => {
         );
 
         if (response.status === 200) {
+          Sentry.addBreadcrumb({
+            category: "first_autologin",
+            message: `Redirect to: ${response.data.url}`,
+            level: "info",
+          });
           Sentry.captureMessage(
             `first_autologin success: Redirect to: ${response.data.url}`,
             {
