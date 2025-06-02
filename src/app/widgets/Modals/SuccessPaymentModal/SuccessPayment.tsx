@@ -29,7 +29,7 @@ import ImageSuccess from "@/../public/images/img/payment/image-success.webp";
 import IconClose from "@/../public/images/icons/icon-close.svg";
 import { safeLocalStorage } from "@/app/shared/helpers";
 import axios from "axios";
-
+import * as Sentry from "@sentry/nextjs";
 interface FormData {
   email: string;
 }
@@ -154,6 +154,12 @@ const SuccessPayment = () => {
         );
 
         if (response.status === 200) {
+          Sentry.captureMessage(
+            `first_autologin success: Redirect to: ${response.data.url}`,
+            {
+              level: "info",
+            },
+          );
           window.location.href = response.data.url;
         }
       } catch (error) {
