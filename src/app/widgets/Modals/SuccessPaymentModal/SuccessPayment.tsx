@@ -28,7 +28,8 @@ import ImageDefault from "@/../public/images/img/payment/image-no-char-id.webp";
 import ImageSuccess from "@/../public/images/img/payment/image-success.webp";
 import IconClose from "@/../public/images/icons/icon-close.svg";
 import { safeLocalStorage } from "@/app/shared/helpers";
-
+import axios from "axios";
+import * as Sentry from "@sentry/nextjs";
 interface FormData {
   email: string;
 }
@@ -147,13 +148,28 @@ const SuccessPayment = () => {
         localStorage.setItem("emailForSignIn", data.email);
       }
 
-      // Формируем URL для перенаправления
-      const autologinUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/first_autologin?email=${encodeURIComponent(data.email)}`;
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/first_autologin?email=${data.email}&client_redirect=true`,
+        );
 
-      console.log("Перенаправляем пользователя на:", autologinUrl);
-
-      // Перенаправляем пользователя на URL first_autologin
-      window.location.href = autologinUrl;
+        if (response.status === 200) {
+          Sentry.addBreadcrumb({
+            category: "first_autologin",
+            message: `Redirect to: ${response.data.url}`,
+            level: "info",
+          });
+          Sentry.captureMessage(
+            `first_autologin success: Redirect to: ${response.data.url}`,
+            {
+              level: "info",
+            },
+          );
+          window.location.href = response.data.url;
+        }
+      } catch (error) {
+        console.error("Redirect error:", error);
+      }
     } catch (error) {
       console.error("Redirect error:", error);
       notification.open({
