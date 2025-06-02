@@ -168,7 +168,14 @@ const SuccessPayment = () => {
           window.location.href = response.data.url;
         }
       } catch (error) {
-        console.error("Redirect error:", error);
+        Sentry.captureException(error, {
+          tags: {
+            action: "first_autologin",
+          },
+          extra: {
+            email: data.email,
+          },
+        });
       }
     } catch (error) {
       console.error("Redirect error:", error);
