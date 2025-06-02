@@ -186,80 +186,100 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
     setFocus("message");
   };
 
-const handleDeleteMessage = (messageIndex: number) => {
-  if (messages && characterInfo) {
-    // Сохраняем удаляемое сообщение для проверки его типа и отправителя
-    const deletedMessage = messages[messageIndex];
-    
-    // Удаляем сообщение из состояния
-    const updatedMessages = [...messages];
-    updatedMessages.splice(messageIndex, 1);
-    setMessages(updatedMessages);
-    
-    // Удаляем сообщение из localStorage
-    const storedData = localStorage.getItem("chatStartedCharacters");
-    if (storedData) {
-      const characters = JSON.parse(storedData);
-      
-      // Находим персонажа в localStorage
-      const characterIndex = characters.findIndex(
-        (char: Character) => char.id === characterInfo.id
-      );
-      
-      if (characterIndex !== -1) {
-        const character = characters[characterIndex];
-        
-        // Обновляем список сообщений у найденного персонажа
-        character.listMsgs = updatedMessages;
-        
-        // Обновляем время последнего сообщения
-        character.lastMessageTime = new Date();
-        
-        // Только для сообщений бота обновляем дополнительные коллекции
-        if (deletedMessage.sender === "bot") {
-          // Если удаляемое сообщение было изображением, обновляем массив фотографий
-          if ((deletedMessage.type === "image" || deletedMessage.type === "image_paywall") && 
-              deletedMessage.url) {
-            const url = typeof deletedMessage.url === "string" 
-              ? deletedMessage.url 
-              : (deletedMessage.url?.en ?? "");
-              
-            if (character.photos && character.photos.includes(url)) {
-              character.photos = character.photos.filter((photo: string) => photo !== url);
+  const handleDeleteMessage = (messageIndex: number) => {
+    if (messages && characterInfo) {
+      // Сохраняем удаляемое сообщение для проверки его типа и отправителя
+      const deletedMessage = messages[messageIndex];
+
+      // Удаляем сообщение из состояния
+      const updatedMessages = [...messages];
+      updatedMessages.splice(messageIndex, 1);
+      setMessages(updatedMessages);
+
+      // Удаляем сообщение из localStorage
+      const storedData = localStorage.getItem("chatStartedCharacters");
+      if (storedData) {
+        const characters = JSON.parse(storedData);
+
+        // Находим персонажа в localStorage
+        const characterIndex = characters.findIndex(
+          (char: Character) => char.id === characterInfo.id,
+        );
+
+        if (characterIndex !== -1) {
+          const character = characters[characterIndex];
+
+          // Обновляем список сообщений у найденного персонажа
+          character.listMsgs = updatedMessages;
+
+          // Обновляем время последнего сообщения
+          character.lastMessageTime = new Date();
+
+          // Только для сообщений бота обновляем дополнительные коллекции
+          if (deletedMessage.sender === "bot") {
+            // Если удаляемое сообщение было изображением, обновляем массив фотографий
+            if (
+              (deletedMessage.type === "image" ||
+                deletedMessage.type === "image_paywall") &&
+              deletedMessage.url
+            ) {
+              const url =
+                typeof deletedMessage.url === "string"
+                  ? deletedMessage.url
+                  : (deletedMessage.url?.en ?? "");
+
+              if (character.photos && character.photos.includes(url)) {
+                character.photos = character.photos.filter(
+                  (photo: string) => photo !== url,
+                );
+              }
+            }
+
+            // Если удаляемое сообщение было видео, обновляем массив видео
+            if (
+              (deletedMessage.type === "video" ||
+                deletedMessage.type === "video_paywall") &&
+              deletedMessage.url
+            ) {
+              const url =
+                typeof deletedMessage.url === "string"
+                  ? deletedMessage.url
+                  : (deletedMessage.url?.en ?? "");
+
+              if (character.videos && character.videos.includes(url)) {
+                character.videos = character.videos.filter(
+                  (video: string) => video !== url,
+                );
+              }
+            }
+
+            // Если удаляемое сообщение было аудио, можно добавить обработку при необходимости
+            if (
+              (deletedMessage.type === "audio" ||
+                deletedMessage.type === "audio_paywall") &&
+              deletedMessage.url
+            ) {
+              // Если в вашем приложении хранится коллекция аудио, обновите ее здесь
             }
           }
-          
-          // Если удаляемое сообщение было видео, обновляем массив видео
-          if ((deletedMessage.type === "video" || deletedMessage.type === "video_paywall") && 
-              deletedMessage.url) {
-            const url = typeof deletedMessage.url === "string" 
-              ? deletedMessage.url 
-              : (deletedMessage.url?.en ?? "");
-              
-            if (character.videos && character.videos.includes(url)) {
-              character.videos = character.videos.filter((video: string) => video !== url);
-            }
-          }
-          
-          // Если удаляемое сообщение было аудио, можно добавить обработку при необходимости
-          if ((deletedMessage.type === "audio" || deletedMessage.type === "audio_paywall") && 
-              deletedMessage.url) {
-            // Если в вашем приложении хранится коллекция аудио, обновите ее здесь
-          }
+
+          // Сохраняем обновленные данные обратно в localStorage
+          localStorage.setItem(
+            "chatStartedCharacters",
+            JSON.stringify(characters),
+          );
+
+          // Обновляем глобальное состояние персонажей
+          setCharacters(characters);
+
+          // При необходимости логирование удаления для отладки
+          console.log(
+            `Deleted message at index ${messageIndex} from ${deletedMessage.sender}`,
+          );
         }
-        
-        // Сохраняем обновленные данные обратно в localStorage
-        localStorage.setItem("chatStartedCharacters", JSON.stringify(characters));
-        
-        // Обновляем глобальное состояние персонажей
-        setCharacters(characters);
-        
-        // При необходимости логирование удаления для отладки
-        console.log(`Deleted message at index ${messageIndex} from ${deletedMessage.sender}`);
       }
     }
-  }
-};
+  };
 
   const messageValue = watch("message");
 
