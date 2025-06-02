@@ -37,6 +37,7 @@ export default {
         "red-gradient": "linear-gradient(180deg, #F80C2B 0%, #D6001C 100%)",
         "light-red-gradient":
           "linear-gradient(95.62deg, #FF595C 9.06%, #FF595C 104.43%)",
+        "blue-button-gradient": `linear-gradient(0deg, #007AFF, #007AFF), linear-gradient(180deg, #049AEF 0%, #0862DC 100%)`,
       },
       boxShadow: {
         "card-shadow": "0px 0px 16.1px 0px #086BDF36",
