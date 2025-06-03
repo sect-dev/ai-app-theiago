@@ -29,7 +29,7 @@ interface ComponentProps {
 
 const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
   const { setPlan, selectedPlan } = usePaymentStore();
-  const {setPrice, price} = usePaywallStore();
+  const { setPrice, price } = usePaywallStore();
   const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(null);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
 
@@ -52,7 +52,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     }
   }, [selectedPlan]);
 
-  console.log(selectedPlan)
+  console.log(selectedPlan);
 
   const paymentHandle = async (item: PaymentPlan) => {
     setSelectedPrice(item);

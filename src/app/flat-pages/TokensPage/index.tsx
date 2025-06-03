@@ -20,6 +20,10 @@ import Spinner from "@/app/widgets/Spinner";
 import { sendGTMEvent } from "@next/third-parties/google";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
+import VivaPayComponent from "@/app/shared/components/VivaPayComponent";
+import { tokensPaymentSuccess } from "@/app/shared/components/VivaPayComponent/helpers/tokensPaymentSuccess";
+import { usePaywallStore } from "@/app/shared/store/paywallStore";
+import { useTokensStore } from "@/app/shared/store/tokensStore";
 
 const TokensPage = () => {
   const { characters, selectedCharacterId, setSelectedCharacterId } =
@@ -28,21 +32,23 @@ const TokensPage = () => {
   const { user } = useAuthStore();
   const [tokenPackages, setTokenPackages] = useState<
     StrictTokenPackage[] | null
-  >();
+  >(null);
   const [loading, setLoading] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<string>("");
+  const [selectedPackage, setSelectedPackage] =
+    useState<StrictTokenPackage | null>(null);
   const [fullUrl, setFullUrl] = useState<string | null>(null);
+  const { setSelectedTokensPlan } = useTokensStore();
 
   useEffect(() => {
     sendGTMEvent({
       event: "token_show",
       placement: "quiz",
-      product_name: selectedPackage,
+      product_name: selectedPackage?.description,
     });
     fbq.event("AddtoCart");
     ym("reachGoal", "token_show", {
       placement: "quiz",
-      product_name: selectedPackage,
+      product_name: selectedPackage?.description,
     });
   }, []);
 
@@ -50,12 +56,12 @@ const TokensPage = () => {
     sendGTMEvent({
       event: "token_buy",
       placement: "quiz",
-      product_name: selectedPackage,
+      product_name: selectedPackage?.description,
     });
     fbq.event("InitiateCheckout");
     ym("reachGoal", "token_buy", {
       placement: "quiz",
-      product_name: selectedPackage,
+      product_name: selectedPackage?.description,
     });
   };
 
@@ -64,7 +70,8 @@ const TokensPage = () => {
     try {
       const resp = await getTokenPackageInfo();
       if (resp) {
-        setSelectedPackage(resp[1].description);
+        console.log(resp);
+        setSelectedPackage(resp[1]);
         return setTokenPackages(resp);
       }
     } catch (error) {
@@ -87,7 +94,8 @@ const TokensPage = () => {
   useEffect(() => {
     if (!selectedPackage || !user) return;
 
-    const packageName = selectedPackage.split(" ").join("_");
+    const packageName = selectedPackage.description.split(" ").join("_");
+    setSelectedTokensPlan(packageName);
     const apiBase = process.env.NEXT_PUBLIC_API_URL;
 
     if (apiBase) {
@@ -152,7 +160,7 @@ const TokensPage = () => {
                   <TokenPackages
                     tokenPackages={tokenPackages}
                     setSelectedPackage={setSelectedPackage}
-                    selectedPackage={selectedPackage}
+                    selectedPackage={selectedPackage?.description ?? ""}
                   />
                 ) : (
                   <TokenPackagesSkeleton />
@@ -181,6 +189,10 @@ const TokensPage = () => {
                   </span>
                 </div>
               </div>
+              <VivaPayComponent
+                paymentSuccess={tokensPaymentSuccess}
+                price={selectedPackage?.price ?? 0}
+              />
             </div>
             <SectionFooter className="mb-[80px] block sm:hidden" />
           </div>
