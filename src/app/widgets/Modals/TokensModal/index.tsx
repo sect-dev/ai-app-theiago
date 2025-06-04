@@ -42,7 +42,8 @@ const TokensModal = () => {
   >();
   const [characterImage, setCharacterImage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<StrictTokenPackage | null>(null);
+  const [selectedPackage, setSelectedPackage] =
+    useState<StrictTokenPackage | null>(null);
   const [fullUrl, setFullUrl] = useState<string | null>(null);
 
   const getTokenPackages = async () => {
@@ -205,7 +206,9 @@ const TokensModal = () => {
                             <TokenPackages
                               tokenPackages={tokenPackages}
                               setSelectedPackage={setSelectedPackage}
-                              selectedPackage={selectedPackage?.description ?? ""}
+                              selectedPackage={
+                                selectedPackage?.description ?? ""
+                              }
                             />
                           ) : (
                             <TokenPackagesSkeleton />
