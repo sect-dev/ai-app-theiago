@@ -187,6 +187,11 @@ const HomePage: FC<ComponentProps> = ({
                 product_name: product,
                 tokens: productItem,
               });
+              amplitude.track("token_complete_buy", {
+                placement: "quiz",
+                product_name: product,
+                tokens: productItem,
+              });
             }, 1000);
           }
         } catch (error) {

@@ -24,6 +24,7 @@ import VivaPayComponent from "@/app/shared/components/VivaPayComponent";
 import { tokensPaymentSuccess } from "@/app/shared/components/VivaPayComponent/helpers/tokensPaymentSuccess";
 import { usePaywallStore } from "@/app/shared/store/paywallStore";
 import { useTokensStore } from "@/app/shared/store/tokensStore";
+import * as amplitude from '@amplitude/analytics-browser';
 
 const TokensPage = () => {
   const { characters, selectedCharacterId, setSelectedCharacterId } =
@@ -50,6 +51,10 @@ const TokensPage = () => {
       placement: "quiz",
       product_name: selectedPackage?.description,
     });
+    amplitude.track("token_show", {
+      placement: "quiz",
+      product_name: selectedPackage?.description,
+    });
   }, []);
 
   const handleClickBuyAnalytics = () => {
@@ -60,6 +65,10 @@ const TokensPage = () => {
     });
     fbq.event("InitiateCheckout");
     ym("reachGoal", "token_buy", {
+      placement: "quiz",
+      product_name: selectedPackage?.description,
+    });
+    amplitude.track("token_buy", {
       placement: "quiz",
       product_name: selectedPackage?.description,
     });
