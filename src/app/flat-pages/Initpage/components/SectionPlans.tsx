@@ -86,6 +86,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     amplitude.track("paywall_buy", {
       placement: "quiz",
       product_name: selectedPrice?.id,
+      domain: window.location.hostname,
     });
   };
 

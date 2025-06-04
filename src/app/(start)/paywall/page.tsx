@@ -23,12 +23,14 @@ const PageContent = () => {
     null,
   );
 
-  if (character_id && typeof window !== "undefined") {
-    sendGTMEvent({ event: "paywall_show", placement: "quiz" });
-    fbq.event("AddtoCart");
-    ym("reachGoal", "paywall_show", { placement: "quiz" });
-    amplitude.track("paywall_show", { placement: "quiz" });
-  }
+  useEffect(() => {
+    if (character_id && typeof window !== "undefined") {
+      sendGTMEvent({ event: "paywall_show", placement: "quiz" });
+      fbq.event("AddtoCart");
+      ym("reachGoal", "paywall_show", { placement: "quiz" });
+      amplitude.track("paywall_show", { placement: "quiz", domain: window.location.hostname });
+    }
+  }, []);
 
   useEffect(() => {
     if (clickId) {

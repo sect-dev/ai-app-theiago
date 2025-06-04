@@ -123,14 +123,16 @@ const HomePage: FC<ComponentProps> = ({
           currency: "USD",
           order_price: parseFloat(price || "0"),
         });
+        
+        amplitude.track("paywall_complete_buy", {
+          placement: "quiz",
+          product_name: product,
+          currency: "USD",
+          order_price: parseFloat(price || "0"),
+          domain: window.location.hostname,
+        });
       }, 1000);
 
-      amplitude.track("paywall_complete_buy", {
-        placement: "quiz",
-        product_name: product,
-        currency: "USD",
-        order_price: parseFloat(price || "0"),
-      });
 
       setSuccessPaymentModal({
         isSuccessPaymentModalActive: true,
@@ -191,6 +193,7 @@ const HomePage: FC<ComponentProps> = ({
                 placement: "quiz",
                 product_name: product,
                 tokens: productItem,
+                domain: window.location.hostname,
               });
             }, 1000);
           }

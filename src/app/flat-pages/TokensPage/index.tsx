@@ -54,6 +54,7 @@ const TokensPage = () => {
     amplitude.track("token_show", {
       placement: "quiz",
       product_name: selectedPackage?.description,
+      domain: window.location.hostname,
     });
   }, []);
 
@@ -71,6 +72,7 @@ const TokensPage = () => {
     amplitude.track("token_buy", {
       placement: "quiz",
       product_name: selectedPackage?.description,
+      domain: window.location.hostname,
     });
   };
 
