@@ -14,6 +14,7 @@ import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
 import { trackBuyButtonClick } from "@/app/shared/helpers/clickTracker";
 import { usePaywallStore } from "@/app/shared/store/paywallStore";
+import * as amplitude from '@amplitude/analytics-browser';
 
 const additionalInfo = [
   "💬 Unlimited dialogues on any topics",
@@ -63,6 +64,10 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
       placement: "quiz",
       type: `${selectedPrice?.id}`,
     });
+    amplitude.track("switch_plan_click", {
+      placement: "quiz",
+      type: `${selectedPrice?.id}`,
+    });
   };
 
   const handleClickBuy = async () => {
@@ -75,6 +80,10 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     });
     fbq.event("InitiateCheckout");
     ym("reachGoal", "paywall_buy", {
+      placement: "quiz",
+      product_name: selectedPrice?.id,
+    });
+    amplitude.track("paywall_buy", {
       placement: "quiz",
       product_name: selectedPrice?.id,
     });
