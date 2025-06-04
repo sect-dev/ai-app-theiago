@@ -103,7 +103,6 @@ const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
             <SectionPlans paymentPlans={paymentPlans} />
 
             <VivaPayComponent
-              isPaywall={true}
               paymentSuccess={subscriptionSaymentSuccess}
               price={price}
             />
