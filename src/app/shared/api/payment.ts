@@ -72,9 +72,11 @@ export const buyTokens = async (
 
 export const activateTokens = async (orderNumber: string) => {
   const token = await getCurrentToken();
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentSystem = urlParams.get("payment_system");
   try {
     const resp = await apiClient.get(
-      `/activate_tokens?order_number=${orderNumber}&token=${token}`,
+      `/activate_tokens?order_number=${orderNumber}&token=${token}&payment_system=${paymentSystem}`,
     );
     return resp.data;
   } catch (error) {

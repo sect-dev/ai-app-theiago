@@ -13,6 +13,7 @@ import Spinner from "@/app/widgets/Spinner";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
 import { trackBuyButtonClick } from "@/app/shared/helpers/clickTracker";
+import { usePaywallStore } from "@/app/shared/store/paywallStore";
 
 const additionalInfo = [
   "💬 Unlimited dialogues on any topics",
@@ -28,6 +29,7 @@ interface ComponentProps {
 
 const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
   const { setPlan, selectedPlan } = usePaymentStore();
+  const { setPrice, price } = usePaywallStore();
   const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(null);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
 
@@ -50,10 +52,13 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     }
   }, [selectedPlan]);
 
+  console.log(selectedPlan);
+
   const paymentHandle = async (item: PaymentPlan) => {
     setSelectedPrice(item);
     sendGTMEvent({ event: "switch_plan_click", type: `${selectedPrice?.id}` });
     setPlan(item.id ?? paymentPlans[1].id ?? "1_month_premium_access");
+    setPrice(item.amount_recurring);
     ym("reachGoal", "switch_plan_click", {
       placement: "quiz",
       type: `${selectedPrice?.id}`,

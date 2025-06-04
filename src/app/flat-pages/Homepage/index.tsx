@@ -146,13 +146,8 @@ const HomePage: FC<ComponentProps> = ({
     let timeout: NodeJS.Timeout | undefined;
 
     const handleTokensPurchase = async () => {
-      if (
-        action === "tokens_success" &&
-        characterId &&
-        orderNumber &&
-        product
-      ) {
-        if (characterId === "None") {
+      if (action === "tokens_success" && orderNumber && product) {
+        if (!characterId) {
           navigate.push("/");
         } else {
           navigate.push("/chats");
