@@ -12,11 +12,6 @@ const OPTIONS = {
   paypalButtonStyle: "black",
 };
 
-interface FormData {
-  email: string;
-}
-
-
 interface Props {
   price: number;
   paymentSuccess: (message: Message) => void;
@@ -26,8 +21,7 @@ interface Props {
 const VivaPayComponent = (props: Props) => {
   const { price, paymentSuccess, isPaywall = false } = props;
   const iframeContainerRef = useRef<HTMLDivElement>(null);
-  const [email, setEmail] = useState("");
-  const { register, handleSubmit } = useForm();
+
   const BILLING_INFO = {
     firstName: "John",
     lastName: "Doe",
@@ -64,36 +58,9 @@ const VivaPayComponent = (props: Props) => {
     }
   }, [price]);
 
-  useEffect(() => {
-    if (IS_CLIENT && window.vivapay && email) {
-      window.vivapay.setBillingAddress({
-        email,
-      });
-    }
-  }, [email]);
-
   return (
     <form method="POST" action="/">
       <div id="iframeContainer" ref={iframeContainerRef} className="mb-4" />
-
-      {isPaywall && (
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            {...register("email", {
-              required: "Email is required",
-              pattern: { value: /^\S+@\S+\.\S+$/, message: "Wrong email" },
-              onChange: (e) => {
-                const val = e.target.value;
-                setEmail(val);
-                safeLocalStorage.set("emailForSignIn", val);
-              },
-            })}
-          />
-        </label>
-      )}
 
       <div className="text-gray-700 mb-4">
         <strong>Total amount:</strong> ${price.toFixed(2)}
@@ -101,9 +68,9 @@ const VivaPayComponent = (props: Props) => {
 
       <button
         type="submit"
-        className="bg-blue-600 hover:bg-blue-700 rounded px-4 py-2 text-white"
+        className="bg-blue-600 hover:bg-blue-700 rounded text-white"
       >
-        Submit
+        Submit button
       </button>
     </form>
   );
