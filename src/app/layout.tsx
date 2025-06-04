@@ -8,7 +8,7 @@ import AmplitudeAnalytics from './shared/components/AmplitudeComponent';
 
 export const metadata: Metadata = {
   title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
-  description: "",
+  description: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
   icons: {
     icon: "/icon.ico",
   },
