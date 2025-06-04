@@ -2,6 +2,7 @@
 
 import { useAuthStore } from "@/app/shared/store/authStore";
 import { useRouter } from "next/navigation";
+import Script from "next/script";
 import { useEffect } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -14,7 +15,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
   }, [isPremium]);
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <Script
+        src="https://assets.vivapay.me/v1.0.7/js/vivapay.js"
+        strategy="afterInteractive"
+      />
+    </>
+  );
 };
 
 export default Layout;

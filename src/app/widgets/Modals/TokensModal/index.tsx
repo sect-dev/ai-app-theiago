@@ -42,7 +42,7 @@ const TokensModal = () => {
   >();
   const [characterImage, setCharacterImage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<string>("");
+  const [selectedPackage, setSelectedPackage] = useState<StrictTokenPackage | null>(null);
   const [fullUrl, setFullUrl] = useState<string | null>(null);
 
   const getTokenPackages = async () => {
@@ -50,7 +50,7 @@ const TokensModal = () => {
     try {
       const resp = await getTokenPackageInfo();
       if (resp) {
-        setSelectedPackage(resp[1].description);
+        setSelectedPackage(resp[1]);
         return setTokenPackages(resp);
       }
     } catch (error) {
@@ -107,7 +107,7 @@ const TokensModal = () => {
   useEffect(() => {
     if (!selectedPackage || !user) return;
 
-    const packageName = selectedPackage.split(" ").join("_");
+    const packageName = selectedPackage.description.split(" ").join("_");
     const apiBase = process.env.NEXT_PUBLIC_API_URL;
 
     if (apiBase) {
@@ -205,7 +205,7 @@ const TokensModal = () => {
                             <TokenPackages
                               tokenPackages={tokenPackages}
                               setSelectedPackage={setSelectedPackage}
-                              selectedPackage={selectedPackage}
+                              selectedPackage={selectedPackage?.description ?? ""}
                             />
                           ) : (
                             <TokenPackagesSkeleton />
