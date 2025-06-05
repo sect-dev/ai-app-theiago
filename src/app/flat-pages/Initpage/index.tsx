@@ -13,16 +13,14 @@ import SectionPlans from "@/app/flat-pages/Initpage/components/SectionPlans";
 import PaymentDiscountBanner from "@/app/widgets/Payment/PaymentDiscountBanner";
 import { PaymentPlan } from "@/app/shared/api/payment";
 import { CharacterByConstructor } from "@/app/shared/api/types";
-import VivaPayComponent from "@/app/shared/components/VivaPayComponent";
-import { usePaywallStore } from "@/app/shared/store/paywallStore";
-import { subscriptionSaymentSuccess } from "@/app/shared/components/VivaPayComponent/helpers/subscriptionPaymentSuccess";
+import SectionPayments from "@/app/flat-pages/Initpage/components/SectionPayments";
+
 interface ComponentProps {
   paymentPlans: PaymentPlan[];
   character: CharacterByConstructor | null;
 }
 
 const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
-  const { price } = usePaywallStore();
   const baseUrl = "https://aigo.b-cdn.net/web/paywall_precreated";
 
   const mainImage = `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/1.png`;
@@ -102,10 +100,7 @@ const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
             <SectionAdvantages />
             <SectionPlans paymentPlans={paymentPlans} />
 
-            <VivaPayComponent
-              paymentSuccess={subscriptionSaymentSuccess}
-              price={price}
-            />
+            <SectionPayments />
 
             <SectionReviews />
             <div className="space-y-[20px] pt-[10px] fm:space-y-[5.33vw]">

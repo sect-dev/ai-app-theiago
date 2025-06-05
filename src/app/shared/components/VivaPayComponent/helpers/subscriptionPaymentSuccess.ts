@@ -3,19 +3,44 @@ import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import { usePaywallStore } from "@/app/shared/store/paywallStore";
 import axios from "axios";
 import { Message } from "../types";
+import { useTokensStore } from "@/app/shared/store/tokensStore";
+import log from "@/app/shared/lib/logger";
+import * as Sentry from "@sentry/nextjs";
 
-export const subscriptionSaymentSuccess = async (message: Message) => {
+export const subscriptionPaymentSuccess = async (message: Message) => {
   const { price } = usePaywallStore.getState();
   const { selectedPlan } = usePaymentStore.getState();
+  const { setIsError, setErrorMessage } = useTokensStore.getState();
   const token = message?.token;
 
   if (token) {
     try {
+      log.debug(
+        "subscriptionPaymentSuccess.ts",
+        "starting /vivapay_pre_subscription_purchase request",
+      );
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/vivapay_pre_subscription_purchase?token=${token}&name=${selectedPlan}`,
       );
 
-      if (response.status === 200) {
+      if (response.data.error) {
+        log.error(
+          "subscriptionPaymentSuccess.ts",
+          "/vivapay_pre_subscription_purchase error:: ",
+          response.data.error,
+        );
+        setIsError(true);
+        setErrorMessage(response.data.error);
+        return;
+      }
+
+      if (response.status === 200 && !response.data.error) {
+        log.debug(
+          "subscriptionPaymentSuccess.ts",
+          "request /vivapay_pre_subscription_purchase success data:: ",
+          response.data,
+        );
+        setIsError(false);
         const paywallSearchParams = new URLSearchParams(window.location.search);
         const chargeId = response.data.charge_id;
 
@@ -26,16 +51,47 @@ export const subscriptionSaymentSuccess = async (message: Message) => {
           product: selectedPlan || "",
           price: price?.toString() || "",
           payment_system: "vivapay",
-          paywallSearchParams: paywallSearchParams.toString(),
         });
 
+        paywallSearchParams.forEach((value, key) => {
+          redirectParams.append(key, value);
+        });
+
+        log.debug(
+          "subscriptionPaymentSuccess.ts",
+          "setting redirectParams:: ",
+          redirectParams.toString(),
+        );
+
         const redirectUrl = `${window.location.origin}/?${redirectParams.toString()}`;
+
+        log.debug(
+          "subscriptionPaymentSuccess.ts",
+          "redirecting to:: ",
+          redirectUrl,
+        );
         window.location.href = redirectUrl;
       }
     } catch (e) {
-      console.log("error", e);
+      Sentry.captureException(e, {
+        tags: {
+          payment_system: "vivapay",
+        },
+        extra: {
+          message: message,
+        },
+      });
+      log.error(
+        "subscriptionPaymentSuccess.ts",
+        "couldn't execute /vivapay_pre_subscription_purchase request:: ",
+        e,
+      );
     }
   } else {
-    console.warn("Token not found in response:", message);
+    log.error(
+      "subscriptionPaymentSuccess.ts",
+      "an error ocurred when handling token from payment success form:: ",
+      message,
+    );
   }
 };
