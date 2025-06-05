@@ -12,6 +12,7 @@ import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
 import { saveClickId } from "@/app/shared/helpers/clickTracker";
 import * as amplitude from '@amplitude/analytics-browser';
+import log from "@/app/shared/lib/logger";
 
 const PageContent = () => {
   const searchParams = useSearchParams();
@@ -25,6 +26,11 @@ const PageContent = () => {
 
   useEffect(() => {
     if (character_id && typeof window !== "undefined") {
+      log.debug(
+        "PageContent.tsx",
+        "sending analytics to paywall_show:: ",
+        character_id,
+      );
       sendGTMEvent({ event: "paywall_show", placement: "quiz" });
       fbq.event("AddtoCart");
       ym("reachGoal", "paywall_show", { placement: "quiz" });
@@ -40,6 +46,7 @@ const PageContent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      log.debug("PageContent.tsx", "fetching paywall data:: ", character_id);
       try {
         const [plans, characterData] = await Promise.all([
           getPaymentPlans(),
@@ -50,7 +57,7 @@ const PageContent = () => {
         setPaymentPlans(plans);
         setCharacter(characterData);
       } catch (error) {
-        console.error("Error:", error);
+        log.error("PageContent.tsx", "error fetching paywall data:: ", error);
       }
     };
 
