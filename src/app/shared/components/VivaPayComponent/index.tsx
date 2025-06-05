@@ -1,12 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { IS_CLIENT, STAGE_URL } from "../../consts";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { safeLocalStorage } from "../../helpers";
-import { usePaymentStore } from "../../store/paymentStore";
+import { useEffect, useRef } from "react";
+import { IS_CLIENT } from "../../consts";
 import { Message } from "./types";
-import { useForm } from "react-hook-form";
 import { useTokensStore } from "@/app/shared/store/tokensStore";
+import log from "../../lib/logger";
 
 const OPTIONS = {
   redirectUrl: "https://stage.web.theaigo.com",
@@ -51,11 +47,13 @@ const VivaPayComponent = (props: Props) => {
       )
       .setBillingAddress(BILLING_INFO)
       .addPaymentUI("iframeContainer", price, "USD", OPTIONS);
+    log.debug("VivaPayComponent", "Vivapay iframe init");
     vivapay.onSuccess(paymentSuccess);
   }, [price, errorId]);
 
   useEffect(() => {
     if (window.vivapay) {
+      log.debug("VivaPayComponent", "Vivapay iframe price set");
       window.vivapay.setAmount(price);
     }
   }, [price]);

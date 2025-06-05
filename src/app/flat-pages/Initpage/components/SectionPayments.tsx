@@ -1,5 +1,5 @@
 import { usePaywallStore } from "@/app/shared/store/paywallStore";
-import { subscriptionSaymentSuccess } from "@/app/shared/components/VivaPayComponent/helpers/subscriptionPaymentSuccess";
+import { subscriptionPaymentSuccess } from "@/app/shared/components/VivaPayComponent/helpers/subscriptionPaymentSuccess";
 import VivaPayComponent from "@/app/shared/components/VivaPayComponent";
 import Spinner from "@/app/widgets/Spinner";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { trackBuyButtonClick } from "@/app/shared/helpers/clickTracker";
 import { sendGTMEvent } from "@next/third-parties/google";
 import ym from "react-yandex-metrika";
 import * as fbq from "@/app/shared/lib/fbPixel";
+import log from "@/app/shared/lib/logger";
 
 const SectionPayments = () => {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
@@ -17,6 +18,12 @@ const SectionPayments = () => {
 
   const paymentSystem = new URLSearchParams(window.location.search).get(
     "payment_system",
+  );
+
+  log.debug(
+    "SectionPayments.tsx",
+    "payment system found in url:: ",
+    paymentSystem,
   );
 
   const IS_PAYPROCC = paymentSystem === "payprocc";
@@ -35,6 +42,11 @@ const SectionPayments = () => {
   }, [selectedPlan]);
 
   const handleClickBuy = async () => {
+    log.debug(
+      "SectionPayments.tsx",
+      "sending analytics to paywall_buy:: ",
+      selectedPlan,
+    );
     await trackBuyButtonClick();
 
     sendGTMEvent({
@@ -74,7 +86,7 @@ const SectionPayments = () => {
 
   return (
     <VivaPayComponent
-      paymentSuccess={subscriptionSaymentSuccess}
+      paymentSuccess={subscriptionPaymentSuccess}
       price={price}
     />
   );

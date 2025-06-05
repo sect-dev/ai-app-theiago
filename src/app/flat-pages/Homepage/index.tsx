@@ -22,6 +22,7 @@ import { TOKENS } from "@/app/shared/consts";
 import ym from "react-yandex-metrika";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import Footer from "@/app/widgets/Footer";
+import log from "@/app/shared/lib/logger";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -101,6 +102,10 @@ const HomePage: FC<ComponentProps> = ({
     let analyticsTimer: NodeJS.Timeout | undefined;
 
     if (avatars && action && action === "subscription_success") {
+      log.debug(
+        "HomePage.tsx",
+        "subscription_success action detected, sending analytics...",
+      );
       analyticsTimer = setTimeout(() => {
         sendGTMEvent({
           event: "paywall_complete_buy",
