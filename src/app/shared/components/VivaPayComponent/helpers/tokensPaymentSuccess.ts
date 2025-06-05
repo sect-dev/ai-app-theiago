@@ -13,6 +13,7 @@ export const tokensPaymentSuccess = async (message: Message) => {
   const { user } = useAuthStore.getState();
   const { selectedCharacterId } = useSelectedCardStore.getState();
   const { selectedTokensPlan } = useTokensStore.getState();
+  const { setIsError, setErrorMessage } = useTokensStore.getState();
 
   if (token) {
     log.debug("tokensPaymentSuccess.ts", "token found in response:: ", token);
@@ -27,12 +28,24 @@ export const tokensPaymentSuccess = async (message: Message) => {
         `${process.env.NEXT_PUBLIC_API_URL}/vivapay_tokens_purchase?token=${token}&name=${selectedTokensPlan}&user_id=${user?.uid}`,
       );
 
-      if (response.status === 200) {
+      if (response.data.error) {
+        log.error(
+          "tokensPaymentSuccess.ts",
+          "/vivapay_tokens_purchase error:: ",
+          response.data.error,
+        );
+        setIsError(true);
+        setErrorMessage(response.data.error);
+        return;
+      }
+
+      if (response.status === 200 && !response.data.error) {
         log.debug(
           "tokensPaymentSuccess.ts",
           "request /vivapay_tokens_purchase success data:: ",
           response.data,
         );
+        setIsError(false);
         const chargeId = response.data.charge_id;
 
         // Формируем параметры для редиректа на главную страницу
