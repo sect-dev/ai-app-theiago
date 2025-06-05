@@ -14,6 +14,7 @@ import Spinner from "@/app/widgets/Spinner";
 import ym from "react-yandex-metrika";
 import { trackBuyButtonClick } from "@/app/shared/helpers/clickTracker";
 import { usePaywallStore } from "@/app/shared/store/paywallStore";
+import * as amplitude from '@amplitude/analytics-browser';
 
 const additionalInfo = [
   "💬 Unlimited dialogues on any topics",
@@ -49,7 +50,12 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
       placement: "quiz",
       type: `${selectedPrice?.id}`,
     });
+    amplitude.track("switch_plan_click", {
+      placement: "quiz",
+      type: `${selectedPrice?.id}`,
+    });
   };
+
 
   return (
     <div>

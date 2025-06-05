@@ -10,6 +10,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import ym from "react-yandex-metrika";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import log from "@/app/shared/lib/logger";
+import * as amplitude from '@amplitude/analytics-browser';
 
 const SectionPayments = () => {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
@@ -58,6 +59,11 @@ const SectionPayments = () => {
     ym("reachGoal", "paywall_buy", {
       placement: "quiz",
       product_name: selectedPlan,
+    });
+    amplitude.track("paywall_buy", {
+      placement: "quiz",
+      product_name: selectedPlan,
+      domain: window.location.hostname,
     });
   };
 

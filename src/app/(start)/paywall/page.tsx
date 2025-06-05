@@ -11,6 +11,7 @@ import InitpageSkeleton from "@/app/flat-pages/Initpage/InitpageSkeleton";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
 import { saveClickId } from "@/app/shared/helpers/clickTracker";
+import * as amplitude from '@amplitude/analytics-browser';
 import log from "@/app/shared/lib/logger";
 
 const PageContent = () => {
@@ -23,16 +24,19 @@ const PageContent = () => {
     null,
   );
 
-  if (character_id && typeof window !== "undefined") {
-    log.debug(
-      "PageContent.tsx",
-      "sending analytics to paywall_show:: ",
-      character_id,
-    );
-    sendGTMEvent({ event: "paywall_show", placement: "quiz" });
-    fbq.event("AddtoCart");
-    ym("reachGoal", "paywall_show", { placement: "quiz" });
-  }
+  useEffect(() => {
+    if (character_id && typeof window !== "undefined") {
+      log.debug(
+        "PageContent.tsx",
+        "sending analytics to paywall_show:: ",
+        character_id,
+      );
+      sendGTMEvent({ event: "paywall_show", placement: "quiz" });
+      fbq.event("AddtoCart");
+      ym("reachGoal", "paywall_show", { placement: "quiz" });
+      amplitude.track("paywall_show", { placement: "quiz", domain: window.location.hostname });
+    }
+  }, []);
 
   useEffect(() => {
     if (clickId) {

@@ -4,10 +4,11 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 import FacebookPixel from "./shared/components/FbPixelComponent";
 import YandexMetrikaContainer from "./shared/components/YandexMetrikaComponent";
+import AmplitudeAnalytics from './shared/components/AmplitudeComponent';
 
 export const metadata: Metadata = {
   title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
-  description: "",
+  description: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
   icons: {
     icon: "/icon.ico",
   },
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body
         className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
       >
+        <AmplitudeAnalytics />
         {gtmToken && <GoogleTagManager gtmId={gtmToken} />}
         <FacebookPixel />
         <YandexMetrikaContainer />
