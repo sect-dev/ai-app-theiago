@@ -6,6 +6,7 @@ import { safeLocalStorage } from "../../helpers";
 import { usePaymentStore } from "../../store/paymentStore";
 import { Message } from "./types";
 import { useForm } from "react-hook-form";
+import { useTokensStore } from "@/app/shared/store/tokensStore";
 
 const OPTIONS = {
   redirectUrl: "https://stage.web.theaigo.com",
@@ -21,6 +22,7 @@ interface Props {
 const VivaPayComponent = (props: Props) => {
   const { price, paymentSuccess, isPaywall = false } = props;
   const iframeContainerRef = useRef<HTMLDivElement>(null);
+  const { errorId, isError, errorMessage } = useTokensStore();
 
   const BILLING_INFO = {
     firstName: "John",
@@ -50,7 +52,7 @@ const VivaPayComponent = (props: Props) => {
       .setBillingAddress(BILLING_INFO)
       .addPaymentUI("iframeContainer", price, "USD", OPTIONS);
     vivapay.onSuccess(paymentSuccess);
-  }, [price]);
+  }, [price, errorId]);
 
   useEffect(() => {
     if (window.vivapay) {
@@ -60,18 +62,30 @@ const VivaPayComponent = (props: Props) => {
 
   return (
     <form method="POST" action="/">
-      <div id="iframeContainer" ref={iframeContainerRef} className="mb-4" />
+      <div
+        id="iframeContainer"
+        ref={iframeContainerRef}
+        className="mb-4 w-full rounded-[6px] bg-white"
+      />
 
-      <div className="text-gray-700 mb-4">
-        <strong>Total amount:</strong> ${price.toFixed(2)}
+      <div className="flex flex-row items-center justify-between gap-4">
+        <div className="text-gray-700">
+          <strong>Total amount:</strong> ${price.toFixed(2)}
+        </div>
+
+        <button
+          type="submit"
+          className="main-gradient h-[24px] animate-fadeIn rounded-[8px] px-[16px] text-[16px] font-bold"
+        >
+          <span className="relative z-[5]">Buy</span>
+        </button>
       </div>
 
-      <button
-        type="submit"
-        className="bg-blue-600 hover:bg-blue-700 rounded text-white"
-      >
-        Submit button
-      </button>
+      {isError && (
+        <div className="text-red-500">
+          <strong>Error:</strong> {errorMessage}
+        </div>
+      )}
     </form>
   );
 };
