@@ -5,6 +5,7 @@ import axios from "axios";
 import { Message } from "../types";
 import { useTokensStore } from "@/app/shared/store/tokensStore";
 import log from "@/app/shared/lib/logger";
+import * as Sentry from "@sentry/nextjs";
 
 export const subscriptionPaymentSuccess = async (message: Message) => {
   const { price } = usePaywallStore.getState();
@@ -72,6 +73,14 @@ export const subscriptionPaymentSuccess = async (message: Message) => {
         window.location.href = redirectUrl;
       }
     } catch (e) {
+      Sentry.captureException(e, {
+        tags: {
+          payment_system: "vivapay",
+        },
+        extra: {
+          message: message,
+        },
+      });
       log.error(
         "subscriptionPaymentSuccess.ts",
         "couldn't execute /vivapay_pre_subscription_purchase request:: ",

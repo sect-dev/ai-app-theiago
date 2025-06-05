@@ -5,6 +5,7 @@ import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { useTokensStore } from "@/app/shared/store/tokensStore";
 import { Message } from "../types";
 import log from "@/app/shared/lib/logger";
+import * as Sentry from "@sentry/nextjs";
 
 export const tokensPaymentSuccess = async (message: Message) => {
   const { price } = usePaywallStore.getState();
@@ -58,6 +59,14 @@ export const tokensPaymentSuccess = async (message: Message) => {
         window.location.href = redirectUrl;
       }
     } catch (e) {
+      Sentry.captureException(e, {
+        tags: {
+          payment_system: "vivapay",
+        },
+        extra: {
+          message: message,
+        },
+      });
       log.error(
         "tokensPaymentSuccess.ts",
         "couldn't execute /vivapay_tokens_purchase request:: ",
