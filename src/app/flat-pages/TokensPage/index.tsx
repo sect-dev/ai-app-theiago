@@ -24,7 +24,7 @@ import VivaPayComponent from "@/app/shared/components/VivaPayComponent";
 import { tokensPaymentSuccess } from "@/app/shared/components/VivaPayComponent/helpers/tokensPaymentSuccess";
 import { usePaywallStore } from "@/app/shared/store/paywallStore";
 import { useTokensStore } from "@/app/shared/store/tokensStore";
-import * as amplitude from '@amplitude/analytics-browser';
+import * as amplitude from "@amplitude/analytics-browser";
 
 const TokensPage = () => {
   const { characters, selectedCharacterId, setSelectedCharacterId } =
@@ -200,10 +200,10 @@ const TokensPage = () => {
                   </span>
                 </div>
               </div>
-              <VivaPayComponent
+              {/* <VivaPayComponent
                 paymentSuccess={tokensPaymentSuccess}
                 price={selectedPackage?.price ?? 0}
-              />
+              /> */}
             </div>
             <SectionFooter className="mb-[80px] block sm:hidden" />
           </div>

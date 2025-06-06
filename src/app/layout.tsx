@@ -4,11 +4,12 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 import FacebookPixel from "./shared/components/FbPixelComponent";
 import YandexMetrikaContainer from "./shared/components/YandexMetrikaComponent";
-import AmplitudeAnalytics from './shared/components/AmplitudeComponent';
+import AmplitudeAnalytics from "./shared/components/AmplitudeComponent";
 
 export const metadata: Metadata = {
   title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
-  description: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
+  description:
+    "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
   icons: {
     icon: "/icon.ico",
   },
