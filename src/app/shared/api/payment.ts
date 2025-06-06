@@ -74,6 +74,10 @@ export const activateTokens = async (orderNumber: string) => {
   const token = await getCurrentToken();
   const urlParams = new URLSearchParams(window.location.search);
   const paymentSystem = urlParams.get("payment_system");
+
+  console.log("href:", window.location.href);
+console.log("search:", window.location.search);
+console.log("payment_system:", paymentSystem);
   try {
     const resp = await apiClient.get(
       `/activate_tokens?order_number=${orderNumber}&token=${token}&payment_system=${paymentSystem}`,
