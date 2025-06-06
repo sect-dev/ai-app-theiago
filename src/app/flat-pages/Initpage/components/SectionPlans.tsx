@@ -10,11 +10,13 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import Link from "next/link";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import Spinner from "@/app/widgets/Spinner";
+import * as fbq from "@/app/shared/lib/fbPixel";
 
 import ym from "react-yandex-metrika";
 import { trackBuyButtonClick } from "@/app/shared/helpers/clickTracker";
 import { usePaywallStore } from "@/app/shared/store/paywallStore";
-import * as amplitude from '@amplitude/analytics-browser';
+import * as amplitude from "@amplitude/analytics-browser";
+import log from "@/app/shared/lib/logger";
 
 const additionalInfo = [
   "💬 Unlimited dialogues on any topics",
@@ -41,21 +43,63 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     }
   }, []);
 
-  const paymentHandle = async (item: PaymentPlan) => {
+  useEffect(() => {
+    if (!selectedPlan || typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const apiBase = process.env.NEXT_PUBLIC_API_URL;
+
+    if (apiBase) {
+      const fullUrl = `${apiBase}/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${params.toString()}`;
+      setIframeUrl(fullUrl);
+    }
+  }, [selectedPlan]);
+
+  const handleClickBuy = async () => {
+    log.debug(
+      "SectionPayments.tsx",
+      "sending analytics to paywall_buy:: ",
+      selectedPlan,
+    );
+    await trackBuyButtonClick();
+
+    sendGTMEvent({
+      event: "paywall_buy",
+      placement: "quiz",
+      product_name: selectedPlan,
+    });
+    fbq.event("InitiateCheckout");
+    ym("reachGoal", "paywall_buy", {
+      placement: "quiz",
+      product_name: selectedPlan,
+    });
+    amplitude.track("paywall_buy", {
+      placement: "quiz",
+      product_name: selectedPlan,
+      domain: window.location.hostname,
+    });
+  };
+
+  const paymentHandle = (item: PaymentPlan) => {
     setSelectedPrice(item);
-    sendGTMEvent({ event: "switch_plan_click", type: `${selectedPrice?.id}` });
+    log.debug(
+      "SectionPlans.tsx",
+      "sending analytics to switch_plan_click:: ",
+      item.id,
+    );
+    sendGTMEvent({ event: "switch_plan_click", type: `${item.id}` });
     setPlan(item.id ?? paymentPlans[1].id ?? "1_month_premium_access");
     setPrice(item.amount_recurring);
     ym("reachGoal", "switch_plan_click", {
       placement: "quiz",
-      type: `${selectedPrice?.id}`,
+      type: `${item.id}`,
     });
     amplitude.track("switch_plan_click", {
       placement: "quiz",
-      type: `${selectedPrice?.id}`,
+      type: `${item.id}`,
+      domain: window.location.hostname,
     });
   };
-
 
   return (
     <div>
@@ -166,15 +210,16 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                         );
                       })}
                     </ul>
-                    <button
-                      onClick={() => console.log("test")}
+                    <Link
+                      href={iframeUrl ?? ""}
+                      onClick={handleClickBuy}
                       className="relative flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-button-gradient text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]"
                     >
                       <span className="font-noto-sans text-[14px] font-bold uppercase fm:text-[3.73vw]">
                         get your girlfriend
                       </span>
                       <span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
-                    </button>
+                    </Link>
 
                     <p className="pt-[12px] text-center text-[12px] font-bold fm:pt-[3.20vw] fm:text-[3.20vw]">
                       🔥 65,756 people received a girlfriend this week. 🔥

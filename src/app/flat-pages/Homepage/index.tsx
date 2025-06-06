@@ -22,7 +22,7 @@ import { TOKENS } from "@/app/shared/consts";
 import ym from "react-yandex-metrika";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import Footer from "@/app/widgets/Footer";
-import * as amplitude from '@amplitude/analytics-browser';
+import * as amplitude from "@amplitude/analytics-browser";
 import log from "@/app/shared/lib/logger";
 
 interface ComponentProps {
@@ -128,7 +128,7 @@ const HomePage: FC<ComponentProps> = ({
           currency: "USD",
           order_price: parseFloat(price || "0"),
         });
-        
+
         amplitude.track("paywall_complete_buy", {
           placement: "quiz",
           product_name: product,
@@ -137,7 +137,6 @@ const HomePage: FC<ComponentProps> = ({
           domain: window.location.hostname,
         });
       }, 1000);
-
 
       setSuccessPaymentModal({
         isSuccessPaymentModalActive: true,
