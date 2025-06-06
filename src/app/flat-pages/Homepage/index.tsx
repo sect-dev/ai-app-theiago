@@ -161,12 +161,6 @@ const HomePage: FC<ComponentProps> = ({
 
     const handleTokensPurchase = async () => {
       if (action === "tokens_success" && orderNumber && product) {
-        if (!characterId) {
-          navigate.push("/");
-        } else {
-          navigate.push("/chats");
-        }
-
         try {
           const success = await getTokens(orderNumber, product);
 
@@ -200,6 +194,13 @@ const HomePage: FC<ComponentProps> = ({
                 domain: window.location.hostname,
               });
             }, 1000);
+
+
+            if (!characterId) {
+              navigate.push("/");
+            } else {
+              navigate.push("/chats");
+            }
           }
         } catch (error) {
           console.log(error);
