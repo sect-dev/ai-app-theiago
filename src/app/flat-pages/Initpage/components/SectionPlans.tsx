@@ -17,14 +17,7 @@ import { trackBuyButtonClick } from "@/app/shared/helpers/clickTracker";
 import { usePaywallStore } from "@/app/shared/store/paywallStore";
 import * as amplitude from "@amplitude/analytics-browser";
 import log from "@/app/shared/lib/logger";
-
-const additionalInfo = [
-  "💬 Unlimited dialogues on any topics",
-  "🔥 300 photos in any poses",
-  "🍓 NSFW support for 18+ users",
-  "❤️ Create your own girlfriends",
-  "💕️ Video and audio content",
-];
+import { useTranslations } from "next-intl";
 
 interface ComponentProps {
   paymentPlans: PaymentPlan[];
@@ -35,6 +28,15 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
   const { setPrice, price } = usePaywallStore();
   const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(null);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+  const t = useTranslations("Paywall");
+
+  const additionalInfo = [
+    t("plan_unlimited_dialogues"),
+    t("plan_300_photos"),
+    t("plan_nsfw_support"),
+    t("plan_create_your_own_girlfriends"),
+    t("plan_video_and_audio_content"),
+  ];
 
   useEffect(() => {
     if (paymentPlans && paymentPlans.length > 0) {
@@ -187,7 +189,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
               </div>
               <div className="pt-[12px] fm:pt-[3.20vw]">
                 <button className="flex w-full items-center justify-between font-asap text-[13px] fm:text-[3.47vw]">
-                  Learn more
+                  {t("plan_learn_more")}
                   <Image
                     src={IconExpand.src}
                     width={IconExpand.width}
@@ -216,13 +218,13 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                       className="relative flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-button-gradient text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]"
                     >
                       <span className="font-noto-sans text-[14px] font-bold uppercase fm:text-[3.73vw]">
-                        get your girlfriend
+                        {t("plan_get_your_girlfriend")}
                       </span>
                       <span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
                     </Link>
 
                     <p className="pt-[12px] text-center text-[12px] font-bold fm:pt-[3.20vw] fm:text-[3.20vw]">
-                      🔥 65,756 people received a girlfriend this week. 🔥
+                      {t("plan_get_your_girlfriend_description")}
                     </p>
                   </div>
                 )}
@@ -230,7 +232,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
               {item.id === selectedPrice?.id && (
                 <div className="absolute left-0 top-0 flex h-[17px] w-full animate-fadeIn items-center justify-center rounded-t-[16px] bg-button-gradient fm:h-[4.53vw] fm:rounded-t-[4.27vw]">
                   <span className="text-[11px] font-bold uppercase fm:text-[2.93vw]">
-                    most popular
+                    {t("plan_most_popular")}
                   </span>
                 </div>
               )}
