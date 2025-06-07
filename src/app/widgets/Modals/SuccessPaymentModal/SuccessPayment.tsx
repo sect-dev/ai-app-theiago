@@ -54,6 +54,7 @@ const SuccessPayment = () => {
     string | null
   >(null);
   // const [authError, setAuthError] = useState<string | null>(null);
+  const locale = safeLocalStorage.get("locale") ?? "en";
   const {
     register,
     handleSubmit,
@@ -183,7 +184,7 @@ const SuccessPayment = () => {
           data,
         );
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/first_autologin?email=${data.email}&client_redirect=true`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/first_autologin?email=${data.email}&client_redirect=true&locale=${locale}`,
         );
 
         if (response.status === 200) {

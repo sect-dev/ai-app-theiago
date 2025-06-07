@@ -17,6 +17,7 @@ import log from "@/app/shared/lib/logger";
 const PageContent = () => {
   const searchParams = useSearchParams();
   const character_id = searchParams.get("character_id");
+  const locale = searchParams.get("locale") ?? "en";
   const clickId = searchParams.get("clickid");
 
   const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[] | null>(null);
@@ -73,7 +74,11 @@ const PageContent = () => {
 
   return (
     <div className="fmLbg-transparent rounded-[24px] bg-[#121423] p-[25px] fm:p-0">
-      <Initpage paymentPlans={paymentPlans} character={character} />
+      <Initpage
+        locale={locale}
+        paymentPlans={paymentPlans}
+        character={character}
+      />
     </div>
   );
 };

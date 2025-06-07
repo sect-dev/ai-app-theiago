@@ -18,15 +18,18 @@ import SectionPayments from "@/app/flat-pages/Initpage/components/SectionPayment
 interface ComponentProps {
   paymentPlans: PaymentPlan[];
   character: CharacterByConstructor | null;
+  locale: string;
 }
 
-const Initpage: FC<ComponentProps> = ({ paymentPlans, character }) => {
+const Initpage: FC<ComponentProps> = (props: ComponentProps) => {
+  const { paymentPlans, character, locale } = props;
   const baseUrl = "https://aigo.b-cdn.net/web/paywall_precreated";
 
   const mainImage = `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/1.png`;
 
   useEffect(() => {
     localStorage.setItem("charFromPaywall", JSON.stringify(character));
+    localStorage.setItem("locale", locale);
   }, []);
 
   return (

@@ -195,7 +195,6 @@ const HomePage: FC<ComponentProps> = ({
               });
             }, 1000);
 
-
             if (!characterId) {
               navigate.push("/");
             } else {
