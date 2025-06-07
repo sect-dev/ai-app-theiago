@@ -14,6 +14,8 @@ import PaymentDiscountBanner from "@/app/widgets/Payment/PaymentDiscountBanner";
 import { PaymentPlan } from "@/app/shared/api/payment";
 import { CharacterByConstructor } from "@/app/shared/api/types";
 import SectionPayments from "@/app/flat-pages/Initpage/components/SectionPayments";
+import { useTranslations } from "next-intl";
+import { LocaleSwitcher } from "@/app/widgets/LocaleSwitcher";
 
 interface ComponentProps {
   paymentPlans: PaymentPlan[];
@@ -24,6 +26,7 @@ interface ComponentProps {
 const Initpage: FC<ComponentProps> = (props: ComponentProps) => {
   const { paymentPlans, character, locale } = props;
   const baseUrl = "https://aigo.b-cdn.net/web/paywall_precreated";
+  const t = useTranslations("Paywall");
 
   const mainImage = `${baseUrl}/${character?.style}/${character?.ethnicity}/${character?.body_type}/1.png`;
 
@@ -47,7 +50,7 @@ const Initpage: FC<ComponentProps> = (props: ComponentProps) => {
             </div>
             <div className="relative z-[5] mt-[-100px] pl-[15px] fm:hidden">
               <p className="mb-[15px] text-center text-[28px] font-bold">
-                Get closer to her
+                {t("get_closer_to_her")}
               </p>
               <SectionWithSwiper
                 className="!h-[320px] rounded-[24px] fm:!h-[85.87vw]"
@@ -56,6 +59,7 @@ const Initpage: FC<ComponentProps> = (props: ComponentProps) => {
             </div>
           </div>
           <div className="order-[-1] max-w-[475px] overflow-x-hidden rounded-[32px] bg-[#191B2C] px-[20px] py-[15px] fm:relative fm:z-[10] fm:mt-[-225px] fm:max-w-full fm:bg-transparent">
+            <LocaleSwitcher />
             {character && <SectionSelect character={character} />}
             <div className="space-y-[12px] fm:space-y-[3.08vw]">
               <div className="flex items-center gap-[6px] rounded-[12px] bg-[#2B2D44] px-[15px] py-[10px] text-[14px] font-semibold fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
@@ -66,7 +70,7 @@ const Initpage: FC<ComponentProps> = (props: ComponentProps) => {
                   alt="icon gender"
                   className="fm:size-[4.15vw]"
                 />
-                Calm introvert with{" "}
+                {t("calm_introvert_with")}
                 <span className="lowercase"> {character?.personality}</span>
               </div>
               <div className="flex items-center gap-[6px] rounded-[12px] bg-[#2B2D44] px-[15px] py-[10px] text-[14px] font-semibold fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
@@ -77,7 +81,7 @@ const Initpage: FC<ComponentProps> = (props: ComponentProps) => {
                   alt="icon gender"
                   className="fm:size-[4.15vw]"
                 />
-                Will share emotions with{" "}
+                {t("will_share_emotions_with")}
                 <span className="lowercase">{character?.occupation}</span>
               </div>
               <div className="flex items-center gap-[6px] rounded-[12px] bg-[#2B2D44] px-[15px] py-[10px] text-[14px] font-semibold fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
@@ -88,7 +92,7 @@ const Initpage: FC<ComponentProps> = (props: ComponentProps) => {
                   alt="icon gender"
                   className="fm:size-[4.15vw]"
                 />
-                Hobbies:{" "}
+                {t("hobbies")}:{" "}
                 <span className="lowercase">
                   {character?.topics_of_interests.join(",")}
                 </span>
