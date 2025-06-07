@@ -6,12 +6,14 @@ import ImageReview2 from "@/../public/images/img/initpage/image-review2.webp";
 import ImageReview3 from "@/../public/images/img/initpage/image-review3.webp";
 import ImageReview4 from "@/../public/images/img/initpage/image-review4.webp";
 import ImageEmodji from "@/../public/images/img/initpage/image-emidji.webp";
+import { useTranslations } from "next-intl";
 
 const SectionReviews = () => {
+  const t = useTranslations("Paywall");
   return (
     <div className="mb-[20px] pt-[24px]">
       <p className="mx-auto mb-[24px] max-w-[300px] text-center text-[28px] font-semibold leading-[1.2em] tracking-[-0.03em] fm:mb-[6.40vw] fm:max-w-[80vw] fm:text-[7.47vw]">
-        They have already evaluated
+        {t("reviews_title")}
       </p>
       <div className="relative pb-[16px] sm:pb-[4.27vw]">
         <Image
@@ -32,11 +34,10 @@ const SectionReviews = () => {
           </div>
           <div className="space-y-[5px] sm:space-y-[1.33vw]">
             <p className="text-[9px] font-medium leading-[1.2em] text-[#9B50FC] fm:text-[2.40vw]">
-              Max Knight
+              {t("reviews_name_1")}
             </p>
             <p className="text-[11px] leading-[1.2em] tracking-[-0.02em] fm:text-[2.93vw]">
-              I love my virtual girlfriend! I don&apos;t need real ones anymore!
-              Why waste time and money when I have AiGo!
+              {t("reviews_text_1")}
             </p>
             <Image
               src={IconRating.src}
@@ -58,10 +59,10 @@ const SectionReviews = () => {
           </div>
           <div className="space-y-[5px]">
             <p className="text-[9px] font-medium leading-[1.2em] text-[#9B50FC] fm:text-[2.40vw]">
-              Charles Johnson
+              {t("reviews_name_2")}
             </p>
             <p className="max-w-[120px] max-w-[32vw] text-[11px] leading-[1.2em] tracking-[-0.02em] fm:text-[2.93vw]">
-              I really enjoy the variety of girls.
+              {t("reviews_text_2")}
             </p>
             <Image
               src={IconRating.src}
@@ -83,11 +84,10 @@ const SectionReviews = () => {
           </div>
           <div className="space-y-[7px] fm:space-y-[1.87vw]">
             <p className="text-[15px] font-medium leading-[1.2em] text-[#9B50FC] fm:text-[4vw]">
-              Samuel Lane
+              {t("reviews_name_3")}
             </p>
             <p className="text-[15px] leading-[1.2em] tracking-[-0.02em] fm:max-w-[70vw] fm:text-[4vw]">
-              This is so cool! I didn&apos;t expect such a level of realism!
-              Wow!
+              {t("reviews_text_3")}
             </p>
             <Image
               src={IconRating.src}
@@ -109,11 +109,10 @@ const SectionReviews = () => {
           </div>
           <div className="space-y-[6px] pt-[10px] fm:space-y-[1.60vw] fm:pt-[2.67vw]">
             <p className="text-[12px] font-medium leading-[1.2em] text-[#9B50FC] fm:text-[3.20vw]">
-              Thomas Smith
+              {t("reviews_name_4")}
             </p>
             <p className="text-[14px] leading-[1.2em] tracking-[-0.02em] fm:text-[3.73vw]">
-              I&apos;m constantly chatting with my new AI girlfriend! She&apos;s
-              incredibly charming and smart! Thank you, AiGo!
+              {t("reviews_text_4")}
             </p>
             <Image
               src={IconRating.src}

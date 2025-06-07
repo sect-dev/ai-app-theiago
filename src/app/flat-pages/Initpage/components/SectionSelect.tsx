@@ -1,31 +1,33 @@
 import React, { FC } from "react";
 import Image from "next/image";
 import { CharacterByConstructor } from "@/app/shared/api/types";
+import { useTranslations } from "next-intl";
 
 interface ComponentProps {
   character: CharacterByConstructor;
 }
 
 const SectionSelect: FC<ComponentProps> = ({ character }) => {
+  const t = useTranslations("Paywall");
   const baseUrl = "https://aigo.b-cdn.net/web/paywall_precreated_types";
   const data = [
     {
-      title: "Body",
+      title: t("body_type"),
       value: character.body_type,
       image: `${baseUrl}/${character.style}/body/${character.body_type}.png`,
     },
     {
-      title: "Breasts",
+      title: t("breast_type"),
       value: character.breast_type,
       image: `${baseUrl}/${character.style}/breasts/${character.breast_type}.png`,
     },
     {
-      title: "Butt",
+      title: t("butt_type"),
       value: character.butt_type,
       image: `${baseUrl}/${character.style}/butt/${character.butt_type}.png`,
     },
     {
-      title: "Ethnicity",
+      title: t("ethnicity"),
       value: character.ethnicity,
       image: `${baseUrl}/${character.style}/race/${character.ethnicity}.png`,
     },
@@ -34,7 +36,7 @@ const SectionSelect: FC<ComponentProps> = ({ character }) => {
   return (
     <div className="mb-[17px] pt-[20px] fm:mb-[4.36vw] fm:pt-[4.36vw]">
       <h2 className="text-[28px] font-bold leading-[1.2em] fm:mx-auto fm:max-w-full fm:text-center fm:text-[8.72vw] fm:uppercase sm:text-[9.07vw]">
-        Get your girlfriend
+        {t("h2_title_get_your_girlfriend")}
       </h2>
       <div className="grid grid-cols-[repeat(2,minmax(160px,1fr))] gap-[12px] pt-[25px] fm:gap-[5.13vw] fm:pt-[6.41vw]">
         {data.map((item) => {

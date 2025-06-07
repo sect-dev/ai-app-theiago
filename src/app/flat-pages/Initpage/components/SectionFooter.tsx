@@ -8,10 +8,13 @@ import ImageStripe from "@/../public/images/icons/payment/3.svg";
 import ImageMc from "@/../public/images/icons/payment/4.svg";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import { PaymentPlan } from "@/app/shared/api/payment";
+import { useTranslations } from "next-intl";
+
 interface ComponentProps {
   paymentPlans: PaymentPlan[];
 }
 const SectionFooter: FC<ComponentProps> = ({ paymentPlans }) => {
+  const t = useTranslations("Paywall");
   const { selectedPlan } = usePaymentStore();
   const currentPlan = paymentPlans.find((item) => item.id === selectedPlan);
 
@@ -28,22 +31,30 @@ const SectionFooter: FC<ComponentProps> = ({ paymentPlans }) => {
           )}
         />
         <p className="text-left text-[12px] font-medium leading-[1.2em] tracking-[-0.04em] text-[#6D6D6D]">
-          By completing this transaction you certify that you are 18 years or
-          older and agree to our
+          {t(
+            "footer_by_completing_this_transaction_you_certify_that_you_are_18_years_or_older_and_agree_to_our",
+          )}
           <span className="text-gradient !inline bg-button-gradient bg-clip-text text-transparent">
             {" "}
-            Privacy Policy, Terms of Use and Cacellation Policy
+            {t("footer_privacy_policy")}
           </span>
         </p>
       </div>
       <p className="text-center text-[12px] font-medium leading-[1.2em] tracking-[-0.04em] text-[#6D6D6D] sm:text-[3.333vw]">
-        The charges on your credit card statement will appear as DevSect
+        {t(
+          "footer_the_charges_on_your_credit_card_statement_will_appear_as_devsect",
+        )}
       </p>
       <p className="mb-[10px] text-center text-[12px] font-medium leading-[1.2em] tracking-[-0.04em] text-[#6D6D6D] sm:text-[3.333vw]">
-        Without cancellation before the selected plan ends, i accept that AiGo
-        will automatically charge USD {`${currentPlan?.amount_initial}`} every{" "}
+        {t(
+          "footer_without_cancellation_before_the_selected_plan_ends_i_accept_that_aigo",
+        )}
+        {t("footer_will_automatically_charge_usd")}{" "}
+        {`${currentPlan?.amount_initial}`} {t("footer_every")}{" "}
         {`${currentPlan?.interval_length}`} {`${currentPlan?.interval_unit}`}{" "}
-        until i cancel. Cancel online via the account page on the app.
+        {t(
+          "footer_until_i_cancel_cancel_online_via_the_account_page_on_the_app",
+        )}
       </p>
       <div className="pb-[0.6px] pt-[0.6vw] sm:pt-[3.5]">
         <div className="mx-auto max-w-[330px]">
@@ -86,8 +97,8 @@ const SectionFooter: FC<ComponentProps> = ({ paymentPlans }) => {
             </div>
           </div>
           <p className="mb-[8px] text-[12px] leading-[1.2em] text-[#6D6D6D] sm:mb-[2vw] sm:text-[3.333vw]">
-            DevSect FZE LLC BLB-BC5-840 <br /> AMC - BOULEVARD-B BUILDING,
-            Ajman, United Arab Emirates
+            {t("footer_devsect_fze_llc_blb_bc5_840")} <br />
+            {t("footer_amc_boulevard_b_building_ajman_united_arab_emirates")}
           </p>
         </div>
       </div>
@@ -97,19 +108,19 @@ const SectionFooter: FC<ComponentProps> = ({ paymentPlans }) => {
           className="border-b-[1px] border-b-transparent transition-all duration-300 hover:border-b-white"
           href="https://app.theaigo.com/terms"
         >
-          Terms of use
+          {t("footer_terms_of_use")}
         </Link>
         <Link
           className="border-b-[1px] border-b-transparent transition-all duration-300 hover:border-b-white"
           href="https://app.theaigo.com/privacy"
         >
-          Privacy
+          {t("footer_privacy")}
         </Link>
         <Link
           className="border-b-[1px] border-b-transparent transition-all duration-300 hover:border-b-white"
           href="https://app.theaigo.com/cancellation"
         >
-          Cancellation policy
+          {t("footer_cancellation_policy")}
         </Link>
       </div>
     </div>
