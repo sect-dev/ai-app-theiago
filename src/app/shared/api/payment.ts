@@ -22,10 +22,10 @@ interface PaymentPlansResponse {
   "1_year_premium_access": PaymentPlan;
 }
 
-export const getPaymentPlans = async (): Promise<PaymentPlan[]> => {
+export const getPaymentPlans = async (locale?: string): Promise<PaymentPlan[]> => {
   try {
     const response = await axios.get<PaymentPlansResponse>(
-      `${process.env.NEXT_PUBLIC_API_URL}/products?place=landing-paywall`,
+      `${process.env.NEXT_PUBLIC_API_URL}/products?place=landing-paywall&locale=${locale}`,
       {
         timeout: 10000,
       },

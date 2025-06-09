@@ -25,6 +25,7 @@ const PageContent = () => {
     null,
   );
 
+
   useEffect(() => {
     if (character_id && typeof window !== "undefined") {
       log.debug(
@@ -53,9 +54,10 @@ const PageContent = () => {
       log.debug("PageContent.tsx", "fetching paywall data:: ", character_id);
       try {
         const [plans, characterData] = await Promise.all([
-          getPaymentPlans(),
+          getPaymentPlans(locale),
           getCharacterInfoByConstructor(
             character_id ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
+            locale,
           ),
         ]);
         setPaymentPlans(plans);
