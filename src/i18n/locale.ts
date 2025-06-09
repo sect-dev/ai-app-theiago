@@ -11,31 +11,19 @@ import { Locale } from "./types";
 const COOKIE_NAME = "NEXT_LOCALE";
 
 const getLocale = async () => {
-  const cookieLocale = (await cookies()).get(COOKIE_NAME)?.value;
+  // Читаем локаль из cookie, установленного middleware
+  const cookieStore = await cookies();
+  const cookieLocale = cookieStore.get(COOKIE_NAME)?.value;
+  
+  console.log("=== DEBUG LOCALE ===");
+  console.log("Cookie locale:", cookieLocale);
+  
   if (cookieLocale && locales.includes(cookieLocale as Locale)) {
+    console.log("Using locale from cookie:", cookieLocale);
     return cookieLocale as Locale;
   }
-
-  const headersList = await headers();
-  const acceptLanguage = headersList.get("accept-language");
-
-  if (acceptLanguage) {
-    // Парсим Accept-Language заголовок (например: "ru,en-US;q=0.9,en;q=0.8")
-    const preferredLanguages = acceptLanguage
-      .split(",")
-      .map((lang) => lang.split(";")[0].trim().toLowerCase())
-      .map((lang) => lang.split("-")[0]);
-
-    // Находим первый поддерживаемый язык
-    const supportedLanguage = preferredLanguages.find((lang) =>
-      locales.includes(lang as Locale),
-    );
-
-    if (supportedLanguage) {
-      return supportedLanguage as Locale;
-    }
-  }
-
+  
+  console.log("Using default locale:", defaultLocale);
   return defaultLocale;
 };
 

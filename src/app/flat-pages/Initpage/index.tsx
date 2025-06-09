@@ -59,7 +59,7 @@ const Initpage: FC<ComponentProps> = (props: ComponentProps) => {
             </div>
           </div>
           <div className="order-[-1] max-w-[475px] overflow-x-hidden rounded-[32px] bg-[#191B2C] px-[20px] py-[15px] fm:relative fm:z-[10] fm:mt-[-225px] fm:max-w-full fm:bg-transparent">
-            <LocaleSwitcher />
+            {/* <LocaleSwitcher /> */}
             {character && <SectionSelect character={character} />}
             <div className="space-y-[12px] fm:space-y-[3.08vw]">
               <div className="flex items-center gap-[6px] rounded-[12px] bg-[#2B2D44] px-[15px] py-[10px] text-[14px] font-semibold fm:gap-[1.03vw] fm:rounded-[3.08vw] fm:px-[3.08vw] fm:py-[2.05vw] fm:text-[3.59vw]">
