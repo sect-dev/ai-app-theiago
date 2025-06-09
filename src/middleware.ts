@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { locales } from './i18n/config';
+import { Locale } from './i18n/types';
 
 export function middleware(request: NextRequest) {
   // Получаем параметр locale из URL
@@ -10,7 +11,7 @@ export function middleware(request: NextRequest) {
   console.log("Locale from URL:", locale);
   
   // Если параметр locale присутствует и валиден, устанавливаем cookie
-  if (locale && locales.includes(locale as any)) {
+  if (locale && locales.includes(locale as Locale)) {
     const response = NextResponse.next();
     
     // Устанавливаем cookie с локалью
