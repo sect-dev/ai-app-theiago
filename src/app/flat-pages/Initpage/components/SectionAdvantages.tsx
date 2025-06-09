@@ -5,6 +5,7 @@ import IconHeart from "@/../public/images/icons/icon-heart.webp";
 import IconSurprise from "@/../public/images/icons/icon-surprise.webp";
 import Image, { StaticImageData } from "next/image";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 interface advantagesData {
   title: string;
@@ -14,40 +15,40 @@ interface advantagesData {
   bg: string;
 }
 
-const advantagesData: advantagesData[] = [
-  {
-    title: "Hot item",
-    description:
-      "Will do everything you ask, will support sexting and send photos",
-    id: 1,
-    bg: "linear-gradient(180deg, #FFD641 0%, #FE4B1A 65%)",
-    image: IconFire,
-  },
-  {
-    title: "Real love",
-    description:
-      "Complete immersion and the feeling of real romantic relationships",
-    id: 2,
-    bg: "linear-gradient(180deg, #0898FF 0%, #2108FF 100%)",
-    image: IconHearts,
-  },
-  {
-    title: "Online 24/7",
-    description: "Will be available and respond to your messages at any time",
-    id: 3,
-    bg: "linear-gradient(180deg, #FF08E6 0%, #FF087F 100%)",
-    image: IconHeart,
-  },
-  {
-    title: "Full safety",
-    description: "Guaranteed 30 days money back at any time. Full anonymity.",
-    id: 4,
-    bg: "linear-gradient(180deg, #4AFF08 0%, #17C600 100%)",
-    image: IconSurprise,
-  },
-];
-
 const SectionAdvantages = () => {
+  const t = useTranslations("Paywall");
+
+  const advantagesData: advantagesData[] = [
+    {
+      title: t("advantages_hot_item"),
+      description: t("advantages_hot_item_description"),
+      id: 1,
+      bg: "linear-gradient(180deg, #FFD641 0%, #FE4B1A 65%)",
+      image: IconFire,
+    },
+    {
+      title: t("advantages_real_love"),
+      description: t("advantages_real_love_description"),
+      id: 2,
+      bg: "linear-gradient(180deg, #0898FF 0%, #2108FF 100%)",
+      image: IconHearts,
+    },
+    {
+      title: t("advantages_online_24_7"),
+      description: t("advantages_online_24_7_description"),
+      id: 3,
+      bg: "linear-gradient(180deg, #FF08E6 0%, #FF087F 100%)",
+      image: IconHeart,
+    },
+    {
+      title: t("advantages_full_safety"),
+      description: t("advantages_full_safety_description"),
+      id: 4,
+      bg: "linear-gradient(180deg, #4AFF08 0%, #17C600 100%)",
+      image: IconSurprise,
+    },
+  ];
+
   return (
     <div className="flex w-full shrink-0 flex-wrap gap-[10px] rounded-[32px] bg-[#191B2C] py-[24px] font-bai-jamjuree fm:flex-col fm:gap-[2.13vw] fm:rounded-[8.53vw] fm:bg-transparent fm:pt-0">
       {advantagesData.map((item) => {

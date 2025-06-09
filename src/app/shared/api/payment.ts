@@ -22,10 +22,10 @@ interface PaymentPlansResponse {
   "1_year_premium_access": PaymentPlan;
 }
 
-export const getPaymentPlans = async (): Promise<PaymentPlan[]> => {
+export const getPaymentPlans = async (locale?: string): Promise<PaymentPlan[]> => {
   try {
     const response = await axios.get<PaymentPlansResponse>(
-      `${process.env.NEXT_PUBLIC_API_URL}/products?place=landing-paywall`,
+      `${process.env.NEXT_PUBLIC_API_URL}/products?place=landing-paywall&locale=${locale}`,
       {
         timeout: 10000,
       },
@@ -72,9 +72,12 @@ export const buyTokens = async (
 
 export const activateTokens = async (orderNumber: string) => {
   const token = await getCurrentToken();
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentSystem = urlParams.get("payment_system");
+
   try {
     const resp = await apiClient.get(
-      `/activate_tokens?order_number=${orderNumber}&token=${token}`,
+      `/activate_tokens?order_number=${orderNumber}&token=${token}&payment_system=${paymentSystem}`,
     );
     return resp.data;
   } catch (error) {

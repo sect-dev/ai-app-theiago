@@ -30,6 +30,8 @@ import IconClose from "@/../public/images/icons/icon-close.svg";
 import { safeLocalStorage } from "@/app/shared/helpers";
 import axios from "axios";
 import * as Sentry from "@sentry/nextjs";
+import log from "@/app/shared/lib/logger";
+
 interface FormData {
   email: string;
 }
@@ -52,6 +54,7 @@ const SuccessPayment = () => {
     string | null
   >(null);
   // const [authError, setAuthError] = useState<string | null>(null);
+  const locale = safeLocalStorage.get("locale") ?? "en";
   const {
     register,
     handleSubmit,
@@ -96,6 +99,12 @@ const SuccessPayment = () => {
         ? localStorage.getItem("pendingSubscriptionActivation")
         : null;
 
+    log.debug(
+      "SuccessPayment.tsx",
+      "extracting pendingActivation params from local storage:: ",
+      pendingActivation,
+    );
+
     if (pendingActivation) {
       try {
         const activationData = JSON.parse(pendingActivation);
@@ -116,19 +125,38 @@ const SuccessPayment = () => {
           }
         }
       } catch (error) {
-        console.error("Error parsing pendingActivation:", error);
+        log.error(
+          "SuccessPayment.tsx",
+          "Error parsing pendingActivation:: ",
+          error,
+        );
       }
     }
 
     if (charId) {
+      log.debug(
+        "SuccessPayment.tsx",
+        "getting character info by id:: ",
+        charId,
+      );
       getCharacterInfoById(charId ?? "");
     }
 
     if (orderNumber) {
+      log.debug(
+        "SuccessPayment.tsx",
+        "getting user email by order number:: ",
+        orderNumber,
+      );
       getUserEmail(orderNumber);
     }
 
     if (emailForSighIn) {
+      log.debug(
+        "SuccessPayment.tsx",
+        "setting email for sign in:: ",
+        emailForSighIn,
+      );
       setEmailSent(emailForSighIn);
     }
   }, []);
@@ -141,6 +169,7 @@ const SuccessPayment = () => {
   };
 
   const onSubmit = async (data: FormData) => {
+    log.debug("SuccessPayment.tsx", "submitting form:: ", data);
     setLoading(true);
     try {
       // Сохраняем email в localStorage для последующего использования
@@ -149,11 +178,21 @@ const SuccessPayment = () => {
       }
 
       try {
+        log.debug(
+          "SuccessPayment.tsx",
+          "starting first_autologin request:: ",
+          data,
+        );
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/first_autologin?email=${data.email}&client_redirect=true`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/first_autologin?email=${data.email}&client_redirect=true&locale=${locale}`,
         );
 
         if (response.status === 200) {
+          log.debug(
+            "SuccessPayment.tsx",
+            "first_autologin request success:: ",
+            response.data.url,
+          );
           Sentry.addBreadcrumb({
             category: "first_autologin",
             message: `Redirect to: ${response.data.url}`,
@@ -164,6 +203,11 @@ const SuccessPayment = () => {
             {
               level: "info",
             },
+          );
+          log.debug(
+            "SuccessPayment.tsx",
+            "redirecting to:: ",
+            response.data.url,
           );
           window.location.href = response.data.url;
         }
@@ -176,9 +220,14 @@ const SuccessPayment = () => {
             email: data.email,
           },
         });
+        log.error(
+          "SuccessPayment.tsx",
+          "first_autologin request error:: ",
+          error,
+        );
       }
     } catch (error) {
-      console.error("Redirect error:", error);
+      log.error("SuccessPayment.tsx", "Redirect error:: ", error);
       notification.open({
         title: "Error",
         type: "error",

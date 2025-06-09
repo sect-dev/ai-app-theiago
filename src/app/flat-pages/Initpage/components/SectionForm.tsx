@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import IconMoneyback from "@/../public/images/icons/payment/icon-moneyback.svg";
+import { useTranslations } from "next-intl";
 
 const SectionForm = () => {
+  const t = useTranslations("Paywall");
   return (
     <div
       id="form"
@@ -18,10 +20,10 @@ const SectionForm = () => {
         />
         <div>
           <p className="text-[28px] font-bold tracking-[-0,01em] fm:text-[7.47vw]">
-            30 DAYS{" "}
+            {t("form_30_days")}
           </p>
           <p className="text-[14px] font-bold tracking-[-0,01em] fm:text-[3.73vw]">
-            Money back guarantee
+            {t("form_money_back_guarantee")}
           </p>
         </div>
       </div>

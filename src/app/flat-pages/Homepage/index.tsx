@@ -22,6 +22,8 @@ import { TOKENS } from "@/app/shared/consts";
 import ym from "react-yandex-metrika";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import Footer from "@/app/widgets/Footer";
+import * as amplitude from "@amplitude/analytics-browser";
+import log from "@/app/shared/lib/logger";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -101,6 +103,10 @@ const HomePage: FC<ComponentProps> = ({
     let analyticsTimer: NodeJS.Timeout | undefined;
 
     if (avatars && action && action === "subscription_success") {
+      log.debug(
+        "HomePage.tsx",
+        "subscription_success action detected, sending analytics...",
+      );
       analyticsTimer = setTimeout(() => {
         sendGTMEvent({
           event: "paywall_complete_buy",
@@ -121,6 +127,14 @@ const HomePage: FC<ComponentProps> = ({
           product_name: product,
           currency: "USD",
           order_price: parseFloat(price || "0"),
+        });
+
+        amplitude.track("paywall_complete_buy", {
+          placement: "quiz",
+          product_name: product,
+          currency: "USD",
+          order_price: parseFloat(price || "0"),
+          domain: window.location.hostname,
         });
       }, 1000);
 
@@ -146,18 +160,7 @@ const HomePage: FC<ComponentProps> = ({
     let timeout: NodeJS.Timeout | undefined;
 
     const handleTokensPurchase = async () => {
-      if (
-        action === "tokens_success" &&
-        characterId &&
-        orderNumber &&
-        product
-      ) {
-        if (characterId === "None") {
-          navigate.push("/");
-        } else {
-          navigate.push("/chats");
-        }
-
+      if (action === "tokens_success" && orderNumber && product) {
         try {
           const success = await getTokens(orderNumber, product);
 
@@ -184,7 +187,19 @@ const HomePage: FC<ComponentProps> = ({
                 product_name: product,
                 tokens: productItem,
               });
+              amplitude.track("token_complete_buy", {
+                placement: "quiz",
+                product_name: product,
+                tokens: productItem,
+                domain: window.location.hostname,
+              });
             }, 1000);
+
+            if (!characterId) {
+              navigate.push("/");
+            } else {
+              navigate.push("/chats");
+            }
           }
         } catch (error) {
           console.log(error);

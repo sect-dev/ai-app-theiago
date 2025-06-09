@@ -297,8 +297,9 @@ export const handleEmailLinkAuth = async (
   if (!email) throw new Error("Email is required");
 
   try {
+    const locale = safeLocalStorage.get("locale") ?? "en";
     const response = await apiClient.get(`/send_authorization_email`, {
-      params: { email, url: redirectUrl },
+      params: { email, url: redirectUrl, locale },
     });
 
     if (response.status !== 200) {
