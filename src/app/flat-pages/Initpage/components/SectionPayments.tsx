@@ -90,12 +90,16 @@ const SectionPayments = () => {
     );
   }
 
-  return (
-    <VivaPayComponent
-      paymentSuccess={subscriptionPaymentSuccess}
-      price={price}
-    />
-  );
+  if (IS_VIVAPAY) {
+    return (
+      <VivaPayComponent
+        paymentSuccess={subscriptionPaymentSuccess}
+        price={price}
+      />
+    );
+  }
+
+  return null;
 };
 
 export default SectionPayments;

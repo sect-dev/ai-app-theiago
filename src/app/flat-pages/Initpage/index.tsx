@@ -107,7 +107,7 @@ const Initpage: FC<ComponentProps> = (props: ComponentProps) => {
             <SectionAdvantages />
             <SectionPlans paymentPlans={paymentPlans} />
 
-            {/* <SectionPayments /> */}
+            <SectionPayments />
 
             <SectionReviews />
             <div className="space-y-[20px] pt-[10px] fm:space-y-[5.33vw]">
