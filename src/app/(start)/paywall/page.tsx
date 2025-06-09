@@ -11,10 +11,13 @@ import InitpageSkeleton from "@/app/flat-pages/Initpage/InitpageSkeleton";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
 import { saveClickId } from "@/app/shared/helpers/clickTracker";
+import * as amplitude from "@amplitude/analytics-browser";
+import log from "@/app/shared/lib/logger";
 
 const PageContent = () => {
   const searchParams = useSearchParams();
   const character_id = searchParams.get("character_id");
+  const locale = searchParams.get("locale") ?? "en";
   const clickId = searchParams.get("clickid");
 
   const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[] | null>(null);
@@ -22,11 +25,23 @@ const PageContent = () => {
     null,
   );
 
-  if (character_id && typeof window !== "undefined") {
-    sendGTMEvent({ event: "paywall_show", placement: "quiz" });
-    fbq.event("AddtoCart");
-    ym("reachGoal", "paywall_show", { placement: "quiz" });
-  }
+
+  useEffect(() => {
+    if (character_id && typeof window !== "undefined") {
+      log.debug(
+        "PageContent.tsx",
+        "sending analytics to paywall_show:: ",
+        character_id,
+      );
+      sendGTMEvent({ event: "paywall_show", placement: "quiz" });
+      fbq.event("AddtoCart");
+      ym("reachGoal", "paywall_show", { placement: "quiz" });
+      amplitude.track("paywall_show", {
+        placement: "quiz",
+        domain: window.location.hostname,
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (clickId) {
@@ -36,17 +51,19 @@ const PageContent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      log.debug("PageContent.tsx", "fetching paywall data:: ", character_id);
       try {
         const [plans, characterData] = await Promise.all([
-          getPaymentPlans(),
+          getPaymentPlans(locale),
           getCharacterInfoByConstructor(
             character_id ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
+            locale,
           ),
         ]);
         setPaymentPlans(plans);
         setCharacter(characterData);
       } catch (error) {
-        console.error("Error:", error);
+        log.error("PageContent.tsx", "error fetching paywall data:: ", error);
       }
     };
 
@@ -59,7 +76,11 @@ const PageContent = () => {
 
   return (
     <div className="fmLbg-transparent rounded-[24px] bg-[#121423] p-[25px] fm:p-0">
-      <Initpage paymentPlans={paymentPlans} character={character} />
+      <Initpage
+        locale={locale}
+        paymentPlans={paymentPlans}
+        character={character}
+      />
     </div>
   );
 };
