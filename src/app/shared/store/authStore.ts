@@ -5,6 +5,8 @@ import {
   onIdTokenChanged,
   signInWithEmailLink,
   User,
+  EmailAuthProvider,
+  linkWithCredential
 } from "firebase/auth";
 import { auth } from "@/firebase";
 // import notification from "@/app/widgets/Notification";
@@ -209,11 +211,55 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         safeLocalStorage.set("emailForSignIn", emailFromUrl);
       }
 
-      const result = await signInWithEmailLink(
-        auth,
-        emailToUse,
-        window.location.href,
-      );
+
+            // Проверяем, есть ли текущий анонимный пользователь
+            const currentUser = auth.currentUser;
+            let result;
+
+      if (currentUser && currentUser.isAnonymous) {
+        // Если есть анонимный пользователь, связываем его с email-аутентификацией
+
+        try {
+          const credential = EmailAuthProvider.credentialWithLink(
+            emailToUse,
+            window.location.href,
+          )
+
+          result = await linkWithCredential(currentUser, credential);
+
+          Sentry.addBreadcrumb({
+            category: "auth",
+            message: "Successfully linked anonymous user with email",
+            level: "info",
+            data: { 
+              email: emailToUse, 
+              uid: currentUser.uid,
+              preservedUID: true 
+            },
+          });
+        } catch (linkError) {
+           // Если связывание не удалось, попробуем обычный вход
+           captureAuthError(linkError, {
+            action: "link_anonymous_with_email",
+            email: emailToUse,
+            anonymousUID: currentUser.uid,
+          });
+
+          // Fallback к обычному входу
+          result = await signInWithEmailLink(
+            auth,
+            emailToUse,
+            window.location.href,
+          );
+        }
+      } else {
+        result = await signInWithEmailLink(
+          auth,
+          emailToUse,
+          window.location.href,
+        );
+      }
+
 
       const user = result.user as FirebaseUser;
       if (result) {

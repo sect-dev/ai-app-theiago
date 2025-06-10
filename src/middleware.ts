@@ -6,10 +6,6 @@ export function middleware(request: NextRequest) {
   // Получаем параметр locale из URL
   const locale = request.nextUrl.searchParams.get('locale');
   
-  console.log("=== MIDDLEWARE DEBUG ===");
-  console.log("URL:", request.nextUrl.href);
-  console.log("Locale from URL:", locale);
-  
   // Если параметр locale присутствует и валиден, устанавливаем cookie
   if (locale && locales.includes(locale as Locale)) {
     const response = NextResponse.next();
@@ -19,8 +15,7 @@ export function middleware(request: NextRequest) {
       path: '/',
       maxAge: 60 * 60 * 24 * 30, // 30 дней
     });
-    
-    console.log("Set locale cookie:", locale);
+
     return response;
   }
   
