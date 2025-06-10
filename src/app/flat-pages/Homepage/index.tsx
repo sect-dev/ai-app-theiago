@@ -24,6 +24,7 @@ import { useAuthStore } from "@/app/shared/store/authStore";
 import Footer from "@/app/widgets/Footer";
 import * as amplitude from "@amplitude/analytics-browser";
 import log from "@/app/shared/lib/logger";
+import { safeLocalStorage } from "@/app/shared/helpers";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -101,6 +102,10 @@ const HomePage: FC<ComponentProps> = ({
     const accessToken = localStorage.getItem("accessToken");
     const tempToken = localStorage.getItem("tempToken");
     let analyticsTimer: NodeJS.Timeout | undefined;
+    const locale = new URLSearchParams(window.location.search).get("locale");
+    if (locale) {
+      safeLocalStorage.set("locale", locale);
+    }
 
     if (avatars && action && action === "subscription_success") {
       log.debug(
