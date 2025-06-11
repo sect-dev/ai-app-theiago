@@ -44,6 +44,9 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
   const { setTokens } = usePaymentStore();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  console.log("user", user);
+  console.log("user_id", user?.uid);
+
   const {
     register,
     handleSubmit,

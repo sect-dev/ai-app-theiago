@@ -31,6 +31,11 @@ import { safeLocalStorage } from "@/app/shared/helpers";
 import axios from "axios";
 import * as Sentry from "@sentry/nextjs";
 import log from "@/app/shared/lib/logger";
+import {
+  trackEmailCollectionDisplay,
+  trackEmailCollectionSubmission,
+  trackFirstAutologin,
+} from "@/app/shared/lib/amplitude";
 
 interface FormData {
   email: string;
@@ -87,6 +92,10 @@ const SuccessPayment = () => {
       console.log("error", error);
     }
   };
+
+  useEffect(() => {
+    trackEmailCollectionDisplay("payment_success");
+  }, []);
 
   useEffect(() => {
     const charId = characterId ? characterId : charFromPaywall?.character_id;
@@ -171,6 +180,10 @@ const SuccessPayment = () => {
   const onSubmit = async (data: FormData) => {
     log.debug("SuccessPayment.tsx", "submitting form:: ", data);
     setLoading(true);
+
+    let autologinResult: "success" | "error" = "error";
+    let autologinError: string | undefined;
+
     try {
       // Сохраняем email в localStorage для последующего использования
       if (typeof window !== "undefined") {
@@ -188,11 +201,20 @@ const SuccessPayment = () => {
         );
 
         if (response.status === 200) {
+          autologinResult = "success";
           log.debug(
             "SuccessPayment.tsx",
             "first_autologin request success:: ",
             response.data.url,
           );
+
+          trackFirstAutologin(
+            data.email,
+            "success",
+            undefined,
+            response.data.url,
+          );
+
           Sentry.addBreadcrumb({
             category: "first_autologin",
             message: `Redirect to: ${response.data.url}`,
@@ -212,6 +234,12 @@ const SuccessPayment = () => {
           window.location.href = response.data.url;
         }
       } catch (error) {
+        autologinResult = "error";
+        autologinError =
+          error instanceof Error ? error.message : "unknown error";
+
+        trackFirstAutologin(data.email, "error", autologinError);
+
         Sentry.captureException(error, {
           tags: {
             action: "first_autologin",
@@ -234,6 +262,11 @@ const SuccessPayment = () => {
         description: "Failed to redirect for authentication. Please try again.",
       });
     } finally {
+      trackEmailCollectionSubmission(
+        data.email,
+        autologinResult,
+        autologinError,
+      );
       setLoading(false);
     }
   };

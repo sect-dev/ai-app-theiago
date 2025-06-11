@@ -25,7 +25,6 @@ const PageContent = () => {
     null,
   );
 
-
   useEffect(() => {
     if (character_id && typeof window !== "undefined") {
       log.debug(
