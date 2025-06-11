@@ -3,6 +3,9 @@
 import * as amplitude from "@amplitude/analytics-browser";
 import { autocapturePlugin } from "@amplitude/plugin-autocapture-browser";
 import { useEffect } from "react";
+import { setFirebaseToken } from "../../lib/amplitude";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase";
 
 export default function AmplitudeAnalytics() {
   useEffect(() => {
@@ -12,6 +15,16 @@ export default function AmplitudeAnalytics() {
           elementInteractions: true,
         },
       });
+
+      setFirebaseToken();
+
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          await setFirebaseToken();
+        }
+      });
+
+      return () => unsubscribe();
     }
   }, []);
 

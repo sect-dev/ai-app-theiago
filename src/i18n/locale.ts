@@ -14,12 +14,12 @@ const getLocale = async () => {
   // Читаем локаль из cookie, установленного middleware
   const cookieStore = await cookies();
   const cookieLocale = cookieStore.get(COOKIE_NAME)?.value;
-  
+
   if (cookieLocale && locales.includes(cookieLocale as Locale)) {
     console.log("Using locale from cookie:", cookieLocale);
     return cookieLocale as Locale;
   }
-  
+
   return defaultLocale;
 };
 

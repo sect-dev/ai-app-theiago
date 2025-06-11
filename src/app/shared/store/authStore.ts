@@ -6,7 +6,7 @@ import {
   signInWithEmailLink,
   User,
   EmailAuthProvider,
-  linkWithCredential
+  linkWithCredential,
 } from "firebase/auth";
 import { auth } from "@/firebase";
 // import notification from "@/app/widgets/Notification";
@@ -29,6 +29,10 @@ import {
 } from "@/app/shared/consts";
 import { FirebaseError } from "firebase/app";
 import * as Sentry from "@sentry/nextjs";
+import {
+  trackAuthorizationReturn,
+  trackRegisterPaidWebUser,
+} from "../lib/amplitude";
 
 const loadCharactersFromLocalStorage = (): { premium: boolean | null } => {
   if (typeof window === "undefined") return { premium: null };
@@ -211,10 +215,9 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         safeLocalStorage.set("emailForSignIn", emailFromUrl);
       }
 
-
-            // Проверяем, есть ли текущий анонимный пользователь
-            const currentUser = auth.currentUser;
-            let result;
+      // Проверяем, есть ли текущий анонимный пользователь
+      const currentUser = auth.currentUser;
+      let result;
 
       if (currentUser && currentUser.isAnonymous) {
         // Если есть анонимный пользователь, связываем его с email-аутентификацией
@@ -223,7 +226,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
           const credential = EmailAuthProvider.credentialWithLink(
             emailToUse,
             window.location.href,
-          )
+          );
 
           result = await linkWithCredential(currentUser, credential);
 
@@ -231,15 +234,15 @@ onAuthStateChanged(auth, async (firebaseUser) => {
             category: "auth",
             message: "Successfully linked anonymous user with email",
             level: "info",
-            data: { 
-              email: emailToUse, 
+            data: {
+              email: emailToUse,
               uid: currentUser.uid,
-              preservedUID: true 
+              preservedUID: true,
             },
           });
         } catch (linkError) {
-           // Если связывание не удалось, попробуем обычный вход
-           captureAuthError(linkError, {
+          // Если связывание не удалось, попробуем обычный вход
+          captureAuthError(linkError, {
             action: "link_anonymous_with_email",
             email: emailToUse,
             anonymousUID: currentUser.uid,
@@ -260,8 +263,12 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         );
       }
 
-
       const user = result.user as FirebaseUser;
+
+      const oldToken = safeLocalStorage.get("accessToken") || "";
+      const newToken = user.accessToken;
+      trackAuthorizationReturn(oldToken !== newToken, oldToken, newToken);
+
       if (result) {
         safeLocalStorage.set("accessToken", user.accessToken);
         setUser(user);
@@ -275,31 +282,60 @@ onAuthStateChanged(auth, async (firebaseUser) => {
           );
 
           if (pendingSubscriptionActivation) {
-            const success = await registerUserAfterPayment(
-              emailToUse,
-              searchParams?.toString() ?? "",
-              5,
-              1500,
-            );
+            try {
+              const success = await registerUserAfterPayment(
+                emailToUse,
+                searchParams?.toString() ?? "",
+                5,
+                1500,
+              );
 
-            if (success) {
-              trackAuthSuccess("payment_registration_permanent", { email });
-              safeLocalStorage.remove("pendingSubscriptionActivation");
-              window.history.replaceState(
-                {},
-                document.title,
-                window.location.pathname,
+              if (success) {
+                trackRegisterPaidWebUser(
+                  emailToUse,
+                  "success",
+                  undefined,
+                  searchParams?.toString(),
+                );
+                trackAuthSuccess("payment_registration_permanent", { email });
+                safeLocalStorage.remove("pendingSubscriptionActivation");
+                window.history.replaceState(
+                  {},
+                  document.title,
+                  window.location.pathname,
+                );
+              } else {
+                // Регистрация не удалась, но не выбросила исключение
+                trackRegisterPaidWebUser(
+                  emailToUse,
+                  "error",
+                  "registration failed without error",
+                  searchParams?.toString(),
+                );
+                Sentry.captureMessage(
+                  "Payment registration failed without error",
+                  {
+                    level: "warning",
+                    tags: { auth_action: "payment_registration_permanent" },
+                    extra: { email, searchParams: searchParams?.toString() },
+                  },
+                );
+              }
+            } catch (error) {
+              const errorMessage =
+                error instanceof Error ? error.message : "unknown error";
+              trackRegisterPaidWebUser(
+                emailToUse,
+                "error",
+                errorMessage,
+                searchParams?.toString(),
               );
-            } else {
-              // Регистрация не удалась, но не выбросила исключение
-              Sentry.captureMessage(
-                "Payment registration failed without error",
-                {
-                  level: "warning",
-                  tags: { auth_action: "payment_registration_permanent" },
-                  extra: { email, searchParams: searchParams?.toString() },
-                },
-              );
+
+              captureAuthError(error, {
+                action: "payment_registration_permanent",
+                email: emailToUse,
+                searchParams: searchParams?.toString(),
+              });
             }
           }
           Sentry.addBreadcrumb({

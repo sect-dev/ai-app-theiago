@@ -18,6 +18,8 @@ import { usePaywallStore } from "@/app/shared/store/paywallStore";
 import * as amplitude from "@amplitude/analytics-browser";
 import log from "@/app/shared/lib/logger";
 import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/app/shared/store/authStore";
+import { trackSubscriptionSelection } from "@/app/shared/lib/amplitude";
 
 interface ComponentProps {
   paymentPlans: PaymentPlan[];
@@ -26,6 +28,7 @@ interface ComponentProps {
 const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
   const { setPlan, selectedPlan } = usePaymentStore();
   const { setPrice, price } = usePaywallStore();
+  const { user } = useAuthStore();
   const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(null);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const t = useTranslations("Paywall");
@@ -52,7 +55,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     const apiBase = process.env.NEXT_PUBLIC_API_URL;
 
     if (apiBase) {
-      const fullUrl = `${apiBase}/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${params.toString()}`;
+      const fullUrl = `${apiBase}/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${params.toString()}&user_id=${user?.uid}`;
       setIframeUrl(fullUrl);
     }
   }, [selectedPlan]);
@@ -89,6 +92,12 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
       "sending analytics to switch_plan_click:: ",
       item.id,
     );
+
+    const paymentSystem =
+      new URLSearchParams(window.location.search).get("payment_system") ||
+      "unknown";
+    trackSubscriptionSelection(item.id || "unknown", paymentSystem);
+
     sendGTMEvent({ event: "switch_plan_click", type: `${item.id}` });
     setPlan(item.id ?? paymentPlans[1].id ?? "1_month_premium_access");
     setPrice(item.amount_recurring);
