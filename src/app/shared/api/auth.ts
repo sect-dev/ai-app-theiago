@@ -27,6 +27,7 @@ import axios from "axios";
 import { clearAccessTokenCookie, safeLocalStorage } from "@/app/shared/helpers";
 import { UserStatus } from "./types";
 import { trackPurchaseSuccess } from "../helpers/clickTracker";
+import { trackRegisterPaidWebUser } from "../lib/amplitude";
 
 export const signUpWithEmailAndPassword = async (
   email: string,
@@ -358,14 +359,29 @@ export const registerUserAfterPayment = async (
       const success = response.status >= 200 && response.status < 300;
 
       if (success) {
+        trackRegisterPaidWebUser(
+          email || "",
+          "success",
+          undefined,
+          fullSearchParams,
+        );
         const urlParams = new URLSearchParams(searchParams);
         const price = parseFloat(urlParams.get("price") || "0");
 
         await trackPurchaseSuccess(price);
+      } else {
+        trackRegisterPaidWebUser(
+          email || "",
+          "error",
+          `HTTP ${response.status}`,
+          fullSearchParams,
+        );
       }
 
       return success;
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
       if (retries < maxRetries) {
         retries++;
         console.warn(
@@ -375,6 +391,13 @@ export const registerUserAfterPayment = async (
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
         return attemptRegistration();
       }
+
+      trackRegisterPaidWebUser(
+        email || "",
+        "error",
+        errorMessage,
+        fullSearchParams,
+      );
 
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.message, error.response?.data);

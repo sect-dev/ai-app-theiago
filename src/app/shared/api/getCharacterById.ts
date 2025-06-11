@@ -10,7 +10,10 @@ export const getCharacterInfoById = async (id: string) => {
   }
 };
 
-export const getCharacterInfoByConstructor = async (id: string, locale?: string) => {
+export const getCharacterInfoByConstructor = async (
+  id: string,
+  locale?: string,
+) => {
   try {
     const response = await apiClient.get(
       `/constructor_character_basic_info?character_id=${id}&locale=${locale}`,
