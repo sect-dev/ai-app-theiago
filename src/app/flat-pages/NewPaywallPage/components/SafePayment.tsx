@@ -3,6 +3,7 @@ import IconSecure from "@/../public/images/icons/icon-payment-secure-shield.svg"
 import IconMoneySafe from "@/../public/images/img/image-money-safe.png";
 import ImageSecureBlue from "@/../public/images/img/image-secure-blue.png";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 interface Props {
   isOrganic?: boolean;
@@ -10,6 +11,7 @@ interface Props {
 
 const SafePayment = (props: Props) => {
   const { isOrganic } = props;
+  const t = useTranslations("Paywall");
 
   return (
     <div
@@ -26,18 +28,17 @@ const SafePayment = (props: Props) => {
           height={IconSecure.height}
         />
         <span className="text-[14px] font-semibold text-[#0CFF71]">
-          Safe payment
+          {t("safe_payment")}
         </span>
       </div>
       <div className="flex flex-col gap-[8px]">
         <span className="text-[24px] font-bold leading-[120%]">
-          Money Back <br /> Guarantee
+          {t("money_back")} <br /> {t("guarantee")}
         </span>
         <span className="font-meduim max-w-[250px] text-[14px] leading-[130%] tracking-[0] text-white opacity-80">
-          We’re confident our premium experience will exceed your expectations.
-          If you’re not fully satisfied, you can apply for a refund to ensure
-          peace of mind. Enjoy exploring everything we offer, risk-free—your
-          satisfaction is our top priority.
+          {t(
+            "we_are_confident_our_premium_experience_will_exceed_your_expectations",
+          )}
         </span>
       </div>
       <Image

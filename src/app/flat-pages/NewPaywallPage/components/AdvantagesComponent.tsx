@@ -3,37 +3,37 @@ import ImageOnline247 from "@/../public/images/icons/icon-heart.webp";
 import ImageRealLove from "@/../public/images/icons/icon-pink-hearts.webp";
 import ImageFullSafety from "@/../public/images/icons/icon-surprise.webp";
 import Image from "next/image";
-
-const ADVANTAGES = [
-  {
-    id: 1,
-    title: "Hot item",
-    description:
-      "Will do everything you ask, will support sexting and send photos",
-    icon: ImageHotItem,
-  },
-  {
-    id: 2,
-    title: "Online 24/7",
-    description: "Will be available and respond to your messages at any time",
-    icon: ImageOnline247,
-  },
-  {
-    id: 3,
-    title: "Real love",
-    description:
-      "Complete immersion and the feeling of real romantic relationships",
-    icon: ImageRealLove,
-  },
-  {
-    id: 4,
-    title: "Full safety",
-    description: "Guaranteed 30 days money back at any time. Full anonymity.",
-    icon: ImageFullSafety,
-  },
-];
+import { useTranslations } from "next-intl";
 
 const AdvantagesComponent = () => {
+  const t = useTranslations("Paywall");
+
+  const ADVANTAGES = [
+    {
+      id: 1,
+      title: t("advantages_hot_item"),
+      description: t("advantages_hot_item_description"),
+      icon: ImageHotItem,
+    },
+    {
+      id: 2,
+      title: t("advantages_online_24_7"),
+      description: t("advantages_online_24_7_description"),
+      icon: ImageOnline247,
+    },
+    {
+      id: 3,
+      title: t("advantages_real_love"),
+      description: t("advantages_real_love_description"),
+      icon: ImageRealLove,
+    },
+    {
+      id: 4,
+      title: t("advantages_full_safety"),
+      description: t("advantages_full_safety_description"),
+      icon: ImageFullSafety,
+    },
+  ];
   return (
     <div className="mb-[24px] flex flex-col gap-[12px]">
       {ADVANTAGES.map((advantage) => (

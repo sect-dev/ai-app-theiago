@@ -6,6 +6,7 @@ import IconLeavesRightBlue from "@/../public/images/img/image-leaves-blue-right.
 import IconLeavesLeftBlue from "@/../public/images/img/image-leaves-blue-left.png";
 import Image from "next/image";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 interface Props {
   isOrganic?: boolean;
@@ -13,19 +14,21 @@ interface Props {
 
 const RatingComponent = (props: Props) => {
   const { isOrganic } = props;
+  const t = useTranslations("Paywall");
+
   return (
     <div className="mb-[20px]">
       <div className="relative mb-[20px] flex flex-col items-center font-bold">
-        <span className="text-[16px]">Loved by</span>
+        <span className="text-[16px]">{t("advantages_loved_by")}</span>
         <span
           className={clsx(
             "bg-clip-text text-[34px] text-transparent",
             isOrganic ? "bg-blue-text-gradient" : "bg-purple-text-gradient",
           )}
         >
-          2 MILLION
+          {t("advantages_2_million")}
         </span>
-        <span className="text-[16px]">Users</span>
+        <span className="text-[16px]">{t("advantages_users")}</span>
 
         <Image
           className="absolute left-3/4 top-1/2 -translate-y-1/2"
@@ -43,7 +46,7 @@ const RatingComponent = (props: Props) => {
         />
       </div>
       <div className="flex items-center justify-center text-[20px] font-semibold">
-        <span>Thousands of</span>
+        <span>{t("advantages_thousands_of")}</span>
         <div className="flex gap-[2px] px-[5px]">
           <span
             className={clsx(
@@ -60,7 +63,7 @@ const RatingComponent = (props: Props) => {
             height={IconStar.height}
           />
         </div>
-        <span>ratings</span>
+        <span>{t("advantages_ratings")}</span>
       </div>
     </div>
   );
