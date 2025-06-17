@@ -38,10 +38,24 @@ export default {
         "light-red-gradient":
           "linear-gradient(95.62deg, #FF595C 9.06%, #FF595C 104.43%)",
         "blue-button-gradient": `linear-gradient(0deg, #007AFF, #007AFF), linear-gradient(180deg, #049AEF 0%, #0862DC 100%)`,
+        "pink-card-gradient": `linear-gradient(0deg, rgba(43, 45, 68, 0.3)), linear-gradient(0deg, rgba(43,45,68,0.6), rgba(43,45,68,0.3)), linear-gradient(112.03deg, rgba(155,80,252,0.5) 5.42%, transparent 96.07%)`,
+        "blue-card-gradient":
+          "linear-gradient(0deg, rgba(43, 45, 68, 0.3)), linear-gradient(112.03deg, rgba(4, 154, 239, 0.3) 5.42%, rgba(8, 98, 220, 0) 96.07%)",
+        "menu-separator":
+          "linear-gradient(0deg, rgba(142, 89, 255, 1)), linear-gradient(0deg, rgba(182, 89, 255, 1))",
+        "purple-text-gradient":
+          "linear-gradient(180deg, #9208FF 0%, #B009FF 100%)",
+        "blue-text-gradient":
+          "linear-gradient(180deg, #049AEF 0%, #0862DC 100%)",
+        "multi-purple-gradient":
+          "linear-gradient(180deg, #5810FF 0%, #9037F0 100%), linear-gradient(180deg, #049AEF 0%, #0862DC 100%), linear-gradient(180deg, #9208FF 0%, #B009FF 100%)",
       },
       boxShadow: {
-        "card-shadow": "0px 0px 16.1px 0px #086BDF36",
+        "card-shadow": "0px 4px 18.4px 0px rgba(162, 90, 255, 0.42)",
         "text-shadow": "0px 4px 4px 0px #00000070",
+        "pink-shadow": "0px 4px 18.4px 0px #A25AFF6B",
+        "blue-shadow": "0px 4px 18.4px 0px rgba(5, 142, 235, 0.5)",
+        "purple-safe-payment-shadow": "0px 4px 14px 0px #373AF054",
       },
       colors: {
         gray: "#9DB2CE",
