@@ -91,6 +91,34 @@ body {
   transition: 0.3s ease-in-out;
 }
 
+.button-purple-with-overlay {
+  position: relative; /* Родительский контейнер */
+  width: 100%; /* Под размер кнопки */
+  overflow: hidden;
+}
+
+.button-purple {
+  background: linear-gradient(
+    rgba(142, 89, 255, 1) 50%,
+    rgba(182, 89, 255, 1) 100%
+  );
+}
+
+.button-purple-overlay {
+  position: absolute;
+  width: 125px;
+  height: 127.16px;
+  top: -56.04px;
+  left: 67.31px;
+  transform: rotate(23.25deg);
+  background: linear-gradient(
+    to bottom,
+    rgba(217, 217, 217, 0.38) 0%,
+    rgba(217, 217, 217, 0) 100%
+  );
+  pointer-events: none; /* Клики проходят сквозь слой */
+}
+
 .main-gradient:hover:before {
   opacity: 1;
 }

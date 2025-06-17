@@ -56,3 +56,36 @@
     z-index: -1;
   }
 }
+
+.init-page-gradient-border-blue {
+  position: relative;
+  z-index: 1;
+  border: 1px solid;
+  border-color: #049aef;
+}
+
+@supports (mask-composite: exclude) {
+  .init-page-gradient-border-blue {
+    border-color: transparent;
+  }
+
+  .init-page-gradient-border-blue::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1px;
+    background: linear-gradient(180deg, #049aef 0%, #0862dc 100%);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    z-index: -1;
+  }
+}

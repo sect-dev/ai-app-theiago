@@ -3,41 +3,41 @@ import { auth } from "@/firebase";
 
 // Типы для свойств пользователя
 interface UserProperties {
-    firebase_token?: string;
-    user_id?: string;
-    is_anonymous?: boolean;
-    [key: string]: string | number | boolean | undefined;
-  }
-  
-  // Типы для свойств событий
-  interface EventProperties {
-    domain?: string;
-    timestamp?: string;
-    user_agent?: string;
-    plan_type?: string;
-    payment_system?: string;
-    redirect_url?: string;
-    result?: "success" | "error";
-    error_message?: string;
-    token_present?: boolean;
-    token_length?: number;
-    email?: string;
-    placement?: string;
-    first_autologin_result?: "success" | "error";
-    token_changed?: boolean;
-    old_token_length?: number;
-    new_token_length?: number;
-    search_params?: string;
-    [key: string]: string | number | boolean | undefined;
-  }
+  firebase_token?: string;
+  user_id?: string;
+  is_anonymous?: boolean;
+  [key: string]: string | number | boolean | undefined;
+}
+
+// Типы для свойств событий
+interface EventProperties {
+  domain?: string;
+  timestamp?: string;
+  user_agent?: string;
+  plan_type?: string;
+  payment_system?: string;
+  redirect_url?: string;
+  result?: "success" | "error";
+  error_message?: string;
+  token_present?: boolean;
+  token_length?: number;
+  email?: string;
+  placement?: string;
+  first_autologin_result?: "success" | "error";
+  token_changed?: boolean;
+  old_token_length?: number;
+  new_token_length?: number;
+  search_params?: string;
+  [key: string]: string | number | boolean | undefined;
+}
 
 export const setUserProperties = (properties: UserProperties) => {
   const identifyEvent = new amplitude.Identify();
 
   Object.entries(properties).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
-        identifyEvent.set(key, value);
-      }
+      identifyEvent.set(key, value);
+    }
   });
 
   amplitude.identify(identifyEvent);
@@ -62,7 +62,8 @@ export const setFirebaseToken = async () => {
 
 // Трекинг событий с общими свойствами
 export const trackEvent = (
-    eventName: string, properties: EventProperties = {}
+  eventName: string,
+  properties: EventProperties = {},
 ) => {
   const commonProperties: EventProperties = {
     domain: typeof window !== "undefined" ? window.location.hostname : "",
@@ -71,11 +72,13 @@ export const trackEvent = (
   };
 
   const filteredProperties: EventProperties = {};
-  Object.entries({ ...commonProperties, ...properties }).forEach(([key, value]) => {
-    if (value !== undefined && value !== null) {
-      filteredProperties[key] = value;
-    }
-  });
+  Object.entries({ ...commonProperties, ...properties }).forEach(
+    ([key, value]) => {
+      if (value !== undefined && value !== null) {
+        filteredProperties[key] = value;
+      }
+    },
+  );
 
   amplitude.track(eventName, { ...commonProperties, ...properties });
 };
