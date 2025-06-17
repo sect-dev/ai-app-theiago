@@ -59,7 +59,7 @@ const AdPage = (props: Props) => {
   }
 
   return (
-    <div className="">
+    <div>
       {character && <GalleryComponent character={character} />}
       <SectionAdvantages character={character} />
       <SectionPlans paymentPlans={paymentPlans} />
@@ -69,11 +69,11 @@ const AdPage = (props: Props) => {
       <EvaluatedComponent />
       <BestGirlsComponent />
 
-      <div className="mb-[16px] flex flex-col items-center justify-center">
+      {/* <div className="mb-[16px] flex flex-col items-center justify-center">
         <span className="text-center text-[20px] font-semibold leading-[120%]">
           Choose a convenient <br /> payment method
         </span>
-      </div>
+      </div> */}
 
       <AdvantagesComponent />
       <SectionPlans paymentPlans={paymentPlans} />

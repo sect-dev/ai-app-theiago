@@ -2,22 +2,9 @@ import { CharacterByConstructor } from "@/app/shared/api/types";
 import { BASE_URL_PRECREATED_TYPES } from "@/app/shared/consts";
 import Image from "next/image";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 // TODO: Bad design issue, burn hardcode with fire when possible
-const ADVANTAGES = [
-  {
-    id: 1,
-    text: "🥵 Sends NSFW photos and videos",
-  },
-  {
-    id: 2,
-    text: "💦 Sends sexy voices",
-  },
-  {
-    id: 3,
-    text: "🍓 Can be undressed",
-  },
-];
 
 interface Props {
   character?: CharacterByConstructor | null;
@@ -28,25 +15,26 @@ const IMAGE_PARAMS = "?quality=100";
 
 const SectionAdvantages = (props: Props) => {
   const { character, isOrganic } = props;
+  const t = useTranslations("Paywall");
 
   const CHARACTER_ADVANTAGES = [
     {
-      title: "Body",
+      title: t("advantages_body"),
       value: character?.body_type,
       image: `${BASE_URL_PRECREATED_TYPES}/${character?.style}/body/${character?.body_type}.png${IMAGE_PARAMS}`,
     },
     {
-      title: "Breast",
+      title: t("advantages_breast"),
       value: character?.breast_type,
       image: `${BASE_URL_PRECREATED_TYPES}/${character?.style}/breasts/${character?.breast_type}.png${IMAGE_PARAMS}`,
     },
     {
-      title: "Butt",
+      title: t("advantages_butt"),
       value: character?.butt_type,
       image: `${BASE_URL_PRECREATED_TYPES}/${character?.style}/butt/${character?.butt_type}.png${IMAGE_PARAMS}`,
     },
     {
-      title: "Ethnicity",
+      title: t("advantages_ethnicity"),
       value: character?.ethnicity,
       image: `${BASE_URL_PRECREATED_TYPES}/${character?.style}/race/${character?.ethnicity}.png${IMAGE_PARAMS}`,
     },
@@ -58,19 +46,19 @@ const SectionAdvantages = (props: Props) => {
       <div className="mb-[16px] flex flex-col items-center justify-center">
         <h2 className="mb-[12px] text-center text-[26px] font-bold leading-[120%]">
           {isOrganic
-            ? "Our girls are waiting for you!"
-            : "Your girlfriend is ready"}
+            ? t("advantages_our_girls_are_waiting_for_you")
+            : t("advantages_your_girlfriend_is_ready")}
         </h2>
         <ul className="flex flex-col items-center justify-center">
           <li className="mb-[4px] rounded-[18px] bg-[#2B2D44] px-[7px] py-[4px] text-[14px] font-normal">
-            🥵 Sends NSFW photos and videos
+            {t("advantages_sends_nsfw_photos_and_videos")}
           </li>
           <div className="flex gap-[4px]">
             <li className="rounded-[18px] bg-[#2B2D44] px-[7px] py-[4px] text-[14px] font-normal">
-              💦 Sends sexy voices
+              {t("advantages_sends_sexy_voices")}
             </li>
             <li className="rounded-[18px] bg-[#2B2D44] px-[7px] py-[4px] text-[14px] font-normal">
-              🍓 Can be undressed
+              {t("advantages_can_be_undressed")}
             </li>
           </div>
         </ul>
@@ -111,14 +99,16 @@ const SectionAdvantages = (props: Props) => {
         )}
       >
         <span className="font-noto-sans text-[14px] font-bold uppercase fm:text-[3.73vw]">
-          {isOrganic ? "Get closer with them" : "Get your girlfriend"}
+          {isOrganic
+            ? t("advantages_get_closer_with_them")
+            : t("advantages_get_your_girlfriend")}
         </span>
         <span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
       </button>
 
       <div className="flex items-center justify-center">
         <span className="text-[12px] font-semibold">
-          🔥 65,756 people received a girlfriend this week. 🔥
+          {t("plan_get_your_girlfriend_description")}
         </span>
       </div>
     </div>

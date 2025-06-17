@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
 import IconCheck from "@/../public/images/icons/icon-purple-check.svg";
+import { useTranslations } from "next-intl";
 
 interface Props {
   isOrganic?: boolean;
@@ -13,6 +14,7 @@ interface Props {
 const DiscountComponent = (props: Props) => {
   const { isOrganic } = props;
   const [isVisible, setIsVisible] = useState(true);
+  const t = useTranslations("Paywall");
 
   if (!isVisible) return null;
 
@@ -32,12 +34,12 @@ const DiscountComponent = (props: Props) => {
         />
         <div className="flex flex-col">
           <span className="text-[16px] font-semibold">
-            Your discount is valid for 5 minutes.
+            {t("advantages_your_discount_is_valid_for_5_minutes")}
           </span>
           <span className="text-[16px] font-semibold">
-            Then{" "}
+            {t("advantages_then")}
             <span className="text-[#F00928]">
-              your girlfriend will disappear
+              {t("advantages_then_your_girlfriend_will_disappear")}
             </span>
           </span>
         </div>
