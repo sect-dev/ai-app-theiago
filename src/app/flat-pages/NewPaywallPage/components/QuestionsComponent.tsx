@@ -2,37 +2,38 @@ import { useState } from "react";
 import IconArrowDown from "@/../public/images/icons/icon-arrow-bottom-white.svg";
 import IconArrowUp from "@/../public/images/icons/icon-arrow-up-white.svg";
 import Image from "next/image";
-
-const FAQS = [
-  {
-    question: "What is an AI girl and how does it work?",
-    answer:
-      "AI girl is a virtual character created using artificial intelligence. You can customize her appearance and personality, after which she will communicate with you via text messages, adapting to your preferences.",
-  },
-  {
-    question: "Can I customize the appearance and character of the AI girl?",
-    answer:
-      "Yes, you can adjust her looks and personality traits to suit your preferences.",
-  },
-  {
-    question: "How realistic is the AI girl?",
-    answer:
-      "The AI girl uses advanced natural language processing and machine learning to simulate realistic conversations and reactions.",
-  },
-  {
-    question: "Can I chat with an AI girl 24/7?",
-    answer:
-      "Yes, she is always available to chat, any time of the day or night.",
-  },
-  {
-    question: "Is it safe to chat with an AI girl?",
-    answer:
-      "Yes, it is safe. Your conversations are private and the AI follows strict safety protocols.",
-  },
-];
+import { useTranslations } from "next-intl";
 
 const QuestionsComponent = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const t = useTranslations("Paywall");
+
+  const FAQS = [
+    {
+      question: t("what_is_an_ai_girl_and_how_does_it_work"),
+      answer: t("what_is_an_ai_girl_and_how_does_it_work_description"),
+    },
+    {
+      question: t(
+        "can_i_customize_the_appearance_and_character_of_the_ai_girl",
+      ),
+      answer: t(
+        "can_i_customize_the_appearance_and_character_of_the_ai_girl_description",
+      ),
+    },
+    {
+      question: t("how_realistic_is_the_ai_girl"),
+      answer: t("how_realistic_is_the_ai_girl_description"),
+    },
+    {
+      question: t("can_i_chat_with_an_ai_girl_24_7"),
+      answer: t("can_i_chat_with_an_ai_girl_24_7_description"),
+    },
+    {
+      question: t("is_it_safe_to_chat_with_an_ai_girl"),
+      answer: t("is_it_safe_to_chat_with_an_ai_girl_description"),
+    },
+  ];
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -41,7 +42,7 @@ const QuestionsComponent = () => {
   return (
     <div className="mb-[16px] space-y-3 text-white">
       <h2 className="mb-[16px] text-center text-[20px] font-semibold leading-[120%]">
-        Any questions left?
+        {t("any_questions_left")}
       </h2>
       {FAQS.map((faq, index) => (
         <div
