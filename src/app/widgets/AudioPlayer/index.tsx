@@ -20,6 +20,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
   const [showText, setShowText] = useState(false);
   const { currentPlaying, setCurrentPlaying } = useMediaStore();
   const audioUrlNoSpace = audioUrl.replace(" ", "%20");
+
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -44,11 +45,16 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, text }) => {
 
     return () => {
       if (wavesurferRef.current && typeof window !== "undefined") {
-        wavesurferRef.current?.destroy();
+        try {
+          wavesurferRef.current?.destroy();
+        } catch (err) {
+          console.warn("Ошибка при destroy()", err);
+        }
       }
       setCurrentPlaying(null);
     };
   }, [audioUrl]);
+
   // Функция Play/Pause
   const togglePlay = () => {
     if (wavesurferRef.current) {
