@@ -30,7 +30,7 @@
     "react-textarea-autosize": "^8.5.7",
     "react-yandex-metrika": "^2.6.0",
     "swiper": "^11.2.2",
-    "wavesurfer.js": "^7.9.1",
+    "wavesurfer.js": "^7.9.5",
     "yet-another-react-lightbox": "^3.21.7",
     "zustand": "^5.0.3"
   },

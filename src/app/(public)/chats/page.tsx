@@ -11,7 +11,8 @@ import ChatsInfoSkeleton from "@/app/widgets/Chats/ChatInfo/ChatsInfoSkeleton";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { Character } from "@/app/shared/api/types";
 import { getCharacterInfoById } from "@/app/shared/api/getCharacterById";
-import Footer from "@/app/widgets/Footer";
+import { safeLocalStorage } from "@/app/shared/helpers";
+
 const Page = () => {
   const { selectedCharacterId, setSelectedCharacterId } =
     useSelectedCardStore();
@@ -28,7 +29,7 @@ const Page = () => {
           return setSelectedCharacterId(response.id);
         }
       } else {
-        const chats = localStorage.getItem("chatStartedCharacters");
+        const chats = safeLocalStorage.get("chatStartedCharacters");
         if (chats && selectedCharacterId !== "9a9b9") {
           const chatStartedCharacters = JSON.parse(chats);
           const lastChatId =

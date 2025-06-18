@@ -37,9 +37,54 @@ import {
 const loadCharactersFromLocalStorage = (): { premium: boolean | null } => {
   if (typeof window === "undefined") return { premium: null };
   const storedPremium = localStorage.getItem("hasPremium");
-  return {
-    premium: storedPremium ? JSON.parse(storedPremium) : null,
-  };
+
+  if (
+    !storedPremium ||
+    storedPremium === "undefined" ||
+    storedPremium === "null"
+  ) {
+    Sentry.addBreadcrumb({
+      category: "localStorage",
+      message: "hasPremium is invalid, returning null",
+      level: "info",
+      data: { raw_value: storedPremium },
+    });
+    return { premium: null };
+  }
+
+  try {
+    return { premium: JSON.parse(storedPremium) };
+  } catch (error) {
+    // Детальное логирование ошибки JSON парсинга
+    const storedPremium = localStorage.getItem("hasPremium");
+
+    Sentry.captureException(error, {
+      tags: {
+        function: "loadCharactersFromLocalStorage",
+        error_type: "json_parse_error",
+        localStorage_key: "hasPremium",
+      },
+      extra: {
+        raw_value: storedPremium,
+        value_type: typeof storedPremium,
+        value_length: storedPremium?.length,
+        is_null: storedPremium === null,
+        is_undefined_string: storedPremium === "undefined",
+        is_null_string: storedPremium === "null",
+        is_empty_string: storedPremium === "",
+        first_chars: storedPremium?.substring(0, 10),
+        last_chars: storedPremium?.substring(-10),
+      },
+      level: "error",
+    });
+
+    console.error("Failed to parse hasPremium from localStorage:", {
+      error,
+      raw_value: storedPremium,
+      value_type: typeof storedPremium,
+    });
+    return { premium: null };
+  }
 };
 
 interface AuthState {
