@@ -11,11 +11,17 @@ import ym from "react-yandex-metrika";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import log from "@/app/shared/lib/logger";
 import * as amplitude from "@amplitude/analytics-browser";
+import { useAuthStore } from "@/app/shared/store/authStore";
+import {
+  trackPayproccRedirect,
+  trackSubscriptionSelection,
+} from "@/app/shared/lib/amplitude";
 
 const SectionPayments = () => {
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const { price } = usePaywallStore();
   const { setPlan, selectedPlan } = usePaymentStore();
+  const { user } = useAuthStore();
 
   const paymentSystem = new URLSearchParams(window.location.search).get(
     "payment_system",
@@ -31,13 +37,19 @@ const SectionPayments = () => {
   const IS_VIVAPAY = paymentSystem === "vivapay";
 
   useEffect(() => {
+    if (selectedPlan && paymentSystem) {
+      trackSubscriptionSelection(selectedPlan, paymentSystem);
+    }
+  }, [selectedPlan, paymentSystem]);
+
+  useEffect(() => {
     if (!selectedPlan || typeof window === "undefined") return;
 
     const params = new URLSearchParams(window.location.search);
     const apiBase = process.env.NEXT_PUBLIC_API_URL;
 
     if (apiBase) {
-      const fullUrl = `${apiBase}/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${params.toString()}`;
+      const fullUrl = `${apiBase}/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${params.toString()}&user_id=${user?.uid}`;
       setIframeUrl(fullUrl);
     }
   }, [selectedPlan]);
@@ -65,6 +77,18 @@ const SectionPayments = () => {
       product_name: selectedPlan,
       domain: window.location.hostname,
     });
+
+    if (IS_PAYPROCC && iframeUrl) {
+      try {
+        trackPayproccRedirect(iframeUrl, "success");
+      } catch (error) {
+        trackPayproccRedirect(
+          iframeUrl,
+          "error",
+          error instanceof Error ? error.message : "unknown error",
+        );
+      }
+    }
   };
 
   if (IS_PAYPROCC && !IS_VIVAPAY) {

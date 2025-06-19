@@ -6,9 +6,9 @@ import Script from "next/script";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="bg-[#121423] font-bai-jamjuree">
-      <div className="fm:hidden">
+      {/* <div className="fm:hidden">
         <PaymentDiscountBanner />
-      </div>
+      </div> */}
       {children}
       <Script
         src="https://assets.vivapay.me/v1.0.7/js/vivapay.js"
