@@ -6,6 +6,7 @@ import { Message } from "../types";
 import { useTokensStore } from "@/app/shared/store/tokensStore";
 import log from "@/app/shared/lib/logger";
 import * as Sentry from "@sentry/nextjs";
+import { trackVivaPayTokenReceived } from "@/app/shared/lib/amplitude";
 
 export const subscriptionPaymentSuccess = async (message: Message) => {
   const { price } = usePaywallStore.getState();
@@ -14,6 +15,8 @@ export const subscriptionPaymentSuccess = async (message: Message) => {
   const token = message?.token;
 
   if (token) {
+    trackVivaPayTokenReceived(token, "success");
+
     try {
       log.debug(
         "subscriptionPaymentSuccess.ts",
@@ -31,6 +34,8 @@ export const subscriptionPaymentSuccess = async (message: Message) => {
         );
         setIsError(true);
         setErrorMessage(response.data.error);
+
+        trackVivaPayTokenReceived(token, "error", response.data.error);
         return;
       }
 
@@ -73,6 +78,9 @@ export const subscriptionPaymentSuccess = async (message: Message) => {
         window.location.href = redirectUrl;
       }
     } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : "unknown error";
+      trackVivaPayTokenReceived(token, "error", errorMessage);
+
       Sentry.captureException(e, {
         tags: {
           payment_system: "vivapay",
@@ -88,6 +96,8 @@ export const subscriptionPaymentSuccess = async (message: Message) => {
       );
     }
   } else {
+    trackVivaPayTokenReceived("", "error", "no token");
+
     log.error(
       "subscriptionPaymentSuccess.ts",
       "an error ocurred when handling token from payment success form:: ",

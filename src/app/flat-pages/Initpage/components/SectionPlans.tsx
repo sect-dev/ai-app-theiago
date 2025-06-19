@@ -18,14 +18,20 @@ import { usePaywallStore } from "@/app/shared/store/paywallStore";
 import * as amplitude from "@amplitude/analytics-browser";
 import log from "@/app/shared/lib/logger";
 import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/app/shared/store/authStore";
+import { trackSubscriptionSelection } from "@/app/shared/lib/amplitude";
+import IconSecure from "@/../public/images/icons/icon-payment-secure-shield.svg";
+import IconCancel from "@/../public/images/icons/icon-cancel-anytime-cash.svg";
 
 interface ComponentProps {
   paymentPlans: PaymentPlan[];
+  isOrganic?: boolean;
 }
 
-const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
+const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
   const { setPlan, selectedPlan } = usePaymentStore();
   const { setPrice, price } = usePaywallStore();
+  const { user } = useAuthStore();
   const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(null);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const t = useTranslations("Paywall");
@@ -43,7 +49,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
       setSelectedPrice(paymentPlans[1]);
       setPlan(paymentPlans[1].id ?? "1_month_premium_access");
     }
-  }, []);
+  }, [paymentPlans]);
 
   useEffect(() => {
     if (!selectedPlan || typeof window === "undefined") return;
@@ -52,7 +58,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
     const apiBase = process.env.NEXT_PUBLIC_API_URL;
 
     if (apiBase) {
-      const fullUrl = `${apiBase}/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${params.toString()}`;
+      const fullUrl = `${apiBase}/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${params.toString()}&user_id=${user?.uid}`;
       setIframeUrl(fullUrl);
     }
   }, [selectedPlan]);
@@ -89,6 +95,12 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
       "sending analytics to switch_plan_click:: ",
       item.id,
     );
+
+    const paymentSystem =
+      new URLSearchParams(window.location.search).get("payment_system") ||
+      "unknown";
+    trackSubscriptionSelection(item.id || "unknown", paymentSystem);
+
     sendGTMEvent({ event: "switch_plan_click", type: `${item.id}` });
     setPlan(item.id ?? paymentPlans[1].id ?? "1_month_premium_access");
     setPrice(item.amount_recurring);
@@ -127,10 +139,20 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
               onClick={() => paymentHandle(item)}
               key={item.id}
               className={clsx(
-                "init-page-gradient-border relative cursor-pointer rounded-[16px] bg-[#2B2D44] p-[16px] before:z-[1] before:rounded-[16px] before:opacity-0 hover:shadow-card-shadow hover:before:opacity-100 fm:rounded-[4.27vw] fm:p-[4.27vw] fm:before:rounded-[4.27vw]",
+                "relative cursor-pointer rounded-[24px] bg-[#2B2D44] p-[16px] before:z-[1] before:rounded-[24px] before:opacity-0 fm:rounded-[24px] fm:p-[24px] fm:before:rounded-[24px]",
                 {
+                  "init-page-gradient-border-blue": isOrganic,
+                  "init-page-gradient-border": !isOrganic,
+                  "hover:shadow-card-shadow hover:before:opacity-100":
+                    !isOrganic && selectedPrice?.id !== item.id,
+                  "hover:shadow-blue-shadow hover:before:opacity-100":
+                    isOrganic && selectedPrice?.id !== item.id,
+                  "bg-blue-card-gradient": isOrganic,
+                  "bg-pink-card-gradient": !isOrganic,
                   "shadow-card-shadow before:opacity-100":
-                    selectedPrice?.id === item.id,
+                    !isOrganic && selectedPrice?.id === item.id,
+                  "shadow-blue-shadow before:opacity-100":
+                    isOrganic && selectedPrice?.id === item.id,
                 },
               )}
             >
@@ -148,7 +170,14 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                       <span className="uppercase opacity-40">
                         {item.currency} {item.amount_recurring}
                       </span>
-                      <span className="absolute left-0 top-1/2 z-[5] h-[2px] w-full -translate-y-1/2 bg-button-gradient" />
+                      <span
+                        className={clsx(
+                          "absolute left-0 top-1/2 z-[5] h-[2px] w-full -translate-y-1/2",
+                          isOrganic
+                            ? "bg-blue-button-gradient"
+                            : "bg-button-gradient",
+                        )}
+                      />
                     </p>
                     <Image
                       src={ImageArrow.src}
@@ -170,7 +199,14 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                     </span>
                     <span className="relative text-[12px] fm:text-[3.20vw]">
                       <span className="opacity-40">{fullPricePerDay}</span>
-                      <span className="absolute left-0 top-1/2 z-[5] h-[2px] w-full -translate-y-1/2 bg-button-gradient" />
+                      <span
+                        className={clsx(
+                          "absolute left-0 top-1/2 z-[5] h-[2px] w-full -translate-y-1/2",
+                          isOrganic
+                            ? "bg-blue-button-gradient"
+                            : "bg-button-gradient",
+                        )}
+                      />
                     </span>
                   </p>
                   <p>
@@ -190,13 +226,13 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
               <div className="pt-[12px] fm:pt-[3.20vw]">
                 <button className="flex w-full items-center justify-between font-asap text-[13px] fm:text-[3.47vw]">
                   {t("plan_learn_more")}
-                  <Image
+                  {/* <Image
                     src={IconExpand.src}
                     width={IconExpand.width}
                     height={IconExpand.height}
                     alt="icon arrow"
                     className="fm:h-[3.20vw] fm:w-[6.40vw]"
-                  />
+                  /> */}
                 </button>
                 {selectedPrice?.id === item.id && (
                   <div className="animate-fadeIn">
@@ -215,22 +251,57 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans }) => {
                     <Link
                       href={iframeUrl ?? ""}
                       onClick={handleClickBuy}
-                      className="relative flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-button-gradient text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]"
+                      className={clsx(
+                        "relative mb-[12px] flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]",
+                        isOrganic
+                          ? "bg-blue-button-gradient shadow-blue-shadow"
+                          : "bg-button-gradient shadow-pink-shadow",
+                      )}
                     >
                       <span className="font-noto-sans text-[14px] font-bold uppercase fm:text-[3.73vw]">
-                        {t("plan_get_your_girlfriend")}
+                        {isOrganic
+                          ? t("plan_choose_plan")
+                          : t("plan_get_your_girlfriend")}
                       </span>
                       <span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
                     </Link>
 
-                    <p className="pt-[12px] text-center text-[12px] font-bold fm:pt-[3.20vw] fm:text-[3.20vw]">
-                      {t("plan_get_your_girlfriend_description")}
-                    </p>
+                    <div className="flex items-center justify-center gap-[12px]">
+                      <div className="flex gap-[1.5px]">
+                        <Image
+                          src={IconSecure.src}
+                          alt="icon secure"
+                          width={IconSecure.width}
+                          height={IconSecure.height}
+                        />
+                        <span className="text-[12px] font-semibold">
+                          Secured payment
+                        </span>
+                      </div>
+                      <div className="flex gap-[1.5px]">
+                        <Image
+                          src={IconCancel.src}
+                          alt="icon secure"
+                          width={IconCancel.width}
+                          height={IconCancel.height}
+                        />
+                        <span className="text-[12px] font-semibold">
+                          Cancel anytime
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
               {item.id === selectedPrice?.id && (
-                <div className="absolute left-0 top-0 flex h-[17px] w-full animate-fadeIn items-center justify-center rounded-t-[16px] bg-button-gradient fm:h-[4.53vw] fm:rounded-t-[4.27vw]">
+                <div
+                  className={clsx(
+                    "absolute left-0 top-0 flex h-[17px] w-full animate-fadeIn items-center justify-center rounded-t-[24px] fm:h-[4.53vw] fm:rounded-t-[24px]",
+                    isOrganic
+                      ? "bg-blue-button-gradient"
+                      : "bg-button-gradient",
+                  )}
+                >
                   <span className="text-[11px] font-bold uppercase fm:text-[2.93vw]">
                     {t("plan_most_popular")}
                   </span>

@@ -42,6 +42,10 @@ export const REDIRECT_URL = "https://quiz.theaigo.com/aigoweb";
 export const ACTION_AUTH_SUCCESS = "auth_success";
 export const ACTION_ORGANIC = "auth_organic";
 export const STAGE_URL = "https://stage.web.theaigo.com";
+export const BASE_URL_PRECREATED_TYPES =
+  "https://aigo.b-cdn.net/web/paywall_precreated_types";
+export const BASE_URL_PAYWALL_PRECREATED =
+  "https://aigo.b-cdn.net/web/paywall_precreated";
 
 export const TOKENS = [
   {

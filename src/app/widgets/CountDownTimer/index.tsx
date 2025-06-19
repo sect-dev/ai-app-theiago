@@ -5,8 +5,8 @@ import clsx from "clsx";
 const COUNTDOWN_DURATION = 5 * 60 * 1000;
 
 interface ComponentProps {
-  isVisible: boolean;
-  setIsVisible: (value: boolean) => void;
+  isVisible?: boolean;
+  setIsVisible?: (value: boolean) => void;
   className?: string;
 }
 
@@ -34,7 +34,7 @@ const CountDownTimer: FC<ComponentProps> = ({
         setTimeLeft(remainingTime);
       } else {
         setTimeLeft(0);
-        setIsVisible(false);
+        setIsVisible?.(false);
       }
     };
 
