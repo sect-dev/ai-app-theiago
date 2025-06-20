@@ -341,10 +341,13 @@ export const registerUserAfterPayment = async (
 
     if (pendingActivation) {
       try {
+        const currentUrlParams = new URLSearchParams(window.location.search);
+        const orderNumber = currentUrlParams.get("order_number");
         const activationData = JSON.parse(pendingActivation);
         if (activationData.searchParams) {
           // Сохраняем полную строку параметров
-          fullSearchParams = activationData.searchParams;
+          fullSearchParams =
+            activationData.searchParams + `&order_number=${orderNumber}`;
           console.log("Извлечена полная строка параметров:", fullSearchParams);
         }
       } catch (error) {

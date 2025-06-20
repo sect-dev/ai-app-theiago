@@ -31,7 +31,7 @@ const SuccessPaymentModal = () => {
     <Dialog
       open={isSuccessPaymentModalActive}
       as="div"
-      className="relative z-[60] focus:outline-none"
+      className="relative z-[70] focus:outline-none"
       onClose={() =>
         setSuccessPaymentModal({
           isSuccessPaymentModalActive: false,
@@ -39,7 +39,7 @@ const SuccessPaymentModal = () => {
         })
       }
     >
-      <div className="font-lato fixed inset-0 z-[60] w-screen overflow-y-auto">
+      <div className="font-lato fixed inset-0 z-[70] w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
             transition
