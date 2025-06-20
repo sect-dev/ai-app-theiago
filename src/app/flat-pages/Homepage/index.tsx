@@ -142,11 +142,6 @@ const HomePage: FC<ComponentProps> = ({
           domain: window.location.hostname,
         });
       }, 1000);
-
-      setSuccessPaymentModal({
-        isSuccessPaymentModalActive: true,
-        successPaymentModalType: action,
-      });
     }
 
     if (!accessToken && !tempToken && !action) {

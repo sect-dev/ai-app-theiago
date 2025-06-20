@@ -223,15 +223,99 @@ onAuthStateChanged(auth, async (firebaseUser) => {
       : null;
   const authSuccess = searchParams?.get("action") === ACTION_AUTH_SUCCESS;
   const organicAuth = searchParams?.get("action") === ACTION_ORGANIC;
+  const subscriptionSuccess =
+    searchParams?.get("action") === "subscription_success";
 
   // Сохраняем данные о подписке в localStorage
-  if (searchParams?.get("action") === "subscription_success") {
+  if (searchParams?.get("action") === "auth_success") {
     safeLocalStorage.set(
       "pendingSubscriptionActivation",
       JSON.stringify({
         searchParams: searchParams.toString(),
       }),
     );
+  }
+
+  // Обработка action=auth_success для уже авторизованных пользователей
+  if (firebaseUser && !firebaseUser.isAnonymous && subscriptionSuccess) {
+    try {
+      Sentry.addBreadcrumb({
+        category: "auth",
+        message: "Starting payment registration",
+        level: "info",
+        data: {
+          email: firebaseUser.email ?? "",
+          uid: firebaseUser.uid,
+          searchParams: searchParams?.toString() ?? "",
+        },
+      });
+
+      setUser(firebaseUser);
+
+      setSuccessPaymentModal({
+        isSuccessPaymentModalActive: true,
+        successPaymentModalType: "auth_success",
+      });
+
+      const success = await registerUserAfterPayment(
+        firebaseUser.email ?? "",
+        searchParams?.toString() ?? "",
+        5,
+        1500,
+      );
+
+      if (success) {
+        trackAuthSuccess("payment_registration_authenticated", {
+          email: firebaseUser.email,
+        });
+        safeLocalStorage.remove("pendingSubscriptionActivation");
+
+        // Загружаем обновленную информацию о подписке
+        const userInfo = await getUserSubscriptionInfo();
+        setIsPremium(userInfo?.subscription?.active ?? false);
+        setTokens(userInfo?.tokens ?? 0);
+        setRegistrationComplete(true);
+
+        // Показываем модальное окно успешной активации
+        setSuccessPaymentModal({
+          isSuccessPaymentModalActive: true,
+          successPaymentModalType: "auth_success",
+        });
+
+        // Очищаем URL от параметров
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname,
+        );
+
+        trackAuthSuccess("subscription_activated", {
+          email: firebaseUser.email,
+          subscription_active: userInfo?.subscription?.active,
+        });
+
+        return;
+      } else {
+        // Регистрация не удалась, но не выбросила исключение
+        Sentry.captureMessage(
+          "Payment registration failed for authenticated user",
+          {
+            level: "warning",
+            tags: { auth_action: "payment_registration_authenticated" },
+            extra: {
+              email: firebaseUser.email,
+              searchParams: searchParams?.toString(),
+            },
+          },
+        );
+      }
+    } catch (paymentError) {
+      captureAuthError(paymentError, {
+        action: "payment_registration_authenticated",
+        email: firebaseUser.email,
+        searchParams: searchParams?.toString(),
+      });
+    }
   }
 
   // Обработка входа через email-ссылку
@@ -419,50 +503,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
           }
         }
 
-        if (action && action === "auth_success") {
-          try {
-            Sentry.addBreadcrumb({
-              category: "auth",
-              message: "Starting payment registration",
-              level: "info",
-              data: { email, authSuccess },
-            });
-
-            const success = await registerUserAfterPayment(
-              emailToUse,
-              searchParams?.toString() ?? "",
-              5,
-              1500,
-            );
-
-            if (success) {
-              trackAuthSuccess("payment_registration", { email });
-              safeLocalStorage.remove("pendingSubscriptionActivation");
-              window.history.replaceState(
-                {},
-                document.title,
-                window.location.pathname,
-              );
-            } else {
-              // Регистрация не удалась, но не выбросила исключение
-              Sentry.captureMessage(
-                "Payment registration failed without error",
-                {
-                  level: "warning",
-                  tags: { auth_action: "payment_registration" },
-                  extra: { email, searchParams: searchParams?.toString() },
-                },
-              );
-            }
-          } catch (paymentError) {
-            captureAuthError(paymentError, {
-              action: "payment_registration",
-              email,
-              searchParams: searchParams?.toString(),
-            });
-          }
-        }
-
         try {
           // Загружаем данные о подписке и токенах
           const userInfo = await getUserSubscriptionInfo();
@@ -643,7 +683,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
   }
 
   // Стандартный вход зарегистрированного пользователя
-  if (!authSuccess) {
+  if (!subscriptionSuccess) {
     const userInfo = await getUserSubscriptionInfo();
     setIsPremium(userInfo?.subscription?.active ?? false);
     setTokens(userInfo?.tokens ?? 0);
