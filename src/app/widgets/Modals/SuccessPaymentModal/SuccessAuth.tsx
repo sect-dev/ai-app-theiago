@@ -27,6 +27,9 @@ const SuccessAuth = () => {
   const [isPending, setIsPending] = useTransition();
   const [charInfo, setCharInfo] = useState<Character | null>(null);
 
+  console.log("charInfo", charInfo);
+  console.log("charFromPaywall", charFromPaywall);
+
   const [characterLoading, setCharacterLoading] = useState<boolean>(false);
   const navigate = useRouter();
   const characterImage = charInfo ? charInfo?.avatar : ImageDefault.src;
