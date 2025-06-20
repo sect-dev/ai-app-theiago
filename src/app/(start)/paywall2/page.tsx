@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/nextjs";
 const Page = () => {
 
   Sentry.captureException(new Error("Test error"));
+  console.log("test deploy")
   return (
     <div className="mx-auto flex max-w-[475px] justify-center px-[16px]">
       <NewPaywallPage />
