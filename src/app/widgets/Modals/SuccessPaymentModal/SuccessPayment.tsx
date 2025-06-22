@@ -321,17 +321,11 @@ const SuccessPayment = () => {
       ) : ( */}
       <div className="w-full p-[20px] sm:relative sm:z-[5] sm:mt-[-200px] sm:flex sm:h-full sm:flex-col sm:items-center sm:justify-center">
         <div className="mb-[24px] space-y-[8px] font-bai-jamjuree sm:w-full">
-          <Image
-            src={ImageSuccess.src}
-            width={ImageSuccess.width}
-            height={ImageSuccess.height}
-            alt="image success"
-          />
           <p className="text-[20px] font-semibold leading-[1.2em]">
-            Payment was successful! 🎉
+          Create an account
           </p>
           <p className="text-[14px] font-medium">
-            Sign up to activate your subscription
+          Enter your email to continue
           </p>
         </div>
         <form
