@@ -6,10 +6,12 @@ import Script from "next/script";
 import { usePaymentStore } from "../shared/store/paymentStore";
 import ModalsProvider from "../providers/ModalsProvider";
 import { useSearchParams } from "next/navigation";
+import { useAuthStore } from "../shared/store/authStore";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { setSuccessPaymentModal, isSuccessPaymentModalActive } =
     usePaymentStore();
+  const { user, loading } = useAuthStore();
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -20,11 +22,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
+    if (user && !loading && !user.isAnonymous) {
+      return;
+    }
+
     setSuccessPaymentModal({
       isSuccessPaymentModalActive: true,
       successPaymentModalType: "subscription_success",
     });
-  }, []);
+  }, [user, loading]);
 
   return (
     <main className="bg-[#121423] font-bai-jamjuree">
