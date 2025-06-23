@@ -227,11 +227,12 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     searchParams?.get("action") === "subscription_success";
 
   // Сохраняем данные о подписке в localStorage
-  if (searchParams?.get("action") === "auth_success") {
+  const action = searchParams?.get("action");
+  if (action === "auth_success" || action === "subscription_success") {
     safeLocalStorage.set(
       "pendingSubscriptionActivation",
       JSON.stringify({
-        searchParams: searchParams.toString(),
+        searchParams: searchParams?.toString() ?? "",
       }),
     );
   }
