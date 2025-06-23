@@ -7,6 +7,8 @@ import { useAgeVerification } from "@/app/shared/hooks/useAgeVerification";
 import { useSubscriptionStore } from "../shared/store/subscriptionStore";
 import { useReportStore } from "../shared/store/reportStore";
 import { usePathname } from "next/navigation";
+import { useCharacterCreateStore } from '../shared/store/createCharacterStore';
+import CharacterChangeModal from '../widgets/Modals/ChangeCharacter';
 
 const AuthModal = dynamic(() => import("@/app/widgets/Modals/AuthModal"), {
   ssr: false,
@@ -82,6 +84,7 @@ export default function ModalsProvider() {
     !isAnyOtherModalActive &&
     !isPaywallPage &&
     !isSuccessPaymentModalActive;
+  const { isChangeCharacterModalActive } = useCharacterCreateStore();
 
   return (
     <>
@@ -97,6 +100,7 @@ export default function ModalsProvider() {
       {isSubscriptionModalActive && <SubscriptionModal />}
       {isCancelConfirmModalActive && <CancelConfirmModal />}
       {isReportModalActive && <ReportMessage />}
+      {isChangeCharacterModalActive && <CharacterChangeModal />}
     </>
   );
 }

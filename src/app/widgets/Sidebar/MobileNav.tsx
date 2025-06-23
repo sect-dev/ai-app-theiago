@@ -5,6 +5,7 @@ import IconChats from "@/../public/images/icons/icon-chats.svg";
 import IconChatsActive from "@/../public/images/icons/icon-chats-active.svg";
 import IconDiscoverActive from "@/../public/images/icons/icon-discover-active.svg";
 import IconStars from "@/../public/images/icons/icon-stars.svg";
+import IconCreatePage from "@/../public/images/icons/icon-create-page.svg";
 import Link from "next/link";
 
 import clsx from "clsx";
@@ -21,7 +22,7 @@ const navigationData = [
   },
   {
     title: "Chats",
-    id: 2,
+    id: 3,
     icon: IconChats,
     activeIcon: IconChatsActive,
     href: "/chats",
