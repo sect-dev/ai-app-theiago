@@ -237,7 +237,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
     );
   }
 
-  // Обработка action=auth_success для уже авторизованных пользователей
+  // Обработка action=subscription_success для уже авторизованных пользователей
   if (firebaseUser && !firebaseUser.isAnonymous && subscriptionSuccess) {
     try {
       Sentry.addBreadcrumb({
@@ -269,7 +269,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
         trackAuthSuccess("payment_registration_authenticated", {
           email: firebaseUser.email,
         });
-        safeLocalStorage.remove("pendingSubscriptionActivation");
 
         // Загружаем обновленную информацию о подписке
         const userInfo = await getUserSubscriptionInfo();
