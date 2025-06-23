@@ -90,6 +90,11 @@
     "advantages_body": "Cuerpo",
     "advantages_breast": "Pechos",
     "advantages_butt": "Culo",
-    "advantages_ethnicity": "Etnia"
+    "advantages_ethnicity": "Etnia",
+    "create_an_account": "Crear una cuenta",
+    "enter_your_email_to_continue": "Ingrese su correo electrónico para continuar",
+    "this_email_will_be_used_to_login_to_your_account_you_can_change_it": "Este correo electrónico se usará para iniciar sesión en su cuenta. Puede cambiarlo",
+    "sign_in": "Iniciar sesión",
+    "input_your_e_mail": "Ingrese su correo electrónico"
   }
 }

@@ -36,6 +36,7 @@ import {
   trackEmailCollectionSubmission,
   trackFirstAutologin,
 } from "@/app/shared/lib/amplitude";
+import { useTranslations } from "next-intl";
 
 interface FormData {
   email: string;
@@ -58,6 +59,7 @@ const SuccessPayment = () => {
   const [pendingActivationParams, setPendingActivationParams] = useState<
     string | null
   >(null);
+  const t = useTranslations("Paywall");
   // const [authError, setAuthError] = useState<string | null>(null);
   const locale = safeLocalStorage.get("locale") ?? "en";
   const {
@@ -322,10 +324,10 @@ const SuccessPayment = () => {
       <div className="w-full p-[20px] sm:relative sm:z-[5] sm:mt-[-200px] sm:flex sm:h-full sm:flex-col sm:items-center sm:justify-center">
         <div className="mb-[24px] space-y-[8px] font-bai-jamjuree sm:w-full">
           <p className="text-[20px] font-semibold leading-[1.2em]">
-          Create an account
+            {t("create_an_account")}
           </p>
           <p className="text-[14px] font-medium">
-          Enter your email to continue
+            {t("enter_your_email_to_continue")}
           </p>
         </div>
         <form
@@ -339,7 +341,7 @@ const SuccessPayment = () => {
               <input
                 id="email"
                 type="email"
-                placeholder="Input your E-mail"
+                placeholder={t("input_your_e_mail")}
                 className={clsx(
                   "placeholder-text:opacity-50 h-[48px] w-full animate-fadeIn rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] pr-[32px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all delay-300 duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
                   {
@@ -347,10 +349,10 @@ const SuccessPayment = () => {
                   },
                 )}
                 {...register("email", {
-                  required: "Email обязателен",
+                  required: "Email is required",
                   pattern: {
                     value: /^\S+@\S+\.\S+$/,
-                    message: "Некорректный email",
+                    message: "Invalid email",
                   },
                 })}
               />
@@ -372,8 +374,7 @@ const SuccessPayment = () => {
             </div>
 
             <p className="px-[8px] pt-[8px] font-bai-jamjuree text-[12px] font-medium leading-[1.2em] opacity-50">
-              This email will be used to login to your account. You can change
-              it
+              {t("this_email_will_be_used_to_login_to_your_account_you_can_change_it")}
             </p>
             {errors.email && (
               <p className="absolute right-0 top-[-20px] text-[12px] text-[#BD0000]">
@@ -391,7 +392,7 @@ const SuccessPayment = () => {
             disabled={loading}
             className="main-gradient flex h-[40px] w-full items-center justify-center gap-[10px] rounded-[12px] text-[20px] font-bold disabled:pointer-events-none disabled:bg-[#778899] disabled:bg-none"
           >
-            <span className="relative z-[5]">Sign in</span>
+            <span className="relative z-[5]">{t("sign_in")}</span>
             {loading && <Spinner />}
           </button>
         </form>

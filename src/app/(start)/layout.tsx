@@ -7,6 +7,7 @@ import { usePaymentStore } from "../shared/store/paymentStore";
 import ModalsProvider from "../providers/ModalsProvider";
 import { useSearchParams } from "next/navigation";
 import { useAuthStore } from "../shared/store/authStore";
+import { safeLocalStorage } from "../shared/helpers";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { setSuccessPaymentModal, isSuccessPaymentModalActive } =
@@ -16,13 +17,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const newParam = searchParams.get("new");
+    const accessToken = safeLocalStorage.get("accessToken");
+    const hasAccessToken = accessToken && accessToken !== "null" && accessToken !== "undefined";
 
     // Не показываем модалку если в URL есть new=way
     if (newParam === "way") {
       return;
     }
 
-    if (user && !loading && !user.isAnonymous) {
+
+
+    if (user && !loading && !user.isAnonymous && hasAccessToken) {
       return;
     }
 
