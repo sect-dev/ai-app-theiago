@@ -27,7 +27,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
 
 
-    if (user && !loading && !user.isAnonymous && hasAccessToken) {
+    if (user && !loading && hasAccessToken) {
       return;
     }
 
