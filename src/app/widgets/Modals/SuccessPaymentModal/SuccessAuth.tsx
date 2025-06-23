@@ -17,6 +17,7 @@ import {
 import { useAuthStore } from "@/app/shared/store/authStore";
 import { apiClient } from "@/app/shared/api";
 import { Character } from "@/app/shared/api/types";
+import { getCharacterInfoById } from "@/app/shared/api/getCharacterById";
 
 const SuccessAuth = () => {
   const { charFromPaywall, setCharacters, setSelectedCharacterId } =
@@ -70,12 +71,14 @@ const SuccessAuth = () => {
     return null;
   }, [charFromPaywall, searchParams]);
 
-  const getCharacterInfoById = async (id: string) => {
+  const getCharacterById = async (id: string) => {
+    setCharacterLoading(true);
     try {
-      setCharacterLoading(true);
-      const response = await apiClient.get(`/character_info?id=${id}`);
-      const result = JSON.parse(JSON.stringify(response.data));
-      return setCharInfo(result);
+      const characterInfo = await getCharacterInfoById(id);
+      setCharInfo(characterInfo);
+
+      safeLocalStorage.remove("pendingSubscriptionActivation");
+      console.log("✅ Cleared pendingSubscriptionActivation after successful character loading");
     } catch (error) {
       console.log(error);
     } finally {
@@ -87,7 +90,7 @@ const SuccessAuth = () => {
     console.log("use effect triggered", { characterId, charFromPaywall });
     if (characterId) {
       console.log("fetching character info", characterId);
-      getCharacterInfoById(characterId ?? "");
+      getCharacterById(characterId ?? "");
     } else {
       console.log("no character id");
 
