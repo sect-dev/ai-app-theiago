@@ -26,19 +26,30 @@ const SuccessAuth = () => {
   const [loading, setLoading] = useState(false);
   const [isPending, setIsPending] = useTransition();
   const [charInfo, setCharInfo] = useState<Character | null>(null);
+  const [savedCharacterId, setSavedCharacterId] = useState<string | null>(null);
 
   console.log("charInfo", charInfo);
   console.log("charFromPaywall", charFromPaywall);
+
+  useEffect(() => {
+    // Сохраняем character_id при первом получении
+    const charIdFromUrl = searchParams.get("character_id");
+    if (charIdFromUrl && !savedCharacterId) {
+      setSavedCharacterId(charIdFromUrl);
+    }
+  }, [searchParams, savedCharacterId]);
 
   const [characterLoading, setCharacterLoading] = useState<boolean>(false);
   const navigate = useRouter();
   const characterImage = charInfo ? charInfo?.avatar : ImageDefault.src;
 
   const characterId = useMemo(() => {
-    return charFromPaywall
-      ? charFromPaywall.character_id
-      : searchParams.get("character_id");
-  }, [charFromPaywall, searchParams]);
+    return (
+      charFromPaywall?.character_id ||
+      searchParams.get("character_id") ||
+      savedCharacterId
+    );
+  }, [charFromPaywall, searchParams, savedCharacterId]);
 
   const getCharacterInfoById = async (id: string) => {
     try {
