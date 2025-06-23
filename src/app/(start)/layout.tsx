@@ -25,9 +25,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-
-
-    if (user && !loading && hasAccessToken) {
+    if (hasAccessToken) {
       return;
     }
 
