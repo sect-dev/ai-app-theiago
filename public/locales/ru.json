@@ -90,6 +90,11 @@
     "advantages_body": "Тело",
     "advantages_breast": "Грудь",
     "advantages_butt": "Зад",
-    "advantages_ethnicity": "Этничность"
+    "advantages_ethnicity": "Этничность",
+    "create_an_account": "Создать аккаунт",
+    "enter_your_email_to_continue": "Введите ваш email для продолжения",
+    "this_email_will_be_used_to_login_to_your_account_you_can_change_it": "Этот email будет использоваться для входа в ваш аккаунт. Вы можете изменить его",
+    "sign_in": "Войти",
+    "input_your_e_mail": "Введите ваш email"
   }
 }

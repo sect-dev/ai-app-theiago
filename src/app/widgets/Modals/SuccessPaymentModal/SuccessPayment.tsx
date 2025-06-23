@@ -36,6 +36,7 @@ import {
   trackEmailCollectionSubmission,
   trackFirstAutologin,
 } from "@/app/shared/lib/amplitude";
+import { useTranslations } from "next-intl";
 
 interface FormData {
   email: string;
@@ -58,6 +59,7 @@ const SuccessPayment = () => {
   const [pendingActivationParams, setPendingActivationParams] = useState<
     string | null
   >(null);
+  const t = useTranslations("Paywall");
   // const [authError, setAuthError] = useState<string | null>(null);
   const locale = safeLocalStorage.get("locale") ?? "en";
   const {
@@ -69,6 +71,8 @@ const SuccessPayment = () => {
     formState: { errors },
   } = useForm<FormData>();
   const characterImage = charInfo ? charInfo.avatar : ImageDefault.src;
+
+  console.log(charInfo);
   const messageValue = watch("email");
 
   const getCharacterInfoById = async (id: string) => {
@@ -190,15 +194,29 @@ const SuccessPayment = () => {
         localStorage.setItem("emailForSignIn", data.email);
       }
 
+      const currentUrl =
+        typeof window !== "undefined" ? window.location.search : "";
+      const urlParams = new URLSearchParams(currentUrl);
+      const characterIdFromUrl = urlParams.get("character_id");
+
+      let requestUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/first_autologin?email=${data.email}&client_redirect=true&locale=${locale}`;
+
+      if (characterIdFromUrl) {
+        requestUrl += `&character_id=${characterIdFromUrl}`;
+        log.debug(
+          "SuccessPayment.tsx",
+          "adding character_id to request:: ",
+          characterIdFromUrl,
+        );
+      }
+
       try {
         log.debug(
           "SuccessPayment.tsx",
           "starting first_autologin request:: ",
           data,
         );
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/first_autologin?email=${data.email}&client_redirect=true&locale=${locale}`,
-        );
+        const response = await axios.get(requestUrl);
 
         if (response.status === 200) {
           autologinResult = "success";
@@ -297,99 +315,92 @@ const SuccessPayment = () => {
 
   return (
     <div className="flex justify-between overflow-hidden rounded-[24px] bg-[#121423] sm:h-auto sm:overflow-visible">
-      {emailSent ? (
+      {/* {emailSent ? (
         <SuccessEmailSent
           emailSent={emailSent}
           changeEmailHandler={changeEmailHandler}
         />
-      ) : (
-        <div className="w-full p-[20px] sm:relative sm:z-[5] sm:mt-[-200px] sm:flex sm:h-full sm:flex-col sm:items-center sm:justify-center">
-          <div className="mb-[24px] space-y-[8px] font-bai-jamjuree sm:w-full">
-            <Image
-              src={ImageSuccess.src}
-              width={ImageSuccess.width}
-              height={ImageSuccess.height}
-              alt="image success"
-            />
-            <p className="text-[20px] font-semibold leading-[1.2em]">
-              Payment was successful! 🎉
-            </p>
-            <p className="text-[14px] font-medium">
-              Sign up to activate your subscription
-            </p>
-          </div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mb-[32px] space-y-[24px] border-b border-b-[#3A3F63] pb-[32px] sm:w-full"
-          >
-            {/* Поле Email */}
+      ) : ( */}
+      <div className="w-full p-[20px] sm:relative sm:z-[5] sm:mt-[-200px] sm:flex sm:h-full sm:flex-col sm:items-center sm:justify-center">
+        <div className="mb-[24px] space-y-[8px] font-bai-jamjuree sm:w-full">
+          <p className="text-[20px] font-semibold leading-[1.2em]">
+            {t("create_an_account")}
+          </p>
+          <p className="text-[14px] font-medium">
+            {t("enter_your_email_to_continue")}
+          </p>
+        </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mb-[32px] space-y-[24px] border-b border-b-[#3A3F63] pb-[32px] sm:w-full"
+        >
+          {/* Поле Email */}
 
+          <div className="relative">
             <div className="relative">
-              <div className="relative">
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="Input your E-mail"
-                  className={clsx(
-                    "placeholder-text:opacity-50 h-[48px] w-full animate-fadeIn rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] pr-[32px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all delay-300 duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
-                    {
-                      "!border-[#BD0000]": errors.email,
-                    },
-                  )}
-                  {...register("email", {
-                    required: "Email обязателен",
-                    pattern: {
-                      value: /^\S+@\S+\.\S+$/,
-                      message: "Некорректный email",
-                    },
-                  })}
-                />
-                {messageValue && (
-                  <button
-                    onClick={() => reset()}
-                    className={
-                      "absolute right-[10px] top-1/2 -translate-y-1/2 animate-fadeIn"
-                    }
-                  >
-                    <Image
-                      src={IconClose.src}
-                      width={IconClose.width}
-                      height={IconClose.height}
-                      alt="clean form"
-                    />
-                  </button>
+              <input
+                id="email"
+                type="email"
+                placeholder={t("input_your_e_mail")}
+                className={clsx(
+                  "placeholder-text:opacity-50 h-[48px] w-full animate-fadeIn rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] pr-[32px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all delay-300 duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
+                  {
+                    "!border-[#BD0000]": errors.email,
+                  },
                 )}
-              </div>
-
-              <p className="px-[8px] pt-[8px] font-bai-jamjuree text-[12px] font-medium leading-[1.2em] opacity-50">
-                This email will be used to login to your account. You can change
-                it
-              </p>
-              {errors.email && (
-                <p className="absolute right-0 top-[-20px] text-[12px] text-[#BD0000]">
-                  {errors.email.message}
-                </p>
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+\.\S+$/,
+                    message: "Invalid email",
+                  },
+                })}
+              />
+              {messageValue && (
+                <button
+                  onClick={() => reset()}
+                  className={
+                    "absolute right-[10px] top-1/2 -translate-y-1/2 animate-fadeIn"
+                  }
+                >
+                  <Image
+                    src={IconClose.src}
+                    width={IconClose.width}
+                    height={IconClose.height}
+                    alt="clean form"
+                  />
+                </button>
               )}
             </div>
 
-            {/*  Отображение ошибки авторизации */}
-            {/* {authError && <p className="text-[#BD0000] text-[14px]">{authError}</p>} */}
+            <p className="px-[8px] pt-[8px] font-bai-jamjuree text-[12px] font-medium leading-[1.2em] opacity-50">
+              {t("this_email_will_be_used_to_login_to_your_account_you_can_change_it")}
+            </p>
+            {errors.email && (
+              <p className="absolute right-0 top-[-20px] text-[12px] text-[#BD0000]">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
 
-            {/* Кнопка отправки */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="main-gradient flex h-[40px] w-full items-center justify-center gap-[10px] rounded-[12px] text-[20px] font-bold disabled:pointer-events-none disabled:bg-[#778899] disabled:bg-none"
-            >
-              <span className="relative z-[5]">Sign in</span>
-              {loading && <Spinner />}
-            </button>
-          </form>
-          <div className="flex flex-col items-center justify-center gap-[24px]">
-            {/* <p className="text-[16px] font-medium text-[#B5B5B5]">
+          {/*  Отображение ошибки авторизации */}
+          {/* {authError && <p className="text-[#BD0000] text-[14px]">{authError}</p>} */}
+
+          {/* Кнопка отправки */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="main-gradient flex h-[40px] w-full items-center justify-center gap-[10px] rounded-[12px] text-[20px] font-bold disabled:pointer-events-none disabled:bg-[#778899] disabled:bg-none"
+          >
+            <span className="relative z-[5]">{t("sign_in")}</span>
+            {loading && <Spinner />}
+          </button>
+        </form>
+        <div className="flex flex-col items-center justify-center gap-[24px]">
+          {/* <p className="text-[16px] font-medium text-[#B5B5B5]">
               or continue with
             </p> */}
-            {/* <div className="flex gap-[20px]">
+          {/* <div className="flex gap-[20px]">
               <button
                 onClick={onXSignInHandler}
                 className="transition-transform duration-300 hover:scale-[1.025]"
@@ -401,7 +412,7 @@ const SuccessPayment = () => {
                   alt="icon X"
                 />
               </button> */}
-            {/* <button
+          {/* <button
                 onClick={onFacebookSignInHandler}
                 className="transition-transform duration-300 hover:scale-[1.025]"
               >
@@ -412,7 +423,7 @@ const SuccessPayment = () => {
                   alt="icon discord"
                 />
               </button> */}
-            {/* <button
+          {/* <button
                 onClick={onGoogleSignInHandler}
                 className="transition-transform duration-300 hover:scale-[1.025]"
               >
@@ -424,9 +435,9 @@ const SuccessPayment = () => {
                 />
               </button>
             </div> */}
-          </div>
         </div>
-      )}
+      </div>
+      {/* )} */}
       <div className="h-hull relative w-full sm:hidden">
         {characterLoading ? (
           <div className="flex h-full w-full items-center justify-center">

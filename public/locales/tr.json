@@ -90,6 +90,11 @@
     "advantages_body": "Vücut",
     "advantages_breast": "Göğüs",
     "advantages_butt": "Kıç",
-    "advantages_ethnicity": "Etnia"
+    "advantages_ethnicity": "Etnia",
+    "create_an_account": "Hesap oluştur",
+    "enter_your_email_to_continue": "Devam etmek için e-posta adresinizi girin",
+    "this_email_will_be_used_to_login_to_your_account_you_can_change_it": "Bu e-posta adresi hesabınıza giriş yapmak için kullanılacaktır. Değiştirebilirsiniz",
+    "sign_in": "Giriş yap",
+    "input_your_e_mail": "E-posta adresinizi girin"
   }
 }

@@ -3,7 +3,7 @@ import SectionAdvantages from "../components/SectionAdvantages";
 import OrganicImage from "@/../public/images/img/image-paywall-organic.png";
 import SectionPlans from "../../Initpage/components/SectionPlans";
 import { getPaymentPlans, PaymentPlan } from "@/app/shared/api/payment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { safeLocalStorage } from "@/app/shared/helpers";
 import PaywallSkeleton from "../components/Skeleton";
 import DiscountComponent from "../components/DiscountComponent";
@@ -20,7 +20,8 @@ const OrganicPage = () => {
   const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const locale = safeLocalStorage.get("locale") ?? "en";
-
+  const firstSectionPlansRef = useRef<HTMLDivElement>(null);
+  
   const fetchData = async () => {
     try {
       const [plans] = await Promise.all([getPaymentPlans(locale)]);
@@ -40,14 +41,22 @@ const OrganicPage = () => {
     return <PaywallSkeleton />;
   }
 
+  const scrollToSectionPlans = () => {
+    if (firstSectionPlansRef.current) {
+      firstSectionPlansRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
   return (
     <div>
       <div>
         <Image src={OrganicImage} alt="organic image" className="mb-[20px]" />
       </div>
 
-      <SectionAdvantages isOrganic={true} />
-      <SectionPlans paymentPlans={paymentPlans} isOrganic={true} />
+      <SectionAdvantages isOrganic={true} onButtonClick={scrollToSectionPlans} />
+      <div ref={firstSectionPlansRef}>
+        <SectionPlans paymentPlans={paymentPlans} isOrganic={true} />
+      </div>
       <DiscountComponent isOrganic={true} />
       <RatingComponent isOrganic={true} />
       <SectionReviews isOrganic={true} />

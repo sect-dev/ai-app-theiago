@@ -11,11 +11,13 @@ import Spinner from "@/app/widgets/Spinner";
 import { startConversation } from "@/app/shared/api/mesages";
 import {
   mapBackendMessagesToMessages,
+  safeLocalStorage,
   saveCharacterToLocalStorage,
 } from "@/app/shared/helpers";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import { apiClient } from "@/app/shared/api";
 import { Character } from "@/app/shared/api/types";
+import { getCharacterInfoById } from "@/app/shared/api/getCharacterById";
 
 const SuccessAuth = () => {
   const { charFromPaywall, setCharacters, setSelectedCharacterId } =
@@ -32,17 +34,51 @@ const SuccessAuth = () => {
   const characterImage = charInfo ? charInfo?.avatar : ImageDefault.src;
 
   const characterId = useMemo(() => {
-    return charFromPaywall
-      ? charFromPaywall.character_id
-      : searchParams.get("character_id");
+    // 1. Пробуем получить из charFromPaywall
+    if (charFromPaywall?.character_id) {
+      console.log("Character ID from charFromPaywall:", charFromPaywall.character_id);
+      return charFromPaywall.character_id;
+    }
+
+    // 2. Пробуем получить из текущих URL параметров
+    const charIdFromUrl = searchParams.get("character_id");
+    if (charIdFromUrl) {
+      console.log("Character ID from URL:", charIdFromUrl);
+      return charIdFromUrl;
+    }
+
+    // 3. Пробуем получить из pendingSubscriptionActivation
+    if (typeof window !== "undefined") {
+      const pendingActivation = localStorage.getItem("pendingSubscriptionActivation");
+      if (pendingActivation) {
+        try {
+          const activationData = JSON.parse(pendingActivation);
+          if (activationData.searchParams) {
+            const params = new URLSearchParams(activationData.searchParams);
+            const charId = params.get("character_id");
+            if (charId) {
+              console.log("Character ID from pendingSubscriptionActivation:", charId);
+              return charId;
+            }
+          }
+        } catch (error) {
+          console.error("Error parsing pendingActivation:", error);
+        }
+      }
+    }
+
+    console.log("No character ID found from any source");
+    return null;
   }, [charFromPaywall, searchParams]);
 
-  const getCharacterInfoById = async (id: string) => {
+  const getCharacterById = async (id: string) => {
+    setCharacterLoading(true);
     try {
-      setCharacterLoading(true);
-      const response = await apiClient.get(`/character_info?id=${id}`);
-      const result = JSON.parse(JSON.stringify(response.data));
-      return setCharInfo(result);
+      const characterInfo = await getCharacterInfoById(id);
+      setCharInfo(characterInfo);
+
+      safeLocalStorage.remove("pendingSubscriptionActivation");
+      console.log("✅ Cleared pendingSubscriptionActivation after successful character loading");
     } catch (error) {
       console.log(error);
     } finally {
@@ -51,10 +87,22 @@ const SuccessAuth = () => {
   };
 
   useEffect(() => {
+    console.log("use effect triggered", { characterId, charFromPaywall });
     if (characterId) {
-      getCharacterInfoById(characterId ?? "");
+      console.log("fetching character info", characterId);
+      getCharacterById(characterId ?? "");
+    } else {
+      console.log("no character id");
+
+      if (typeof window !== "undefined") {
+        console.log("Debug localStorage contents:", {
+          charFromPaywall: localStorage.getItem("charFromPaywall"),
+          pendingSubscriptionActivation: localStorage.getItem("pendingSubscriptionActivation"),
+          currentURL: window.location.search,
+        });
+      }
     }
-  }, []);
+  }, [characterId]);
 
   const handleStartChat = async () => {
     if (!isRegistrationComplete) {
@@ -93,6 +141,9 @@ const SuccessAuth = () => {
       setLoading(false);
     }
   };
+
+  console.log("charInfo", charInfo);
+  console.log("charFromPaywall", charFromPaywall);
 
   return (
     <div className="flex justify-between overflow-hidden rounded-[24px] bg-[#121423] sm:h-auto sm:overflow-visible">

@@ -6,6 +6,7 @@ import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { useAgeVerification } from "@/app/shared/hooks/useAgeVerification";
 import { useSubscriptionStore } from "../shared/store/subscriptionStore";
 import { useReportStore } from "../shared/store/reportStore";
+import { usePathname } from "next/navigation";
 
 const AuthModal = dynamic(() => import("@/app/widgets/Modals/AuthModal"), {
   ssr: false,
@@ -64,6 +65,7 @@ export default function ModalsProvider() {
   const { isSubscriptionModalActive, isCancelConfirmModalActive } =
     useSubscriptionStore();
   const { isReportModalActive } = useReportStore();
+  const pathname = usePathname();
 
   const isAnyOtherModalActive =
     isAuthModalActive ||
@@ -74,7 +76,12 @@ export default function ModalsProvider() {
     isSubscriptionModalActive ||
     isCancelConfirmModalActive;
 
-  const shouldShowAgeVerify = showAgeVerify && !isAnyOtherModalActive;
+  const isPaywallPage = pathname === "/paywall" || pathname === "/paywall2";
+  const shouldShowAgeVerify =
+    showAgeVerify &&
+    !isAnyOtherModalActive &&
+    !isPaywallPage &&
+    !isSuccessPaymentModalActive;
 
   return (
     <>
