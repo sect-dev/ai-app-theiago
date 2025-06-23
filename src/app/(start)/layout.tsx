@@ -15,6 +15,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuthStore();
   const searchParams = useSearchParams();
 
+  console.log("test deplot")
+
   useEffect(() => {
     const newParam = searchParams.get("new");
     const accessToken = safeLocalStorage.get("accessToken");
