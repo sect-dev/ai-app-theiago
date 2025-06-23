@@ -54,10 +54,14 @@ const SuccessAuth = () => {
   };
 
   useEffect(() => {
+    console.log("use effect triggered", { characterId, charFromPaywall });
     if (characterId) {
+      console.log("fetching character info", characterId);
       getCharacterInfoById(characterId ?? "");
+    } else {
+      console.log("no character id");
     }
-  }, []);
+  }, [characterId]);
 
   const handleStartChat = async () => {
     if (!isRegistrationComplete) {
