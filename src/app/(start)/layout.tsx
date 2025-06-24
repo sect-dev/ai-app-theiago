@@ -8,12 +8,15 @@ import ModalsProvider from "../providers/ModalsProvider";
 import { useSearchParams } from "next/navigation";
 import { useAuthStore } from "../shared/store/authStore";
 import { safeLocalStorage } from "../shared/helpers";
+import * as Sentry from "@sentry/nextjs";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { setSuccessPaymentModal, isSuccessPaymentModalActive } =
     usePaymentStore();
   const { user, loading } = useAuthStore();
   const searchParams = useSearchParams();
+
+  Sentry.captureException(new Error("test error"));
 
   useEffect(() => {
     const newParam = searchParams.get("new");
