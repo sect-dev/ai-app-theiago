@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import * as Sentry from "@sentry/nextjs";
 
 export type Plan = string;
 export type PaymentModalType =
@@ -10,10 +11,27 @@ export type PaymentModalType =
 
 const loadCharactersFromLocalStorage = (): { tokens: number } => {
   if (typeof window === "undefined") return { tokens: 0 };
+
   const tokensStore = localStorage.getItem("tokens");
-  return {
-    tokens: tokensStore ? JSON.parse(tokensStore) : 0,
-  };
+
+  if (!tokensStore || tokensStore === "undefined" || tokensStore === "null") {
+    return { tokens: 0 };
+  }
+
+  try {
+    const parsedTokens = JSON.parse(tokensStore);
+    return {
+      tokens: parsedTokens.tokens,
+    }
+  } catch (error) {
+    Sentry.captureMessage("Error parsing tokens from localStorage", {
+      level: "error",
+      extra: {
+        tokensStore,
+      },
+    });
+    return { tokens: 0 };
+  }
 };
 
 interface PaymentState {
