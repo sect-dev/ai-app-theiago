@@ -6,22 +6,12 @@ import { useCharacterCreateStore } from '../../store/createCharacterStore';
 const SwitchButton = () => {
 
 	const [enabled, setEnabled] = useState(false)
-	const { censorship, setCensorship } = useCharacterCreateStore();
-
-	  useEffect(() => {
-    setEnabled(censorship === 'high');
-  }, [censorship]);
-
-    const handleChange = (isEnabled: boolean) => {
-    setEnabled(isEnabled);
-    setCensorship(isEnabled ? 'high' : 'low');
-  };
 
 
 	return (
 		<Switch
 							checked={enabled}
-							onChange={handleChange}
+							// onChange={handleChange}
 							className={`${
 								enabled ? 'bg-white/20' : 'bg-white/10'
 							} relative inline-flex h-7 w-14 items-center rounded-full p-1 transition-colors duration-200 ease-in-out focus:outline-none`}

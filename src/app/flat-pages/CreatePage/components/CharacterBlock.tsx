@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useSelectedCardStore } from '@/app/shared/store/publicStore';
 import { getCharacterInfoById } from '@/app/shared/api/getCharacterById';
 import { useCharacterCreateStore } from '@/app/shared/store/createCharacterStore';
+import { safeLocalStorage } from '@/app/shared/helpers';
  
 interface Props {
 	characters: Character[];
@@ -18,58 +19,49 @@ const CharacterBlock = React.memo((props: Props) => {
 	const {selectedCharacterId, charactersList, setCharactersList} = useSelectedCardStore();
 	const {characterId, setCharacterId} = useCharacterCreateStore();
 	const [character, setCharacter] = useState<Character | null>(null);
+	const charFromGenerated = safeLocalStorage.get("charFromGenerated")
 
 	useEffect(() => {
+		console.log("useeffect", 1231231)
 		if (characters.length > 0) {
 			setCharactersList(characters)
 		}
 
-		if (selectedCharacterId) {
-			setCharacterId(typeof selectedCharacterId === "string" ? Number(selectedCharacterId) : selectedCharacterId)
-		} else if (characters[3]?.id){
-			setCharacterId(Number(characters[3].id))
-		}
-	}, [])
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				if (typeof selectedCharacterId === "string") {
-					const data = await getCharacterInfoById(selectedCharacterId)
-					setCharacter(data)
-				}
-			} catch (e) {
-				console.log("error while fetching character", e)
-			}
+		if (charFromGenerated) {
+			setCharacterId(Number(charFromGenerated))
+			return;
 		}
 
-		fetchData()
-	}, [])
+		setCharacterId(characters[0]?.id)
 
+		
+	}, [charFromGenerated])
 
 	const mainChar = useMemo(() => {
+		console.log("usememo", 1231231)
 		if (characterId) {
 			return characters.find(char => char.id == characterId) || null
 		}
-		return selectedCharacterId ? character : characters[2] || null;
-	}, [characterId, selectedCharacterId, character, characters])
+		return characters[0] || null;
+	}, [characterId])
 
 
 	return (
 		<>
-		<div className='xs:flex hidden flex-col items-center justify-center gap-[12px]'>
-			<span>Create Image</span>
+		<div className='xs:flex hidden  flex-col items-center'>
+			<span className="text-[20px] font-bold leading-[1.3] mb-[16px]">Create Image</span>
 			        <Image
-          src={`${mainChar?.avatar}?format=webp&quality=85&width=500`}
+          src={`${mainChar?.avatar}?format=webp&quality=100`}
           width={88}
 		  height={88}
           alt="image"
-          className="object-cover rounded-[24px]"
+          className="object-cover rounded-[24px] w-[88px] h-[88px] mb-[12px]"
           priority={false}
         />
+		<span className="text-[18px] font-bold leading-[1.3]">{mainChar?.name}</span>
 		</div>
 
-		<div className="xs:hidden block rounded-tl-[24px]  rounded-tr-[8px] ">
+		<div className="xs:hidden block rounded-tl-[24px] max-w-[293px] rounded-tr-[8px] ">
 			<div className="h-[293px] w-full relative">
         <Image
           src={`${mainChar?.avatar}?format=webp&quality=85&width=500`}

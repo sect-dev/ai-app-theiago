@@ -21,7 +21,6 @@ interface CharacterStore {
   type: ContentType;
   characterId: number | null;
   request: string;
-  censorship: Censorship;
   isLoading: boolean;
   generatedAssets: GeneratedAsset[];
 	// openChangeCharacterModal: (data: Character[]) => void;
@@ -30,7 +29,6 @@ interface CharacterStore {
   setContentType: (type: ContentType) => void; 
   setCharacterId: (id: number | null) => void; 
   setRequest: (request: string) => void;
-  setCensorship: (censorship: Censorship) => void;
   setIsLoading: (isLoading: boolean) => void;
   setGeneratedAssets: (assets: GeneratedAsset[]) => void;
 }
@@ -41,7 +39,6 @@ export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
   type: "image",
   characterId: null,
   request: "asd",
-  censorship: "low",
   isLoading: false,
   generatedAssets: [],
 
@@ -77,10 +74,6 @@ export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
     // Иначе добавляем запятую и новое значение
     set({request: `${request}, ${newRequest}`});
   }
-  },
-
-  setCensorship: (censorship) => {
-    set({censorship: censorship})
   },
 
   setIsLoading: (isLoading) => {

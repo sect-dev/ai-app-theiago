@@ -12,7 +12,7 @@ const CreatePage = async () => {
 	const characters = charactersObj ? Object.values(charactersObj).sort((a, b) => a?.position - b?.position) : [];
 
 	return (
-		<div className="grid grid-cols-[auto_1fr_auto] xs:grid-rows-3 xs:grid-cols-none xs:p-[16px] p-[12px] gap-[12px]">
+		<div className="grid grid-cols-[auto_1fr_auto] xs:grid-rows-[auto_auto_auto] xs:grid-cols-none xs:p-[16px] p-[12px] gap-[12px]">
 
 			<CharacterBlock characters={characters} />
 

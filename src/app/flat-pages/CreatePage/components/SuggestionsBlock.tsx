@@ -39,19 +39,19 @@ const SuggestionsBlock = () => {
 		const [activeTagId, setActiveTagId] = useState<number>(1);
 	const [suggestions, setSuggestions] = useState<string[]>([]);
 	const [imagePaths, setImagePaths] = useState<string[]>([]);
-	const { censorship, setRequest } = useCharacterCreateStore();
+	const { setRequest } = useCharacterCreateStore();
 
 
 useEffect(() => {
 		if (activeTagId) {
 			const activeTag = TAGS.find(tag => tag.id === activeTagId);
 			if (activeTag) {
-				const tagSuggestions = STEPS[activeTag.key][censorship] || [];
+				const categoryData = STEPS[activeTag.key];
+				const tagSuggestions = categoryData.suggestions || [];
 				setSuggestions(tagSuggestions);
 
-      if (activeTag.key === 'pose') {
-        const images = STEPS.pose.images?.[censorship] || [];
-        setImagePaths(images);
+      if (categoryData.images) {
+        setImagePaths(categoryData.images);
       } else {
         // Для других категорий используем заглушки или пустой массив
         setImagePaths([]);
@@ -59,8 +59,14 @@ useEffect(() => {
 			}
 		} else {
 			setSuggestions([]);
+			setImagePaths([]);
 		}
-	}, [activeTagId, censorship]);
+	}, [activeTagId]);
+
+
+
+
+
 
 	const handleTagClick = (tagId: number) => {
     	setActiveTagId(tagId);
@@ -74,10 +80,10 @@ useEffect(() => {
 
 
 	return (
-		<div className="bg-[#121423] p-[20px] rounded-[8px] relative">
+		<div className="xs:bg-transparent xs:p-0 bg-[#121423] p-[20px] rounded-[8px] relative mb-[20px] xs:mb-[12px]">
 						<div className=''>
 							<span className="block text-[16px] font-semibold mb-[12px]">Suggestions</span>
-							<div className="flex gap-x-[4px] mb-[16px]">
+							<div className="flex gap-x-[4px] mb-[16px] overflow-x-auto custom-x-scrollbar">
 								{TAGS.map((tag) => (<TagsButton key={tag.id} isActive={activeTagId === tag.id} onClick={() => handleTagClick(tag.id)} text={tag.text} />))}
 							</div>
 
@@ -89,7 +95,7 @@ useEffect(() => {
         {suggestions.map((suggestion, index) => (
           <button 
             key={index} 
-            className="relative rounded-lg overflow-hidden h-[114px] w-[94px] flex-shrink-0 cursor-pointer"
+            className="relative rounded-[16px] overflow-hidden h-[114px] w-[94px] flex-shrink-0 cursor-pointer"
             onClick={() => handleSuggestionClick(suggestion)}
           >
             <Image
@@ -98,9 +104,6 @@ useEffect(() => {
               fill
               className="object-cover"
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 text-white p-2">
-              <span className="text-center text-sm font-medium">{suggestion}</span>
-            </div>
           </button>
         ))}
       </div>
