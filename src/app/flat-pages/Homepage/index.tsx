@@ -25,6 +25,7 @@ import Footer from "@/app/widgets/Footer";
 import * as amplitude from "@amplitude/analytics-browser";
 import log from "@/app/shared/lib/logger";
 import { safeLocalStorage } from "@/app/shared/helpers";
+import * as trackdesk from "@/app/shared/lib/trackdesk";
 
 interface ComponentProps {
   avatars: Character[] | null;
@@ -141,6 +142,8 @@ const HomePage: FC<ComponentProps> = ({
           order_price: parseFloat(price || "0"),
           domain: window.location.hostname,
         });
+
+        trackdesk.trackConversion(parseFloat(price || "0"));
       }, 1000);
     }
 
@@ -193,6 +196,7 @@ const HomePage: FC<ComponentProps> = ({
                 tokens: productItem,
                 domain: window.location.hostname,
               });
+              trackdesk.trackConversion(TOKENS.find((item) => item.name === product)?.price || 0);
             }, 1000);
 
             if (!characterId) {

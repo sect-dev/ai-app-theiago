@@ -7,6 +7,7 @@ import YandexMetrikaContainer from "./shared/components/YandexMetrikaComponent";
 import AmplitudeAnalytics from "./shared/components/AmplitudeComponent";
 import { I18nProvider } from "@/i18n/provider";
 import { getLocale } from "next-intl/server";
+import TrackdeskComponent from "./shared/components/TrackDeskComponent";
 
 export const metadata: Metadata = {
   title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
@@ -35,6 +36,7 @@ export default async function RootLayout({
         {gtmToken && <GoogleTagManager gtmId={gtmToken} />}
         <FacebookPixel />
         <YandexMetrikaContainer />
+        <TrackdeskComponent />
         <I18nProvider>{children}</I18nProvider>
       </body>
     </html>
