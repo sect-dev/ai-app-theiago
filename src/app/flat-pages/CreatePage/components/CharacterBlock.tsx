@@ -17,7 +17,7 @@ interface Props {
 const CharacterBlock = React.memo((props: Props) => {
 	const {characters} = props;
 	const {selectedCharacterId, charactersList, setCharactersList} = useSelectedCardStore();
-	const {characterId, setCharacterId} = useCharacterCreateStore();
+	const {characterId, setCharacterId, setChangeCharacterModal} = useCharacterCreateStore();
 	const [character, setCharacter] = useState<Character | null>(null);
 	const charFromGenerated = safeLocalStorage.get("charFromGenerated")
 
@@ -45,12 +45,17 @@ const CharacterBlock = React.memo((props: Props) => {
 		return characters[0] || null;
 	}, [characterId])
 
-
+	const handleClick = () => {
+		console.log("opened modal")
+		setChangeCharacterModal(true)
+	}
+	
 	return (
 		<>
 		<div className='xs:flex hidden  flex-col items-center'>
 			<span className="text-[20px] font-bold leading-[1.3] mb-[16px]">Create Image</span>
 			        <Image
+					onClick={handleClick}
           src={`${mainChar?.avatar}?format=webp&quality=100`}
           width={88}
 		  height={88}
