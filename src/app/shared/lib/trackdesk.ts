@@ -3,7 +3,7 @@ const TRACKDESK_ACCOUNT = "aigo";
 interface TrackdeskConversionData {
     conversionType: string;
     amount: {
-      value: number;
+      value: string;
     };
   } 
   
@@ -14,14 +14,16 @@ export const trackClick = () => {
   }
 };
 
-export const trackConversion = (amount: number) => {
+export const trackConversion = (amount: string) => {
   if (typeof window !== "undefined" && window.trackdesk) {
+    console.log("trackConversion", amount)
     window.trackdesk(TRACKDESK_ACCOUNT, "conversion", {
       conversionType: "sale",
       amount: {
         value: amount
       }
     });
+    console.log("trackConversion done")
   }
 }; 
 

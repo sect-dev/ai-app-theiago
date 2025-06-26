@@ -143,7 +143,8 @@ const HomePage: FC<ComponentProps> = ({
           domain: window.location.hostname,
         });
 
-        trackdesk.trackConversion(parseFloat(price || "0"));
+        trackdesk.trackConversion(price || "0");
+        
       }, 1000);
     }
 
@@ -196,7 +197,7 @@ const HomePage: FC<ComponentProps> = ({
                 tokens: productItem,
                 domain: window.location.hostname,
               });
-              trackdesk.trackConversion(TOKENS.find((item) => item.name === product)?.price || 0);
+              trackdesk.trackConversion(String(TOKENS.find((item) => item.name === product)?.price || 0));
             }, 1000);
 
             if (!characterId) {
