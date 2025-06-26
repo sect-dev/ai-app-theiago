@@ -6,6 +6,20 @@ import { useEffect, useState } from "react";
 
 const TRACKDESK_ACCOUNT = "aigo";
 
+interface TrackdeskConversionData {
+    conversionType: string;
+    amount: {
+      value: number;
+    };
+  }
+
+declare global {
+    interface Window {
+      trackdesk: (account: string, action: string, data?: TrackdeskConversionData) => void;
+      TrackdeskObject: unknown[];
+    }
+  }
+
 const TrackdeskComponent = () => {
     const [loaded, setLoaded] = useState(false);
     const pathname = usePathname();
