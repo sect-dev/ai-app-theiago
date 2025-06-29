@@ -1,5 +1,6 @@
 import { apiClient, getCurrentToken } from "@/app/shared/api/index";
-import { AssembledRequestPayload, AssembledRequestProps, LastAssebledContentProps, LastAssembledContentPayload, LastAssembledContentResponse } from "./types/assembleRequest";
+import { AssembledRequestPayload, AssembledRequestProps, GenerateRandomPromptProps, LastAssebledContentProps, LastAssembledContentPayload, LastAssembledContentResponse } from "./types/assembleRequest";
+import * as Sentry from "@sentry/nextjs";
 
 export const assembleRequest = async <T>(props: AssembledRequestProps): Promise<T | null> => {
 	const {censorship, characterId, request, type} = props
@@ -56,4 +57,29 @@ export const lastAssembledRequest = async (props: LastAssebledContentProps): Pro
 	console.log(e)
 	return null
  }
+}
+
+export const generateRandomPrompt = async (props: GenerateRandomPromptProps): Promise<string | null> => {
+	const {characterId} = props
+
+	const payload = {
+		character_id: characterId.toString()
+	}
+
+	try {
+		const response = await apiClient.get<string>("/random_prompt_web", {params: payload})
+
+		if (response.data) {return response.data}
+
+		return null
+	} catch (e) {
+		console.log(e)
+		Sentry.captureException({
+			message: "Error generating random prompt",
+			extra: {
+				characterId
+			}
+		})
+		return null
+	}
 }

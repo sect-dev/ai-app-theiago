@@ -1,87 +1,99 @@
 import { create } from "zustand";
 
 interface Character {
-	name: string,
-	description: string
+	name: string;
+	description: string;
 }
 
 interface GeneratedAsset {
-  hasVideo: boolean;
-  nsfw: boolean;
-  url: string;
+	hasVideo: boolean;
+	nsfw: boolean;
+	url: string;
 }
 
 type ContentType = "video" | "image";
 
-type Censorship = "low" | "high"
+type Censorship = "low" | "high";
 
 interface CharacterStore {
 	isChangeCharacterModalActive: boolean;
+	isGenerateModalActive: boolean;
+	recentlyGeneratedImage: string | null;
 	characterData: Character[] | null;
-  type: ContentType;
-  characterId: number | null;
-  request: string;
-  isLoading: boolean;
-  generatedAssets: GeneratedAsset[];
+	type: ContentType;
+	characterId: number | null;
+	request: string;
+	isLoading: boolean;
+	generatedAssets: GeneratedAsset[];
 	// openChangeCharacterModal: (data: Character[]) => void;
-  setCharacterData: (data: Character[]) => void,
-	setChangeCharacterModal: (isChangeCharacterModalActive: boolean) => void,
-  setContentType: (type: ContentType) => void; 
-  setCharacterId: (id: number | null) => void; 
-  setRequest: (request: string) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  setGeneratedAssets: (assets: GeneratedAsset[]) => void;
+	setCharacterData: (data: Character[]) => void;
+	setChangeCharacterModal: (isChangeCharacterModalActive: boolean) => void;
+	setIsGenerateModalActive: (isGenerateModalActive: boolean) => void;
+	setRecentlyGeneratedImage: (recentlyGeneratedImage: string | null) => void;
+	setContentType: (type: ContentType) => void;
+	setCharacterId: (id: number | null) => void;
+	setRequest: (request: string) => void;
+	setIsLoading: (isLoading: boolean) => void;
+	setGeneratedAssets: (assets: GeneratedAsset[]) => void;
 }
 
 export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
-  isChangeCharacterModalActive: false,
-  characterData: null,
-  type: "image",
-  characterId: null,
-  request: "asd",
-  isLoading: false,
-  generatedAssets: [],
+	isChangeCharacterModalActive: false,
+	isGenerateModalActive: false,
+	recentlyGeneratedImage: null,
+	characterData: null,
+	type: "image",
+	characterId: null,
+	request:
+		"In a bar, wearing a tight leather outfit, looking at the viewer with a playful smirk.",
+	isLoading: false,
+	generatedAssets: [],
 
-  setCharacterData: (data: Character[]) => {
-    set({characterData: data})
-  },
+	setCharacterData: (data: Character[]) => {
+		set({ characterData: data });
+	},
 
+	setChangeCharacterModal: (isChangeCharacterModalActive) => {
+		set({ isChangeCharacterModalActive });
+	},
 
-  setChangeCharacterModal: (isChangeCharacterModalActive) => {
-	  set({isChangeCharacterModalActive})
-  },
+	setIsGenerateModalActive: (isGenerateModalActive) => {
+		set({ isGenerateModalActive });
+	},
 
-  setContentType: (type) => {
-    set({type: type})
-  },
+	setRecentlyGeneratedImage: (recentlyGeneratedImage) => {
+		set({ recentlyGeneratedImage });
+	},
 
-   setCharacterId: (id) => {
-    set({ characterId: id });
-  },
+	setContentType: (type) => {
+		set({ type: type });
+	},
 
-  setRequest: (newRequest) => {
+	setCharacterId: (id) => {
+		set({ characterId: id });
+	},
 
-    if (newRequest === "reset") {
-    set({request: ""});
-    return;
-  }
+	setRequest: (newRequest) => {
+		if (newRequest === "reset") {
+			set({ request: "" });
+			return;
+		}
 
-    const {request} = get();
+		const { request } = get();
 
-     if (!request || request.trim() === "") {
-    set({request: newRequest});
-  } else {
-    // Иначе добавляем запятую и новое значение
-    set({request: `${request}, ${newRequest}`});
-  }
-  },
+		if (!request || request.trim() === "") {
+			set({ request: newRequest });
+		} else {
+			// Иначе добавляем запятую и новое значение
+			set({ request: `${request}, ${newRequest}` });
+		}
+	},
 
-  setIsLoading: (isLoading) => {
-    set({isLoading: isLoading})
-  },
+	setIsLoading: (isLoading) => {
+		set({ isLoading: isLoading });
+	},
 
-  setGeneratedAssets: (assets: GeneratedAsset[]) => {
-    set({generatedAssets: assets})
-  }
-
+	setGeneratedAssets: (assets: GeneratedAsset[]) => {
+		set({ generatedAssets: assets });
+	}
 }));

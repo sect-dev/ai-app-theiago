@@ -16,7 +16,7 @@ export interface AssembledRequestPayload {
 	censorship: {
 		image: string;
 		video: string;
-	}
+	};
 }
 
 export interface AssembledRequestProps {
@@ -43,4 +43,8 @@ export interface LastAssembledContentResponse {
 	request: string;
 	nsfw: boolean;
 	url: string;
+}
+
+export interface GenerateRandomPromptProps {
+	characterId: number;
 }

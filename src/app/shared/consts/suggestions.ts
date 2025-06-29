@@ -1,5 +1,5 @@
 export const STEPS = {
-	"pose": {
+	pose: {
 		suggestions: [
 			"Lying on back",
 			"Standing",
@@ -9,7 +9,7 @@ export const STEPS = {
 			"Missionary",
 			"Cowgirl",
 			"Reverse Cowgirl",
-			"Standing doggystyle",
+			"Standing doggystyle"
 		],
 		images: [
 			"/images/suggestions/lying-on-back.png",
@@ -20,34 +20,52 @@ export const STEPS = {
 			"/images/suggestions/missionary.png",
 			"/images/suggestions/cow-girl.png",
 			"/images/suggestions/reverse-cowgirl.png",
-			"/images/suggestions/standing-doggy.png",
+			"/images/suggestions/standing-doggy.png"
 		]
 	},
-	"action": {
+	action: {
 		suggestions: [
 			"Vaginal mastubation",
 			"Anal masturbation",
 			"Oral sex (towards man)",
 			"Boobs fuck",
 			"Vaginal sex (towards woman)",
-			"Anal sex (towards woman)",
+			"Anal sex (towards woman)"
+		],
+		images: [
+			"/images/suggestions/vaginal-masturbation.png",
+			"/images/suggestions/anal-masturbation.png",
+			"/images/suggestions/oral-sex.png",
+			"/images/suggestions/boobs-fuck.png",
+			"/images/suggestions/vaginal-sex.png",
+			"/images/suggestions/anal-sex.png"
 		]
 	},
-	"scene": {
+	scene: {
 		suggestions: [
 			"In the bedroom",
 			"On the beach",
 			"In the club",
-			"At the orgy",
 			"In the kitchen",
 			"In shower",
 			"At the office",
 			"In the car",
 			"Elevator",
-			"In the park",
+			"In the park"
+		],
+		images: [
+			"/images/suggestions/bedroom.png",
+			"/images/suggestions/beach.png",
+			"/images/suggestions/club.png",
+			"/images/suggestions/kitchen.png",
+			"/images/suggestions/shower.png",
+			"/images/suggestions/office.png",
+			"/images/suggestions/car.png",
+			"/images/suggestions/elevator.png",
+			"/images/suggestions/park.png"
 		]
 	},
-	"outfit": {
+	outfit: {
 		suggestions: [
 			"Corset",
 			"Bra & Panty Sets",
@@ -58,18 +76,37 @@ export const STEPS = {
 			"Bodysuits or Teddies",
 			"Fishnet Stockings",
 			"Bare Skin",
-			"Athletic Wear",
+			"Athletic Wear"
+		],
+		images: [
+			"/images/suggestions/corset.png",
+			"/images/suggestions/bra-panty.png",
+			"/images/suggestions/leather.png",
+			"/images/suggestions/schoolgirl.png",
+			"/images/suggestions/nurse-uniform.png",
+			"/images/suggestions/sexymaid.png",
+			"/images/suggestions/bodysuit.png",
+			"/images/suggestions/fishnet.png",
+			"/images/suggestions/bareskin.png",
+			"/images/suggestions/athletic-wear.png"
 		]
 	},
-	"accessories": {
+	accessories: {
 		suggestions: [
 			"Dildo",
 			"Blindfolds",
-			"Candles",
-			"Feathers or Ticklers",
+			"Hand Cuffs",
 			"Ball Gag",
 			"Collar and Leash",
-			"Mask",
+			"Mask"
+		],
+		images: [
+			"/images/suggestions/dildo.png",
+			"/images/suggestions/blindfolds.png",
+			"/images/suggestions/handcuffs.png",
+			"/images/suggestions/ballgag.png",
+			"/images/suggestions/collarleash.png",
+			"/images/suggestions/mask.png"
 		]
 	}
-}
+};
