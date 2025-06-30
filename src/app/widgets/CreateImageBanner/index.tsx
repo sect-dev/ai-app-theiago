@@ -17,7 +17,7 @@ const CreateImageBanner = () => {
 	};
 
 	return (
-		<div className="mx-[8px]">
+		<div className="mx-[8px] mb-[18px]">
 			<div className="main-gradient flex h-[157px] w-full justify-between rounded-[32px] p-[20px]">
 				<div>
 					<div className="relative z-[1] mb-[16px] flex flex-col gap-[8px]">
