@@ -5,9 +5,6 @@ import CreateImageBlock from './components/CreateImageBlock';
 
 
 const CreatePage = async () => {
-
-	console.log("asds")
-
 	const charactersObj = await getCharactersList();
 	const characters = charactersObj ? Object.values(charactersObj).sort((a, b) => a?.position - b?.position) : [];
 

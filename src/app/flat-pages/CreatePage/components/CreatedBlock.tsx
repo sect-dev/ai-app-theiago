@@ -33,8 +33,6 @@ const CreatedBlock = () => {
 		LastAssembledContentResponse[] | null
 	>(null);
 
-	console.log("generatedAssets", generatedAssets);
-
 	const fetchContent = async (contentType: "image") => {
 		if (!characterId) return;
 
@@ -63,7 +61,7 @@ const CreatedBlock = () => {
 					<span className="text-[16px] font-semibold">Created</span>
 				</div>
 
-				{isLoading ? (
+				{isLoading && (
 					// Показываем Loading, когда идет загрузка
 					<div className="relative w-fit overflow-hidden rounded-[16px]">
 						<Image
@@ -90,29 +88,37 @@ const CreatedBlock = () => {
 							</span>
 						</div>
 					</div>
-				) : lastAssembledContent && lastAssembledContent.length > 0 ? (
-					// Показываем ассеты из lastAssembledContent, если generatedAssets пусто
-					<CreatedContent content={lastAssembledContent} />
-				) : (
-					// Показываем Empty, когда ни generatedAssets, ни lastAssembledContent не доступны
-					<div className="rounded-[24px] bg-[#191B2C] px-[20px] py-[16px] xs:bg-[#121423]">
-						<Image
-							src="/images/img/image-empty-generated.png"
-							alt="empty icon"
-							width={80}
-							height={80}
-							className="mb-[8px]"
-						/>
-						<div className="flex flex-col">
-							<span className="text-[16px] font-bold leading-[28px]">
-								It&apos;s empty here for now
-							</span>
-							<span className="leading-1 align-middle text-[14px] font-medium opacity-50">
-								Later, all the created content will appear here
-							</span>
-						</div>
-					</div>
 				)}
+
+				{lastAssembledContent &&
+					lastAssembledContent.length > 0 &&
+					!isLoading && (
+						// Показываем ассеты из lastAssembledContent, если generatedAssets пусто
+						<CreatedContent content={lastAssembledContent} />
+					)}
+
+				{lastAssembledContent &&
+					lastAssembledContent.length === 0 &&
+					!isLoading && (
+						// Показываем Empty, когда ни generatedAssets, ни lastAssembledContent не доступны
+						<div className="rounded-[24px] bg-[#191B2C] px-[20px] py-[16px] xs:bg-[#121423]">
+							<Image
+								src="/images/img/image-empty-generated.png"
+								alt="empty icon"
+								width={80}
+								height={80}
+								className="mb-[8px]"
+							/>
+							<div className="flex flex-col">
+								<span className="text-[16px] font-bold leading-[28px]">
+									It&apos;s empty here for now
+								</span>
+								<span className="leading-1 align-middle text-[14px] font-medium opacity-50">
+									Later, all the created content will appear here
+								</span>
+							</div>
+						</div>
+					)}
 			</div>
 		</div>
 	);

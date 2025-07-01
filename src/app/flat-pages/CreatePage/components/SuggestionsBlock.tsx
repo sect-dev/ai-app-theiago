@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { useEffect } from "react";
 import TagsButton from "./TagsButton";
+import clsx from "clsx";
+import CheckIcon from "@/../public/images/img/blue-check-mark.png";
 
 type SuggestionKey = keyof typeof STEPS;
 
@@ -39,6 +41,7 @@ const SuggestionsBlock = () => {
 	const [activeTagId, setActiveTagId] = useState<number>(1);
 	const [suggestions, setSuggestions] = useState<string[]>([]);
 	const [imagePaths, setImagePaths] = useState<string[]>([]);
+	const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 	const { setRequest } = useCharacterCreateStore();
 
 	useEffect(() => {
@@ -66,8 +69,13 @@ const SuggestionsBlock = () => {
 		setActiveTagId(tagId);
 	};
 
-	const handleSuggestionClick = (suggestion: string) => {
+	const handleSuggestionClick = (suggestion: string, index: number) => {
 		setRequest(suggestion);
+		setClickedIndex(index);
+
+		setTimeout(() => {
+			setClickedIndex(null);
+		}, 300);
 	};
 
 	return (
@@ -94,8 +102,14 @@ const SuggestionsBlock = () => {
 								{suggestions.map((suggestion, index) => (
 									<button
 										key={index}
-										className="relative h-[114px] w-[94px] flex-shrink-0 cursor-pointer overflow-hidden rounded-[16px]"
-										onClick={() => handleSuggestionClick(suggestion)}
+										className={clsx(
+											"relative h-[114px] w-[94px] flex-shrink-0 cursor-pointer rounded-[16px] bg-[#121423] transition-all duration-300 ease-in-out",
+											{
+												"border-main-gradient choosen-token-shadow-generate":
+													clickedIndex === index
+											}
+										)}
+										onClick={() => handleSuggestionClick(suggestion, index)}
 									>
 										<Image
 											src={imagePaths[index]}
@@ -103,6 +117,19 @@ const SuggestionsBlock = () => {
 											fill
 											className="object-cover"
 										/>
+
+										{clickedIndex === index && (
+											<div className="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out">
+												<div className="relative h-[24px] w-[36px] rounded-[16px] bg-[#003B5F]"></div>
+												<Image
+													src={CheckIcon}
+													alt="check"
+													width={24}
+													height={24}
+													className="absolute h-[20px] w-[20px]"
+												/>
+											</div>
+										)}
 									</button>
 								))}
 							</div>

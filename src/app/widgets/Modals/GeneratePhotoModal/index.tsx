@@ -86,6 +86,11 @@ const GeneratePhotoModal = () => {
 											Your image has been created with prompt
 										</span>
 									</div>
+
+									{/* TODO: add prompt */}
+									{/* <div>
+										<span>asdad</span>
+									</div> */}
 								</div>
 							)}
 						</div>

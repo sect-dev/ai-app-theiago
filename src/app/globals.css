@@ -99,6 +99,26 @@ body {
 	transition: background-image 0.3s ease-in-out;
 }
 
+.border-main-gradient::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background: linear-gradient(180deg, #049aef 0%, #0862dc 100%);
+	border-radius: inherit;
+	pointer-events: none;
+
+	padding: 1px;
+	mask:
+		linear-gradient(#fff 0 0) content-box,
+		linear-gradient(#fff 0 0);
+	-webkit-mask:
+		linear-gradient(#fff 0 0) content-box,
+		linear-gradient(#fff 0 0);
+	mask-composite: exclude;
+	-webkit-mask-composite: xor;
+}
+
 .main-gradient:before {
 	content: "";
 	width: 100%;
@@ -183,6 +203,10 @@ body {
 
 .choosen-token-shadow {
 	box-shadow: 0px 4px 18.4px 0px #058eeb80;
+}
+
+.choosen-token-shadow-generate {
+	box-shadow: 0px 2px 10.4px 0px #058eeb80;
 }
 
 .cards-list {
