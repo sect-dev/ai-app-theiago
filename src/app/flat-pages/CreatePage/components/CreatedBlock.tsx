@@ -33,6 +33,9 @@ const CreatedBlock = () => {
 		LastAssembledContentResponse[] | null
 	>(null);
 
+	const hasContent = lastAssembledContent && lastAssembledContent.length > 0;
+	const shouldShowEmpty = !hasContent && !isLoading;
+
 	const fetchContent = async (contentType: "image") => {
 		if (!characterId) return;
 
@@ -90,35 +93,31 @@ const CreatedBlock = () => {
 					</div>
 				)}
 
-				{lastAssembledContent &&
-					lastAssembledContent.length > 0 &&
-					!isLoading && (
-						// Показываем ассеты из lastAssembledContent, если generatedAssets пусто
-						<CreatedContent content={lastAssembledContent} />
-					)}
+				{hasContent && (
+					// Показываем ассеты из lastAssembledContent, если generatedAssets пусто
+					<CreatedContent content={lastAssembledContent} />
+				)}
 
-				{lastAssembledContent &&
-					lastAssembledContent.length === 0 &&
-					!isLoading && (
-						// Показываем Empty, когда ни generatedAssets, ни lastAssembledContent не доступны
-						<div className="rounded-[24px] bg-[#191B2C] px-[20px] py-[16px] xs:bg-[#121423]">
-							<Image
-								src="/images/img/image-empty-generated.png"
-								alt="empty icon"
-								width={80}
-								height={80}
-								className="mb-[8px]"
-							/>
-							<div className="flex flex-col">
-								<span className="text-[16px] font-bold leading-[28px]">
-									It&apos;s empty here for now
-								</span>
-								<span className="leading-1 align-middle text-[14px] font-medium opacity-50">
-									Later, all the created content will appear here
-								</span>
-							</div>
+				{shouldShowEmpty && (
+					// Показываем Empty, когда ни generatedAssets, ни lastAssembledContent не доступны
+					<div className="rounded-[24px] bg-[#191B2C] px-[20px] py-[16px] xs:bg-[#121423]">
+						<Image
+							src="/images/img/image-empty-generated.png"
+							alt="empty icon"
+							width={80}
+							height={80}
+							className="mb-[8px]"
+						/>
+						<div className="flex flex-col">
+							<span className="text-[16px] font-bold leading-[28px]">
+								It&apos;s empty here for now
+							</span>
+							<span className="leading-1 align-middle text-[14px] font-medium opacity-50">
+								Later, all the created content will appear here
+							</span>
 						</div>
-					)}
+					</div>
+				)}
 			</div>
 		</div>
 	);
