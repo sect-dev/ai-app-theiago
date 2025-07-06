@@ -17,7 +17,7 @@ const CharacterChangeModal = () => {
 		setChangeCharacterModal(false);
 	};
 
-	const handleCharacterChange = (id: number) => {
+	const handleCharacterChange = (id: number | string) => {
 		console.log("changed character", id);
 		safeLocalStorage.set("charFromGenerated", id.toString());
 		setCharacterId(id);
@@ -57,7 +57,7 @@ const CharacterChangeModal = () => {
 							<div className="grid grid-cols-3 gap-[16px] xs:grid-cols-2">
 								{charactersArray.map((char) => (
 									<div
-										onClick={() => handleCharacterChange(Number(char.id))}
+										onClick={() => handleCharacterChange(char.id)}
 										key={char.id}
 										className="card-shadow relative h-[386px] w-full cursor-pointer overflow-hidden rounded-[24px] xs:h-[268px]"
 									>

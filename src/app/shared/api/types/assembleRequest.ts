@@ -2,6 +2,7 @@ export interface AssembledImageResponse {
 	url: string;
 	nsfw: boolean;
 	has_video: boolean;
+	tokens_remaining: number;
 }
 
 export interface AssembledVideoResponse {
@@ -21,14 +22,14 @@ export interface AssembledRequestPayload {
 
 export interface AssembledRequestProps {
 	type: string;
-	characterId: number;
+	characterId: number | string;
 	request: string;
 	censorship: string;
 }
 
 export interface LastAssebledContentProps {
 	type: string;
-	characterId: number;
+	characterId: number | string;
 }
 
 export interface LastAssembledContentPayload {
@@ -46,5 +47,5 @@ export interface LastAssembledContentResponse {
 }
 
 export interface GenerateRandomPromptProps {
-	characterId: number;
+	characterId: number | string;
 }

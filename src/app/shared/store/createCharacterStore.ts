@@ -5,7 +5,7 @@ interface Character {
 	description: string;
 }
 
-interface GeneratedAsset {
+export interface GeneratedAsset {
 	hasVideo: boolean;
 	nsfw: boolean;
 	url: string;
@@ -21,7 +21,7 @@ interface CharacterStore {
 	recentlyGeneratedImage: string | null;
 	characterData: Character[] | null;
 	type: ContentType;
-	characterId: number | null;
+	characterId: number | string | null;
 	request: string;
 	isLoading: boolean;
 	generatedAssets: GeneratedAsset[];
@@ -31,7 +31,7 @@ interface CharacterStore {
 	setIsGenerateModalActive: (isGenerateModalActive: boolean) => void;
 	setRecentlyGeneratedImage: (recentlyGeneratedImage: string | null) => void;
 	setContentType: (type: ContentType) => void;
-	setCharacterId: (id: number | null) => void;
+	setCharacterId: (id: number | string | null) => void;
 	setRequest: (request: string) => void;
 	setIsLoading: (isLoading: boolean) => void;
 	setGeneratedAssets: (assets: GeneratedAsset[]) => void;
