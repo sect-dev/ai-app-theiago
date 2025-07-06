@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ImageIconOrange from "@/../public/images/img/image-sparkling-orange.png";
-import ImageCreateImageBanner from "@/../public/images/img/create-image-banner.png";
 import Spinner from "../Spinner";
 
 const CreateImageBanner = () => {

@@ -1,19 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import RandomButton from "./RandomButton";
-import TagsButton from "./TagsButton";
 import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
-import { STEPS } from "@/app/shared/consts/suggestions";
-
-import SwitchButton from "@/app/shared/ui/Switch";
-import { assembleRequest } from "@/app/shared/api/assembleRequest";
-import { AssembledImageResponse } from "@/app/shared/api/types/assembleRequest";
-
 import SuggestionsBlock from "./SuggestionsBlock";
 import TextArea from "./TextArea";
-
-const CENSORSHIP_LOW = "low";
+import { usePaymentStore } from "@/app/shared/store/paymentStore";
+import { createImage } from "../helpers/createImage";
 
 const CreateImageBlock = () => {
 	const {
@@ -27,65 +19,33 @@ const CreateImageBlock = () => {
 		setIsGenerateModalActive,
 		setRecentlyGeneratedImage
 	} = useCharacterCreateStore();
-
-	const handleFixedCreateImage = async () => {
-		try {
-			setIsGenerateModalActive(true);
-			setIsLoading(true);
-
-			const response = await assembleRequest<AssembledImageResponse>({
-				type: type,
-				characterId: characterId !== null ? characterId : 1,
-				request: request,
-				censorship: CENSORSHIP_LOW
-			});
-
-			if (response) {
-				const newAsset = {
-					url: response.url,
-					nsfw: response.nsfw,
-					hasVideo: response.has_video
-				};
-
-				setRecentlyGeneratedImage(newAsset.url);
-				setGeneratedAssets([...generatedAssets, newAsset]);
-			}
-
-			// console.log("response", response);
-		} catch (error) {
-			console.error("Error creating image:", error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+	const { setTokens } = usePaymentStore();
 
 	const handleCreateImage = async () => {
-		try {
-			setIsLoading(true);
+		await createImage({
+			setIsLoading,
+			type,
+			characterId: characterId ?? 1,
+			request,
+			setTokens,
+			setGeneratedAssets,
+			generatedAssets
+		});
+	};
 
-			const response = await assembleRequest<AssembledImageResponse>({
-				type: type,
-				characterId: characterId !== null ? characterId : 1,
-				request: request,
-				censorship: CENSORSHIP_LOW
-			});
-
-			if (response) {
-				const newAsset = {
-					url: response.url,
-					nsfw: response.nsfw,
-					hasVideo: response.has_video
-				};
-
-				setGeneratedAssets([...generatedAssets, newAsset]);
-			}
-
-			console.log("response", response);
-		} catch (error) {
-			console.error("Error creating image:", error);
-		} finally {
-			setIsLoading(false);
-		}
+	const handleFixedCreateImage = async () => {
+		await createImage({
+			setIsLoading,
+			type,
+			characterId: characterId ?? 1,
+			request,
+			setTokens,
+			setGeneratedAssets,
+			generatedAssets,
+			isFixed: true,
+			setIsGenerateModalActive,
+			setRecentlyGeneratedImage
+		});
 	};
 
 	return (

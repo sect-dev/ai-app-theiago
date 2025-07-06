@@ -30,7 +30,7 @@ const CharacterBlock = React.memo((props: Props) => {
 		}
 
 		if (charFromGenerated) {
-			setCharacterId(Number(charFromGenerated));
+			setCharacterId(charFromGenerated);
 			return;
 		}
 

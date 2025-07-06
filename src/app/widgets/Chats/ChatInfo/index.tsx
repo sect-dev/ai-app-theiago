@@ -167,7 +167,7 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 					</div>
 				</div>
 			</div>
-			<div className="absolute bottom-0 z-[5] h-[80px] w-[288px] rounded-bl-[8px] rounded-br-[22px] bg-[#121423] px-[16px] pb-[20px] pt-[12px]">
+			<div className="absolute bottom-0 z-[5] h-[80px] w-[288px] rounded-bl-[8px] rounded-br-[22px] bg-[#121423] px-[16px] pb-[20px] pt-[12px] md:hidden">
 				<button
 					onClick={handleClick}
 					className="relative flex h-[48px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50"

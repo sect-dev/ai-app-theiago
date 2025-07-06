@@ -53,6 +53,8 @@ const CreatedBlock = () => {
 		}
 	};
 
+	console.log("generatedAssets", generatedAssets);
+
 	useEffect(() => {
 		fetchContent("image");
 	}, [characterId, generatedAssets]);
