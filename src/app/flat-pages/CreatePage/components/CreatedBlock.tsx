@@ -95,7 +95,7 @@ const CreatedBlock = () => {
 					</div>
 				)}
 
-				{hasContent && (
+				{hasContent && !isLoading && (
 					// Показываем ассеты из lastAssembledContent, если generatedAssets пусто
 					<CreatedContent content={lastAssembledContent} />
 				)}
