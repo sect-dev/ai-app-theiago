@@ -10,8 +10,6 @@ const RandomButton = () => {
 			characterId: characterId || 0
 		});
 
-		console.log("randomPrompt", randomPrompt);
-
 		if (randomPrompt) {
 			setRequest("reset");
 			setRequest(randomPrompt);
