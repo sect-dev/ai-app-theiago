@@ -9,7 +9,7 @@ const TRACKDESK_ACCOUNT = "aigo";
 interface TrackdeskConversionData {
     conversionType: string;
     amount: {
-      value: number;
+      value: string;
     };
   }
 
