@@ -6,6 +6,9 @@ import SuggestionsBlock from "./SuggestionsBlock";
 import TextArea from "./TextArea";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import { createImage } from "../helpers/createImage";
+import { userAgent } from "next/server";
+import { auth } from "@/firebase";
+import { useAuthStore } from "@/app/shared/store/authStore";
 
 const CreateImageBlock = () => {
 	const {
@@ -19,9 +22,15 @@ const CreateImageBlock = () => {
 		setIsGenerateModalActive,
 		setRecentlyGeneratedImage
 	} = useCharacterCreateStore();
+	const user = auth.currentUser;
+	const { setAuthModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 
 	const handleCreateImage = async () => {
+		if (user?.isAnonymous) {
+			setAuthModal({ modalType: "login", isAuthModalActive: true });
+			return;
+		}
 		await createImage({
 			setIsLoading,
 			type,
@@ -50,13 +59,13 @@ const CreateImageBlock = () => {
 
 	return (
 		<>
-			<div className="min-w-[411px] xs:min-w-full">
+			<div className="min-w-[411px] md:min-w-full">
 				<div className="flex flex-col">
-					<div className="mb-[16px] grid grid-rows-[1fr_auto] gap-[12px] rounded-[8px] bg-[#121423] p-[20px] xs:rounded-[16px]">
+					<div className="mb-[16px] grid grid-rows-[1fr_auto] gap-[12px] rounded-[8px] bg-[#121423] p-[20px] md:rounded-[16px]">
 						<TextArea />
 						<div className="flex flex-row justify-between">
 							{/* <SwitchButton /> */}
-							<RandomButton />
+							{/* <RandomButton /> */}
 						</div>
 					</div>
 
@@ -64,7 +73,7 @@ const CreateImageBlock = () => {
 
 					<button
 						onClick={handleCreateImage}
-						className="relative mb-[8px] flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50 xs:hidden"
+						className="relative mb-[8px] flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50 md:hidden"
 					>
 						<span className="relative z-[5] text-[15px] font-bold">
 							Create Image
@@ -74,7 +83,7 @@ const CreateImageBlock = () => {
 				</div>
 			</div>
 
-			<div className="fixed bottom-[5vw] left-1/2 z-[50] hidden -translate-x-1/2 xs:block">
+			<div className="fixed bottom-[5vw] left-1/2 z-[50] hidden -translate-x-1/2 md:block">
 				<button
 					onClick={handleFixedCreateImage}
 					className="relative flex h-[60px] w-[343px] items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50"

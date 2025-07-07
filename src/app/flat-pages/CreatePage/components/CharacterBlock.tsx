@@ -52,7 +52,7 @@ const CharacterBlock = React.memo((props: Props) => {
 
 	return (
 		<>
-			<div className="hidden flex-col items-center xs:flex">
+			<div className="hidden flex-col items-center md:flex">
 				<span className="mb-[16px] text-[20px] font-bold leading-[1.3]">
 					Create Image
 				</span>
@@ -81,7 +81,7 @@ const CharacterBlock = React.memo((props: Props) => {
 				</span>
 			</div>
 
-			<div className="block max-w-[293px] rounded-tl-[24px] rounded-tr-[8px] xs:hidden">
+			<div className="block max-w-[293px] rounded-tl-[24px] rounded-tr-[8px] md:hidden">
 				<div className="relative h-[293px] w-full">
 					<Image
 						src={`${mainChar?.avatar}?format=webp&quality=85&width=500`}
