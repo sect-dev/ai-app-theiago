@@ -9,6 +9,9 @@ import { createImage } from "../helpers/createImage";
 import { userAgent } from "next/server";
 import { auth } from "@/firebase";
 import { useAuthStore } from "@/app/shared/store/authStore";
+import Image from "next/image";
+import ImageSparkling from "@/../public/images/img/img-sparkling-white.svg";
+import ImageStackSvg from "@/../public/images/img/image-cointstack.svg";
 
 const CreateImageBlock = () => {
 	const {
@@ -73,11 +76,24 @@ const CreateImageBlock = () => {
 
 					<button
 						onClick={handleCreateImage}
-						className="relative mb-[8px] flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50 md:hidden"
+						className="relative mb-[8px] flex h-[60px] w-full items-center justify-center overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50 md:hidden"
 					>
-						<span className="relative z-[5] text-[15px] font-bold">
+						<Image
+							src={ImageSparkling}
+							alt="sparkling"
+							className="mr-[7px] h-[24px] w-[24px]"
+						/>
+						<span className="relative z-[5] mr-[7px] block text-[15px] font-bold">
 							Create Image
 						</span>
+						<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
+							2
+						</span>
+						<Image
+							src={ImageStackSvg}
+							alt="stack"
+							className="h-[12px] w-[12px]"
+						/>
 						<span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
 					</button>
 				</div>
@@ -86,11 +102,24 @@ const CreateImageBlock = () => {
 			<div className="fixed bottom-[5vw] left-1/2 z-[50] hidden -translate-x-1/2 md:block">
 				<button
 					onClick={handleFixedCreateImage}
-					className="relative flex h-[60px] w-[343px] items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50"
+					className="relative flex h-[60px] w-[343px] items-center justify-center overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50"
 				>
-					<span className="relative z-[5] text-[15px] font-bold">
+					<Image
+						src={ImageSparkling}
+						alt="sparkling"
+						className="mr-[7px] h-[24px] w-[24px]"
+					/>
+					<span className="relative z-[5] mr-[7px] block text-[15px] font-bold">
 						Create Image
 					</span>
+					<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
+						2
+					</span>
+					<Image
+						src={ImageStackSvg}
+						alt="stack"
+						className="h-[12px] w-[12px]"
+					/>
 					<span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
 				</button>
 			</div>

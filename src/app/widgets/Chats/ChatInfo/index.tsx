@@ -9,6 +9,8 @@ import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import IconBack from "../../../../../public/images/icons/icon-back.svg";
 import ChatsInfoVideos from "@/app/widgets/Chats/ChatInfo/ChatsInfoVideos";
 import { useRouter } from "next/navigation";
+import ImageSparkling from "@/../public/images/img/img-sparkling-white.svg";
+import ImageStackSvg from "@/../public/images/img/image-cointstack.svg";
 
 const tabsCaptions = [
 	{
@@ -170,11 +172,24 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 			<div className="absolute bottom-0 z-[5] h-[80px] w-[288px] rounded-bl-[8px] rounded-br-[22px] bg-[#121423] px-[16px] pb-[20px] pt-[12px] md:hidden">
 				<button
 					onClick={handleClick}
-					className="relative flex h-[48px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50"
+					className="relative flex h-[48px] w-full items-center justify-center overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50"
 				>
-					<span className="relative z-[5] text-[15px] font-bold">
+					<Image
+						src={ImageSparkling}
+						alt="sparkling"
+						className="mr-[7px] h-[24px] w-[24px]"
+					/>
+					<span className="relative z-[5] mr-[7px] block text-[15px] font-bold">
 						Create Image
 					</span>
+					<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
+						2
+					</span>
+					<Image
+						src={ImageStackSvg}
+						alt="stack"
+						className="h-[12px] w-[12px]"
+					/>
 					<span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
 				</button>
 			</div>
