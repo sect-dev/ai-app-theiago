@@ -44,8 +44,7 @@ export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
 	characterData: null,
 	type: "image",
 	characterId: null,
-	request:
-		"In a bar, wearing a tight leather outfit, looking at the viewer with a playful smirk.",
+	request: "",
 	isLoading: false,
 	generatedAssets: [],
 

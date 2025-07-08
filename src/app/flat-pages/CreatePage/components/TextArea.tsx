@@ -7,6 +7,8 @@ const TextArea = () => {
 
 	const [localRequest, setLocalRequest] = useState(request);
 
+	console.log("request", request);
+
 	useEffect(() => {
 		setLocalRequest(request);
 	}, [request]);
@@ -21,6 +23,8 @@ const TextArea = () => {
 				Image description
 			</span>
 			<TextareaAutosize
+				autoFocus
+				placeholder="Type what you want to see in the image"
 				className="w-full bg-[#121423]"
 				minRows={5}
 				maxRows={5}
