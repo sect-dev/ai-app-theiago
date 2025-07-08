@@ -46,6 +46,10 @@ const CreateImageBlock = () => {
 	};
 
 	const handleFixedCreateImage = async () => {
+		if (user?.isAnonymous) {
+			setAuthModal({ modalType: "login", isAuthModalActive: true });
+			return;
+		}
 		await createImage({
 			setIsLoading,
 			type,
