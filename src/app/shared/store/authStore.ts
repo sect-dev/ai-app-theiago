@@ -278,8 +278,10 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 				setTokens(userInfo?.tokens ?? 0);
 				setRegistrationComplete(true);
 
+				const characterIdFromUrl = searchParams?.get("character_id");
+
 				// Показываем модальное окно успешной активации
-				if (characterId) {
+				if (characterIdFromUrl) {
 					setSuccessPaymentModal({
 						isSuccessPaymentModalActive: true,
 						successPaymentModalType: "auth_success"
