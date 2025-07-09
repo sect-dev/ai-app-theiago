@@ -31,6 +31,8 @@ const CreateImageBlock = () => {
 	const { setAuthModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 	const router = useRouter();
+	const { setIsErrorModalActive, setErrorModalText } =
+		useCharacterCreateStore();
 
 	console.log("tokens", tokens);
 
@@ -50,7 +52,9 @@ const CreateImageBlock = () => {
 			request,
 			setTokens,
 			setGeneratedAssets,
-			generatedAssets
+			generatedAssets,
+			setIsErrorModalActive,
+			setErrorModalText
 		});
 	};
 
@@ -73,7 +77,9 @@ const CreateImageBlock = () => {
 			generatedAssets,
 			isFixed: true,
 			setIsGenerateModalActive,
-			setRecentlyGeneratedImage
+			setRecentlyGeneratedImage,
+			setIsErrorModalActive,
+			setErrorModalText
 		});
 	};
 
@@ -85,7 +91,7 @@ const CreateImageBlock = () => {
 						<TextArea />
 						<div className="flex flex-row justify-between">
 							{/* <SwitchButton /> */}
-							{/* <RandomButton /> */}
+							<RandomButton />
 						</div>
 					</div>
 

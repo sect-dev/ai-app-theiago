@@ -59,6 +59,9 @@ const GeneratePhotoModal = dynamic(
 		ssr: false
 	}
 );
+const ErrorModal = dynamic(() => import("@/app/widgets/Modals/ErrorModal"), {
+	ssr: false
+});
 
 export default function ModalsProvider() {
 	const { isAuthModalActive } = useAuthStore();
@@ -74,6 +77,7 @@ export default function ModalsProvider() {
 		useSubscriptionStore();
 	const { isReportModalActive } = useReportStore();
 	const pathname = usePathname();
+	const { isErrorModalActive } = useCharacterCreateStore();
 
 	const isAnyOtherModalActive =
 		isAuthModalActive ||
@@ -109,6 +113,7 @@ export default function ModalsProvider() {
 			{isReportModalActive && <ReportMessage />}
 			{isChangeCharacterModalActive && <CharacterChangeModal />}
 			{isGenerateModalActive && <GeneratePhotoModal />}
+			{isErrorModalActive && <ErrorModal />}
 		</>
 	);
 }
