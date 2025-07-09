@@ -12,6 +12,7 @@ import { useAuthStore } from "@/app/shared/store/authStore";
 import Image from "next/image";
 import ImageSparkling from "@/../public/images/img/img-sparkling-white.svg";
 import ImageStackSvg from "@/../public/images/img/image-cointstack.svg";
+import { useRouter } from "next/navigation";
 
 const CreateImageBlock = () => {
 	const {
@@ -26,12 +27,20 @@ const CreateImageBlock = () => {
 		setRecentlyGeneratedImage
 	} = useCharacterCreateStore();
 	const user = auth.currentUser;
+	const tokens = usePaymentStore((state) => state.tokens);
 	const { setAuthModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
+	const router = useRouter();
+
+	console.log("tokens", tokens);
 
 	const handleCreateImage = async () => {
 		if (user?.isAnonymous) {
 			setAuthModal({ modalType: "login", isAuthModalActive: true });
+			return;
+		}
+		if (tokens < 2) {
+			router.push("/paywall2");
 			return;
 		}
 		await createImage({
@@ -48,6 +57,10 @@ const CreateImageBlock = () => {
 	const handleFixedCreateImage = async () => {
 		if (user?.isAnonymous) {
 			setAuthModal({ modalType: "login", isAuthModalActive: true });
+			return;
+		}
+		if (tokens < 2) {
+			router.push("/paywall2");
 			return;
 		}
 		await createImage({
