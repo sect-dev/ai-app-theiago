@@ -1,7 +1,5 @@
 import { assembleRequest } from "@/app/shared/api/assembleRequest";
 import { AssembledImageResponse } from "@/app/shared/api/types/assembleRequest";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
-import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import { GeneratedAsset } from "@/app/shared/store/createCharacterStore";
 import { safeLocalStorage } from "@/app/shared/helpers";
 
@@ -18,6 +16,8 @@ interface Props {
 	isFixed?: boolean;
 	setIsGenerateModalActive?: (isGenerateModalActive: boolean) => void;
 	setRecentlyGeneratedImage?: (recentlyGeneratedImage: string) => void;
+	setIsErrorModalActive: (isErrorModalActive: boolean) => void;
+	setErrorModalText: (errorText: string) => void;
 }
 
 export const createImage = async (props: Props) => {
@@ -31,7 +31,9 @@ export const createImage = async (props: Props) => {
 		generatedAssets,
 		isFixed = false,
 		setIsGenerateModalActive,
-		setRecentlyGeneratedImage
+		setRecentlyGeneratedImage,
+		setIsErrorModalActive,
+		setErrorModalText
 	} = props;
 
 	try {
@@ -59,6 +61,12 @@ export const createImage = async (props: Props) => {
 				hasVideo: response.has_video,
 				tokens_remaining: response.tokens_remaining
 			};
+
+			if (response.forbidden === true) {
+				setIsErrorModalActive(true);
+				setErrorModalText("Please try another prompt");
+				return;
+			}
 
 			if (isFixed) {
 				setRecentlyGeneratedImage?.(newAsset.url);

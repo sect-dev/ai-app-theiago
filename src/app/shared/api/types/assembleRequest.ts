@@ -3,6 +3,8 @@ export interface AssembledImageResponse {
 	nsfw: boolean;
 	has_video: boolean;
 	tokens_remaining: number;
+	prompt: string;
+	forbidden: boolean;
 }
 
 export interface AssembledVideoResponse {

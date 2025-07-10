@@ -21,6 +21,7 @@ const TextArea = () => {
 				Image description
 			</span>
 			<TextareaAutosize
+				placeholder="Type what you want to see in the image"
 				className="w-full bg-[#121423]"
 				minRows={5}
 				maxRows={5}

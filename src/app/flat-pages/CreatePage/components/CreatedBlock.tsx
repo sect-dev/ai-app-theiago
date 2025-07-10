@@ -60,7 +60,7 @@ const CreatedBlock = () => {
 	}, [characterId, generatedAssets]);
 
 	return (
-		<div className="mb-[150px] h-fit w-[332px] rounded-[8px] bg-[#121423] p-[20px] xs:bg-transparent xs:p-0">
+		<div className="mb-[150px] h-fit w-[332px] rounded-[8px] bg-[#121423] p-[20px] md:bg-transparent md:p-0">
 			<div className="grid grid-rows-[auto_1fr] gap-[12px]">
 				<div className="flex flex-col">
 					<span className="text-[16px] font-semibold">Created</span>
@@ -102,7 +102,7 @@ const CreatedBlock = () => {
 
 				{shouldShowEmpty && (
 					// Показываем Empty, когда ни generatedAssets, ни lastAssembledContent не доступны
-					<div className="rounded-[24px] bg-[#191B2C] px-[20px] py-[16px] xs:bg-[#121423]">
+					<div className="rounded-[24px] bg-[#191B2C] px-[20px] py-[16px] md:bg-[#121423]">
 						<Image
 							src="/images/img/image-empty-generated.png"
 							alt="empty icon"
