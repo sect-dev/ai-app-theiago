@@ -13,6 +13,8 @@ export default {
 
 			lg: { max: "1280px" },
 
+			lgm: { max: "1279px" },
+
 			md: { max: "1020px" },
 			// => @media (max-width: 767px) { ... }
 
@@ -59,7 +61,8 @@ export default {
 				"text-shadow": "0px 4px 4px 0px #00000070",
 				"pink-shadow": "0px 4px 18.4px 0px #A25AFF6B",
 				"blue-shadow": "0px 4px 18.4px 0px rgba(5, 142, 235, 0.5)",
-				"purple-safe-payment-shadow": "0px 4px 14px 0px #373AF054"
+				"purple-safe-payment-shadow": "0px 4px 14px 0px #373AF054",
+				"white-shadow": "0px 0px 14.9px 0px #FFFFFFEB"
 			},
 			colors: {
 				gray: "#9DB2CE",
