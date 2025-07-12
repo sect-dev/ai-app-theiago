@@ -47,6 +47,8 @@ export const BASE_URL_PRECREATED_TYPES =
 export const BASE_URL_PAYWALL_PRECREATED =
   "https://aigo.b-cdn.net/web/paywall_precreated";
 
+export const AFFILIATE_FORM_URL = "https://forms.gle/GtQWCPt6Re7EwEsA6";
+
 export const TOKENS = [
   {
     name: "70_tokens",
