@@ -1,4 +1,3 @@
-// @ts-nocheck
 const TRACKDESK_ACCOUNT = "aigo";
 const REVENUE_ORIGIN_ID = "5bd848fb-e5ce-4443-8dd4-9ebaf3f9c97a";
 

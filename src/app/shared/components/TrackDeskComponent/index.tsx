@@ -6,14 +6,19 @@ import { useEffect, useState } from "react";
 
 const TRACKDESK_ACCOUNT = "aigo";
 
-interface TrackdeskConversionData {
+interface ConversionData {
 	conversionType: string;
 	amount: {
 		value: string;
 	};
-	externalCid?: string;
-	revenueOriginId?: string;
 }
+
+interface ExternalCidData {
+	externalCid: string;
+	revenueOriginId: string;
+}
+
+type TrackdeskConversionData = ConversionData | ExternalCidData | undefined;
 
 declare global {
 	interface Window {
