@@ -13,6 +13,8 @@ export default {
 
 			lg: { max: "1280px" },
 
+			lgm: { max: "1279px" },
+
 			md: { max: "1020px" },
 			// => @media (max-width: 767px) { ... }
 
@@ -52,14 +54,17 @@ export default {
 				"multi-purple-gradient":
 					"linear-gradient(180deg, #5810FF 0%, #9037F0 100%), linear-gradient(180deg, #049AEF 0%, #0862DC 100%), linear-gradient(180deg, #9208FF 0%, #B009FF 100%)",
 				"card-bottom-blue-gradient":
-					"linear-gradient(180deg, rgba(44, 51, 85, 0) 0%, rgba(44, 51, 85, 0.02) 28.96%, rgba(44, 51, 85, 0.53) 45%, #2C3355 62.29%)"
+					"linear-gradient(180deg, rgba(44, 51, 85, 0) 0%, rgba(44, 51, 85, 0.02) 28.96%, rgba(44, 51, 85, 0.53) 45%, #2C3355 62.29%)",
+				"blue-layered-gradient":
+					"linear-gradient(112.03deg, rgba(4, 154, 239, 0.3) 5.42%, rgba(8, 98, 220, 0) 96.07%)"
 			},
 			boxShadow: {
 				"card-shadow": "0px 4px 18.4px 0px rgba(162, 90, 255, 0.42)",
 				"text-shadow": "0px 4px 4px 0px #00000070",
 				"pink-shadow": "0px 4px 18.4px 0px #A25AFF6B",
 				"blue-shadow": "0px 4px 18.4px 0px rgba(5, 142, 235, 0.5)",
-				"purple-safe-payment-shadow": "0px 4px 14px 0px #373AF054"
+				"purple-safe-payment-shadow": "0px 4px 14px 0px #373AF054",
+				"white-shadow": "0px 0px 14.9px 0px #FFFFFFEB"
 			},
 			colors: {
 				gray: "#9DB2CE",
