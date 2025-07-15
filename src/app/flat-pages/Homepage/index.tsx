@@ -144,6 +144,9 @@ const HomePage: FC<ComponentProps> = ({
 					domain: window.location.hostname
 				});
 
+				console.log("test trackdesk orderNumber 1", orderNumber);
+				trackdesk.trackExternalCid(orderNumber || "");
+				console.log("test trackdesk orderNumber 2", orderNumber);
 				trackdesk.trackConversion(price || "0");
 			}, 1000);
 		}
@@ -197,6 +200,9 @@ const HomePage: FC<ComponentProps> = ({
 								tokens: productItem,
 								domain: window.location.hostname
 							});
+							console.log("test trackdesk orderNumber 3", orderNumber);
+							trackdesk.trackExternalCid(orderNumber || "");
+							console.log("test trackdesk orderNumber 4", orderNumber);
 							trackdesk.trackConversion(
 								String(TOKENS.find((item) => item.name === product)?.price || 0)
 							);
