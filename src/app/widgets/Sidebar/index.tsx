@@ -5,6 +5,7 @@ import { useAuthStore } from "@/app/shared/store/authStore";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface ComponentProps {
 	isChatPage: boolean;
@@ -19,6 +20,7 @@ const Sidebar: FC<ComponentProps> = ({
 }) => {
 	const { isPremium } = useAuthStore();
 	const [isHidden, setIsHidden] = useState<boolean | null>(true);
+	const t = useTranslations("HomePage");
 
 	useEffect(() => {
 		setIsHidden(isPremium);
@@ -43,7 +45,7 @@ const Sidebar: FC<ComponentProps> = ({
 											"logo-gradient transition-all duration-300"
 									)}
 								>
-									Affiliate Program
+									{t("sidebar_affiliate_program")}
 								</span>
 							</Link>
 						)}
@@ -59,7 +61,7 @@ const Sidebar: FC<ComponentProps> = ({
 										"group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)] animate-fadeIn gap-1 text-[#9DB2CE]"
 									)}
 								>
-									Contact Us
+									{t("sidebar_contact_us")}
 								</span>
 								<span className={clsx("text-white")}>support@theaigo.com</span>
 							</Link>

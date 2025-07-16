@@ -11,17 +11,7 @@ import ChatsInfoVideos from "@/app/widgets/Chats/ChatInfo/ChatsInfoVideos";
 import { useRouter } from "next/navigation";
 import ImageSparkling from "@/../public/images/img/img-sparkling-white.svg";
 import ImageStackSvg from "@/../public/images/img/image-cointstack.svg";
-
-const tabsCaptions = [
-	{
-		title: "Posts",
-		id: 1
-	},
-	{
-		title: "Videos",
-		id: 2
-	}
-];
+import { useTranslations } from "next-intl";
 
 interface ComponentProps {
 	characterInfo: Character;
@@ -36,14 +26,28 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 		setCharacters,
 		characters
 	} = useSelectedCardStore();
-	const [tabs, setTabs] = useState<string>("Posts");
+	const [tabs, setTabs] = useState<string>("posts");
 	const router = useRouter();
 	const currentCharacter = characters?.find(
 		(char) => char.id === characterInfo.id
 	);
 	const handleCollapse = () => setInfoCollapse(true);
+	const t = useTranslations("ChatsPage");
 
-	const handleTabs = (value: string) => setTabs(value);
+	const tabsCaptions = [
+		{
+			title: t("chats_posts"),
+			id: 1,
+			key: "posts"
+		},
+		{
+			title: t("chats_videos"),
+			id: 2,
+			key: "videos"
+		}
+	];
+
+	const handleTabs = (key: string) => setTabs(key);
 
 	const handleClick = () => {
 		router.push("/generate");
@@ -137,12 +141,12 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 						{tabsCaptions.map((item) => {
 							return (
 								<button
-									onClick={() => handleTabs(item.title)}
+									onClick={() => handleTabs(item.key)}
 									key={item.id}
 									className={clsx(
 										"h-[27px] px-[7px] text-[14px] font-semibold opacity-[20%] transition-all duration-300",
 										{
-											"logo-gradient !opacity-100": tabs === item.title
+											"logo-gradient !opacity-100": tabs === item.key
 										}
 									)}
 								>
@@ -151,7 +155,7 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 										className={clsx(
 											"main-gradient block h-[6px] w-full rounded-t-[4px] opacity-0 transition-opacity duration-300",
 											{
-												"!opacity-100": tabs === item.title
+												"!opacity-100": tabs === item.key
 											}
 										)}
 									/>
@@ -160,10 +164,10 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 						})}
 					</div>
 					<div className="px-[8px] pb-[8px]">
-						{tabs === "Posts" && (
+						{tabs === "posts" && (
 							<ChatsInfoPosts content={currentCharacter?.photos ?? null} />
 						)}
-						{tabs === "Videos" && (
+						{tabs === "videos" && (
 							<ChatsInfoVideos content={currentCharacter?.videos ?? null} />
 						)}
 					</div>
@@ -180,7 +184,7 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 						className="mr-[7px] h-[24px] w-[24px]"
 					/>
 					<span className="relative z-[5] mr-[7px] block text-[15px] font-bold">
-						Create Image
+						{t("chats_create_image_chats")}
 					</span>
 					<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
 						2
