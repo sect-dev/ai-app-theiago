@@ -3,6 +3,7 @@ import ImageBanner from "@/../public/images/img/image-affiliate-banner.png";
 import ImageBannerSmall from "@/../public/images/img/image-affiliate-banner-small.png";
 import Image from "next/image";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 interface Props {
 	className?: string;
@@ -10,10 +11,11 @@ interface Props {
 
 const AffiliateBanner = (props: Props) => {
 	const { className } = props;
+	const t = useTranslations("AffiliatePage");
 	return (
 		<div
 			className={clsx(
-				"bg-blue-layered-gradient ml-[4px] grid h-[219px] w-full grid-cols-[auto_auto] justify-between overflow-hidden rounded-bl-[24px] rounded-tl-[24px] bg-[#121423] md:m-0 md:h-full md:rounded-[24px]",
+				"ml-[4px] grid h-[219px] w-full grid-cols-[auto_auto] justify-between overflow-hidden rounded-bl-[24px] rounded-tl-[24px] bg-[#121423] bg-blue-layered-gradient md:m-0 md:h-full md:rounded-[24px]",
 				className
 			)}
 		>
@@ -25,18 +27,17 @@ const AffiliateBanner = (props: Props) => {
 						className="hidden sm:block"
 					/>
 					<span className="text-[34px] font-semibold leading-[130%] tracking-wide sm:text-[24px]">
-						Become an AiGo Affiliate
+						{t("affiliate_banner_title")}
 					</span>
 					<span className="text-[14px] font-semibold leading-[16px] text-[#9DB2CE]">
-						Have an audience who likes cutting-edge tech and spicy content?
-						Share AiGo with them and earn up to 45% recurring commision
+						{t("affiliate_banner_desc")}
 					</span>
 				</div>
 
 				<BecomeAffiliateButton />
 			</div>
 
-			<div className="lgm:hidden relative">
+			<div className="relative lgm:hidden">
 				<Image
 					src={ImageBanner}
 					alt="affiliate banner"

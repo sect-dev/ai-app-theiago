@@ -19,6 +19,7 @@ import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import { paidTypesOfMessages } from "@/app/shared/consts";
 import { useRouter } from "next/navigation";
 import log from "loglevel";
+import { useTranslations } from "next-intl";
 
 interface FormData {
 	message: string;
@@ -44,6 +45,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 	const { user, setAuthModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
+	const t = useTranslations("ChatsPage");
 
 	log.debug("user_id", user?.uid);
 
@@ -338,7 +340,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 								}}
 								id="message"
 								className="block min-h-[48px] w-full resize-none rounded-[16px] bg-[#21233A] p-[12px] pr-[160px] text-[14px] leading-[1.5em] placeholder:text-[14px] placeholder:opacity-50 focus:outline-none md:pr-[135px] sm:pr-[30px] sm:text-[16px]"
-								placeholder="Your message here"
+								placeholder={t("chats_your_message_here")}
 								minRows={1}
 								maxRows={3}
 								onFocus={() => setIsTextareaFocused(true)}
@@ -387,7 +389,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 										})}
 									>
 										{" "}
-										Send photo
+										{t("chats_send_photo")}
 									</span>
 								</button>
 							</div>

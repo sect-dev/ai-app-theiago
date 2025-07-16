@@ -12,12 +12,14 @@ import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { Character } from "@/app/shared/api/types";
 import { getCharacterInfoById } from "@/app/shared/api/getCharacterById";
 import { safeLocalStorage } from "@/app/shared/helpers";
+import { useTranslations } from "next-intl";
 
 const Page = () => {
 	const { selectedCharacterId, setSelectedCharacterId } =
 		useSelectedCardStore();
 	const [characterInfo, setCharacterInfo] = useState<Character | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
+	const t = useTranslations("ChatsPage");
 
 	const getCharacterInfo = async (id: string) => {
 		try {
@@ -75,17 +77,18 @@ const Page = () => {
 						/>
 						<div className="mx-auto max-w-[270px] text-center">
 							<p className="mb-[8px] text-[20px] font-semibold leading-[1.2em] tracking-[-0,04em]">
-								No chats yet
+								{t("chats_no_chats_yet")}
 							</p>
 							<p className="mb-[16px] text-[14px] font-medium opacity-50">
-								Start communicating with someone soon! Everyone is waiting for
-								you.
+								{t("chats_no_chats_yet_desc")}
 							</p>
 							<Link
 								href="/"
 								className="main-gradient mx-auto flex w-[140px] items-center justify-center rounded-[8px] px-[16px] py-[8px] text-[16px] font-bold md:h-[27px] md:px-[12px] md:text-[14px]"
 							>
-								<span className="relative z-[5]">Find someone</span>
+								<span className="relative z-[5]">
+									{t("chats_no_chats_yet_button")}
+								</span>
 							</Link>
 						</div>
 					</div>

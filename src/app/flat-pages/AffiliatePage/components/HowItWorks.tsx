@@ -1,5 +1,5 @@
-import { HOW_IT_WORKS_ITEMS } from "../helpers/consts";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 interface ItemProps {
 	id: number;
@@ -13,6 +13,25 @@ interface Props {
 
 const HowItWorks = (props: Props) => {
 	const { className } = props;
+	const t = useTranslations("AffiliatePage");
+
+	const HOW_IT_WORKS_ITEMS = [
+		{
+			id: 1,
+			name: t("affiliate_how_it_works_sign_up"),
+			description: t("affiliate_how_it_works_sign_up_desc")
+		},
+		{
+			id: 2,
+			name: t("affiliate_how_it_works_get_authorized"),
+			description: t("affiliate_how_it_works_get_authorized_desc")
+		},
+		{
+			id: 3,
+			name: t("affiliate_how_it_works_share"),
+			description: t("affiliate_how_it_works_share_desc")
+		}
+	];
 
 	return (
 		<div
@@ -22,7 +41,7 @@ const HowItWorks = (props: Props) => {
 			)}
 		>
 			<span className="mb-[16px] block text-[24px] font-semibold leading-[1.3] tracking-wide">
-				How it works
+				{t("affiliate_how_it_works_title")}
 			</span>
 			<div className="flex flex-row gap-[16px] md:flex-col">
 				{HOW_IT_WORKS_ITEMS.map((item) => (
@@ -36,7 +55,7 @@ const HowItWorks = (props: Props) => {
 const HowItWorksItem = (props: ItemProps) => {
 	const { name, description, id } = props;
 	return (
-		<div className="bg-blue-layered-gradient max-w-[332px] rounded-[24px] bg-[#2B2D44] p-[16px]">
+		<div className="max-w-[332px] rounded-[24px] bg-[#2B2D44] bg-blue-layered-gradient p-[16px]">
 			<div className="flex flex-col">
 				<div className="mb-[16px] flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[#121423]">
 					<span className="text-[20px] font-semibold leading-[1.3] tracking-wide">

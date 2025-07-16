@@ -6,36 +6,9 @@ import { useEffect } from "react";
 import TagsButton from "./TagsButton";
 import clsx from "clsx";
 import CheckIcon from "@/../public/images/img/blue-check-mark.png";
+import { useTranslations } from "next-intl";
 
 type SuggestionKey = keyof typeof STEPS;
-
-const TAGS = [
-	{
-		id: 1,
-		text: "Pose",
-		key: "pose" as SuggestionKey
-	},
-	{
-		id: 2,
-		text: "Outfit",
-		key: "outfit" as SuggestionKey
-	},
-	{
-		id: 3,
-		text: "Action",
-		key: "action" as SuggestionKey
-	},
-	{
-		id: 4,
-		text: "Scene",
-		key: "scene" as SuggestionKey
-	},
-	{
-		id: 5,
-		text: "Accessories",
-		key: "accessories" as SuggestionKey
-	}
-];
 
 const SuggestionsBlock = () => {
 	const [activeTagId, setActiveTagId] = useState<number>(1);
@@ -43,6 +16,35 @@ const SuggestionsBlock = () => {
 	const [imagePaths, setImagePaths] = useState<string[]>([]);
 	const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 	const { setRequest } = useCharacterCreateStore();
+	const t = useTranslations("ImageGenerator");
+
+	const TAGS = [
+		{
+			id: 1,
+			text: t("generator_pose"),
+			key: "pose" as SuggestionKey
+		},
+		{
+			id: 2,
+			text: t("generator_outfit"),
+			key: "outfit" as SuggestionKey
+		},
+		{
+			id: 3,
+			text: t("generator_action"),
+			key: "action" as SuggestionKey
+		},
+		{
+			id: 4,
+			text: t("generator_scene"),
+			key: "scene" as SuggestionKey
+		},
+		{
+			id: 5,
+			text: t("generator_accessories"),
+			key: "accessories" as SuggestionKey
+		}
+	];
 
 	useEffect(() => {
 		if (activeTagId) {
@@ -82,7 +84,7 @@ const SuggestionsBlock = () => {
 		<div className="relative mb-[20px] rounded-[8px] bg-[#121423] p-[20px] xs:mb-[12px] xs:bg-transparent xs:p-0">
 			<div className="">
 				<span className="mb-[12px] block text-[16px] font-semibold">
-					Suggestions
+					{t("generator_suggestions")}
 				</span>
 				<div className="custom-x-scrollbar mb-[16px] flex gap-x-[4px] overflow-x-auto">
 					{TAGS.map((tag) => (

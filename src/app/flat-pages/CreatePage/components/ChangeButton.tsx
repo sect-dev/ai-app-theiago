@@ -3,6 +3,7 @@
 import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
 import clsx from "clsx";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface Props {
 	className?: string;
@@ -10,6 +11,7 @@ interface Props {
 
 const ChangeButton = (props: Props) => {
 	const { className } = props;
+	const t = useTranslations("ImageGenerator");
 
 	const { setChangeCharacterModal } = useCharacterCreateStore();
 
@@ -32,7 +34,9 @@ const ChangeButton = (props: Props) => {
 				height={24}
 				alt="change button"
 			/>
-			<span className="text-[14px] font-medium text-[#0394EC]">Change</span>
+			<span className="text-[14px] font-medium text-[#0394EC]">
+				{t("generator_change_character")}
+			</span>
 		</button>
 	);
 };

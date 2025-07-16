@@ -30,44 +30,10 @@ const AdPage = (props: Props) => {
   );
   const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const [isStickyVisible, setIsStickyVisible] = useState(true);
 
 
   const firstSectionPlansRef = useRef<HTMLDivElement>(null);
   const locale = safeLocalStorage.get("locale") ?? "en";
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (firstSectionPlansRef.current) {
-  //       const sectionTop = firstSectionPlansRef.current.offsetTop;
-  //       const sectionHeight = firstSectionPlansRef.current.offsetHeight;
-  //       const sectionBottom = sectionTop + sectionHeight;
-  //       const scrollPosition = window.scrollY;
-  //       const windowHeight = window.innerHeight;
-  //       const viewPortBottom = scrollPosition + windowHeight;
-
-  //       if (scrollPosition >= sectionTop && viewPortBottom < sectionBottom) {
-  //         setIsStickyVisible(false);
-  //       } else {
-  //         setIsStickyVisible(true);
-  //       }
-
-
-  //       console.log({
-  //         scrollPosition,
-  //         sectionTop,
-  //         sectionBottom,
-  //         viewPortBottom,
-  //         sectionHeight,
-  //         windowHeight,
-  //         isVisible: !(scrollPosition >= sectionTop && viewPortBottom < sectionBottom)
-  //       })
-  //     }
-
-  //     window.addEventListener("scroll", handleScroll);
-  //     return () => window.removeEventListener("scroll", handleScroll);
-  //   }
-  // }, [paymentPlans])
 
 
   const scrollToSectionPlans = () => {

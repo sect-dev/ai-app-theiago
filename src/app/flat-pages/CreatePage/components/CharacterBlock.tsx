@@ -2,11 +2,9 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import ChangeButton from "./ChangeButton";
-import { getCharactersList } from "@/app/shared/api/characters";
 import { Character } from "@/app/shared/api/types";
 import Image from "next/image";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
-import { getCharacterInfoById } from "@/app/shared/api/getCharacterById";
 import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
 import { safeLocalStorage } from "@/app/shared/helpers";
 
@@ -24,7 +22,6 @@ const CharacterBlock = React.memo((props: Props) => {
 	const charFromGenerated = safeLocalStorage.get("charFromGenerated");
 
 	useEffect(() => {
-		console.log("useeffect", 1231231);
 		if (characters.length > 0) {
 			setCharactersList(characters);
 		}
@@ -38,7 +35,6 @@ const CharacterBlock = React.memo((props: Props) => {
 	}, [charFromGenerated]);
 
 	const mainChar = useMemo(() => {
-		console.log("usememo", 1231231);
 		if (characterId) {
 			return characters.find((char) => char.id == characterId) || null;
 		}
