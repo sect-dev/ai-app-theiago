@@ -2,6 +2,7 @@ import { assembleRequest } from "@/app/shared/api/assembleRequest";
 import { AssembledImageResponse } from "@/app/shared/api/types/assembleRequest";
 import { GeneratedAsset } from "@/app/shared/store/createCharacterStore";
 import { safeLocalStorage } from "@/app/shared/helpers";
+import { generateImage } from "@/app/shared/api/mesages";
 
 const CENSORSHIP_LOW = "low";
 
@@ -76,6 +77,84 @@ export const createImage = async (props: Props) => {
 		}
 	} catch (error) {
 		console.error("Error creating image:", error);
+	} finally {
+		setIsLoading(false);
+	}
+};
+
+export const createImage2 = async (props: Props) => {
+	const {
+		setIsLoading,
+		type,
+		characterId,
+		request,
+		setTokens,
+		setGeneratedAssets,
+		generatedAssets,
+		isFixed = false,
+		setIsGenerateModalActive,
+		setRecentlyGeneratedImage,
+		setIsErrorModalActive,
+		setErrorModalText
+	} = props;
+
+	try {
+		if (isFixed) {
+			setIsGenerateModalActive?.(true);
+		}
+
+		setIsLoading(true);
+
+		// Получаем userId из localStorage или используем null
+		const userId = safeLocalStorage.get("userId") || null;
+
+		const response = await generateImage(
+			userId,
+			characterId.toString(),
+			request
+		);
+
+		if (response) {
+			const tokens = response.tokens_remaining;
+			safeLocalStorage.set("tokens", JSON.stringify(tokens));
+			setTokens(tokens);
+
+			// Проверяем, есть ли изображение в ответе
+			const imageResponse = response.response.find(
+				(item) => item.type === "image"
+			);
+
+			if (imageResponse) {
+				const newAsset = {
+					url: imageResponse.url || "",
+					nsfw: imageResponse.nsfw,
+					hasVideo: false, // Для изображений всегда false
+					tokens_remaining: response.tokens_remaining
+				};
+
+				if (response.forbidden === true) {
+					setIsErrorModalActive(true);
+					setErrorModalText("Please try another prompt");
+					return;
+				}
+
+				if (isFixed) {
+					setRecentlyGeneratedImage?.(newAsset.url);
+				}
+
+				setGeneratedAssets([...generatedAssets, newAsset]);
+			} else {
+				// Если в ответе нет изображения, показываем ошибку
+				setIsErrorModalActive(true);
+				setErrorModalText("Failed to generate image. Please try again.");
+			}
+		}
+	} catch (error) {
+		console.error("Error creating image:", error);
+		setIsErrorModalActive(true);
+		setErrorModalText(
+			"An error occurred while generating the image. Please try again."
+		);
 	} finally {
 		setIsLoading(false);
 	}

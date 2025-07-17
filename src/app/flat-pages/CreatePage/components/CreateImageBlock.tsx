@@ -5,7 +5,7 @@ import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore
 import SuggestionsBlock from "./SuggestionsBlock";
 import TextArea from "./TextArea";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
-import { createImage } from "../helpers/createImage";
+import { createImage, createImage2 } from "../helpers/createImage";
 import { userAgent } from "next/server";
 import { auth } from "@/firebase";
 import { useAuthStore } from "@/app/shared/store/authStore";
@@ -45,7 +45,7 @@ const CreateImageBlock = () => {
 			router.push("/paywall2");
 			return;
 		}
-		await createImage({
+		await createImage2({
 			setIsLoading,
 			type,
 			characterId: characterId ?? 1,
@@ -67,7 +67,7 @@ const CreateImageBlock = () => {
 			router.push("/paywall2");
 			return;
 		}
-		await createImage({
+		await createImage2({
 			setIsLoading,
 			type,
 			characterId: characterId ?? 1,
