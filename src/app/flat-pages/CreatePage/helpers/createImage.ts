@@ -2,7 +2,7 @@ import { assembleRequest } from "@/app/shared/api/assembleRequest";
 import { AssembledImageResponse } from "@/app/shared/api/types/assembleRequest";
 import { GeneratedAsset } from "@/app/shared/store/createCharacterStore";
 import { safeLocalStorage } from "@/app/shared/helpers";
-import { generateImage } from "@/app/shared/api/mesages";
+import { generateImage, sendMessage } from "@/app/shared/api/mesages";
 
 const CENSORSHIP_LOW = "low";
 
@@ -108,11 +108,16 @@ export const createImage2 = async (props: Props) => {
 		// Получаем userId из localStorage или используем null
 		const userId = safeLocalStorage.get("userId") || null;
 
-		const response = await generateImage(
-			userId,
-			characterId.toString(),
-			request
-		);
+		// Формируем запрос так, чтобы стимулировать генерацию изображения
+		const imageRequest = `Show me a picture of ${request}`;
+
+		const params = {
+			userId: userId || "anonymous",
+			characterId: characterId.toString(),
+			message: imageRequest
+		};
+
+		const response = await sendMessage(params);
 
 		if (response) {
 			const tokens = response.tokens_remaining;
@@ -138,12 +143,22 @@ export const createImage2 = async (props: Props) => {
 
 				setGeneratedAssets([...generatedAssets, newAsset]);
 			} else {
-				// Если в ответе нет изображения, но есть другие сообщения, показываем это
+				// Если в ответе нет изображения, но есть другие сообщения
 				if (response.response.length > 0) {
-					setIsErrorModalActive(true);
-					setErrorModalText(
-						"The character responded with text instead of an image. Try a more specific image request."
+					const textResponse = response.response.find(
+						(item) => item.type === "text"
 					);
+					if (textResponse) {
+						setIsErrorModalActive(true);
+						setErrorModalText(
+							`The character responded: "${textResponse.message}". Try a more specific image request.`
+						);
+					} else {
+						setIsErrorModalActive(true);
+						setErrorModalText(
+							"The character didn't send an image. Try a more specific image request."
+						);
+					}
 				} else {
 					setIsErrorModalActive(true);
 					setErrorModalText("Failed to generate image. Please try again.");
