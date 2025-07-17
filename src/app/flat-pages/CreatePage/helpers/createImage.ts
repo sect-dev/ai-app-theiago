@@ -138,10 +138,20 @@ export const createImage2 = async (props: Props) => {
 
 				setGeneratedAssets([...generatedAssets, newAsset]);
 			} else {
-				// Если в ответе нет изображения, показываем ошибку
-				setIsErrorModalActive(true);
-				setErrorModalText("Failed to generate image. Please try again.");
+				// Если в ответе нет изображения, но есть другие сообщения, показываем это
+				if (response.response.length > 0) {
+					setIsErrorModalActive(true);
+					setErrorModalText(
+						"The character responded with text instead of an image. Try a more specific image request."
+					);
+				} else {
+					setIsErrorModalActive(true);
+					setErrorModalText("Failed to generate image. Please try again.");
+				}
 			}
+		} else {
+			setIsErrorModalActive(true);
+			setErrorModalText("Failed to generate image. Please try again.");
 		}
 	} catch (error) {
 		console.error("Error creating image:", error);

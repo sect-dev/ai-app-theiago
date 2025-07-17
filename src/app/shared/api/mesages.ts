@@ -121,32 +121,18 @@ export const generateImage = async (
 	characterId: string,
 	request: string
 ): Promise<SendMessageResponse | null> => {
-	const token = await getCurrentToken();
+	// Формируем запрос так, чтобы стимулировать генерацию изображения
+	const imageRequest = `Show me a picture of ${request}`;
+
+	const params = {
+		userId: userId || "anonymous",
+		characterId: characterId,
+		message: imageRequest
+	};
 
 	try {
-		const response = await apiClient.post<SendMessageResponse>(
-			"/build_web_response",
-			{
-				type: "text", // Используем text как тип запроса
-				user_id: userId,
-				character_id: characterId,
-				message: request,
-				allowed_response_types: ["image"], // Ограничиваем только изображениями
-				censorship: {
-					text: "low",
-					image: "low",
-					audio: "low",
-					video: "low"
-				},
-				token
-			}
-		);
-
-		if (response.data) {
-			localStorage.setItem("hasPremium", response?.data.is_premium.toString());
-			return response.data;
-		}
-		return null;
+		const response = await sendMessage(params);
+		return response;
 	} catch (error) {
 		console.error("Error generating image:", error);
 		return null;
