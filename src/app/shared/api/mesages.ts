@@ -120,30 +120,28 @@ export const generateImage = async (
 	userId: string | null,
 	characterId: string,
 	request: string
-): Promise<GenerateImageResponse | null> => {
+): Promise<SendMessageResponse | null> => {
 	const token = await getCurrentToken();
 
-	const payload: GenerateImagePayload = {
-		type: "image",
-		user_id: userId,
-		character_id: characterId,
-		message: request,
-		locale: "en",
-		allowed_response_types: ["image"],
-		censorship: {
-			text: "low",
-			image: "low",
-			audio: "low",
-			video: "low"
-		},
-		token: token ?? ""
-	};
-
 	try {
-		const response = await apiClient.post<GenerateImageResponse>(
+		const response = await apiClient.post<SendMessageResponse>(
 			"/build_web_response",
-			payload
+			{
+				type: "text", // Используем text как тип запроса
+				user_id: userId,
+				character_id: characterId,
+				message: request,
+				allowed_response_types: ["image"], // Ограничиваем только изображениями
+				censorship: {
+					text: "low",
+					image: "low",
+					audio: "low",
+					video: "low"
+				},
+				token
+			}
 		);
+
 		if (response.data) {
 			localStorage.setItem("hasPremium", response?.data.is_premium.toString());
 			return response.data;

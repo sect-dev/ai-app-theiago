@@ -119,24 +119,18 @@ export const createImage2 = async (props: Props) => {
 			safeLocalStorage.set("tokens", JSON.stringify(tokens));
 			setTokens(tokens);
 
-			// Проверяем, есть ли изображение в ответе
+			// Ищем изображение в ответе
 			const imageResponse = response.response.find(
 				(item) => item.type === "image"
 			);
 
-			if (imageResponse) {
+			if (imageResponse && imageResponse.url) {
 				const newAsset = {
-					url: imageResponse.url || "",
+					url: imageResponse.url,
 					nsfw: imageResponse.nsfw,
 					hasVideo: false, // Для изображений всегда false
 					tokens_remaining: response.tokens_remaining
 				};
-
-				if (response.forbidden === true) {
-					setIsErrorModalActive(true);
-					setErrorModalText("Please try another prompt");
-					return;
-				}
 
 				if (isFixed) {
 					setRecentlyGeneratedImage?.(newAsset.url);
