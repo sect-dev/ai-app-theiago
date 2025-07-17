@@ -6,6 +6,9 @@ import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import AffiliateIconBlue from "@/../public/images/img/affiliate/image-sidebar-dollar-blue.png";
+import AffiliateIconGray from "@/../public/images/img/affiliate/image-sidebar-dollar-gray.png";
+import Image from "next/image";
 
 interface ComponentProps {
 	isChatPage: boolean;
@@ -38,6 +41,23 @@ const Sidebar: FC<ComponentProps> = ({
 								href="/affiliate"
 								className="transition-bg flex h-[40px] cursor-pointer items-center justify-center rounded-[4px] bg-[#121423] px-[16px] py-[10px] duration-300 hover:bg-[#2E335B]"
 							>
+								{pathname === "/affiliate" ? (
+									<Image
+										src={AffiliateIconBlue}
+										alt="affiliate"
+										width={20}
+										height={20}
+										className="mr-[8px] h-[20px] w-[20px]"
+									/>
+								) : (
+									<Image
+										src={AffiliateIconGray}
+										alt="affiliate"
+										width={20}
+										height={20}
+										className="mr-[8px] h-[20px] w-[20px]"
+									/>
+								)}
 								<span
 									className={clsx(
 										"text-[14px] font-semibold leading-[16px]",
