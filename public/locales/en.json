@@ -177,5 +177,17 @@
 		"affiliate_start_earning": "Start earning now",
 		"affiliate_start_earning_desc": "It's time to start! Press this button below!",
 		"affiliate_start_earning_button": "Get started"
+	},
+	"LoginModal": {
+		"login_title": "Nice to see you again",
+		"login_email": "Email",
+		"login_input_your_e_mail": "Input your E-mail",
+		"login_sign_in": "Sign in"
+	},
+	"ConfirmAgeModal": {
+		"confirm_age_title": "Confirm your age",
+		"confirm_age_description": "We require users to be 18 years old or over, so please confirm your age. If you are younger, please leave the site",
+		"confirm_age_button": "I am 18 or over",
+		"confirm_age_decline": "I am under 18"
 	}
 }

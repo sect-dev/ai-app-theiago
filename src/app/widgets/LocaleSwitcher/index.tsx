@@ -6,6 +6,7 @@ import { setLocale } from "@/i18n/locale";
 import { localesMap } from "@/i18n/config";
 import { Locale } from "@/i18n/types";
 import clsx from "clsx";
+import { safeLocalStorage } from "@/app/shared/helpers";
 
 export const LocaleSwitcher: FC = () => {
 	const locale = useLocale();
@@ -13,6 +14,7 @@ export const LocaleSwitcher: FC = () => {
 	const onChange = (value: string) => {
 		const locale = value as Locale;
 		setLocale(locale);
+		safeLocalStorage.set("locale", locale);
 	};
 
 	return (

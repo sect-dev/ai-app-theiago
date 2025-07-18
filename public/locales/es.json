@@ -177,5 +177,17 @@
 		"affiliate_start_earning": "Comienza a ganar ahora",
 		"affiliate_start_earning_desc": "¡Es hora de empezar! Presiona este botón a continuación!",
 		"affiliate_start_earning_button": "Comenzar"
+	},
+	"LoginModal": {
+		"login_title": "Bienvenido de nuevo",
+		"login_email": "Correo electrónico",
+		"login_input_your_e_mail": "Ingrese su correo electrónico",
+		"login_sign_in": "Iniciar sesión"
+	},
+	"ConfirmAgeModal": {
+		"confirm_age_title": "Confirma tu edad",
+		"confirm_age_description": "Requerimos que los usuarios tengan 18 años o más, por lo que por favor confirma tu edad. Si eres menor, por favor deja el sitio",
+		"confirm_age_button": "Tengo 18 años o más",
+		"confirm_age_decline": "Tengo menos de 18 años"
 	}
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { defaultLocale, locales } from "./i18n/config";
 import { Locale } from "./i18n/types";
 import createMiddleware from "next-intl/middleware";
+import { safeLocalStorage } from "./app/shared/helpers";
 
 // export function middleware(request: NextRequest) {
 // 	// Получаем параметр locale из URL
