@@ -189,5 +189,13 @@
 		"confirm_age_description": "Requerimos que los usuarios tengan 18 años o más, por lo que por favor confirma tu edad. Si eres menor, por favor deja el sitio",
 		"confirm_age_button": "Tengo 18 años o más",
 		"confirm_age_decline": "Tengo menos de 18 años"
+	},
+	"FeedBackModal": {
+		"feedback_title": "Describe tus sentimientos",
+		"feedback_description": "Cuéntanos sobre tu experiencia interactuando con AiGo",
+		"feedback_ididnt_like": "No me gustó",
+		"feedback_like": "Me encantó",
+		"feedback_button": "Enviar",
+		"feedback_placeholder": "Tu comentario aquí"
 	}
 }
