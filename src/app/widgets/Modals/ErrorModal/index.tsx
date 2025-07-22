@@ -4,6 +4,7 @@ import ImageError from "@/../public/images/img/error.png";
 import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
 import ImageErrorModal from "@/../public/images/img/image-error-modal.png";
 import IconCloseX from "@/../public/images/icons/icon-close-x.svg";
+import Link from "next/link";
 
 const ErrorModal = () => {
 	const { setIsErrorModalActive, ErrorModalText } = useCharacterCreateStore();
@@ -32,10 +33,15 @@ const ErrorModal = () => {
 							className="mb-[24px]"
 						/>
 						<span className="mb-[8px] text-[20px] font-semibold leading-[22px]">
-							Something went wrong
+							Try Another Prompt
 						</span>
 						<span className="mb-[24px] text-center text-[16px] font-medium opacity-50">
-							{ErrorModalText}
+							All content must comply with our Terms & Conditions{" "}
+							<Link href="/terms" className="text-[#058BEA]">
+								Terms & Conditions{" "}
+							</Link>
+							otherwise, your account will be blocked. If you believe this is an
+							error, please contact our Support Team
 						</span>
 
 						<button
