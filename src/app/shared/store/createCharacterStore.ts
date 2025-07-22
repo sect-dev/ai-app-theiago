@@ -26,7 +26,6 @@ interface CharacterStore {
 	isLoading: boolean;
 	generatedAssets: GeneratedAsset[];
 	isErrorModalActive: boolean;
-	ErrorModalText: string;
 	// openChangeCharacterModal: (data: Character[]) => void;
 	setCharacterData: (data: Character[]) => void;
 	setChangeCharacterModal: (isChangeCharacterModalActive: boolean) => void;
@@ -38,7 +37,6 @@ interface CharacterStore {
 	setIsLoading: (isLoading: boolean) => void;
 	setGeneratedAssets: (assets: GeneratedAsset[]) => void;
 	setIsErrorModalActive: (isErrorModalActive: boolean) => void;
-	setErrorModalText: (errorText: string) => void;
 }
 
 export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
@@ -52,7 +50,6 @@ export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
 	isLoading: false,
 	generatedAssets: [],
 	isErrorModalActive: false,
-	ErrorModalText: "An unknown error occurred. Please try your action again",
 
 	setCharacterData: (data: Character[]) => {
 		set({ characterData: data });
@@ -104,9 +101,5 @@ export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
 
 	setIsErrorModalActive: (isErrorModalActive) => {
 		set({ isErrorModalActive });
-	},
-
-	setErrorModalText: (errorText) => {
-		set({ ErrorModalText: errorText });
-	}
+	},	
 }));

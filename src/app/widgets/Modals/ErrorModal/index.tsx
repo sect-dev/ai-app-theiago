@@ -7,7 +7,7 @@ import IconCloseX from "@/../public/images/icons/icon-close-x.svg";
 import Link from "next/link";
 
 const ErrorModal = () => {
-	const { setIsErrorModalActive, ErrorModalText } = useCharacterCreateStore();
+	const { setIsErrorModalActive } = useCharacterCreateStore();
 
 	const handleClose = () => {
 		setIsErrorModalActive(false);
