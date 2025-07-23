@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { WHY_JOIN_PROGRAM_ITEMS } from "../helpers/consts";
 import clsx from "clsx";
 import StartEarning from "./StartEarning";
+import { useTranslations } from "next-intl";
 
 interface ItemProps {
 	image: string;
@@ -15,6 +15,34 @@ interface Props {
 
 const WhyJoinProgram = (props: Props) => {
 	const { className } = props;
+	const t = useTranslations("AffiliatePage");
+
+	const WHY_JOIN_PROGRAM_ITEMS = [
+		{
+			id: 1,
+			image: "/images/img/affiliate/image-man-item.png",
+			title: t("affiliate_why_join_dedicated"),
+			description: t("affiliate_why_join_dedicated_desc")
+		},
+		{
+			id: 2,
+			image: "/images/img/affiliate/image-clock-item.png",
+			title: t("affiliate_unlimited"),
+			description: t("affiliate_unlimited_desc")
+		},
+		{
+			id: 3,
+			image: "/images/img/affiliate/image-fire-item.png",
+			title: t("affiliate_ready"),
+			description: t("affiliate_ready_desc")
+		},
+		{
+			id: 4,
+			image: "/images/img/affiliate/image-heart-item.png",
+			title: t("affiliate_challenges"),
+			description: t("affiliate_challenges_desc")
+		}
+	];
 	return (
 		<div
 			className={clsx(
@@ -23,7 +51,7 @@ const WhyJoinProgram = (props: Props) => {
 			)}
 		>
 			<span className="mb-[16px] block text-[24px] font-semibold leading-[1.3] tracking-wide">
-				Why join the AiGo Affiliate program?
+				{t("affiliate_why_join_title")}
 			</span>
 
 			<div className="mb-[24px] grid grid-cols-2 gap-[8px] md:grid-cols-1 md:gap-[16px]">

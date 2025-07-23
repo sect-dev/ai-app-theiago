@@ -13,6 +13,7 @@ import Image from "next/image";
 import ImageSparkling from "@/../public/images/img/img-sparkling-white.svg";
 import ImageStackSvg from "@/../public/images/img/image-cointstack.svg";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const CreateImageBlock = () => {
 	const {
@@ -31,10 +32,9 @@ const CreateImageBlock = () => {
 	const { setAuthModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 	const router = useRouter();
-	const { setIsErrorModalActive, setErrorModalText } =
+	const { setIsErrorModalActive } =
 		useCharacterCreateStore();
-
-	console.log("tokens", tokens);
+	const t = useTranslations("ImageGenerator");
 
 	const handleCreateImage = async () => {
 		if (user?.isAnonymous) {
@@ -54,7 +54,6 @@ const CreateImageBlock = () => {
 			setGeneratedAssets,
 			generatedAssets,
 			setIsErrorModalActive,
-			setErrorModalText
 		});
 	};
 
@@ -79,7 +78,6 @@ const CreateImageBlock = () => {
 			setIsGenerateModalActive,
 			setRecentlyGeneratedImage,
 			setIsErrorModalActive,
-			setErrorModalText
 		});
 	};
 
@@ -91,7 +89,7 @@ const CreateImageBlock = () => {
 						<TextArea />
 						<div className="flex flex-row justify-between">
 							{/* <SwitchButton /> */}
-							{/* <RandomButton /> */}
+							<RandomButton />
 						</div>
 					</div>
 
@@ -107,7 +105,7 @@ const CreateImageBlock = () => {
 							className="mr-[7px] h-[24px] w-[24px]"
 						/>
 						<span className="relative z-[5] mr-[7px] block text-[15px] font-bold">
-							Create Image
+							{t("generator_createimage_button")}
 						</span>
 						<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
 							2
@@ -133,7 +131,7 @@ const CreateImageBlock = () => {
 						className="mr-[7px] h-[24px] w-[24px]"
 					/>
 					<span className="relative z-[5] mr-[7px] block text-[15px] font-bold">
-						Create Image
+						{t("generator_createimage_button")}
 					</span>
 					<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
 						2

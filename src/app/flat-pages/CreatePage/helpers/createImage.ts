@@ -17,7 +17,6 @@ interface Props {
 	setIsGenerateModalActive?: (isGenerateModalActive: boolean) => void;
 	setRecentlyGeneratedImage?: (recentlyGeneratedImage: string) => void;
 	setIsErrorModalActive: (isErrorModalActive: boolean) => void;
-	setErrorModalText: (errorText: string) => void;
 }
 
 export const createImage = async (props: Props) => {
@@ -33,7 +32,6 @@ export const createImage = async (props: Props) => {
 		setIsGenerateModalActive,
 		setRecentlyGeneratedImage,
 		setIsErrorModalActive,
-		setErrorModalText
 	} = props;
 
 	try {
@@ -64,7 +62,6 @@ export const createImage = async (props: Props) => {
 
 			if (response.forbidden === true) {
 				setIsErrorModalActive(true);
-				setErrorModalText("Please try another prompt");
 				return;
 			}
 
@@ -80,34 +77,3 @@ export const createImage = async (props: Props) => {
 		setIsLoading(false);
 	}
 };
-
-// export const handleFixedCreateImage = async () => {
-// 	try {
-// 		setIsGenerateModalActive(true);
-// 		setIsLoading(true);
-
-// 		const response = await assembleRequest<AssembledImageResponse>({
-// 			type: type,
-// 			characterId: characterId !== null ? characterId : 1,
-// 			request: request,
-// 			censorship: CENSORSHIP_LOW
-// 		});
-
-// 		if (response) {
-// 			const newAsset = {
-// 				url: response.url,
-// 				nsfw: response.nsfw,
-// 				hasVideo: response.has_video
-// 			};
-
-// 			setRecentlyGeneratedImage(newAsset.url);
-// 			setGeneratedAssets([...generatedAssets, newAsset]);
-// 		}
-
-// 		// console.log("response", response);
-// 	} catch (error) {
-// 		console.error("Error creating image:", error);
-// 	} finally {
-// 		setIsLoading(false);
-// 	}
-// };

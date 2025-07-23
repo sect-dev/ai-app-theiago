@@ -16,6 +16,7 @@ import IconQuestionMark from "@/../public/images/icons/icon-questionmark.svg";
 import { useSubscriptionStore } from "@/app/shared/store/subscriptionStore";
 import { UserStatus } from "@/app/shared/api/types";
 import { getUserStatus } from "@/app/shared/api/auth";
+import { useTranslations } from "next-intl";
 
 interface ComponentProps {
 	pathname?: string;
@@ -27,38 +28,39 @@ interface UserStatusResponse {
 	token: string;
 }
 
-const navigationData = [
-	{
-		title: "Explore",
-		id: 1,
-		icon: IconDiscover,
-		activeIcon: IconDiscoverActive,
-		href: "/",
-		className: "rounded-b-[4px] rounded-t-[12px]"
-	},
-	{
-		title: "Create image",
-		id: 2,
-		icon: IconCreatePage,
-		activeIcon: IconCreatePageActive,
-		href: "/generate",
-		className: "rounded-[4px]"
-	},
-	{
-		title: "Chats",
-		id: 3,
-		icon: IconChats,
-		activeIcon: IconChatsActive,
-		href: "/chats",
-		className: "rounded-[4px]"
-	}
-];
-
 const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 	const { setMobileChatOpen } = useSelectedCardStore();
 	const { isPremium, user } = useAuthStore();
 	const [isHidden, setIsHidden] = useState<boolean | null>(true);
 	const isChatPage = pathname?.includes("chats");
+	const t = useTranslations("HomePage");
+
+	const navigationData = [
+		{
+			title: t("sidebar_explore"),
+			id: 1,
+			icon: IconDiscover,
+			activeIcon: IconDiscoverActive,
+			href: "/",
+			className: "rounded-b-[4px] rounded-t-[12px]"
+		},
+		{
+			title: t("sidebar_create_image"),
+			id: 2,
+			icon: IconCreatePage,
+			activeIcon: IconCreatePageActive,
+			href: "/generate",
+			className: "rounded-[4px]"
+		},
+		{
+			title: t("sidebar_chats"),
+			id: 3,
+			icon: IconChats,
+			activeIcon: IconChatsActive,
+			href: "/chats",
+			className: "rounded-[4px]"
+		}
+	];
 
 	const handleSubscriptionClick = async (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -94,7 +96,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 	const contactBlock = [
 		{
 			id: 1,
-			title: "Contact Us",
+			title: t("sidebar_contact_us"),
 			email: "support@theaigo.com",
 			icon: IconQuestionMark,
 			className: clsx("rounded-t-xl justify-center text-left", {
@@ -107,7 +109,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 		},
 		{
 			id: 2,
-			title: "Subscription",
+			title: t("sidebar_subscription"),
 			icon: IconDollar,
 			className: "rounded-b-xl",
 			href: "#",
@@ -296,7 +298,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 								alt="Subscription icon"
 								className="size-[20px]"
 							/>
-							{!isChatPage && <span>Subscription</span>}
+							{!isChatPage && <span>{t("sidebar_subscription")}</span>}
 						</span>
 					</Link>
 				</li>
