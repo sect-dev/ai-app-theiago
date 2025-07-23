@@ -201,8 +201,41 @@ body {
 	);
 }
 
+.inner-shadow::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 16px;
+	background: linear-gradient(
+		180deg,
+		rgba(0, 0, 0, 0) 42.51%,
+		rgba(0, 0, 0, 0.5) 77.39%
+	);
+	pointer-events: none;
+}
+
 .choosen-token-shadow {
 	box-shadow: 0px 4px 18.4px 0px #058eeb80;
+}
+
+.choosen-token-shadow-after {
+	background: linear-gradient(
+		112.03deg,
+		rgba(4, 154, 239, 0.3) 5.42%,
+		rgba(8, 98, 220, 0) 96.07%
+	);
+}
+
+.choosen-token-shadow-after::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 16px;
+	background: linear-gradient(
+		112.03deg,
+		rgba(4, 154, 239, 0.3) 5.42%,
+		rgba(8, 98, 220, 0) 96.07%
+	);
 }
 
 .choosen-token-shadow-generate {
