@@ -17,7 +17,6 @@ interface Props {
 	setIsGenerateModalActive?: (isGenerateModalActive: boolean) => void;
 	setRecentlyGeneratedImage?: (recentlyGeneratedImage: string) => void;
 	setIsErrorModalActive: (isErrorModalActive: boolean) => void;
-	setErrorModalText: (errorText: string) => void;
 }
 
 export const createImage = async (props: Props) => {
@@ -33,7 +32,6 @@ export const createImage = async (props: Props) => {
 		setIsGenerateModalActive,
 		setRecentlyGeneratedImage,
 		setIsErrorModalActive,
-		setErrorModalText
 	} = props;
 
 	try {
@@ -64,7 +62,6 @@ export const createImage = async (props: Props) => {
 
 			if (response.forbidden === true) {
 				setIsErrorModalActive(true);
-				setErrorModalText("Please try another prompt");
 				return;
 			}
 
