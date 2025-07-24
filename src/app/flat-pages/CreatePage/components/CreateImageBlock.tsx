@@ -88,7 +88,7 @@ const CreateImageBlock = () => {
 						<TextArea />
 						<div className="flex flex-row justify-between">
 							{/* <SwitchButton /> */}
-							{/* <RandomButton /> */}
+							<RandomButton />
 						</div>
 					</div>
 
