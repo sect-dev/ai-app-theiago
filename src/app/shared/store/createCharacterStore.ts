@@ -39,7 +39,7 @@ interface CharacterStore {
 	setIsErrorModalActive: (isErrorModalActive: boolean) => void;
 }
 
-export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
+export const useGenerateImageStore = create<CharacterStore>((set, get) => ({
 	isChangeCharacterModalActive: false,
 	isGenerateModalActive: false,
 	recentlyGeneratedImage: null,

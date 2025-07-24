@@ -1,13 +1,13 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import ImageError from "@/../public/images/img/error.png";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import ImageErrorModal from "@/../public/images/img/image-error-modal.png";
 import IconCloseX from "@/../public/images/icons/icon-close-x.svg";
 import Link from "next/link";
 
 const ErrorModal = () => {
-	const { setIsErrorModalActive } = useCharacterCreateStore();
+	const { setIsErrorModalActive } = useGenerateImageStore();
 
 	const handleClose = () => {
 		setIsErrorModalActive(false);

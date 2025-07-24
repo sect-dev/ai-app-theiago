@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import TagsButton from "./TagsButton";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import { useEffect, useState } from "react";
 import { lastAssembledRequest } from "@/app/shared/api/assembleRequest";
 import { LastAssembledContentResponse } from "@/app/shared/api/types/assembleRequest";
@@ -29,7 +29,7 @@ const ANIMATION_OPTIONS = {
 };
 
 const CreatedBlock = () => {
-	const { isLoading, generatedAssets, characterId } = useCharacterCreateStore();
+	const { isLoading, generatedAssets, characterId } = useGenerateImageStore();
 	const [lastAssembledContent, setLastAssembledContent] = useState<
 		LastAssembledContentResponse[] | null
 	>(null);

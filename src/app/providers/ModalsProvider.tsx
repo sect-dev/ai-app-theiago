@@ -7,7 +7,7 @@ import { useAgeVerification } from "@/app/shared/hooks/useAgeVerification";
 import { useSubscriptionStore } from "../shared/store/subscriptionStore";
 import { useReportStore } from "../shared/store/reportStore";
 import { usePathname } from "next/navigation";
-import { useCharacterCreateStore } from "../shared/store/createCharacterStore";
+import { useGenerateImageStore } from "../shared/store/createCharacterStore";
 import CharacterChangeModal from "../widgets/Modals/ChangeCharacter";
 
 const AuthModal = dynamic(() => import("@/app/widgets/Modals/AuthModal"), {
@@ -83,7 +83,11 @@ export default function ModalsProvider() {
 		useSubscriptionStore();
 	const { isReportModalActive, isFeedBackModalActive } = useReportStore();
 	const pathname = usePathname();
-	const { isErrorModalActive } = useCharacterCreateStore();
+	const {
+		isChangeCharacterModalActive,
+		isGenerateModalActive,
+		isErrorModalActive
+	} = useGenerateImageStore();
 
 	const isAnyOtherModalActive =
 		isAuthModalActive ||
@@ -100,8 +104,6 @@ export default function ModalsProvider() {
 		!isAnyOtherModalActive &&
 		!isPaywallPage &&
 		!isSuccessPaymentModalActive;
-	const { isChangeCharacterModalActive, isGenerateModalActive } =
-		useCharacterCreateStore();
 
 	return (
 		<>

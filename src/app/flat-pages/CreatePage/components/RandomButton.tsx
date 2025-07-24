@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import { generateRandomPrompt } from "@/app/shared/api/assembleRequest";
 
 const RandomButton = () => {
-	const { characterId, setRequest } = useCharacterCreateStore();
+	const { characterId, setRequest } = useGenerateImageStore();
 
 	const handleRandomClick = async () => {
 		const randomPrompt = await generateRandomPrompt({

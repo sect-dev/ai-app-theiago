@@ -1,5 +1,5 @@
 import { STEPS } from "@/app/shared/consts/suggestions";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import { useState } from "react";
 import Image from "next/image";
 import { useEffect } from "react";
@@ -15,7 +15,7 @@ const SuggestionsBlock = () => {
 	const [suggestions, setSuggestions] = useState<string[]>([]);
 	const [imagePaths, setImagePaths] = useState<string[]>([]);
 	const [clickedIndex, setClickedIndex] = useState<number | null>(null);
-	const { setRequest } = useCharacterCreateStore();
+	const { setRequest } = useGenerateImageStore();
 	const t = useTranslations("ImageGenerator");
 
 	const TAGS = [

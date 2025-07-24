@@ -1,12 +1,11 @@
 "use client";
 
 import RandomButton from "./RandomButton";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import SuggestionsBlock from "./SuggestionsBlock";
 import TextArea from "./TextArea";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import { createImage } from "../helpers/createImage";
-import { userAgent } from "next/server";
 import { auth } from "@/firebase";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import Image from "next/image";
@@ -25,15 +24,14 @@ const CreateImageBlock = () => {
 		setGeneratedAssets,
 		generatedAssets,
 		setIsGenerateModalActive,
-		setRecentlyGeneratedImage
-	} = useCharacterCreateStore();
+		setRecentlyGeneratedImage,
+		setIsErrorModalActive
+	} = useGenerateImageStore();
 	const user = auth.currentUser;
 	const tokens = usePaymentStore((state) => state.tokens);
 	const { setAuthModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 	const router = useRouter();
-	const { setIsErrorModalActive } =
-		useCharacterCreateStore();
 	const t = useTranslations("ImageGenerator");
 
 	const handleCreateImage = async () => {
@@ -53,7 +51,7 @@ const CreateImageBlock = () => {
 			setTokens,
 			setGeneratedAssets,
 			generatedAssets,
-			setIsErrorModalActive,
+			setIsErrorModalActive
 		});
 	};
 
@@ -77,7 +75,7 @@ const CreateImageBlock = () => {
 			isFixed: true,
 			setIsGenerateModalActive,
 			setRecentlyGeneratedImage,
-			setIsErrorModalActive,
+			setIsErrorModalActive
 		});
 	};
 

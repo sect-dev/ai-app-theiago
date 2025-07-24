@@ -1,5 +1,5 @@
 import { safeLocalStorage } from "@/app/shared/helpers";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { useTranslations } from "next-intl";
@@ -7,9 +7,8 @@ import Image from "next/image";
 
 const CharacterChangeModal = () => {
 	const { charactersList } = useSelectedCardStore();
-	const { setChangeCharacterModal } = useCharacterCreateStore();
 	const charactersArray = charactersList ? Object.values(charactersList) : [];
-	const { characterId, setCharacterId } = useCharacterCreateStore();
+	const { setCharacterId, setChangeCharacterModal } = useGenerateImageStore();
 	const t = useTranslations("ImageGenerator");
 
 	const handleClose = () => {
