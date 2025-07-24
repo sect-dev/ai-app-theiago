@@ -25,29 +25,7 @@ interface Props {
 
 const STORAGE_KEY = "CREATED_CHAR_PARAMS";
 
-const useLocalStorage = (props: Partial<Props>) => {
-	const {
-		step,
-		charType,
-		gender,
-		age,
-		ethnicity,
-		bodyType,
-		breastType,
-		buttType,
-		eyesType,
-		hairStyle,
-		hairColor,
-		personality,
-		voice,
-		occupation,
-		hobbies,
-		name,
-		relationship,
-		outfit,
-		accessories
-	} = props;
-
+const useLocalStorage = () => {
 	const [storedData, setStoredData] = useState<Partial<Props>>({});
 
 	// Функция для получения данных из localStorage
@@ -85,68 +63,6 @@ const useLocalStorage = (props: Partial<Props>) => {
 			console.error("Ошибка при очистке localStorage:", error);
 		}
 	}, []);
-
-	// Загрузка данных при первом рендере
-	useEffect(() => {
-		const data = getStoredData();
-		setStoredData(data);
-	}, [getStoredData]);
-
-	// Сохранение при изменении любого из параметров
-	useEffect(() => {
-		const allParams = {
-			step,
-			charType,
-			gender,
-			age,
-			ethnicity,
-			bodyType,
-			breastType,
-			buttType,
-			eyesType,
-			hairStyle,
-			hairColor,
-			personality,
-			voice,
-			occupation,
-			hobbies,
-			name,
-			relationship,
-			outfit,
-			accessories
-		};
-
-		// Собираем только определенные параметры (не undefined)
-		const currentParams = Object.fromEntries(
-			Object.entries(allParams).filter(([_, value]) => value !== undefined)
-		);
-
-		// Сохраняем только если есть хотя бы один параметр
-		if (Object.keys(currentParams).length > 0) {
-			saveToStorage(currentParams);
-		}
-	}, [
-		step,
-		charType,
-		gender,
-		age,
-		ethnicity,
-		bodyType,
-		breastType,
-		buttType,
-		eyesType,
-		hairStyle,
-		hairColor,
-		personality,
-		voice,
-		occupation,
-		hobbies,
-		name,
-		relationship,
-		outfit,
-		accessories,
-		saveToStorage
-	]);
 
 	return {
 		storedData,

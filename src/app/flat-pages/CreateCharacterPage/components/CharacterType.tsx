@@ -6,40 +6,29 @@ import RealisticImage from "@/../public/images/createpage/realistic-first-page.p
 import AnimeImage from "@/../public/images/createpage/anime-first-page.png";
 import useLocalStorage from "../hooks/useLocalStorage";
 import FirstStepImage from "@/../public/images/createpage/first-step.png";
-import FirstStepImageMobile from "@/../public/images/createpage/first-step-mobile.png";
 import clsx from "clsx";
+import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 
 const CharacterType = () => {
-	const [selectedCharType, setSelectedCharType] = useState<string>("");
-	const { saveToStorage, getStoredData } = useLocalStorage({
-		step: 1
-	});
+	const { charType, setCharType, setStep } = useGenerateImageStore();
+	const { saveToStorage, getStoredData } = useLocalStorage();
+	const isAnime = charType === "Anime";
+	const isRealistic = charType === "Realistic";
 
 	useEffect(() => {
 		const storedData = getStoredData();
 		const initialCharType = storedData.charType || "Realistic";
-		setSelectedCharType(initialCharType);
-
-		saveToStorage({ charType: initialCharType });
-	}, [getStoredData, saveToStorage]);
-
-	useEffect(() => {
-		if (selectedCharType) {
-			saveToStorage({ charType: selectedCharType });
-		}
-	}, [selectedCharType, saveToStorage]);
+		setCharType(initialCharType);
+	}, [getStoredData, setCharType]);
 
 	const handleCharTypeSelect = (charType: string) => {
-		setSelectedCharType(charType);
+		setCharType(charType);
 	};
 
 	const handleNextClick = () => {
-		saveToStorage({ step: 2 });
+		saveToStorage({ step: 2, charType });
+		setStep(2);
 	};
-
-	if (!selectedCharType) {
-		return <div>Loading...</div>; // TODO: add loader
-	}
 
 	return (
 		<div>
@@ -64,7 +53,7 @@ const CharacterType = () => {
 				<button
 					className={clsx(
 						"inner-shadow relative rounded-[16px] transition-all duration-300",
-						selectedCharType === "Realistic"
+						isRealistic
 							? "border-main-gradient choosen-token-shadow choosen-token-shadow-after"
 							: ""
 					)}
@@ -83,7 +72,7 @@ const CharacterType = () => {
 				<button
 					className={clsx(
 						"inner-shadow relative rounded-[16px] transition-all duration-300",
-						selectedCharType === "Anime"
+						isAnime
 							? "border-main-gradient choosen-token-shadow choosen-token-shadow-after"
 							: ""
 					)}
