@@ -4,7 +4,7 @@ import Script from "next/script";
 
 const CookieScriptComponent = () => {
 	// Отображаем только в production среде
-	if (process.env.NODE_ENV !== "production") {
+	if (process.env.NEXT_PUBLIC_ENV == "stage") {
 		return null;
 	}
 
