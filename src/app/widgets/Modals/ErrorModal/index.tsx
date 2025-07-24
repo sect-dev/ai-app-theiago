@@ -1,7 +1,7 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import ImageError from "@/../public/images/img/error.png";
-import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import ImageErrorModal from "@/../public/images/img/image-error-modal.png";
 import IconCloseX from "@/../public/images/icons/icon-close-x.svg";
 import Link from "next/link";

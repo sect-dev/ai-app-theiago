@@ -15,7 +15,7 @@ type ContentType = "video" | "image";
 
 type Censorship = "low" | "high";
 
-interface CharacterStore {
+interface GenerateImageStore {
 	isChangeCharacterModalActive: boolean;
 	isGenerateModalActive: boolean;
 	recentlyGeneratedImage: string | null;
@@ -39,7 +39,7 @@ interface CharacterStore {
 	setIsErrorModalActive: (isErrorModalActive: boolean) => void;
 }
 
-export const useGenerateImageStore = create<CharacterStore>((set, get) => ({
+export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
 	isChangeCharacterModalActive: false,
 	isGenerateModalActive: false,
 	recentlyGeneratedImage: null,
@@ -101,5 +101,5 @@ export const useGenerateImageStore = create<CharacterStore>((set, get) => ({
 
 	setIsErrorModalActive: (isErrorModalActive) => {
 		set({ isErrorModalActive });
-	},	
+	}
 }));

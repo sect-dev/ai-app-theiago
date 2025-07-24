@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import { generateRandomPrompt } from "@/app/shared/api/assembleRequest";
 
 const RandomButton = () => {

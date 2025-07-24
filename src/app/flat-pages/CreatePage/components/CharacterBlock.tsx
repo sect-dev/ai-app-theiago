@@ -5,7 +5,7 @@ import ChangeButton from "./ChangeButton";
 import { Character } from "@/app/shared/api/types";
 import Image from "next/image";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
-import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import { safeLocalStorage } from "@/app/shared/helpers";
 
 interface Props {

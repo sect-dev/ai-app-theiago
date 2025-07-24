@@ -1,5 +1,5 @@
 import { STEPS } from "@/app/shared/consts/suggestions";
-import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import { useState } from "react";
 import Image from "next/image";
 import { useEffect } from "react";

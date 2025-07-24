@@ -7,7 +7,7 @@ import { useAgeVerification } from "@/app/shared/hooks/useAgeVerification";
 import { useSubscriptionStore } from "../shared/store/subscriptionStore";
 import { useReportStore } from "../shared/store/reportStore";
 import { usePathname } from "next/navigation";
-import { useGenerateImageStore } from "../shared/store/createCharacterStore";
+import { useGenerateImageStore } from "../shared/store/generateImageStore";
 import CharacterChangeModal from "../widgets/Modals/ChangeCharacter";
 
 const AuthModal = dynamic(() => import("@/app/widgets/Modals/AuthModal"), {

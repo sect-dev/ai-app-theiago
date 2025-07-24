@@ -1,6 +1,6 @@
 "use client";
 
-import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import clsx from "clsx";
 import Image from "next/image";
 import { useTranslations } from "next-intl";

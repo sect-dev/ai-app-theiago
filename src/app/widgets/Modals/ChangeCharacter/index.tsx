@@ -1,5 +1,5 @@
 import { safeLocalStorage } from "@/app/shared/helpers";
-import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { useTranslations } from "next-intl";

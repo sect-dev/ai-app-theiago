@@ -1,6 +1,6 @@
 import { assembleRequest } from "@/app/shared/api/assembleRequest";
 import { AssembledImageResponse } from "@/app/shared/api/types/assembleRequest";
-import { GeneratedAsset } from "@/app/shared/store/createCharacterStore";
+import { GeneratedAsset } from "@/app/shared/store/generateImageStore";
 import { safeLocalStorage } from "@/app/shared/helpers";
 
 const CENSORSHIP_LOW = "low";
@@ -31,7 +31,7 @@ export const createImage = async (props: Props) => {
 		isFixed = false,
 		setIsGenerateModalActive,
 		setRecentlyGeneratedImage,
-		setIsErrorModalActive,
+		setIsErrorModalActive
 	} = props;
 
 	try {

@@ -1,6 +1,6 @@
 import TextareaAutosize from "react-textarea-autosize";
 import { useState, useEffect } from "react";
-import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import { useTranslations } from "next-intl";
 
 const TextArea = () => {

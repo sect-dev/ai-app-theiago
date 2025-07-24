@@ -1,7 +1,7 @@
 "use client";
 
 import RandomButton from "./RandomButton";
-import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import SuggestionsBlock from "./SuggestionsBlock";
 import TextArea from "./TextArea";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";

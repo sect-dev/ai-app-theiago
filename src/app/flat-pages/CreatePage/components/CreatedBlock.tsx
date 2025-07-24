@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import TagsButton from "./TagsButton";
-import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import { useEffect, useState } from "react";
 import { lastAssembledRequest } from "@/app/shared/api/assembleRequest";
 import { LastAssembledContentResponse } from "@/app/shared/api/types/assembleRequest";
