@@ -9,6 +9,7 @@ import { I18nProvider } from "@/i18n/provider";
 import { getLocale } from "next-intl/server";
 import TrackdeskComponent from "./shared/components/TrackDeskComponent";
 import LocaleSync from "./shared/components/LocaleSync";
+import CookieScriptComponent from "./shared/components/CookieScriptComponent";
 
 export const metadata: Metadata = {
 	title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
@@ -33,6 +34,7 @@ export default async function RootLayout({
 			<body
 				className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
 			>
+				<CookieScriptComponent />
 				<LocaleSync />
 				<AmplitudeAnalytics />
 				{gtmToken && <GoogleTagManager gtmId={gtmToken} />}
