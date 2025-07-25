@@ -11,7 +11,7 @@ const CookieScriptComponent = () => {
 	return (
 		<Script
 			id="cookie-script"
-			src="//cdn.cookie-script.com/s/e2b35c686a2d57d0df62dc4caccbf9d3.js"
+			src="//cdn.cookie-script.com/s/b4f1c3cd2a24711dfe623a5f4ee8f543.js"
 			strategy="beforeInteractive"
 			data-charset="UTF-8"
 		/>
