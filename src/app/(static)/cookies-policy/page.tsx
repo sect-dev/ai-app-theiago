@@ -36,7 +36,7 @@ const Page = () => {
 									>
 										https://web.theaigo.com
 									</a>{" "}
-									(the "Service"). This Privacy Policy describes your privacy
+									(the Service). This Privacy Policy describes your privacy
 									rights and how you are protected under privacy laws.
 								</p>
 
@@ -331,7 +331,7 @@ const Page = () => {
 									</h4>
 									<div className="mb-4 border-l-4 border-orange-400 bg-orange-50 p-4">
 										<p className="leading-relaxed text-orange-800">
-											Your information's security is important to us.
+											Your information&apos;s security is important to us.
 											https://web.theaigo.com utilizes a range of security
 											measures to prevent the misuse, loss, or alteration of the
 											information you have given us. However, because we cannot
