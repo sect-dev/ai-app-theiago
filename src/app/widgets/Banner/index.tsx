@@ -6,13 +6,13 @@ import GenerateCharacterBanner from "../GenerateCharacterBanner";
 
 const Banner = () => {
 	const [activeIndex, setActiveIndex] = useState(0);
-	const components = [<CreateImageBanner />, <GenerateCharacterBanner />];
+	const components = [<GenerateCharacterBanner />, <CreateImageBanner />];
 
 	return (
 		<div className="relative mx-auto w-full">
 			<Swiper
 				modules={[Autoplay]}
-				autoplay={{ delay: 111115000, disableOnInteraction: false }}
+				autoplay={{ delay: 123131, disableOnInteraction: false }}
 				loop={true}
 				onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
 				className="overflow-hidden rounded-xl"
@@ -21,18 +21,22 @@ const Banner = () => {
 					<SwiperSlide key={index}>{Component}</SwiperSlide>
 				))}
 			</Swiper>
-			{/* Индикатор */}
-			<div className="absolute bottom-0 right-[20px] z-[2] flex justify-center gap-2">
-				{components.map((_, index) => (
-					<span
-						key={index}
-						className={`text-lg font-bold ${
-							index === activeIndex ? "text-[#BD006B]" : "text-gray-400"
-						}`}
-					>
-						{index + 1}
-					</span>
-				))}
+			{/* indicator */}
+			<div className="absolute bottom-[50px] right-[57px] z-[2] flex justify-center gap-[8px] fm:hidden">
+				{activeIndex === 0 && (
+					<>
+						<div className="h-[8px] w-[8px] rounded-full bg-[#FFFFFF]"></div>
+						<div className="h-[8px] w-[30px] rounded-[12px] bg-[#FFFFFF] opacity-50"></div>
+						<div className="h-[8px] w-[30px] rounded-[12px] bg-[#FFFFFF] opacity-50"></div>
+					</>
+				)}
+				{activeIndex === 1 && (
+					<>
+						<div className="h-[8px] w-[30px] rounded-[12px] bg-[#FFFFFF] opacity-50"></div>
+						<div className="h-[8px] w-[8px] rounded-full bg-[#FFFFFF]"></div>
+						<div className="h-[8px] w-[30px] rounded-[12px] bg-[#FFFFFF] opacity-50"></div>
+					</>
+				)}
 			</div>
 		</div>
 	);

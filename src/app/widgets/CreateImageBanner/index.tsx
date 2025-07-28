@@ -22,7 +22,10 @@ const CreateImageBanner = () => {
 	};
 
 	return (
-		<div className="choosen-token-shadow-generate mx-[16px] mb-[18px] mt-[9px] rounded-[32px]">
+		<div
+			onClick={handleClick}
+			className="choosen-token-shadow-generate mx-[16px] mb-[18px] mt-[9px] cursor-pointer rounded-[32px]"
+		>
 			<div className="main-gradient flex h-[225px] w-full justify-between rounded-[32px] sm:h-[175px]">
 				<div className="relative py-[35px] pl-[64px] sm:p-[16px]">
 					<div className="relative z-[1] mb-[24px] flex flex-col gap-[8px]">
@@ -37,10 +40,7 @@ const CreateImageBanner = () => {
 							{t("generator_banner_mobile_ai_generated")}
 						</span>
 					</div>
-					<button
-						onClick={handleClick}
-						className="relative z-[1] flex h-[46px] w-[131px] items-center justify-center gap-[8px] rounded-[20px] bg-[#FFFFFF] px-[16px] py-[12px] shadow-white-shadow"
-					>
+					<div className="relative z-[1] flex h-[46px] w-[131px] items-center justify-center gap-[8px] rounded-[20px] bg-[#FFFFFF] px-[16px] py-[12px] shadow-white-shadow">
 						{isLoading ? (
 							<Spinner className="mx-auto h-[22px] w-[22px] rounded-[12px] border-[2px] border-[#007AFF] border-t-transparent" />
 						) : (
@@ -57,7 +57,7 @@ const CreateImageBanner = () => {
 								</span>
 							</>
 						)}
-					</button>
+					</div>
 				</div>
 
 				{/* TODO: add image */}

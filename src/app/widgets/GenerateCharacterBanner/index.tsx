@@ -10,10 +10,20 @@ import BannerHeartsMobileRight from "@/../public/images/img/create-char-banner-h
 import BannerHeartsMobileBottom from "@/../public/images/img/create-char-banner-hearts-bottom-mobile.png";
 import BannerHeartsMobileLeft from "@/../public/images/img/create-char-banner-hearts-left-mobile-1.png";
 import BannerMobileGradientLeft from "@/../public/images/img/create-char-banner-grad-left-mobile.png";
+import { useRouter } from "next/navigation";
 
 const GenerateCharacterBanner = () => {
+	const router = useRouter();
+
+	const handleClick = () => {
+		router.push("/create");
+	};
+
 	return (
-		<div className="mx-[16px] mb-[18px] mt-[9px] rounded-[32px]">
+		<div
+			onClick={handleClick}
+			className="mx-[16px] mb-[18px] mt-[9px] cursor-pointer rounded-[32px]"
+		>
 			<div className="relative flex h-[225px] w-full justify-between rounded-[32px] bg-[#A1003D] bg-[url('/images/img/create-char-banner.png')] bg-cover p-[40px] fm:hidden sm:h-[175px]">
 				<div className="z-[1] flex flex-col">
 					<span className="mb-[8px] text-[32px] font-bold leading-[120%]">
@@ -76,8 +86,17 @@ const GenerateCharacterBanner = () => {
 };
 
 const GenerateCharacterBannerMobile = () => {
+	const router = useRouter();
+
+	const handleClick = () => {
+		router.push("/create");
+	};
+
 	return (
-		<div className="relative flex hidden h-[175px] w-full justify-between rounded-[32px] bg-[#A1003D] bg-[url('/images/img/create-char-banner.png')] bg-cover p-[16px] fm:block sm:h-[175px]">
+		<div
+			onClick={handleClick}
+			className="relative flex hidden h-[175px] w-full cursor-pointer justify-between rounded-[32px] bg-[#A1003D] bg-[url('/images/img/create-char-banner.png')] bg-cover p-[16px] fm:block sm:h-[175px]"
+		>
 			<div className="flex flex-col">
 				<span className="z-[1] mb-[8px] text-[24px] font-bold leading-[120%]">
 					CREATE YOUR OWN <br /> AI GIRLFRIEND
