@@ -4,9 +4,10 @@ import { Autoplay } from "swiper/modules";
 import { useState } from "react";
 import GenerateCharacterBanner from "../GenerateCharacterBanner";
 
+const components = [GenerateCharacterBanner, CreateImageBanner];
+
 const Banner = () => {
 	const [activeIndex, setActiveIndex] = useState(0);
-	const components = [<GenerateCharacterBanner />, <CreateImageBanner />];
 
 	return (
 		<div className="relative mx-auto w-full">
@@ -18,7 +19,9 @@ const Banner = () => {
 				className="overflow-hidden rounded-xl"
 			>
 				{components.map((Component, index) => (
-					<SwiperSlide key={index}>{Component}</SwiperSlide>
+					<SwiperSlide key={index}>
+						<Component />
+					</SwiperSlide>
 				))}
 			</Swiper>
 			{/* indicator */}
