@@ -6,8 +6,8 @@ import GenerateCharacterBanner from "../GenerateCharacterBanner";
 
 const Banner = () => {
 	const [activeIndex, setActiveIndex] = useState(0);
-
 	const components = [<CreateImageBanner />, <GenerateCharacterBanner />];
+
 	return (
 		<div className="relative mx-auto w-full">
 			<Swiper
@@ -21,20 +21,19 @@ const Banner = () => {
 					<SwiperSlide key={index}>{Component}</SwiperSlide>
 				))}
 			</Swiper>
-
 			{/* Индикатор */}
-			{/* <div className="mt-4 flex justify-center gap-2">
+			<div className="absolute bottom-0 right-[20px] z-[2] flex justify-center gap-2">
 				{components.map((_, index) => (
 					<span
 						key={index}
 						className={`text-lg font-bold ${
-							index === activeIndex ? "text-blue-600" : "text-gray-400"
+							index === activeIndex ? "text-[#BD006B]" : "text-gray-400"
 						}`}
 					>
 						{index + 1}
 					</span>
 				))}
-			</div> */}
+			</div>
 		</div>
 	);
 };
