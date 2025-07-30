@@ -7,8 +7,9 @@ import { useAgeVerification } from "@/app/shared/hooks/useAgeVerification";
 import { useSubscriptionStore } from "../shared/store/subscriptionStore";
 import { useReportStore } from "../shared/store/reportStore";
 import { usePathname } from "next/navigation";
-import { useGenerateImageStore } from "../shared/store/generateImageStore";
+import { useCharacterCreateStore } from "../shared/store/createCharacterStore";
 import CharacterChangeModal from "../widgets/Modals/ChangeCharacter";
+import { useGeoStore } from "../shared/store/geoStore";
 
 const AuthModal = dynamic(() => import("@/app/widgets/Modals/AuthModal"), {
 	ssr: false
@@ -68,6 +69,9 @@ const FeedBackModal = dynamic(
 		ssr: false
 	}
 );
+const GeoModal = dynamic(() => import("@/app/widgets/Modals/GeoModal"), {
+	ssr: false
+});
 
 export default function ModalsProvider() {
 	const { isAuthModalActive } = useAuthStore();
@@ -83,11 +87,8 @@ export default function ModalsProvider() {
 		useSubscriptionStore();
 	const { isReportModalActive, isFeedBackModalActive } = useReportStore();
 	const pathname = usePathname();
-	const {
-		isChangeCharacterModalActive,
-		isGenerateModalActive,
-		isErrorModalActive
-	} = useGenerateImageStore();
+	const { isErrorModalActive } = useCharacterCreateStore();
+	const { isGeoModalActive } = useGeoStore();
 
 	const isAnyOtherModalActive =
 		isAuthModalActive ||
@@ -96,7 +97,8 @@ export default function ModalsProvider() {
 		isQrModalActive ||
 		isTokensModalActive ||
 		isSubscriptionModalActive ||
-		isCancelConfirmModalActive;
+		isCancelConfirmModalActive ||
+		isGeoModalActive;
 
 	const isPaywallPage = pathname === "/paywall" || pathname === "/paywall2";
 	const shouldShowAgeVerify =
@@ -123,6 +125,7 @@ export default function ModalsProvider() {
 			{isGenerateModalActive && <GeneratePhotoModal />}
 			{isErrorModalActive && <ErrorModal />}
 			{isFeedBackModalActive && <FeedBackModal />}
+			{isGeoModalActive && <GeoModal />}
 		</>
 	);
 }

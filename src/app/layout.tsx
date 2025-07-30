@@ -9,6 +9,9 @@ import { I18nProvider } from "@/i18n/provider";
 import { getLocale } from "next-intl/server";
 import TrackdeskComponent from "./shared/components/TrackDeskComponent";
 import LocaleSync from "./shared/components/LocaleSync";
+import CookieScriptComponent from "./shared/components/CookieScriptComponent";
+import { headers } from "next/headers";
+import GeoProvider from "./shared/components/GeoProvider";
 
 export const metadata: Metadata = {
 	title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
@@ -28,18 +31,24 @@ export default async function RootLayout({
 }>) {
 	const gtmToken = process.env.NEXT_PUBLIC_GOOGLE_TAG;
 	const locale = await getLocale();
+	const requestHeaders = await headers();
+	const country = requestHeaders.get("x-vercel-ip-country") || "US";
+
 	return (
 		<html lang={locale}>
 			<body
 				className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
 			>
+				<CookieScriptComponent />
 				<LocaleSync />
 				<AmplitudeAnalytics />
 				{gtmToken && <GoogleTagManager gtmId={gtmToken} />}
 				<FacebookPixel />
 				<YandexMetrikaContainer />
 				<TrackdeskComponent />
-				<I18nProvider>{children}</I18nProvider>
+				<GeoProvider country={country}>
+					<I18nProvider>{children}</I18nProvider>
+				</GeoProvider>
 			</body>
 		</html>
 	);
