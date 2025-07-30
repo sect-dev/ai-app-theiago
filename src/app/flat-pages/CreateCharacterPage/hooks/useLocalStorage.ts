@@ -16,7 +16,7 @@ interface Props {
 	personality: string;
 	voice: string;
 	occupation: string;
-	hobbies: string;
+	hobbies: string[];
 	name: string;
 	relationship: string;
 	outfit: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import RealisticImage from "@/../public/images/createpage/realistic-first-page.png";
 import AnimeImage from "@/../public/images/createpage/anime-first-page.png";
@@ -8,10 +8,11 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import FirstStepImage from "@/../public/images/createpage/first-step.png";
 import clsx from "clsx";
 import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import NextButton from "./NextButton";
 
 const CharacterType = () => {
 	const { charType, setCharType, setStep } = useGenerateImageStore();
-	const { saveToStorage, getStoredData } = useLocalStorage();
+	const { getStoredData, saveToStorage } = useLocalStorage();
 	const isAnime = charType === "Anime";
 	const isRealistic = charType === "Realistic";
 
@@ -48,7 +49,6 @@ const CharacterType = () => {
 					To start, choose your character&apos;s style
 				</span>
 			</div>
-
 			<div className="mb-[32px] flex gap-[8px]">
 				<button
 					className={clsx(

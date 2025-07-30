@@ -15,7 +15,7 @@ interface GenerateImageStore {
 	personality: string;
 	voice: string;
 	occupation: string;
-	hobbies: string;
+	hobbies: string[];
 	name: string;
 	relationship: string;
 	outfit: string;
@@ -34,17 +34,17 @@ interface GenerateImageStore {
 	setPersonality: (personality: string) => void;
 	setVoice: (voice: string) => void;
 	setOccupation: (occupation: string) => void;
-	setHobbies: (hobbies: string) => void;
+	setHobbies: (hobbies: string[]) => void;
 	setName: (name: string) => void;
 	setRelationship: (relationship: string) => void;
 	setOutfit: (outfit: string) => void;
 	setAccessories: (accessories: string) => void;
 }
 
-export const useGenerateImageStore = create<GenerateImageStore>((set) => ({
+export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
 	step: 1,
 	charType: "Realistic",
-	gender: "",
+	gender: "Female",
 	age: 0,
 	ethnicity: "",
 	bodyType: "",
@@ -53,15 +53,29 @@ export const useGenerateImageStore = create<GenerateImageStore>((set) => ({
 	eyesType: "",
 	hairStyle: "",
 	hairColor: "",
-	personality: "",
+	personality: "Protector",
 	voice: "",
 	occupation: "",
-	hobbies: "",
+	hobbies: [],
 	name: "",
 	relationship: "",
 	outfit: "",
 	accessories: "",
-	setRelationship: (relationship: string) => set({ relationship }),
+	setRelationship: (newRelationship: string) => {
+		if (newRelationship === "reset") {
+			set({ relationship: "" });
+			return;
+		}
+
+		const { relationship } = get();
+
+		if (!relationship || relationship.trim() === "") {
+			set({ relationship: newRelationship });
+		} else {
+			// Иначе добавляем запятую и новое значение
+			set({ relationship: `${relationship}, ${newRelationship}` });
+		}
+	},
 	setOutfit: (outfit: string) => set({ outfit }),
 	setAccessories: (accessories: string) => set({ accessories }),
 	setStep: (step: number) => set({ step }),
@@ -78,6 +92,12 @@ export const useGenerateImageStore = create<GenerateImageStore>((set) => ({
 	setPersonality: (personality: string) => set({ personality }),
 	setVoice: (voice: string) => set({ voice }),
 	setOccupation: (occupation: string) => set({ occupation }),
-	setHobbies: (hobbies: string) => set({ hobbies }),
-	setName: (name: string) => set({ name })
+	setHobbies: (hobbies: string[]) => set({ hobbies }),
+	setName: (name: string) => {
+		if (name === "reset") {
+			set({ name: "" });
+		} else {
+			set({ name });
+		}
+	}
 }));
