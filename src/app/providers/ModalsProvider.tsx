@@ -7,7 +7,7 @@ import { useAgeVerification } from "@/app/shared/hooks/useAgeVerification";
 import { useSubscriptionStore } from "../shared/store/subscriptionStore";
 import { useReportStore } from "../shared/store/reportStore";
 import { usePathname } from "next/navigation";
-import { useCharacterCreateStore } from "../shared/store/createCharacterStore";
+import { useGenerateImageStore } from "../shared/store/generateImageStore";
 import CharacterChangeModal from "../widgets/Modals/ChangeCharacter";
 import { useGeoStore } from "../shared/store/geoStore";
 
@@ -87,7 +87,11 @@ export default function ModalsProvider() {
 		useSubscriptionStore();
 	const { isReportModalActive, isFeedBackModalActive } = useReportStore();
 	const pathname = usePathname();
-	const { isErrorModalActive } = useCharacterCreateStore();
+	const {
+		isErrorModalActive,
+		isChangeCharacterModalActive,
+		isGenerateModalActive
+	} = useGenerateImageStore();
 	const { isGeoModalActive } = useGeoStore();
 
 	const isAnyOtherModalActive =

@@ -1,7 +1,7 @@
 "use client";
 
 import RandomButton from "./RandomButton";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import SuggestionsBlock from "./SuggestionsBlock";
 import TextArea from "./TextArea";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
@@ -25,13 +25,13 @@ const CreateImageBlock = () => {
 		generatedAssets,
 		setIsGenerateModalActive,
 		setRecentlyGeneratedImage
-	} = useCharacterCreateStore();
+	} = useGenerateImageStore();
 	const user = auth.currentUser;
 	const tokens = usePaymentStore((state) => state.tokens);
 	const { setAuthModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 	const router = useRouter();
-	const { setIsErrorModalActive } = useCharacterCreateStore();
+	const { setIsErrorModalActive } = useGenerateImageStore();
 	const t = useTranslations("ImageGenerator");
 
 	const handleCreateImage = async () => {
