@@ -28,12 +28,12 @@ const PrivacyPage = () => {
 			<h2 className="text-xl font-bold">2. SCOPE OF THIS POLICY</h2>
 			<p>
 				This Policy pertains to your (“you”) use of the web.theaigo.com website
-				(the “Website”, “Aigo”), including all Content (as defined in the Terms
-				of Use ) available through the Website. ATTENTION: PLEASE READ OUR
-				PRIVACY POLICY CAREFULLY BEFORE ACCESSING OR USING THE SERVICE.
-				ACCESSING OR USING THE SERVICE INDICATES THAT YOU ACCEPT THIS PRIVACY
-				POLICY IN FULL. IF YOU DO NOT ACCEPT THIS PRIVACY POLICY, DO NOT ACCESS
-				OR USE THE SERVICE. You acknowledge (a) that you have read and
+				(the &quot;Website&quot;, &quot;Aigo&quot;), including all Content (as
+				defined in the Terms of Use ) available through the Website. ATTENTION:
+				PLEASE READ OUR PRIVACY POLICY CAREFULLY BEFORE ACCESSING OR USING THE
+				SERVICE. ACCESSING OR USING THE SERVICE INDICATES THAT YOU ACCEPT THIS
+				PRIVACY POLICY IN FULL. IF YOU DO NOT ACCEPT THIS PRIVACY POLICY, DO NOT
+				ACCESS OR USE THE SERVICE. You acknowledge (a) that you have read and
 				understood this Privacy Policy; (b ) that you accept this Privacy Policy
 				and consent to the collection, use, and sharing of your personal
 				information described in this Privacy Policy; and (c ) that by
@@ -62,8 +62,9 @@ const PrivacyPage = () => {
 				Information about or market to children, minors, or anyone under the age
 				of 18. If we become aware that a child, minor, or anyone under the age
 				of 18 has registered with us and/or provided us with Personal
-				Information, we will take steps to terminate that person’s registration
-				and promptly delete any such Personal Information if required by law.
+				Information, we will take steps to terminate that person&apos;s
+				registration and promptly delete any such Personal Information if
+				required by law.
 			</p>
 
 			<h2 className="text-xl font-bold">
@@ -72,10 +73,10 @@ const PrivacyPage = () => {
 			<h3 className="text-lg font-bold">Personal Information</h3>
 			<p>
 				To provide our Service, we may collect and use information that is
-				defined as personal information under applicable privacy laws (“Personal
-				Information” ). We collect and use the following categories of Personal
-				Information (note, specific Personal Information elements are examples
-				and may change ):
+				defined as personal information under applicable privacy laws
+				(&quot;Personal Information&quot; ). We collect and use the following
+				categories of Personal Information (note, specific Personal Information
+				elements are examples and may change ):
 			</p>
 			<h4 className="text-lg font-bold">Audio/Visual Data</h4>
 			<p>
@@ -136,7 +137,7 @@ const PrivacyPage = () => {
 			<h4 className="text-lg font-bold">Consumer Health Data</h4>
 			<p>
 				Personal information linked or reasonably linkable to a consumer and
-				that identifies the consumer's past, present, or future physical or
+				that identifies the consumer&apos;s past, present, or future physical or
 				mental health status as defined under the Washington My Health My Data
 				Act and other Consumer Health Data Privacy laws.
 			</p>
@@ -217,50 +218,50 @@ const PrivacyPage = () => {
 				with our use of cookies and similar technologies on our Service. We may
 				collect this data automatically. We and authorized third parties may use
 				cookies and similar technologies for the following purposes: for
-				"essential" purposes necessary for our Service to operate (such as
-				maintaining user sessions, content delivery, and the like ); for
-				"functional" purposes, such as to enable certain features of our Service
-				(for example, to allow a customer to maintain a logged-in session ); for
-				"analytics" purposes and to improve our Service, such as to analyze the
-				traffic to and on our Service (for example, we can count how many people
-				have looked at a specific page, or see how visitors move around the
-				Service when they use it, to distinguish unique visits/visitors to our
-				Service, and what website they visited prior to visiting our Service,
-				and use this information to understand user behaviors and improve the
-				design and functionality of the Service ); and for "retargeting," Online
-				Advertising, or other advertising and marketing purposes, including
-				technologies that use Inference Data or other data so that we can
-				deliver, buy, or target advertisements which are more likely to be of
-				interest to you. We may also use this Personal Information for our
-				Business Purposes. We use Google Analytics and Google Tag Manager to
-				better understand who is using the Service and how people are using it,
-				and for remarketing and behavioral targeting. Google Analytics uses
-				cookies to collect and store information, such as Service pages visited,
-				places where users click, time spent on each Service page, Internet
-				Protocol address, type of device and operating system used, language
-				preference, location-based data, device ID, search traffic, gender, and
-				age. Google and other third parties may use cookies, pixels, web
-				beacons, and other storage technologies to collect information from the
-				Service and from other Internet websites, and use that information for
-				the purposes of targeting ads and providing measurement services. Google
-				may track your activity over time and across websites. For specific
-				information about Google Analytics, please visit: the Google Analytics
-				Privacy Disclosure Policy. If you are logged into Google, you can opt
-				out of the collection and use of your information for certain
-				advertising by visiting the Data & personalization portion of your
-				account settings. Google Tag Manager is a tag management system that
-				allows the Service to update measurement codes and related code
-				fragments collectively known as tags on our website or mobile app. we
-				use this information to improve the Service and as otherwise described
-				in this Policy. Google Tag Manager may collect information related to
-				tag firing, information contained in standard HTTP requests logs, and
-				information related to online identifiers, such as cookie identifiers
-				and IP addresses. Please see: Google Analytics Opt-Out for information
-				about the Google Analytics Opt-out Browser Add-on. We may also work with
-				third-party marketing companies that help deliver online marketing to
-				you. See your Rights & Choices for information regarding opt-out rights
-				for cookies and similar technologies and in relation to Online
-				Advertising.
+				&quot;essential&quot; purposes necessary for our Service to operate
+				(such as maintaining user sessions, content delivery, and the like );
+				for &quot;functional&quot; purposes, such as to enable certain features
+				of our Service (for example, to allow a customer to maintain a logged-in
+				session ); for &quot;analytics&quot; purposes and to improve our
+				Service, such as to analyze the traffic to and on our Service (for
+				example, we can count how many people have looked at a specific page, or
+				see how visitors move around the Service when they use it, to
+				distinguish unique visits/visitors to our Service, and what website they
+				visited prior to visiting our Service, and use this information to
+				understand user behaviors and improve the design and functionality of
+				the Service ); and for &quot;retargeting,&quot; Online Advertising, or
+				other advertising and marketing purposes, including technologies that
+				use Inference Data or other data so that we can deliver, buy, or target
+				advertisements which are more likely to be of interest to you. We may
+				also use this Personal Information for our Business Purposes. We use
+				Google Analytics and Google Tag Manager to better understand who is
+				using the Service and how people are using it, and for remarketing and
+				behavioral targeting. Google Analytics uses cookies to collect and store
+				information, such as Service pages visited, places where users click,
+				time spent on each Service page, Internet Protocol address, type of
+				device and operating system used, language preference, location-based
+				data, device ID, search traffic, gender, and age. Google and other third
+				parties may use cookies, pixels, web beacons, and other storage
+				technologies to collect information from the Service and from other
+				Internet websites, and use that information for the purposes of
+				targeting ads and providing measurement services. Google may track your
+				activity over time and across websites. For specific information about
+				Google Analytics, please visit: the Google Analytics Privacy Disclosure
+				Policy. If you are logged into Google, you can opt out of the collection
+				and use of your information for certain advertising by visiting the Data
+				& personalization portion of your account settings. Google Tag Manager
+				is a tag management system that allows the Service to update measurement
+				codes and related code fragments collectively known as tags on our
+				website or mobile app. we use this information to improve the Service
+				and as otherwise described in this Policy. Google Tag Manager may
+				collect information related to tag firing, information contained in
+				standard HTTP requests logs, and information related to online
+				identifiers, such as cookie identifiers and IP addresses. Please see:
+				Google Analytics Opt-Out for information about the Google Analytics
+				Opt-out Browser Add-on. We may also work with third-party marketing
+				companies that help deliver online marketing to you. See your Rights &
+				Choices for information regarding opt-out rights for cookies and similar
+				technologies and in relation to Online Advertising.
 			</p>
 
 			<h4 className="text-lg font-bold">Mobile App</h4>
@@ -284,8 +285,8 @@ const PrivacyPage = () => {
 				Personal Information to create and maintain your account, to provide the
 				products and services you request, and for our Business Purposes. We may
 				use Identity Data, Inference Data, and Contact Data for Commercial
-				Purposes. We do not sell or "share" Financial Data or use it for
-				Business Purposes not permitted under applicable law.
+				Purposes. We do not sell or &quot;share&quot; Financial Data or use it
+				for Business Purposes not permitted under applicable law.
 			</p>
 
 			<h4 className="text-lg font-bold">Characters Creation</h4>
@@ -321,8 +322,8 @@ const PrivacyPage = () => {
 				carry out fulfillment and delivery, document transactions, and for our
 				Business Purposes. We may use Identity Data, Transaction Data, Contact
 				Data, and Device/Network Data for Commercial Purposes. We do not sell or
-				"share" Payment Data or Health Data or use it for Business Purposes not
-				permitted under applicable law.
+				&quot;share&quot; Payment Data or Health Data or use it for Business
+				Purposes not permitted under applicable law.
 			</p>
 
 			<h4 className="text-lg font-bold">The Blog</h4>
@@ -361,8 +362,8 @@ const PrivacyPage = () => {
 			<p>
 				In addition to the uses described above, we generally use Personal
 				Information for several common purposes in connection with our business
-				("Business Purposes" ). Please see below for more information regarding
-				the purposes for which we use your Personal Information.
+				(&quot;Business Purposes&quot; ). Please see below for more information
+				regarding the purposes for which we use your Personal Information.
 			</p>
 
 			<h4 className="text-lg font-bold">
@@ -433,14 +434,14 @@ const PrivacyPage = () => {
 			<h3 className="text-lg font-bold">Commercial Purposes</h3>
 			<p>
 				We and certain third parties use Personal Information to further our
-				commercial or economic interests ("Commercial Purposes") depending on
-				the context of collection and your rights and choices.
+				commercial or economic interests (&quot;Commercial Purposes&quot;)
+				depending on the context of collection and your rights and choices.
 			</p>
 
 			<h4 className="text-lg font-bold">Online Marketing</h4>
 			<p>
-				We may engage in online advertising on our Service ("Online
-				Advertising") to increase engagement on our platform and help more
+				We may engage in online advertising on our Service (&quot;Online
+				Advertising&quot;) to increase engagement on our platform and help more
 				people discover the ultimate Aigo experience. This form of advertising
 				involves various parties and services providers, including third party
 				data controllers, engaged in the use of Personal Information to deliver
@@ -545,7 +546,7 @@ const PrivacyPage = () => {
 				For example, we may require that you verify that you have access to the
 				email on file in order to verify your identity. If an agent is
 				submitting the request on your behalf, we reserve the right to validate
-				the agent's authority to act on your behalf.
+				the agent&apos;s authority to act on your behalf.
 			</p>
 			<h3 className="text-lg font-bold">Your Choices</h3>
 			<p>
@@ -579,23 +580,23 @@ const PrivacyPage = () => {
 			<p>
 				If you do not want information collected through the use of cookies and
 				similar technologies, you can manage/deny cookies and certain similar
-				technologies using your browser's settings menu. You must opt out of the
-				use of some third party services directly via the third party. For
-				example, to opt-out of Google's analytic and marketing services, visit
-				Google Analytics Terms of use, the Google Privacy Policy, or Google
-				Analytics Opt-out.
+				technologies using your browser&apos;s settings menu. You must opt out
+				of the use of some third party services directly via the third party.
+				For example, to opt-out of Google&apos;s analytic and marketing
+				services, visit Google Analytics Terms of use, the Google Privacy
+				Policy, or Google Analytics Opt-out.
 			</p>
 			<h4 className="text-lg font-bold">Do-Not-Track</h4>
 			<p>
-				Your browser or device may offer you a "Do Not Track" option, which
-				allows you to signal to operators of websites, web applications, mobile
-				applications, and services (including behavioral advertising services)
-				that you do not wish such operators to track certain of your online
-				activities over time and/or across different websites or applications.
-				The Service does not support Do Not Track requests at this time, which
-				means that we or our analytics providers or other third parties with
-				which we work may collect information about your online activity both
-				during and after your use of the Service.
+				Your browser or device may offer you a &quot;Do Not Track&quot; option,
+				which allows you to signal to operators of websites, web applications,
+				mobile applications, and services (including behavioral advertising
+				services) that you do not wish such operators to track certain of your
+				online activities over time and/or across different websites or
+				applications. The Service does not support Do Not Track requests at this
+				time, which means that we or our analytics providers or other third
+				parties with which we work may collect information about your online
+				activity both during and after your use of the Service.
 			</p>
 
 			<h2 className="text-xl font-bold">10. SECURITY</h2>
