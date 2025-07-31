@@ -5,24 +5,15 @@ const PrivacyPage = () => {
 			<h1 className="text-2xl font-bold">
 				AIGO PRIVACY POLICY Last Update 31 July 2025
 			</h1>
-			<p>
-				This Privacy Policy is issued by New Verve Limited, a company
-				incorporated in the United Kingdom under registration number C107181,
-				with its registered address at 86–90 Paul Street, London, England, EC2A
-				4NE. References to “we”, “our”, or “us” in this policy mean New Verve
-				Limited
-			</p>
 
 			<h2 className="text-xl font-bold">1. WELCOME!</h2>
 
 			<p>
-				New Verve Limited., a company registered in United Kingdom (“Aigo” or
-				“We”) has a principal place of business atNew Verve Limited - 86-90 Paul
-				Street, London, England, EC2A 4NE. Aigo takes your privacy seriously and
-				we know you do too. This Privacy Policy (“Policy”) describes how we
-				collect, use, and share Personal Information, your Rights & Choices, and
-				other important information about how we handle your Personal
-				Information.
+				This Privacy Policy is issued by New Verve Limited, a company
+				incorporated in the United Kingdom under registration number C107181,
+				with its registered address at 86–90 Paul Street, London, England, EC2A
+				4NE. References to &quot;we&quot;, &quot;our&quot;, or &quot;us&quot; in
+				this policy mean New Verve Limited
 			</p>
 
 			<h2 className="text-xl font-bold">2. SCOPE OF THIS POLICY</h2>
