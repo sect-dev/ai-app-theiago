@@ -4,7 +4,7 @@ import { Autoplay } from "swiper/modules";
 import { useState } from "react";
 import GenerateCharacterBanner from "../GenerateCharacterBanner";
 
-const components = [GenerateCharacterBanner, CreateImageBanner];
+const components = [CreateImageBanner];
 const DELAY = 5000;
 
 const Banner = () => {
