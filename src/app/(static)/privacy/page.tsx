@@ -130,8 +130,8 @@ const PrivacyPage = () => {
 			<p>
 				Personal Information included in content provided by users of the
 				Service in any free-form or unstructured format, such as in an AI chat
-				session, a character design, a "contact us" box, or other free text
-				field, file, document, or message to us.
+				session, a character design, a &quot;contact us&quot; box, or other free
+				text field, file, document, or message to us.
 			</p>
 
 			<h4 className="text-lg font-bold">Consumer Health Data</h4>
