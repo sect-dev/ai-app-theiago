@@ -33,7 +33,6 @@ import {
 	trackAuthorizationReturn,
 	trackRegisterPaidWebUser
 } from "../lib/amplitude";
-import { useCharacterCreateStore } from "./createCharacterStore";
 
 const loadCharactersFromLocalStorage = (): { premium: boolean | null } => {
 	if (typeof window === "undefined") return { premium: null };
@@ -203,7 +202,6 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 	const { setSuccessPaymentModal, setTokens } = usePaymentStore.getState();
 	const { setAuthModal, setUser, setIsPremium, setRegistrationComplete } =
 		useAuthStore.getState();
-	const { characterId } = useCharacterCreateStore.getState();
 
 	// Удаляет временные значения из localStorage
 	const cleanLocalStorage = async () => {

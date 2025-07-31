@@ -1,10 +1,10 @@
 import TextareaAutosize from "react-textarea-autosize";
 import { useState, useEffect } from "react";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import { useTranslations } from "next-intl";
 
 const TextArea = () => {
-	const { setRequest, request } = useCharacterCreateStore();
+	const { setRequest, request } = useGenerateImageStore();
 
 	const [localRequest, setLocalRequest] = useState(request);
 	const t = useTranslations("ImageGenerator");

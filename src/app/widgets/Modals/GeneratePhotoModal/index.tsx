@@ -3,7 +3,7 @@ import Lottie from "lottie-react";
 import Image from "next/image";
 import SparklingAnimationLottie from "@/../public/lotties/sparkling-starts-lottie.json";
 import LoadingImage from "@/../public/images/img/image-loading-generator.png";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 
 const GeneratePhotoModal = () => {
 	const {
@@ -11,7 +11,7 @@ const GeneratePhotoModal = () => {
 		recentlyGeneratedImage,
 		setIsGenerateModalActive,
 		setRecentlyGeneratedImage
-	} = useCharacterCreateStore();
+	} = useGenerateImageStore();
 
 	const handleBackClick = () => {
 		setIsGenerateModalActive(false);
