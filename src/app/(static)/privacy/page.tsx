@@ -5,9 +5,6 @@ const PrivacyPage = () => {
 			<h1 className="text-2xl font-bold">
 				AIGO PRIVACY POLICY Last Update 31 July 2025
 			</h1>
-
-			<h2 className="text-xl font-bold">1. WELCOME!</h2>
-
 			<p>
 				This Privacy Policy is issued by New Verve Limited, a company
 				incorporated in the United Kingdom under registration number C107181,
