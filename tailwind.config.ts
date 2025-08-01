@@ -57,7 +57,10 @@ export default {
 					"linear-gradient(180deg, rgba(44, 51, 85, 0) 0%, rgba(44, 51, 85, 0.02) 28.96%, rgba(44, 51, 85, 0.53) 45%, #2C3355 62.29%)",
 				"blue-layered-gradient":
 					"linear-gradient(112.03deg, rgba(4, 154, 239, 0.3) 5.42%, rgba(8, 98, 220, 0) 96.07%)",
-				"red-text-gradient": "linear-gradient(180deg, #FD4F42 0%, #E0160E 100%)"
+				"red-text-gradient":
+					"linear-gradient(180deg, #FD4F42 0%, #E0160E 100%)",
+				"inactive-card-gradient":
+					"linear-gradient(180deg, rgba(0, 0, 0, 0) 42.51%, rgba(0, 0, 0, 0.5) 77.39%)"
 			},
 			boxShadow: {
 				"card-shadow": "0px 4px 18.4px 0px rgba(162, 90, 255, 0.42)",

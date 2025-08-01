@@ -4,6 +4,9 @@ import StepBackButton from "./StepBackButton";
 import clsx from "clsx";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import BasicInfoComponent from "./BasicInfoComponent";
+import "swiper/css";
+import "swiper/css/free-mode";
 
 const GENDER_OPTIONS = [
 	{
@@ -83,6 +86,8 @@ const BasicInfo = () => {
 						))}
 					</div>
 				</div>
+
+				<BasicInfoComponent />
 				{/* TODO: вынести в NextButton */}
 				<div className="flex justify-center">
 					<button
