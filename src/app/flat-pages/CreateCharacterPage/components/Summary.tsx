@@ -1,13 +1,19 @@
 import Image from "next/image";
-import SecondStep from "@/../public/images/createpage/second-step.png";
 import StepBackButton from "./StepBackButton";
+import FourthStep from "@/../public/images/createpage/fourth-step.png";
 import clsx from "clsx";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
+import useAddCharacter from "../hooks/useAddCharacter";
+import FemaleIcon from "@/../public/images/createpage/female-icon.png";
+import AgeIcon from "@/../public/images/createpage/age-icon.png";
+import SummarySlider from "./SummarySlider";
 
 const Summary = () => {
 	const { saveToStorage, clearStorage } = useLocalStorage();
 	const { gender, setStep } = useGenerateImageStore();
+	const { data, isLoading, error, addCharacter } = useAddCharacter();
+	console.log("summary", data);
 
 	const handleMakeItRealClick = () => {
 		console.log("make it real");
@@ -24,9 +30,9 @@ const Summary = () => {
 				<div className="mb-[32px] flex sm:mb-[22px]">
 					<StepBackButton />
 					<Image
-						src={SecondStep.src}
-						width={SecondStep.width}
-						height={SecondStep.height}
+						src={FourthStep.src}
+						width={FourthStep.width / 2}
+						height={FourthStep.height / 2}
 						alt="second-page-header"
 						className="absolute right-0 h-[32px] object-cover object-left sm:max-w-[340px] xs:max-w-[300px]"
 					/>
@@ -49,6 +55,44 @@ const Summary = () => {
 						a playful smirk. Lying on back
 					</span>
 				</div>
+
+				<div className="mb-[32px] grid grid-cols-2 gap-[12px]">
+					<div className="flex items-center justify-between rounded-[16px] bg-[#1D1F37] px-[16px] py-[12px]">
+						<div className="flex flex-col items-start gap-[8px]">
+							<span className="block text-[16px] font-semibold leading-[150%] opacity-50">
+								Gender
+							</span>
+							<span className="block text-[16px] font-medium">Female</span>
+						</div>
+
+						<Image
+							src={FemaleIcon.src}
+							alt="gender"
+							width={32}
+							height={32}
+							className="object-cover"
+						/>
+					</div>
+
+					<div className="flex items-center justify-between rounded-[16px] bg-[#1D1F37] px-[16px] py-[12px]">
+						<div className="flex flex-col items-start gap-[8px]">
+							<span className="block text-[16px] font-semibold leading-[150%] opacity-50">
+								Age
+							</span>
+							<span className="block text-[16px] font-medium">20</span>
+						</div>
+
+						<Image
+							src={AgeIcon.src}
+							alt="age"
+							width={32}
+							height={32}
+							className="object-cover"
+						/>
+					</div>
+				</div>
+
+				<SummarySlider />
 
 				{/* TODO: вынести в NextButton */}
 				<div className="flex flex-col justify-center gap-[16px]">

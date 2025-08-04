@@ -53,8 +53,10 @@ const SetUpPersonality = () => {
 							key={option.id}
 							onClick={() => handlePersonalitySelect(option.title)}
 							className={clsx(
-								"flex max-h-[80px] items-center gap-[12px] rounded-[16px] bg-[#1D1F37] p-[12px]",
-								personality === option.title && "bg-red-500"
+								"relative flex max-h-[80px] items-center gap-[12px] rounded-[16px] bg-[#1D1F37] p-[12px] transition-all duration-100 ease-in-out",
+								personality === option.title
+									? "border-main-gradient choosen-token-shadow-generate"
+									: ""
 							)}
 						>
 							<div className="flex min-h-[42px] min-w-[42px] items-center justify-center rounded-[12px] bg-[#121423] px-[9px] py-[3px]">

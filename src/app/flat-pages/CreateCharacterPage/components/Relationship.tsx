@@ -1,59 +1,21 @@
 import Image from "next/image";
-import SecondStep from "@/../public/images/createpage/second-step.png";
+import ThirdStep from "@/../public/images/createpage/third-step.png";
 import StepBackButton from "./StepBackButton";
-import RandomButton from "../../CreatePage/components/RandomButton";
 import TextAreaName from "./Textarea";
 import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import useLocalStorage from "../hooks/useLocalStorage";
 import TextAreaDesc from "./TextareaDesc";
-
-const RELATIONSHIP_OPTIONS = [
-	{
-		id: 1,
-		text: "Girl-Next-Door"
-	},
-	{
-		id: 2,
-		text: "Colleague"
-	},
-	{
-		id: 3,
-		text: "Classmate"
-	},
-	{
-		id: 4,
-		text: "Best Friend"
-	},
-	{
-		id: 5,
-		text: "Neighbor"
-	},
-	{
-		id: 6,
-		text: "Teammate"
-	},
-	{
-		id: 7,
-		text: "Sibling"
-	},
-	{
-		id: 8,
-		text: "Mentor"
-	},
-	{
-		id: 9,
-		text: "Roommate"
-	},
-	{
-		id: 10,
-		text: "Acquaintance"
-	}
-];
+import RandomNameButton from "./RandomNameButton";
+import RandomDescButton from "./RandomDescButton";
+import ClothingComponent from "./ClothingComponent";
+import { RELATIONSHIP_OPTIONS } from "../consts";
+import useAddCharacter from "../hooks/useAddCharacter";
 
 const Relationship = () => {
-	const { name, setStep, relationship, setRelationship } =
+	const { name, setStep, relationship, setRelationship, outfit, accessories } =
 		useGenerateImageStore();
 	const { saveToStorage } = useLocalStorage();
+	const { addCharacter } = useAddCharacter();
 
 	const handleAddRelationship = (text: string) => {
 		setRelationship(text);
@@ -61,7 +23,8 @@ const Relationship = () => {
 
 	const handleNextClick = () => {
 		setStep(6);
-		saveToStorage({ step: 6, name, relationship });
+		saveToStorage({ step: 6, name, relationship, outfit, accessories });
+		addCharacter();
 	};
 
 	return (
@@ -70,9 +33,9 @@ const Relationship = () => {
 				<div className="mb-[32px] flex sm:mb-[22px]">
 					<StepBackButton />
 					<Image
-						src={SecondStep.src}
-						width={SecondStep.width}
-						height={SecondStep.height}
+						src={ThirdStep.src}
+						width={ThirdStep.width / 2}
+						height={ThirdStep.height / 2}
 						alt="second-page-header"
 						className="absolute right-0 h-[32px] object-cover object-left sm:max-w-[340px] xs:max-w-[300px]"
 					/>
@@ -85,18 +48,16 @@ const Relationship = () => {
 						Describe your relationship with her
 					</span>
 				</div>
-
 				<div className="mb-[32px] rounded-[16px] bg-[#1D1F37] p-[12px]">
 					<div className="flex items-center justify-between">
 						<div>
 							<TextAreaName />
 						</div>
 						<div className="max-h-[28px]">
-							<RandomButton />
+							<RandomNameButton />
 						</div>
 					</div>
 				</div>
-
 				<div className="mb-[32px] rounded-[16px] bg-[#1D1F37] p-[12px]">
 					<div className="mb-[24px]">
 						<div className="w-full">
@@ -104,7 +65,7 @@ const Relationship = () => {
 						</div>
 					</div>
 					<div className="mb-[32px] flex max-h-[28px] justify-end">
-						<RandomButton />
+						<RandomDescButton />
 					</div>
 
 					<div className="flex flex-wrap gap-[8px]">
@@ -122,21 +83,7 @@ const Relationship = () => {
 					</div>
 				</div>
 
-				{/* TODO: вынести в отдельный компонент */}
-				<div>
-					<span className="mb-[12px] block text-[16px] font-semibold">
-						Clothing
-					</span>
-					<div className="mb-[16px] flex items-center justify-center gap-[8px]">
-						<button className="rounded-[12px] bg-[#1D1F37] px-[12px] py-[6px] text-[12px] font-semibold leading-[150%]">
-							Outfit
-						</button>
-						<button className="rounded-[12px] bg-[#1D1F37] px-[12px] py-[6px] text-[12px] font-semibold leading-[150%]">
-							Accessories
-						</button>
-					</div>
-				</div>
-
+				<ClothingComponent />
 				{/* TODO: вынести в NextButton */}
 				<div className="flex justify-center">
 					<button
