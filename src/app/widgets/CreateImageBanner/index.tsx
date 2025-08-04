@@ -7,16 +7,14 @@ import ImageIconOrange from "@/../public/images/img/image-sparkling-orange.png";
 import Spinner from "../Spinner";
 import ImageCreateBannerRight from "@/../public/images/img/image-create-banner-right.png";
 import ImageCreateBannerLeft from "@/../public/images/img/image-generator-banner-left.png";
-import ImageGeneratorBannerSmall from "@/../public/images/img/image-generator-banner-small.png";
-import ImageGeneratorBannerSmallSvg from "@/../public/images/img/image-generate-banner-small.svg";
-import ImageGeneratorBannerBackground from "@/../public/images/img/image-generator-banner-background.png";
-import ImageGeneratorBannerBlueShadow from "@/../public/images/img/image-generator-banner-blue-shadow.png";
 import ImageGeneratorBannerBlue from "@/../public/images/img/image-generator-banner-blue.png";
 import ImageGeneratorBannerGirls from "@/../public/images/img/image-generator-banner-girls.png";
+import { useTranslations } from "next-intl";
 
 const CreateImageBanner = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
+	const t = useTranslations("HomePage");
 
 	const handleClick = () => {
 		setIsLoading(true);
@@ -24,24 +22,25 @@ const CreateImageBanner = () => {
 	};
 
 	return (
-		<div className="choosen-token-shadow-generate mx-[16px] mb-[18px] mt-[9px] rounded-[32px]">
+		<div
+			onClick={handleClick}
+			className="choosen-token-shadow-generate mx-[16px] mb-[18px] mt-[9px] cursor-pointer rounded-[32px]"
+		>
 			<div className="main-gradient flex h-[225px] w-full justify-between rounded-[32px] sm:h-[175px]">
 				<div className="relative py-[35px] pl-[64px] sm:p-[16px]">
 					<div className="relative z-[1] mb-[24px] flex flex-col gap-[8px]">
 						<span className="text-[38px] font-bold leading-[1.2] lgm:text-[24px]">
-							IMAGE GENERATOR
+							{t("generator_banner_image_generator")}
 						</span>
 						<span className="block text-[20px] font-semibold leading-[1.3] lgm:text-[14px] sm:hidden">
-							Get Your Perfect AI-generated Image
+							{t("generator_banner_get_your_perfect")}
 						</span>
 						<span className="hidden text-[20px] font-semibold leading-[1.3] lgm:text-[14px] sm:block">
-							Get Your Perfect <br /> AI-generated Image
+							{t("generator_banner_mobile_get_your")} <br />{" "}
+							{t("generator_banner_mobile_ai_generated")}
 						</span>
 					</div>
-					<button
-						onClick={handleClick}
-						className="relative z-[1] flex h-[46px] w-[131px] items-center justify-center gap-[8px] rounded-[20px] bg-[#FFFFFF] px-[16px] py-[12px] shadow-white-shadow"
-					>
+					<div className="relative z-[1] flex h-[46px] w-[131px] items-center justify-center gap-[8px] rounded-[20px] bg-[#FFFFFF] px-[16px] py-[12px] shadow-white-shadow">
 						{isLoading ? (
 							<Spinner className="mx-auto h-[22px] w-[22px] rounded-[12px] border-[2px] border-[#007AFF] border-t-transparent" />
 						) : (
@@ -54,11 +53,11 @@ const CreateImageBanner = () => {
 									className="size-[22px]"
 								/>
 								<span className="bg-main-gradient bg-clip-text text-[18px] font-bold text-transparent">
-									Try
+									{t("generator_banner_try")}
 								</span>
 							</>
 						)}
-					</button>
+					</div>
 				</div>
 
 				{/* TODO: add image */}

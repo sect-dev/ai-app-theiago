@@ -10,16 +10,18 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import clsx from "clsx";
 import ArrowNav from "@/../public/images/icons/arrow-gradient-blue.svg";
+import { useTranslations } from "next-intl";
 
 interface ComponentProps {
   avatars: Character[] | null;
 }
 
 const FavoritesGirls: FC<ComponentProps> = ({ avatars }) => {
+  const t = useTranslations("HomePage");
   return (
     <div className="rounded-l-[24px] bg-[#121423] p-[24px] md:rounded-none md:p-[16px]">
       <p className="mb-[16px] text-[20px] font-semibold tracking-[0.02vw] sm:hidden">
-        They crave to chat with you!
+        {t("card_they_crave")}
       </p>
       <Swiper
         slidesPerView={"auto"}

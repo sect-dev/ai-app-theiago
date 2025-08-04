@@ -5,6 +5,10 @@ import { useAuthStore } from "@/app/shared/store/authStore";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import clsx from "clsx";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import AffiliateIconBlue from "@/../public/images/img/affiliate/image-sidebar-dollar-blue.png";
+import AffiliateIconGray from "@/../public/images/img/affiliate/image-sidebar-dollar-gray.png";
+import Image from "next/image";
 
 interface ComponentProps {
 	isChatPage: boolean;
@@ -19,6 +23,7 @@ const Sidebar: FC<ComponentProps> = ({
 }) => {
 	const { isPremium } = useAuthStore();
 	const [isHidden, setIsHidden] = useState<boolean | null>(true);
+	const t = useTranslations("HomePage");
 
 	useEffect(() => {
 		setIsHidden(isPremium);
@@ -36,6 +41,23 @@ const Sidebar: FC<ComponentProps> = ({
 								href="/affiliate"
 								className="transition-bg flex h-[40px] cursor-pointer items-center justify-center rounded-[4px] bg-[#121423] px-[16px] py-[10px] duration-300 hover:bg-[#2E335B]"
 							>
+								{pathname === "/affiliate" ? (
+									<Image
+										src={AffiliateIconBlue}
+										alt="affiliate"
+										width={20}
+										height={20}
+										className="mr-[8px] h-[20px] w-[20px]"
+									/>
+								) : (
+									<Image
+										src={AffiliateIconGray}
+										alt="affiliate"
+										width={20}
+										height={20}
+										className="mr-[8px] h-[20px] w-[20px]"
+									/>
+								)}
 								<span
 									className={clsx(
 										"text-[14px] font-semibold leading-[16px]",
@@ -43,7 +65,7 @@ const Sidebar: FC<ComponentProps> = ({
 											"logo-gradient transition-all duration-300"
 									)}
 								>
-									Affiliate Program
+									{t("sidebar_affiliate_program")}
 								</span>
 							</Link>
 						)}
@@ -59,7 +81,7 @@ const Sidebar: FC<ComponentProps> = ({
 										"group-hover:bg-linear-[linear-gradient(180deg, #049AEF 0%, #0862DC 100%)] animate-fadeIn gap-1 text-[#9DB2CE]"
 									)}
 								>
-									Contact Us
+									{t("sidebar_contact_us")}
 								</span>
 								<span className={clsx("text-white")}>support@theaigo.com</span>
 							</Link>

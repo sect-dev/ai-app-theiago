@@ -1,112 +1,103 @@
 import { create } from "zustand";
 
-interface Character {
+interface GenerateImageStore {
+	step: number;
+	charType: string;
+	gender: string;
+	age: number;
+	ethnicity: string;
+	bodyType: string;
+	breastType: string;
+	buttType: string;
+	eyesType: string;
+	hairStyle: string;
+	hairColor: string;
+	personality: string;
+	voice: string;
+	occupation: string;
+	hobbies: string[];
 	name: string;
-	description: string;
+	relationship: string;
+	outfit: string;
+	accessories: string;
+	setStep: (step: number) => void;
+	setCharType: (charType: string) => void;
+	setGender: (gender: string) => void;
+	setAge: (age: number) => void;
+	setEthnicity: (ethnicity: string) => void;
+	setBodyType: (bodyType: string) => void;
+	setBreastType: (breastType: string) => void;
+	setButtType: (buttType: string) => void;
+	setEyesType: (eyesType: string) => void;
+	setHairStyle: (hairStyle: string) => void;
+	setHairColor: (hairColor: string) => void;
+	setPersonality: (personality: string) => void;
+	setVoice: (voice: string) => void;
+	setOccupation: (occupation: string) => void;
+	setHobbies: (hobbies: string[]) => void;
+	setName: (name: string) => void;
+	setRelationship: (relationship: string) => void;
+	setOutfit: (outfit: string) => void;
+	setAccessories: (accessories: string) => void;
 }
 
-export interface GeneratedAsset {
-	hasVideo: boolean;
-	nsfw: boolean;
-	url: string;
-}
-
-type ContentType = "video" | "image";
-
-type Censorship = "low" | "high";
-
-interface CharacterStore {
-	isChangeCharacterModalActive: boolean;
-	isGenerateModalActive: boolean;
-	recentlyGeneratedImage: string | null;
-	characterData: Character[] | null;
-	type: ContentType;
-	characterId: number | string | null;
-	request: string;
-	isLoading: boolean;
-	generatedAssets: GeneratedAsset[];
-	isErrorModalActive: boolean;
-	ErrorModalText: string;
-	// openChangeCharacterModal: (data: Character[]) => void;
-	setCharacterData: (data: Character[]) => void;
-	setChangeCharacterModal: (isChangeCharacterModalActive: boolean) => void;
-	setIsGenerateModalActive: (isGenerateModalActive: boolean) => void;
-	setRecentlyGeneratedImage: (recentlyGeneratedImage: string | null) => void;
-	setContentType: (type: ContentType) => void;
-	setCharacterId: (id: number | string | null) => void;
-	setRequest: (request: string) => void;
-	setIsLoading: (isLoading: boolean) => void;
-	setGeneratedAssets: (assets: GeneratedAsset[]) => void;
-	setIsErrorModalActive: (isErrorModalActive: boolean) => void;
-	setErrorModalText: (errorText: string) => void;
-}
-
-export const useCharacterCreateStore = create<CharacterStore>((set, get) => ({
-	isChangeCharacterModalActive: false,
-	isGenerateModalActive: false,
-	recentlyGeneratedImage: null,
-	characterData: null,
-	type: "image",
-	characterId: null,
-	request: "",
-	isLoading: false,
-	generatedAssets: [],
-	isErrorModalActive: false,
-	ErrorModalText: "An unknown error occurred. Please try your action again",
-
-	setCharacterData: (data: Character[]) => {
-		set({ characterData: data });
-	},
-
-	setChangeCharacterModal: (isChangeCharacterModalActive) => {
-		set({ isChangeCharacterModalActive });
-	},
-
-	setIsGenerateModalActive: (isGenerateModalActive) => {
-		set({ isGenerateModalActive });
-	},
-
-	setRecentlyGeneratedImage: (recentlyGeneratedImage) => {
-		set({ recentlyGeneratedImage });
-	},
-
-	setContentType: (type) => {
-		set({ type: type });
-	},
-
-	setCharacterId: (id) => {
-		set({ characterId: id });
-	},
-
-	setRequest: (newRequest) => {
-		if (newRequest === "reset") {
-			set({ request: "" });
+export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
+	step: 1,
+	charType: "Realistic",
+	gender: "Female",
+	age: 0,
+	ethnicity: "",
+	bodyType: "",
+	breastType: "",
+	buttType: "",
+	eyesType: "",
+	hairStyle: "",
+	hairColor: "",
+	personality: "Protector",
+	voice: "",
+	occupation: "",
+	hobbies: [],
+	name: "",
+	relationship: "",
+	outfit: "",
+	accessories: "",
+	setRelationship: (newRelationship: string) => {
+		if (newRelationship === "reset") {
+			set({ relationship: "" });
 			return;
 		}
 
-		const { request } = get();
+		const { relationship } = get();
 
-		if (!request || request.trim() === "") {
-			set({ request: newRequest });
+		if (!relationship || relationship.trim() === "") {
+			set({ relationship: newRelationship });
 		} else {
 			// Иначе добавляем запятую и новое значение
-			set({ request: `${request}, ${newRequest}` });
+			set({ relationship: `${relationship}, ${newRelationship}` });
 		}
 	},
-
-	setIsLoading: (isLoading) => {
-		set({ isLoading: isLoading });
-	},
-
-	setGeneratedAssets: (assets: GeneratedAsset[]) => {
-		set({ generatedAssets: assets });
-	},
-
-	setIsErrorModalActive: (isErrorModalActive) => {
-		set({ isErrorModalActive });
-	},
-
-	setErrorModalText: (errorText) => {
-		set({ ErrorModalText: errorText });
+	setOutfit: (outfit: string) => set({ outfit }),
+	setAccessories: (accessories: string) => set({ accessories }),
+	setStep: (step: number) => set({ step }),
+	setCharType: (charType: string) => set({ charType }),
+	setGender: (gender: string) => set({ gender }),
+	setAge: (age: number) => set({ age }),
+	setEthnicity: (ethnicity: string) => set({ ethnicity }),
+	setBodyType: (bodyType: string) => set({ bodyType }),
+	setBreastType: (breastType: string) => set({ breastType }),
+	setButtType: (buttType: string) => set({ buttType }),
+	setEyesType: (eyesType: string) => set({ eyesType }),
+	setHairStyle: (hairStyle: string) => set({ hairStyle }),
+	setHairColor: (hairColor: string) => set({ hairColor }),
+	setPersonality: (personality: string) => set({ personality }),
+	setVoice: (voice: string) => set({ voice }),
+	setOccupation: (occupation: string) => set({ occupation }),
+	setHobbies: (hobbies: string[]) => set({ hobbies }),
+	setName: (name: string) => {
+		if (name === "reset") {
+			set({ name: "" });
+		} else {
+			set({ name });
+		}
 	}
 }));

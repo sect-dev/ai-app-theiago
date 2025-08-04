@@ -27,6 +27,7 @@ import log from "@/app/shared/lib/logger";
 import { safeLocalStorage } from "@/app/shared/helpers";
 import * as trackdesk from "@/app/shared/lib/trackdesk";
 import CreateImageBanner from "@/app/widgets/CreateImageBanner";
+import Banner from "@/app/widgets/Banner";
 
 interface ComponentProps {
 	avatars: Character[] | null;
@@ -233,7 +234,8 @@ const HomePage: FC<ComponentProps> = ({
 		<div className="h-[calc(100vh-60px)] animate-fadeIn overflow-y-auto">
 			<div className="container !px-0">
 				<div className="space-y-[8px] sm:space-y-0">
-					<CreateImageBanner />
+					{/* <CreateImageBanner /> */}
+					<Banner />
 					<FavoritesGirls avatars={favoriteAvatars} />
 					<div className="rounded-l-[24px] bg-[#121423] p-[24px] md:rounded-none md:p-[16px] sm:pt-0">
 						<CardsList tags={tags} avatars={simpleAvatars} />

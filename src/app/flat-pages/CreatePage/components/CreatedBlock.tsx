@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import TagsButton from "./TagsButton";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import { useEffect, useState } from "react";
 import { lastAssembledRequest } from "@/app/shared/api/assembleRequest";
 import { LastAssembledContentResponse } from "@/app/shared/api/types/assembleRequest";
@@ -11,6 +11,7 @@ import CreatedContent from "./CreatedContent";
 import Lottie from "lottie-react";
 import SparklingAnimationLottie from "@/../public/lotties/sparkling-starts-lottie.json";
 import LoadingImage from "@/../public/images/img/image-loading-generator.png";
+import { useTranslations } from "next-intl";
 
 interface Tag {
 	id: number;
@@ -28,10 +29,11 @@ const ANIMATION_OPTIONS = {
 };
 
 const CreatedBlock = () => {
-	const { isLoading, generatedAssets, characterId } = useCharacterCreateStore();
+	const { isLoading, generatedAssets, characterId } = useGenerateImageStore();
 	const [lastAssembledContent, setLastAssembledContent] = useState<
 		LastAssembledContentResponse[] | null
 	>(null);
+	const t = useTranslations("ImageGenerator");
 
 	const hasContent = lastAssembledContent && lastAssembledContent.length > 0;
 	const shouldShowEmpty = !hasContent && !isLoading;
@@ -63,7 +65,9 @@ const CreatedBlock = () => {
 		<div className="mb-[150px] h-fit w-[332px] rounded-[8px] bg-[#121423] p-[20px] md:bg-transparent md:p-0">
 			<div className="grid grid-rows-[auto_1fr] gap-[12px]">
 				<div className="flex flex-col">
-					<span className="text-[16px] font-semibold">Created</span>
+					<span className="text-[16px] font-semibold">
+						{t("generator_createdblock_title")}
+					</span>
 				</div>
 
 				{isLoading && (
@@ -89,7 +93,8 @@ const CreatedBlock = () => {
 								autoplay={true}
 							/>
 							<span className="z-10 text-center text-[18px] font-bold leading-[1.1] tracking-normal">
-								Creating <br /> Image
+								{t("generator_loading_creating")} <br />{" "}
+								{t("generator_loading_creating_image")}
 							</span>
 						</div>
 					</div>
@@ -112,10 +117,10 @@ const CreatedBlock = () => {
 						/>
 						<div className="flex flex-col">
 							<span className="text-[16px] font-bold leading-[28px]">
-								It&apos;s empty here for now
+								{t("generator_createdblock_empty")}
 							</span>
 							<span className="leading-1 align-middle text-[14px] font-medium opacity-50">
-								Later, all the created content will appear here
+								{t("generator_createdblock_empty_desc")}
 							</span>
 						</div>
 					</div>
