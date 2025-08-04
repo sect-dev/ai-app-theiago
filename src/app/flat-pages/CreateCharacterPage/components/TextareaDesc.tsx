@@ -6,8 +6,6 @@ const TextAreaDesc = () => {
 	const { relationship, setRelationship } = useGenerateImageStore();
 	const [localRelationship, setLocalRelationship] = useState(relationship);
 
-	console.log(relationship);
-
 	useEffect(() => {
 		setLocalRelationship(relationship);
 	}, [relationship]);

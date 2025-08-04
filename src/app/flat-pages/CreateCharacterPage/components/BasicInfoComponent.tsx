@@ -12,63 +12,8 @@ import "swiper/css/navigation";
 import NextButtonIcon from "@/../public/images/createpage/next-button-icon.png";
 import PrevButtonIcon from "@/../public/images/createpage/prev-button-icon.png";
 import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
-
-const mockData = [
-	{
-		category: "ethnicity",
-		title: "Ethnicity",
-		options: [
-			{
-				id: "black",
-				label: "Black",
-				image:
-					"https://cdn.aigo.sect.dev/constructor_assets/basic/ethnicity/black.png"
-			},
-			{
-				id: "latina",
-				label: "Latina",
-				image:
-					"https://cdn.aigo.sect.dev/constructor_assets/basic/ethnicity/latina.png"
-			},
-			{
-				id: "european",
-				label: "European",
-				image:
-					"https://cdn.aigo.sect.dev/constructor_assets/basic/ethnicity/european.png"
-			},
-			{
-				id: "asian",
-				label: "Asian",
-				image:
-					"https://cdn.aigo.sect.dev/constructor_assets/basic/ethnicity/asian.png"
-			}
-		]
-	},
-	{
-		category: "body_type",
-		title: "Body Type",
-		options: [
-			{
-				id: "slim",
-				label: "Slim",
-				image:
-					"https://cdn.aigo.sect.dev/constructor_assets/basic/body_type/slim.png"
-			},
-			{
-				id: "curvy",
-				label: "Curvy",
-				image:
-					"https://cdn.aigo.sect.dev/constructor_assets/basic/body_type/curvy.png"
-			},
-			{
-				id: "athletic",
-				label: "Athletic",
-				image:
-					"https://cdn.aigo.sect.dev/constructor_assets/basic/body_type/athletic.png"
-			}
-		]
-	}
-];
+import CheckButton from "./CheckButton";
+import BasicInfoComponentSkeleton from "./BasicInfoComponentSkeleton";
 
 const BasicInfoComponent = () => {
 	const {
@@ -76,16 +21,34 @@ const BasicInfoComponent = () => {
 		bodyType,
 		breastType,
 		buttType,
+		eyesType,
+		hairStyle,
+		hairColor,
 		setEthnicity,
 		setBodyType,
 		setBreastType,
-		setButtType
+		setButtType,
+		setEyesType,
+		setHairStyle,
+		setHairColor
 	} = useGenerateImageStore();
 	const { data, isLoading, error } = useBasicInfo();
 
-	console.log(data);
+	if (isLoading) {
+		return <BasicInfoComponentSkeleton numberOfCategories={3} />;
+	}
 
-	console.log(ethnicity, bodyType);
+	console.log(
+		ethnicity,
+		bodyType,
+		breastType,
+		buttType,
+		eyesType,
+		hairStyle,
+		hairColor
+	);
+
+	console.log(data);
 
 	// Функция для обработки выбора опции
 	const handleOptionSelect = (category: string, optionId: string) => {
@@ -101,6 +64,15 @@ const BasicInfoComponent = () => {
 				break;
 			case "butt_type":
 				setButtType(optionId);
+				break;
+			case "eyes":
+				setEyesType(optionId);
+				break;
+			case "hair_style":
+				setHairStyle(optionId);
+				break;
+			case "hair_color":
+				setHairColor(optionId);
 				break;
 			default:
 				break;
@@ -118,6 +90,12 @@ const BasicInfoComponent = () => {
 				return breastType;
 			case "butt_type":
 				return buttType;
+			case "eyes":
+				return eyesType;
+			case "hair_style":
+				return hairStyle;
+			case "hair_color":
+				return hairColor;
 			default:
 				return "";
 		}
@@ -135,7 +113,7 @@ const BasicInfoComponent = () => {
 
 						<Swiper
 							centeredSlides={true}
-							slidesPerView={2.5} // Показывает центральный + части боковых
+							slidesPerView={2.2} // Показывает центральный + части боковых
 							spaceBetween={20}
 							loop={true}
 							autoplay={{
@@ -221,7 +199,7 @@ const BasicInfoCard = ({
 		<div
 			onClick={onSelect}
 			className={clsx(
-				"h-full w-full cursor-pointer overflow-hidden rounded-[16px] transition-all duration-300",
+				"inner-shadow h-full w-full cursor-pointer overflow-hidden rounded-[16px] transition-all duration-300",
 				isActive ? "opacity-100" : "opacity-60"
 			)}
 		>
@@ -231,15 +209,25 @@ const BasicInfoCard = ({
 				width={180}
 				height={217}
 				loading="lazy"
-				className="h-full w-full object-cover"
+				className="relative h-full w-full object-cover"
 			/>
+
+			{isSelected && (
+				<div className="absolute right-0 top-0 z-[1] p-[12px]">
+					<CheckButton />
+				</div>
+			)}
+
+			<div className="absolute bottom-0 left-0 right-0 z-[1] mb-[12px] text-[18px] font-bold">
+				{option.label}
+			</div>
 
 			{!isActive && (
 				<div className="bg-inactive-card-gradient absolute inset-0 rounded-[16px] transition-all duration-300" />
 			)}
 
 			{isSelected && (
-				<div className="border-blue-500 bg-blue-500/20 absolute inset-0 rounded-[16px] border-2 transition-all duration-300" />
+				<div className="border-main-gradient choosen-token-shadow-generate absolute inset-0 rounded-[16px] transition-all duration-300" />
 			)}
 		</div>
 	);

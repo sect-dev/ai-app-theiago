@@ -4,7 +4,7 @@ interface GenerateImageStore {
 	step: number;
 	charType: string;
 	gender: string;
-	age: number;
+	ageChar: number;
 	ethnicity: string;
 	bodyType: string;
 	breastType: string;
@@ -45,17 +45,17 @@ export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
 	step: 1,
 	charType: "Realistic",
 	gender: "Female",
-	age: 0,
+	ageChar: 20,
 	ethnicity: "european",
 	bodyType: "curvy",
 	breastType: "large",
 	buttType: "medium",
-	eyesType: "",
-	hairStyle: "",
-	hairColor: "",
+	eyesType: "green",
+	hairStyle: "long",
+	hairColor: "blonde",
 	personality: "Protector",
-	voice: "",
-	occupation: "",
+	voice: "Mystical",
+	occupation: "college_student",
 	hobbies: [],
 	name: "",
 	relationship: "",
@@ -81,7 +81,7 @@ export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
 	setStep: (step: number) => set({ step }),
 	setCharType: (charType: string) => set({ charType }),
 	setGender: (gender: string) => set({ gender }),
-	setAge: (age: number) => set({ age }),
+	setAge: (age: number) => set({ ageChar: age }),
 	setEthnicity: (ethnicity: string) => set({ ethnicity }),
 	setBodyType: (bodyType: string) => set({ bodyType }),
 	setBreastType: (breastType: string) => set({ breastType }),

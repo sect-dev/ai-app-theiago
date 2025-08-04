@@ -7,6 +7,7 @@ import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import BasicInfoComponent from "./BasicInfoComponent";
 import "swiper/css";
 import "swiper/css/free-mode";
+import AgeRangeSlider from "./AgeRangeSlider";
 
 const GENDER_OPTIONS = [
 	{
@@ -31,11 +32,33 @@ const GENDER_OPTIONS = [
 
 const BasicInfo = () => {
 	const { saveToStorage } = useLocalStorage();
-	const { gender, setStep } = useGenerateImageStore();
+	const {
+		gender,
+		setStep,
+		ethnicity,
+		bodyType,
+		breastType,
+		buttType,
+		eyesType,
+		hairStyle,
+		hairColor,
+		ageChar
+	} = useGenerateImageStore();
 
 	const handleNextClick = () => {
 		setStep(3);
-		saveToStorage({ step: 3, gender });
+		saveToStorage({
+			step: 3,
+			gender,
+			ethnicity,
+			bodyType,
+			breastType,
+			buttType,
+			eyesType,
+			hairStyle,
+			hairColor,
+			age: ageChar
+		});
 	};
 
 	return (
@@ -69,7 +92,9 @@ const BasicInfo = () => {
 								key={gender.id}
 								className={clsx(
 									"relative flex flex-col items-center justify-center rounded-[16px] bg-[#1D1F37] p-[20px]",
-									gender.has === false && "opacity-20"
+									gender.has === false && "opacity-20",
+									gender.has === true &&
+										"border-main-gradient choosen-token-shadow-generate"
 								)}
 							>
 								<Image
@@ -86,6 +111,8 @@ const BasicInfo = () => {
 						))}
 					</div>
 				</div>
+
+				<AgeRangeSlider />
 
 				<BasicInfoComponent />
 				{/* TODO: вынести в NextButton */}

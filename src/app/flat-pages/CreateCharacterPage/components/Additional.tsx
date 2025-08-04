@@ -6,10 +6,13 @@ import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import useLocalStorage from "../hooks/useLocalStorage";
 import clsx from "clsx";
 import { useEffect } from "react";
+import VoiceComponent from "./VoiceComponent";
+import OccupationComponent from "./OccupationComponent";
 
 const Additional = () => {
 	const { saveToStorage, getStoredData } = useLocalStorage();
-	const { setStep, hobbies, setHobbies } = useGenerateImageStore();
+	const { setStep, hobbies, setHobbies, voice, occupation } =
+		useGenerateImageStore();
 
 	useEffect(() => {
 		const storedData = getStoredData();
@@ -27,7 +30,7 @@ const Additional = () => {
 
 	const handleNextClick = () => {
 		setStep(5);
-		saveToStorage({ step: 5, hobbies });
+		saveToStorage({ step: 5, hobbies, voice, occupation });
 	};
 
 	return (
@@ -52,6 +55,10 @@ const Additional = () => {
 					</span>
 				</div>
 
+				<VoiceComponent />
+
+				<OccupationComponent />
+
 				<div className="mb-[32px]">
 					<span className="mb-[8px] block text-[18px] font-bold leading-[130%] tracking-wide">
 						Hobbies
@@ -61,8 +68,9 @@ const Additional = () => {
 							<button
 								key={option.id}
 								className={clsx(
-									"w-fit rounded-[16px] bg-[#1D1F37] px-[16px] py-[10px]",
-									hobbies.includes(option.text) && "bg-[#2D304E]"
+									"relative w-fit rounded-[16px] bg-[#1D1F37] px-[16px] py-[10px] transition-all duration-100",
+									hobbies.includes(option.text) &&
+										"border-main-gradient choosen-token-shadow-generate"
 								)}
 								onClick={() => handleHobbyClick(option.text)}
 							>
