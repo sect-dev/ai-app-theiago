@@ -29,27 +29,11 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const gtmToken = process.env.NEXT_PUBLIC_GOOGLE_TAG;
-	const locale = await getLocale();
-	const requestHeaders = await headers();
-	const country = requestHeaders.get("x-vercel-ip-country") || "US";
-
+	// const gtmToken = process.env.NEXT_PUBLIC_GOOGLE_TAG;
+	// const locale = await getLocale();
 	return (
-		<html lang={locale}>
-			<body
-				className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
-			>
-				<CookieScriptComponent />
-				<LocaleSync />
-				<AmplitudeAnalytics />
-				{gtmToken && <GoogleTagManager gtmId={gtmToken} />}
-				<FacebookPixel />
-				<YandexMetrikaContainer />
-				<TrackdeskComponent />
-				<GeoProvider country={country}>
-					<I18nProvider>{children}</I18nProvider>
-				</GeoProvider>
-			</body>
+		<html>
+			<div>Under maintenance</div>
 		</html>
 	);
 }
