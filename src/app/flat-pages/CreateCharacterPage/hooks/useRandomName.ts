@@ -15,8 +15,8 @@ const useRandomName = () => {
 				setData(res.data);
 				return res.data;
 			}
-		} catch (err: any) {
-			setError(err.message || "Failed to fetch");
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Failed to fetch");
 			throw err;
 		} finally {
 			setIsLoading(false);

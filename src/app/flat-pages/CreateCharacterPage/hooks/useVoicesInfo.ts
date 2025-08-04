@@ -20,8 +20,8 @@ const useVoicesInfo = () => {
 				if (res.status === 200) {
 					setData(res.data);
 				}
-			} catch (err: any) {
-				setError(err.message || "Failed to fetch");
+			} catch (err) {
+				setError(err instanceof Error ? err.message : "Failed to fetch");
 			} finally {
 				setIsLoading(false);
 			}

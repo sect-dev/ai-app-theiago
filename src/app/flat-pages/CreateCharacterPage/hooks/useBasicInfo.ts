@@ -24,8 +24,8 @@ export const useBasicInfo = () => {
 			try {
 				const res = await apiClient.get<Category[]>("/get_basic_info");
 				setData(res.data);
-			} catch (err: any) {
-				setError(err.message || "Failed to fetch");
+			} catch (err) {
+				setError(err instanceof Error ? err.message : "Failed to fetch");
 			} finally {
 				setIsLoading(false);
 			}
