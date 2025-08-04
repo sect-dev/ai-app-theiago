@@ -1,18 +1,18 @@
 "use client";
 
 import RandomButton from "./RandomButton";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import SuggestionsBlock from "./SuggestionsBlock";
 import TextArea from "./TextArea";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
 import { createImage } from "../helpers/createImage";
-import { userAgent } from "next/server";
 import { auth } from "@/firebase";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import Image from "next/image";
 import ImageSparkling from "@/../public/images/img/img-sparkling-white.svg";
 import ImageStackSvg from "@/../public/images/img/image-cointstack.svg";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const CreateImageBlock = () => {
 	const {
@@ -25,16 +25,14 @@ const CreateImageBlock = () => {
 		generatedAssets,
 		setIsGenerateModalActive,
 		setRecentlyGeneratedImage
-	} = useCharacterCreateStore();
+	} = useGenerateImageStore();
 	const user = auth.currentUser;
 	const tokens = usePaymentStore((state) => state.tokens);
 	const { setAuthModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 	const router = useRouter();
-	const { setIsErrorModalActive, setErrorModalText } =
-		useCharacterCreateStore();
-
-	console.log("tokens", tokens);
+	const { setIsErrorModalActive } = useGenerateImageStore();
+	const t = useTranslations("ImageGenerator");
 
 	const handleCreateImage = async () => {
 		if (user?.isAnonymous) {
@@ -53,8 +51,7 @@ const CreateImageBlock = () => {
 			setTokens,
 			setGeneratedAssets,
 			generatedAssets,
-			setIsErrorModalActive,
-			setErrorModalText
+			setIsErrorModalActive
 		});
 	};
 
@@ -78,8 +75,7 @@ const CreateImageBlock = () => {
 			isFixed: true,
 			setIsGenerateModalActive,
 			setRecentlyGeneratedImage,
-			setIsErrorModalActive,
-			setErrorModalText
+			setIsErrorModalActive
 		});
 	};
 
@@ -91,7 +87,7 @@ const CreateImageBlock = () => {
 						<TextArea />
 						<div className="flex flex-row justify-between">
 							{/* <SwitchButton /> */}
-							{/* <RandomButton /> */}
+							<RandomButton />
 						</div>
 					</div>
 
@@ -107,7 +103,7 @@ const CreateImageBlock = () => {
 							className="mr-[7px] h-[24px] w-[24px]"
 						/>
 						<span className="relative z-[5] mr-[7px] block text-[15px] font-bold">
-							Create Image
+							{t("generator_createimage_button")}
 						</span>
 						<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
 							2
@@ -133,7 +129,7 @@ const CreateImageBlock = () => {
 						className="mr-[7px] h-[24px] w-[24px]"
 					/>
 					<span className="relative z-[5] mr-[7px] block text-[15px] font-bold">
-						Create Image
+						{t("generator_createimage_button")}
 					</span>
 					<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
 						2

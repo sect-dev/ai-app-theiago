@@ -20,6 +20,7 @@ import { authErrorMessages } from "@/app/shared/consts";
 // import {useAuthStore} from "@/app/shared/store/authStore";
 import notification from "@/app/widgets/Notification";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
+import { useTranslations } from "next-intl";
 
 interface FormData {
 	email: string;
@@ -39,6 +40,7 @@ const Login = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	// const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [authError, setAuthError] = useState<string | null>(null);
+	const t = useTranslations("LoginModal");
 	const {
 		register,
 		reset,
@@ -100,7 +102,7 @@ const Login = () => {
 		<div className="flex justify-between overflow-hidden rounded-[24px] sm:h-full">
 			<div className="w-full bg-[#121423] p-[20px] sm:flex sm:h-full sm:flex-col sm:items-center sm:justify-center sm:pt-[60px]">
 				<p className="mb-[24px] text-[20px] font-semibold leading-[1.2em]">
-					Nice to see you again
+					{t("login_title")}
 				</p>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
@@ -112,12 +114,12 @@ const Login = () => {
 							htmlFor="email"
 							className="mb-[8px] block pl-[16px] text-[12px] leading-[1.2em]"
 						>
-							Email
+							{t("login_email")}
 						</label>
 						<input
 							id="email"
 							type="email"
-							placeholder="Input your E-mail"
+							placeholder={t("login_input_your_e_mail")}
 							className={clsx(
 								"placeholder-text:opacity-50 h-[48px] w-full rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
 								{
@@ -148,7 +150,7 @@ const Login = () => {
 						disabled={loading}
 						className="main-gradient flex h-[40px] w-full items-center justify-center gap-[10px] rounded-[12px] text-[20px] font-bold disabled:pointer-events-none disabled:bg-[#778899] disabled:bg-none"
 					>
-						<span className="relative z-[5]">Sign in</span>
+						<span className="relative z-[5]">{t("login_sign_in")}</span>
 						{loading && <Spinner />}
 					</button>
 				</form>

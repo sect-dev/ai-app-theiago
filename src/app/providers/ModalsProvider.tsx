@@ -7,8 +7,9 @@ import { useAgeVerification } from "@/app/shared/hooks/useAgeVerification";
 import { useSubscriptionStore } from "../shared/store/subscriptionStore";
 import { useReportStore } from "../shared/store/reportStore";
 import { usePathname } from "next/navigation";
-import { useCharacterCreateStore } from "../shared/store/createCharacterStore";
+import { useGenerateImageStore } from "../shared/store/generateImageStore";
 import CharacterChangeModal from "../widgets/Modals/ChangeCharacter";
+import { useGeoStore } from "../shared/store/geoStore";
 
 const AuthModal = dynamic(() => import("@/app/widgets/Modals/AuthModal"), {
 	ssr: false
@@ -62,6 +63,15 @@ const GeneratePhotoModal = dynamic(
 const ErrorModal = dynamic(() => import("@/app/widgets/Modals/ErrorModal"), {
 	ssr: false
 });
+const FeedBackModal = dynamic(
+	() => import("@/app/widgets/Modals/FeedBackModal"),
+	{
+		ssr: false
+	}
+);
+const GeoModal = dynamic(() => import("@/app/widgets/Modals/GeoModal"), {
+	ssr: false
+});
 
 export default function ModalsProvider() {
 	const { isAuthModalActive } = useAuthStore();
@@ -75,9 +85,14 @@ export default function ModalsProvider() {
 		useAgeVerification();
 	const { isSubscriptionModalActive, isCancelConfirmModalActive } =
 		useSubscriptionStore();
-	const { isReportModalActive } = useReportStore();
+	const { isReportModalActive, isFeedBackModalActive } = useReportStore();
 	const pathname = usePathname();
-	const { isErrorModalActive } = useCharacterCreateStore();
+	const {
+		isErrorModalActive,
+		isChangeCharacterModalActive,
+		isGenerateModalActive
+	} = useGenerateImageStore();
+	const { isGeoModalActive } = useGeoStore();
 
 	const isAnyOtherModalActive =
 		isAuthModalActive ||
@@ -86,7 +101,8 @@ export default function ModalsProvider() {
 		isQrModalActive ||
 		isTokensModalActive ||
 		isSubscriptionModalActive ||
-		isCancelConfirmModalActive;
+		isCancelConfirmModalActive ||
+		isGeoModalActive;
 
 	const isPaywallPage = pathname === "/paywall" || pathname === "/paywall2";
 	const shouldShowAgeVerify =
@@ -94,8 +110,6 @@ export default function ModalsProvider() {
 		!isAnyOtherModalActive &&
 		!isPaywallPage &&
 		!isSuccessPaymentModalActive;
-	const { isChangeCharacterModalActive, isGenerateModalActive } =
-		useCharacterCreateStore();
 
 	return (
 		<>
@@ -114,6 +128,8 @@ export default function ModalsProvider() {
 			{isChangeCharacterModalActive && <CharacterChangeModal />}
 			{isGenerateModalActive && <GeneratePhotoModal />}
 			{isErrorModalActive && <ErrorModal />}
+			{isFeedBackModalActive && <FeedBackModal />}
+			{isGeoModalActive && <GeoModal />}
 		</>
 	);
 }

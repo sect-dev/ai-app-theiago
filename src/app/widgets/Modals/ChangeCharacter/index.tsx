@@ -1,16 +1,15 @@
 import { safeLocalStorage } from "@/app/shared/helpers";
-import { useCharacterCreateStore } from "@/app/shared/store/createCharacterStore";
+import { useGenerateImageStore } from "@/app/shared/store/generateImageStore";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { Dialog, DialogPanel } from "@headlessui/react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 const CharacterChangeModal = () => {
 	const { charactersList } = useSelectedCardStore();
-	const { setChangeCharacterModal } = useCharacterCreateStore();
 	const charactersArray = charactersList ? Object.values(charactersList) : [];
-	const { characterId, setCharacterId } = useCharacterCreateStore();
-
-	console.log("modal", characterId);
+	const { setCharacterId, setChangeCharacterModal } = useGenerateImageStore();
+	const t = useTranslations("ImageGenerator");
 
 	const handleClose = () => {
 		console.log("closed modal");
@@ -40,7 +39,7 @@ const CharacterChangeModal = () => {
 						<div className="scroll-hide max-h-[677px] w-[807px] overflow-y-auto rounded-[24px] bg-[#121423] p-[20px] font-bai-jamjuree xs:rounded-[0px]">
 							<div className="mb-[20px] flex flex-row items-center justify-between">
 								<span className="text-[24px] font-semibold">
-									Choose character
+									{t("generator_choose_character")}
 								</span>
 								<button
 									onClick={handleClose}
