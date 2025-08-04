@@ -10,35 +10,35 @@ import { getLocale } from "next-intl/server";
 import TrackdeskComponent from "./shared/components/TrackDeskComponent";
 
 export const metadata: Metadata = {
-  title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
-  description:
-    "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
-  icons: {
-    icon: "/icon.ico",
-  },
+	title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
+	description:
+		"AiGO - Create AI Companions and Explore Your Digital Fantasy World",
+	icons: {
+		icon: "/icon.ico"
+	}
 };
 
 //TODO: make an independent component for analytics
 
 export default async function RootLayout({
-  children,
+	children
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  const gtmToken = process.env.NEXT_PUBLIC_GOOGLE_TAG;
-  const locale = await getLocale();
-  return (
-    <html lang={locale}>
-      <body
-        className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
-      >
-        <AmplitudeAnalytics />
-        {gtmToken && <GoogleTagManager gtmId={gtmToken} />}
-        <FacebookPixel />
-        <YandexMetrikaContainer />
-        <TrackdeskComponent />
-        <I18nProvider>{children}</I18nProvider>
-      </body>
-    </html>
-  );
+	const gtmToken = process.env.NEXT_PUBLIC_GOOGLE_TAG;
+	const locale = await getLocale();
+	return (
+		<html lang={locale}>
+			<body
+				className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
+			>
+				{/* <AmplitudeAnalytics /> */}
+				{gtmToken && <GoogleTagManager gtmId={gtmToken} />}
+				<FacebookPixel />
+				<YandexMetrikaContainer />
+				<TrackdeskComponent />
+				<I18nProvider>{children}</I18nProvider>
+			</body>
+		</html>
+	);
 }

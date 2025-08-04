@@ -699,7 +699,7 @@ onAuthStateChanged(auth, async (firebaseUser) => {
 
 onIdTokenChanged(auth, async (firebaseUser) => {
 	if (firebaseUser) {
-		const token = await firebaseUser.getIdToken(true);
+		const token = await firebaseUser.getIdToken();
 		setAccessTokenCookie(token);
 	} else {
 		clearAccessTokenCookie();
