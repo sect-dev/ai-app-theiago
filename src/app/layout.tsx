@@ -29,11 +29,20 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	// const gtmToken = process.env.NEXT_PUBLIC_GOOGLE_TAG;
-	// const locale = await getLocale();
+	const gtmToken = process.env.NEXT_PUBLIC_GOOGLE_TAG;
+	const locale = await getLocale();
 	return (
-		<html>
-			<div>Under maintenance</div>
+		<html lang={locale}>
+			<body
+				className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
+			>
+				{/* <AmplitudeAnalytics /> */}
+				{gtmToken && <GoogleTagManager gtmId={gtmToken} />}
+				<FacebookPixel />
+				<YandexMetrikaContainer />
+				<TrackdeskComponent />
+				<I18nProvider>{children}</I18nProvider>
+			</body>
 		</html>
 	);
 }
