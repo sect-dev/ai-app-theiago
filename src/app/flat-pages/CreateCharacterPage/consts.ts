@@ -169,6 +169,49 @@ export const HOBBIES_OPTIONS = [
 	}
 ];
 
+export const RELATIONSHIP_OPTIONS = [
+	{
+		id: 1,
+		text: "Girl-Next-Door"
+	},
+	{
+		id: 2,
+		text: "Colleague"
+	},
+	{
+		id: 3,
+		text: "Classmate"
+	},
+	{
+		id: 4,
+		text: "Best Friend"
+	},
+	{
+		id: 5,
+		text: "Neighbor"
+	},
+	{
+		id: 6,
+		text: "Teammate"
+	},
+	{
+		id: 7,
+		text: "Sibling"
+	},
+	{
+		id: 8,
+		text: "Mentor"
+	},
+	{
+		id: 9,
+		text: "Roommate"
+	},
+	{
+		id: 10,
+		text: "Acquaintance"
+	}
+];
+
 export interface HobbiesOptionType {
 	id: number;
 	icon: string;

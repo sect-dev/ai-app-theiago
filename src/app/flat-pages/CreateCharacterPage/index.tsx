@@ -19,7 +19,7 @@ const CreateCharacterPage = () => {
 			try {
 				const currentStep = storedData.step;
 				setStep(currentStep || 1);
-				setCharType(storedData.charType || "Realistic");
+				setCharType(storedData.charType || "Real");
 			} catch (error) {
 				console.error("Ошибка при чтении localStorage:", error);
 			}

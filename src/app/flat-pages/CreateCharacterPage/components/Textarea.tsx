@@ -4,15 +4,14 @@ import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 
 const TextAreaName = () => {
 	const { name, setName } = useGenerateImageStore();
-	const [localRequest, setLocalRequest] = useState(name);
 
 	useEffect(() => {
-		setLocalRequest(name);
+		setName(name);
 	}, [name]);
 
 	const handleRequestUpdate = () => {
 		setName("reset");
-		setName(localRequest);
+		setName(name);
 	};
 
 	return (
@@ -23,8 +22,8 @@ const TextAreaName = () => {
 				className="w-full bg-transparent text-[16px] font-medium"
 				minRows={1}
 				maxRows={1}
-				value={localRequest}
-				onChange={(e) => setLocalRequest(e.target.value)}
+				value={name}
+				onChange={(e) => setName(e.target.value)}
 				onBlur={handleRequestUpdate}
 			/>
 		</div>

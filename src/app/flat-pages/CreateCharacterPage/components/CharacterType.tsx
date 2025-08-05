@@ -14,11 +14,11 @@ const CharacterType = () => {
 	const { charType, setCharType, setStep } = useGenerateImageStore();
 	const { getStoredData, saveToStorage } = useLocalStorage();
 	const isAnime = charType === "Anime";
-	const isRealistic = charType === "Realistic";
+	const isRealistic = charType === "Real";
 
 	useEffect(() => {
 		const storedData = getStoredData();
-		const initialCharType = storedData.charType || "Realistic";
+		const initialCharType = storedData.charType || "Real";
 		setCharType(initialCharType);
 	}, [getStoredData, setCharType]);
 
@@ -60,7 +60,7 @@ const CharacterType = () => {
 				>
 					<Image
 						src={RealisticImage}
-						onClick={() => handleCharTypeSelect("Realistic")}
+						onClick={() => handleCharTypeSelect("Real")}
 						alt="character-type"
 						className="h-[339px] w-[210px] cursor-pointer rounded-[16px] object-cover"
 					/>
