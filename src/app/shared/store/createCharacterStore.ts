@@ -74,7 +74,7 @@ export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
 	buttType: "Medium",
 	eyesType: "Green",
 	hairStyle: "Long",
-	hairColor: "Blonde",
+	hairColor: "Blond",
 	personality: "Protector",
 	voice: "Mystical",
 	occupation: "College Student",

@@ -38,18 +38,6 @@ const BasicInfoComponent = () => {
 		return <BasicInfoComponentSkeleton numberOfCategories={3} />;
 	}
 
-	console.log(
-		ethnicity,
-		bodyType,
-		breastType,
-		buttType,
-		eyesType,
-		hairStyle,
-		hairColor
-	);
-
-	console.log(data);
-
 	// Функция для обработки выбора опции
 	const handleOptionSelect = (category: string, optionId: string) => {
 		switch (category) {
