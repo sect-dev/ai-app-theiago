@@ -62,26 +62,33 @@ const useAddCharacter = () => {
 				"/create_constructor_character_web",
 				{
 					token: token || "",
-					name: name,
-					style: charType,
-					hair_color: hairColor,
-					hair_style: hairStyle,
-					body_type: bodyType,
-					ethnicity: ethnicity,
-					breast_type: breastType,
-					butt_type: buttType,
-					occupation: occupation,
-					legs_clothing: outfit,
-					age: getAge(age),
-					eyes: eyesType,
+					name: "Marina",
+					description:
+						"A sultry siren who commands attention, her every move seductive yet professional. Her signature cocktail? Irresistible charm served straight up in a vintage glass.",
+					style: "Real",
+					hair_color: "Redhead",
+					hair_style: "Long",
+					body_type: "Athletic",
+					ethnicity: "Asian",
+					breast_type: "Large",
+					butt_type: "Small",
+					occupation: "Dancer",
+					legs_clothing: "Sneakers",
+					clothing: "Corset",
+					age: "MILF",
+					eyes: "Black",
 					receive_voice_messages: true,
-					voice_type: voice,
-					personality: personality,
-					topics_of_interests: hobbies,
+					voice_type: "Warm",
+					personality: "Romantic",
+					topics_of_interests: ["Dance"],
 					receive_video_messages: true,
-					explicit_content: true,
-					relationship: relationship,
-					accessories: accessories
+					explicit_content: true
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+						accept: "application/json"
+					}
 				}
 			);
 			if (res.status === 200) {
