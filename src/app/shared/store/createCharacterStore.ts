@@ -1,5 +1,20 @@
 import { create } from "zustand";
 
+interface CreatedCharacter {
+	id: string;
+	avatar: string;
+	name: string;
+	description: string;
+	age: string;
+	params: Param[];
+}
+
+interface Param {
+	id: string;
+	title: string;
+	url: string;
+}
+
 interface GenerateImageStore {
 	step: number;
 	charType: string;
@@ -20,6 +35,9 @@ interface GenerateImageStore {
 	relationship: string;
 	outfit: string;
 	accessories: string;
+	isCreatingCharacter: boolean;
+	createdCharacter: CreatedCharacter | null;
+	createCharacterError: string | null;
 	setStep: (step: number) => void;
 	setCharType: (charType: string) => void;
 	setGender: (gender: string) => void;
@@ -39,6 +57,10 @@ interface GenerateImageStore {
 	setRelationship: (relationship: string) => void;
 	setOutfit: (outfit: string) => void;
 	setAccessories: (accessories: string) => void;
+	setIsCreatingCharacter: (isCreatingCharacter: boolean) => void;
+	setCreatedCharacter: (character: CreatedCharacter) => void;
+	setCreateCharacterError: (error: string | null) => void;
+	resetCreatedCharacter: () => void;
 }
 
 export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
@@ -61,6 +83,9 @@ export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
 	relationship: "",
 	outfit: "",
 	accessories: "",
+	isCreatingCharacter: false,
+	createdCharacter: null,
+	createCharacterError: null,
 	setRelationship: (newRelationship: string) => {
 		if (newRelationship === "reset") {
 			set({ relationship: "" });
@@ -99,5 +124,17 @@ export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
 		} else {
 			set({ name });
 		}
-	}
+	},
+	setCreatedCharacter: (character: CreatedCharacter) =>
+		set({ createdCharacter: character }),
+	setIsCreatingCharacter: (isLoading: boolean) =>
+		set({ isCreatingCharacter: isLoading }),
+	setCreateCharacterError: (error: string | null) =>
+		set({ createCharacterError: error }),
+	resetCreatedCharacter: () =>
+		set({
+			createdCharacter: null,
+			isCreatingCharacter: false,
+			createCharacterError: null
+		})
 }));

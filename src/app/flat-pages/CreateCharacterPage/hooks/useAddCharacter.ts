@@ -3,6 +3,21 @@ import { useCallback, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
 import { auth } from "@/firebase";
 
+interface CreatedCharacter {
+	id: string;
+	name: string;
+	description: string;
+	age: string;
+	params: Param[];
+	avatar: string;
+}
+
+interface Param {
+	id: string;
+	title: string;
+	url: string;
+}
+
 interface Character {
 	token: string;
 	name: string;
@@ -25,7 +40,7 @@ interface Character {
 }
 
 const useAddCharacter = () => {
-	const [data, setData] = useState<Character>();
+	const [data, setData] = useState<CreatedCharacter>();
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -58,24 +73,24 @@ const useAddCharacter = () => {
 		const user = auth.currentUser;
 		const token = await user?.getIdToken();
 		try {
-			const res = await apiClient.post<Character>(
+			const res = await apiClient.post<CreatedCharacter>(
 				"/create_constructor_character_web",
 				{
 					token: token || "",
-					name: "Marina",
+					name: "Test name",
 					description:
 						"A sultry siren who commands attention, her every move seductive yet professional. Her signature cocktail? Irresistible charm served straight up in a vintage glass.",
 					style: "Real",
-					hair_color: "Redhead",
-					hair_style: "Long",
+					hair_color: "Black",
+					hair_style: "Curly",
 					body_type: "Athletic",
-					ethnicity: "Asian",
-					breast_type: "Large",
-					butt_type: "Small",
-					occupation: "Dancer",
+					ethnicity: "Latina",
+					breast_type: "Medium",
+					butt_type: "Medium",
+					occupation: "Teacher",
 					legs_clothing: "Sneakers",
 					clothing: "Corset",
-					age: "MILF",
+					age: "Adult",
 					eyes: "Black",
 					receive_voice_messages: true,
 					voice_type: "Warm",
