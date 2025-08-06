@@ -38,7 +38,7 @@ export default async function RootLayout({
 			<body
 				className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
 			>
-				{/* <AmplitudeAnalytics /> */}
+				<AmplitudeAnalytics />
 				<CookieScriptComponent />
 				<LocaleSync />
 				{gtmToken && <GoogleTagManager gtmId={gtmToken} />}
