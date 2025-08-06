@@ -68,7 +68,7 @@ export const useGenerateImageStore = create<GenerateImageStore>((set, get) => ({
 	charType: "Real",
 	gender: "Female",
 	ageChar: 20,
-	ethnicity: "European",
+	ethnicity: "Latina",
 	bodyType: "Curvy",
 	breastType: "Large",
 	buttType: "Medium",
