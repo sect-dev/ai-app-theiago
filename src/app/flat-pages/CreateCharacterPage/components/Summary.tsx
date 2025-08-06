@@ -11,7 +11,10 @@ import SummarySlider from "./SummarySlider";
 import SummaryPageSkeleton from "./SummaryPageSkeleton";
 import { useStartChat } from "@/app/shared/hooks/useStartChat";
 import { startConversation } from "@/app/shared/api/mesages";
-import { mapBackendMessagesToMessages } from "@/app/shared/helpers";
+import {
+	mapBackendMessagesToMessages,
+	safeLocalStorage
+} from "@/app/shared/helpers";
 import { saveCharacterToLocalStorage } from "@/app/shared/helpers";
 import { useAuthStore } from "@/app/shared/store/authStore";
 import { usePaymentStore } from "@/app/shared/store/paymentStore";
@@ -34,26 +37,46 @@ const INITIAL_CHARACTER = {
 
 const Summary = () => {
 	const { saveToStorage, clearStorage } = useLocalStorage();
-	const { gender, setStep, isCreatingCharacter, createdCharacter } =
-		useGenerateImageStore();
-	const { handleClick, isLoading: isStartingChat } = useStartChat();
-	const { data, isLoading, error, addCharacter } = useAddCharacter();
+	const {
+		gender,
+		setStep,
+		isCreatingCharacter,
+		createdCharacter,
+		createCharacterError
+	} = useGenerateImageStore();
+	const [loading, setLoading] = useState(false);
 	const { setSelectedCharacterId, setCharacters } = useSelectedCardStore();
+	const localStorageCharacter = safeLocalStorage.get("createdCharacter");
 	const { name, description, age, params, avatar, id } =
-		createdCharacter || INITIAL_CHARACTER;
+		createdCharacter || JSON.parse(localStorageCharacter ?? "{}");
 	const { user, setIsPremium } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 	const navigate = useRouter();
 
-	if (isCreatingCharacter) return <SummaryPageSkeleton />;
+	if (isCreatingCharacter || loading) return <SummaryPageSkeleton />;
 
-	console.log("id", id, createdCharacter);
+	if ((!localStorageCharacter || createCharacterError) && !loading) {
+		return (
+			<div className="flex flex-col items-center justify-center">
+				<span>An error occurred, please try again</span>
+				<button
+					className="bg-red-text-gradient bg-clip-text text-[14px] font-bold text-transparent"
+					onClick={() => {
+						clearStorage();
+						setStep(1);
+					}}
+				>
+					Create another girl
+				</button>
+			</div>
+		);
+	}
 
 	const handleMakeItRealClick = async () => {
 		try {
-			const characterInfo = await getCharacterInfoById(id);
+			setLoading(true);
 
-			console.log("characterInfo", characterInfo);
+			const characterInfo = await getCharacterInfoById(id);
 
 			const startChat = await startConversation({
 				userId: user?.uid ?? "id",
@@ -73,8 +96,10 @@ const Summary = () => {
 			setTokens(tokens ?? 0);
 			setIsPremium(startChat?.is_premium ?? false);
 			clearStorage();
+			safeLocalStorage.remove("createdCharacter");
 			navigate.push(`/chats`);
 		} catch (error) {
+			setLoading(false);
 			console.log(error);
 		}
 	};
@@ -106,13 +131,15 @@ const Summary = () => {
 					</span>
 				</div>
 
-				<div className="relative mb-[32px] h-[447px] w-[427px] overflow-hidden rounded-[32px]">
-					<Image
-						src={avatar || ""}
-						alt="avatar"
-						fill
-						className="rounded-[32px] object-cover object-top"
-					/>
+				<div className="flex items-center justify-center">
+					<div className="relative mb-[32px] h-[447px] w-[427px] overflow-hidden rounded-[32px] md:h-[378px] md:w-[343px]">
+						<Image
+							src={avatar || ""}
+							alt="avatar"
+							fill
+							className="rounded-[32px] object-cover object-top"
+						/>
+					</div>
 				</div>
 
 				<div className="mb-[20px]">

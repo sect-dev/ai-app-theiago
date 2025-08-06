@@ -20,7 +20,7 @@ const TextAreaDesc = () => {
 			<span className="text-[14px] font-medium">Relationships description</span>
 			<TextareaAutosize
 				placeholder="She is my former roommate"
-				className="w-full bg-transparent text-[16px] font-medium"
+				className="w-full resize-none bg-transparent text-[16px] font-medium"
 				minRows={2}
 				maxRows={5}
 				value={localRelationship}

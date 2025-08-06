@@ -19,7 +19,7 @@ const TextAreaName = () => {
 			<span className="text-[14px] font-medium">Name</span>
 			<TextareaAutosize
 				placeholder="Input here"
-				className="w-full bg-transparent text-[16px] font-medium"
+				className="w-full resize-none bg-transparent text-[16px] font-medium"
 				minRows={1}
 				maxRows={1}
 				value={name}

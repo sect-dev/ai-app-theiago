@@ -36,11 +36,7 @@ const OccupationComponent = () => {
 				slidesPerView={2.2} // Показывает центральный + части боковых
 				spaceBetween={20}
 				loop={true}
-				autoplay={{
-					delay: 5500,
-					disableOnInteraction: true
-				}}
-				modules={[Autoplay, Navigation]}
+				modules={[Navigation]}
 				navigation={{
 					nextEl: ".custom-next",
 					prevEl: ".custom-prev"
@@ -138,7 +134,7 @@ const BasicInfoCard = ({
 			</div>
 
 			{!isActive && (
-				<div className="bg-inactive-card-gradient absolute inset-0 rounded-[16px] transition-all duration-100" />
+				<div className="absolute inset-0 rounded-[16px] bg-inactive-card-gradient transition-all duration-100" />
 			)}
 
 			{isSelected && (

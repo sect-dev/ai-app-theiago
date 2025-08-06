@@ -2,6 +2,7 @@ import { apiClient, getCurrentToken } from "@/app/shared/api";
 import { useCallback, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
 import { auth } from "@/firebase";
+import { safeLocalStorage } from "@/app/shared/helpers";
 
 interface CreatedCharacter {
 	id: string;
@@ -16,27 +17,6 @@ interface Param {
 	id: string;
 	title: string;
 	url: string;
-}
-
-interface Character {
-	token: string;
-	name: string;
-	style: string;
-	hair_color: string;
-	hair_style: string;
-	body_type: string;
-	ethnicity: string;
-	breast_type: string;
-	butt_type: string;
-	occupation: string;
-	legs_clothing: string;
-	age: string;
-	receive_voice_messages: boolean;
-	voice_type: string;
-	personality: string;
-	topics_of_interests: string[];
-	receive_video_messages: boolean;
-	explicit_content: boolean;
 }
 
 const useAddCharacter = () => {
@@ -107,6 +87,7 @@ const useAddCharacter = () => {
 			);
 			if (res.status === 200) {
 				setData(res.data);
+				safeLocalStorage.set("createdCharacter", JSON.stringify(res.data));
 				return res.data;
 			}
 		} catch (err) {

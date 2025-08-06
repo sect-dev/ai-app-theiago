@@ -35,7 +35,7 @@ const Relationship = () => {
 			setStep(6);
 			setIsCreatingCharacter(true);
 			setCreateCharacterError(null);
-			saveToStorage({ step: 6, name, relationship, outfit, accessories });
+			await saveToStorage({ step: 6, name, relationship, outfit, accessories });
 
 			const characterData = await addCharacter();
 			if (characterData) {
@@ -56,6 +56,8 @@ const Relationship = () => {
 			setIsCreatingCharacter(false);
 		}
 	};
+
+	const isNextDisabled = !name || !relationship || !outfit || !accessories;
 
 	return (
 		<div>
@@ -117,6 +119,7 @@ const Relationship = () => {
 				{/* TODO: вынести в NextButton */}
 				<div className="flex justify-center">
 					<button
+						disabled={isNextDisabled}
 						onClick={handleNextClick}
 						className="relative flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50"
 					>
