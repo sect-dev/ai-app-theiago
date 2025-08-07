@@ -30,8 +30,6 @@ const VoiceComponent = () => {
 	if (isLoading) return <VoiceComponentSkeleton />;
 	if (error) return <div>Error: {error}</div>;
 
-	const isMobile = window.innerWidth <= 570;
-
 	return (
 		<div className="mb-[12px]">
 			<span className="mb-[8px] block text-[18px] font-bold leading-[130%] tracking-wide">
@@ -40,8 +38,25 @@ const VoiceComponent = () => {
 
 			<Swiper
 				centeredSlides={true}
-				slidesPerView={isMobile ? 2.25 : 2.75}
+				slidesPerView={2.25}
 				spaceBetween={20}
+				breakpoints={{
+					360: {
+						slidesPerView: 1.53
+					},
+					375: {
+						slidesPerView: 1.6
+					},
+					400: {
+						slidesPerView: 1.7
+					},
+					425: {
+						slidesPerView: 1.8
+					},
+					570: {
+						slidesPerView: 2
+					}
+				}}
 				loop={true}
 				modules={[Navigation]}
 				navigation={{ nextEl: ".custom-next", prevEl: ".custom-prev" }}
