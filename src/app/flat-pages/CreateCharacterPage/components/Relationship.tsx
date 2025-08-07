@@ -32,10 +32,10 @@ const Relationship = () => {
 
 	const handleNextClick = async () => {
 		try {
+			saveToStorage({ step: 6, name, relationship, outfit, accessories });
 			setStep(6);
 			setIsCreatingCharacter(true);
 			setCreateCharacterError(null);
-			saveToStorage({ step: 6, name, relationship, outfit, accessories });
 
 			const characterData = await addCharacter();
 			if (characterData) {

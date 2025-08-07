@@ -25,29 +25,31 @@ const useAddCharacter = () => {
 	const [error, setError] = useState<string | null>(null);
 
 	const { getStoredData } = useLocalStorage();
-	const storedData = getStoredData();
-	const {
-		name,
-		ethnicity,
-		occupation,
-		age,
-		personality,
-		relationship,
-		outfit,
-		accessories,
-		voice,
-		hobbies,
-		gender,
-		charType,
-		bodyType,
-		breastType,
-		buttType,
-		eyesType,
-		hairStyle,
-		hairColor
-	} = storedData;
 
 	const addCharacter = useCallback(async () => {
+		const storedData = getStoredData();
+
+		const {
+			name,
+			ethnicity,
+			occupation,
+			age,
+			personality,
+			relationship,
+			outfit,
+			accessories,
+			voice,
+			hobbies,
+			gender,
+			charType,
+			bodyType,
+			breastType,
+			buttType,
+			eyesType,
+			hairStyle,
+			hairColor
+		} = storedData;
+		
 		setIsLoading(true);
 		setError(null);
 		const user = auth.currentUser;
