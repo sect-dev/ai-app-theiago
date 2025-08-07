@@ -93,6 +93,7 @@ const BasicInfoComponent = () => {
 		<div>
 			{data.map((category) => {
 				const selectedValue = getSelectedValue(category.category);
+				const isMobile = window.innerWidth <= 570;
 				return (
 					<div key={category.category} className="mb-8">
 						<h2 className="mb-[8px] text-[18px] font-bold leading-[130%] tracking-wide">
@@ -101,7 +102,7 @@ const BasicInfoComponent = () => {
 
 						<Swiper
 							centeredSlides={true}
-							slidesPerView={2.2} // Показывает центральный + части боковых
+							slidesPerView={isMobile ? 1.8 : 2.25} // Показывает центральный + части боковых
 							spaceBetween={20}
 							loop={true}
 							modules={[Navigation]}
@@ -192,7 +193,6 @@ const BasicInfoCard = ({
 				alt={option.label}
 				width={180}
 				height={217}
-				loading="lazy"
 				className="relative h-full w-full object-cover"
 			/>
 

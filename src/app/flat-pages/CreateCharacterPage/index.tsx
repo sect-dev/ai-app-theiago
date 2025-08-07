@@ -16,8 +16,14 @@ const CreateCharacterPage = () => {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (scrollContainerRef.current) {
-			scrollContainerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+		const isMobile = window.innerWidth <= 570;
+
+		if (isMobile) {
+			if (scrollContainerRef.current) {
+				scrollContainerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+			}
+		} else {
+			window.scrollTo({ top: 0, behavior: "smooth" });
 		}
 	}, [step]);
 
