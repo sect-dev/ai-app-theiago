@@ -112,6 +112,9 @@ const BasicInfoComponent = () => {
 								375: {
 									slidesPerView: 1.8
 								},
+								400: {
+									slidesPerView: 2
+								},
 								430: {
 									slidesPerView: 2.1
 								},
