@@ -67,7 +67,6 @@ const useAddCharacter = () => {
 					breast_type: breastType,
 					butt_type: buttType,
 					occupation: occupation,
-					legs_clothing: outfit,
 					clothing: accessories,
 					age: getAge(age),
 					eyes: eyesType,
