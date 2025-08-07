@@ -16,14 +16,12 @@ const OccupationComponent = () => {
 		return <BasicInfoComponentSkeleton numberOfCategories={1} />;
 	}
 
-	console.log(occupation);
-
-	console.log(data);
-
 	// Функция для обработки выбора опции
 	const handleOptionSelect = (optionId: string) => {
 		setOccupation(optionId);
 	};
+
+	const isMobile = window.innerWidth <= 570;
 
 	return (
 		<div className="mb-8">
@@ -33,7 +31,7 @@ const OccupationComponent = () => {
 
 			<Swiper
 				centeredSlides={true}
-				slidesPerView={2.2} // Показывает центральный + части боковых
+				slidesPerView={isMobile ? 1.8 : 2.25} // Показывает центральный + части боковых
 				spaceBetween={20}
 				loop={true}
 				modules={[Navigation]}
