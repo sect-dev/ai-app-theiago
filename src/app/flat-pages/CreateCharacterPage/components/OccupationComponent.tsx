@@ -21,8 +21,6 @@ const OccupationComponent = () => {
 		setOccupation(optionId);
 	};
 
-	const isMobile = window.innerWidth <= 570;
-
 	return (
 		<div className="mb-8">
 			<h2 className="mb-[8px] text-[18px] font-bold leading-[130%] tracking-wide">
@@ -31,9 +29,26 @@ const OccupationComponent = () => {
 
 			<Swiper
 				centeredSlides={true}
-				slidesPerView={isMobile ? 1.8 : 2.25} // Показывает центральный + части боковых
+				slidesPerView={2.25} // Показывает центральный + части боковых
 				spaceBetween={20}
 				loop={true}
+				breakpoints={{
+					360: {
+						slidesPerView: 1.7
+					},
+					375: {
+						slidesPerView: 1.8
+					},
+					400: {
+						slidesPerView: 2
+					},
+					430: {
+						slidesPerView: 2.1
+					},
+					570: {
+						slidesPerView: 2.25
+					}
+				}}
 				modules={[Navigation]}
 				navigation={{
 					nextEl: ".custom-next",

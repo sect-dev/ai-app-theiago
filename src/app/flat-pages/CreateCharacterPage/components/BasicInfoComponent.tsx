@@ -102,9 +102,23 @@ const BasicInfoComponent = () => {
 
 						<Swiper
 							centeredSlides={true}
-							slidesPerView={isMobile ? 1.8 : 2.25} // Показывает центральный + части боковых
+							slidesPerView={2.25} // Показывает центральный + части боковых
 							spaceBetween={20}
 							loop={true}
+							breakpoints={{
+								360: {
+									slidesPerView: 1.7
+								},
+								375: {
+									slidesPerView: 1.8
+								},
+								430: {
+									slidesPerView: 2.1
+								},
+								570: {
+									slidesPerView: 2.25
+								}
+							}}
 							modules={[Navigation]}
 							navigation={{
 								nextEl: ".custom-next",
