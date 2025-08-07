@@ -35,7 +35,8 @@ const Relationship = () => {
 			setStep(6);
 			setIsCreatingCharacter(true);
 			setCreateCharacterError(null);
-			await saveToStorage({ step: 6, name, relationship, outfit, accessories });
+			saveToStorage({ step: 6, name, relationship, outfit, accessories });
+			console.log(relationship, "relationship", name, "name");
 
 			const characterData = await addCharacter();
 			if (characterData) {
