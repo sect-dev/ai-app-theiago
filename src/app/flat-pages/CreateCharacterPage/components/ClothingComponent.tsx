@@ -48,9 +48,9 @@ const ClothingComponent = () => {
 	const isItemSelected = (item: SuggestionItem) => {
 		switch (item.type) {
 			case "outfit":
-				return outfit === item.label;
+				return outfit === item.id;
 			case "accessories":
-				return accessories === item.label;
+				return accessories === item.id;
 			default:
 				return false;
 		}
