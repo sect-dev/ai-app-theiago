@@ -3,6 +3,12 @@ import HomePage from "@/app/flat-pages/Homepage";
 import { Character } from "@/app/shared/api/types";
 import { PaymentModalType } from "@/app/shared/store/paymentStore";
 import { getCharactersList } from "@/app/shared/api/characters";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "NSFW Character AI Chat - No Filter | AiGO",
+  description: "Dive into immersive AI chats, create beautiful content, and build a deep connection with your dream partner — all with AiGO, your personal AI companion.",
+};
 
 interface PageProps {
   searchParams: Promise<{
