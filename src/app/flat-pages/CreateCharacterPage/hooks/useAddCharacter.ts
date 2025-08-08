@@ -2,85 +2,80 @@ import { apiClient, getCurrentToken } from "@/app/shared/api";
 import { useCallback, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
 import { auth } from "@/firebase";
+import { safeLocalStorage } from "@/app/shared/helpers";
 
-interface Character {
-	token: string;
+interface CreatedCharacter {
+	id: string;
 	name: string;
-	style: string;
-	hair_color: string;
-	hair_style: string;
-	body_type: string;
-	ethnicity: string;
-	breast_type: string;
-	butt_type: string;
-	occupation: string;
-	legs_clothing: string;
+	description: string;
 	age: string;
-	receive_voice_messages: boolean;
-	voice_type: string;
-	personality: string;
-	topics_of_interests: string[];
-	receive_video_messages: boolean;
-	explicit_content: boolean;
+	params: Param[];
+	avatar: string;
+}
+
+interface Param {
+	id: string;
+	title: string;
+	url: string;
 }
 
 const useAddCharacter = () => {
-	const [data, setData] = useState<Character>();
+	const [data, setData] = useState<CreatedCharacter>();
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
 	const { getStoredData } = useLocalStorage();
-	const storedData = getStoredData();
-	const {
-		name,
-		ethnicity,
-		occupation,
-		age,
-		personality,
-		relationship,
-		outfit,
-		accessories,
-		voice,
-		hobbies,
-		gender,
-		charType,
-		bodyType,
-		breastType,
-		buttType,
-		eyesType,
-		hairStyle,
-		hairColor
-	} = storedData;
 
 	const addCharacter = useCallback(async () => {
+		const storedData = getStoredData();
+
+		const {
+			name,
+			ethnicity,
+			occupation,
+			age,
+			personality,
+			relationship,
+			outfit,
+			accessories,
+			voice,
+			hobbies,
+			gender,
+			charType,
+			bodyType,
+			breastType,
+			buttType,
+			eyesType,
+			hairStyle,
+			hairColor
+		} = storedData;
+		
 		setIsLoading(true);
 		setError(null);
 		const user = auth.currentUser;
 		const token = await user?.getIdToken();
 		try {
-			const res = await apiClient.post<Character>(
+			const res = await apiClient.post<CreatedCharacter>(
 				"/create_constructor_character_web",
 				{
 					token: token || "",
-					name: "Marina",
-					description:
-						"A sultry siren who commands attention, her every move seductive yet professional. Her signature cocktail? Irresistible charm served straight up in a vintage glass.",
-					style: "Real",
-					hair_color: "Redhead",
-					hair_style: "Long",
-					body_type: "Athletic",
-					ethnicity: "Asian",
-					breast_type: "Large",
-					butt_type: "Small",
-					occupation: "Dancer",
-					legs_clothing: "Sneakers",
-					clothing: "Corset",
-					age: "MILF",
-					eyes: "Black",
+					name: name,
+					description: relationship,
+					style: charType,
+					hair_color: hairColor,
+					hair_style: hairStyle,
+					body_type: bodyType,
+					ethnicity: ethnicity,
+					breast_type: breastType,
+					butt_type: buttType,
+					occupation: occupation,
+					clothing: accessories,
+					age: getAge(age),
+					eyes: eyesType,
 					receive_voice_messages: true,
-					voice_type: "Warm",
-					personality: "Romantic",
-					topics_of_interests: ["Dance"],
+					voice_type: voice,
+					personality: personality,
+					topics_of_interests: hobbies,
 					receive_video_messages: true,
 					explicit_content: true
 				},
@@ -93,6 +88,7 @@ const useAddCharacter = () => {
 			);
 			if (res.status === 200) {
 				setData(res.data);
+				safeLocalStorage.set("createdCharacter", JSON.stringify(res.data));
 				return res.data;
 			}
 		} catch (err) {

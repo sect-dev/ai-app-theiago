@@ -16,10 +16,6 @@ const OccupationComponent = () => {
 		return <BasicInfoComponentSkeleton numberOfCategories={1} />;
 	}
 
-	console.log(occupation);
-
-	console.log(data);
-
 	// Функция для обработки выбора опции
 	const handleOptionSelect = (optionId: string) => {
 		setOccupation(optionId);
@@ -33,14 +29,27 @@ const OccupationComponent = () => {
 
 			<Swiper
 				centeredSlides={true}
-				slidesPerView={2.2} // Показывает центральный + части боковых
+				slidesPerView={2.25} // Показывает центральный + части боковых
 				spaceBetween={20}
 				loop={true}
-				autoplay={{
-					delay: 5500,
-					disableOnInteraction: true
+				breakpoints={{
+					360: {
+						slidesPerView: 1.7
+					},
+					375: {
+						slidesPerView: 1.8
+					},
+					400: {
+						slidesPerView: 2
+					},
+					430: {
+						slidesPerView: 2.1
+					},
+					570: {
+						slidesPerView: 2.25
+					}
 				}}
-				modules={[Autoplay, Navigation]}
+				modules={[Navigation]}
 				navigation={{
 					nextEl: ".custom-next",
 					prevEl: ".custom-prev"
@@ -138,7 +147,7 @@ const BasicInfoCard = ({
 			</div>
 
 			{!isActive && (
-				<div className="bg-inactive-card-gradient absolute inset-0 rounded-[16px] transition-all duration-100" />
+				<div className="absolute inset-0 rounded-[16px] bg-inactive-card-gradient transition-all duration-100" />
 			)}
 
 			{isSelected && (

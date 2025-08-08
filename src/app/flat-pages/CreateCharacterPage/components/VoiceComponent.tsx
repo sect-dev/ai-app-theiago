@@ -1,5 +1,5 @@
 import useVoicesInfo from "../hooks/useVoicesInfo";
-import PlayButton from "@/../public/images/createpage/play-button.png";
+import PlayButton from "@/../public/images/createpage/icon-play.png";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { useGenerateImageStore } from "@/app/shared/store/createCharacterStore";
 import CheckButton from "./CheckButton";
 import VoiceComponentSkeleton from "./VoiceComponentSkeleton";
+import IconsPause from "@/../public/images/createpage/icon-pause.png";
 
 interface VoiceCardProps {
 	id: string;
@@ -37,8 +38,25 @@ const VoiceComponent = () => {
 
 			<Swiper
 				centeredSlides={true}
-				slidesPerView={3}
+				slidesPerView={2.25}
 				spaceBetween={20}
+				breakpoints={{
+					360: {
+						slidesPerView: 1.53
+					},
+					375: {
+						slidesPerView: 1.6
+					},
+					400: {
+						slidesPerView: 1.7
+					},
+					425: {
+						slidesPerView: 1.8
+					},
+					570: {
+						slidesPerView: 2
+					}
+				}}
 				loop={true}
 				modules={[Navigation]}
 				navigation={{ nextEl: ".custom-next", prevEl: ".custom-prev" }}
@@ -137,13 +155,20 @@ const VoiceCard = (props: VoiceCardProps) => {
 					className="flex h-[32px] w-[32px] items-center justify-center rounded-full bg-main-gradient"
 				>
 					{isPlaying ? (
-						<div>a</div>
+						<Image
+							src={IconsPause.src}
+							alt="pause"
+							width={18}
+							height={18}
+							className="max-h-[18px] max-w-[18px]"
+						/>
 					) : (
 						<Image
-							src={PlayButton}
+							src={PlayButton.src}
 							alt="play"
-							width={PlayButton.width / 2}
-							height={PlayButton.height / 2}
+							width={10}
+							height={10}
+							className="max-h-[10px] max-w-[10px]"
 						/>
 					)}
 				</button>

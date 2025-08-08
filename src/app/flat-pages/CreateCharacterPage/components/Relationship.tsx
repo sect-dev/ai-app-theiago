@@ -12,8 +12,17 @@ import { RELATIONSHIP_OPTIONS } from "../consts";
 import useAddCharacter from "../hooks/useAddCharacter";
 
 const Relationship = () => {
-	const { name, setStep, relationship, setRelationship, outfit, accessories } =
-		useGenerateImageStore();
+	const {
+		name,
+		setStep,
+		relationship,
+		setRelationship,
+		outfit,
+		accessories,
+		setIsCreatingCharacter,
+		setCreatedCharacter,
+		setCreateCharacterError
+	} = useGenerateImageStore();
 	const { saveToStorage } = useLocalStorage();
 	const { addCharacter } = useAddCharacter();
 
@@ -21,11 +30,34 @@ const Relationship = () => {
 		setRelationship(text);
 	};
 
-	const handleNextClick = () => {
-		setStep(6);
-		saveToStorage({ step: 6, name, relationship, outfit, accessories });
-		addCharacter();
+	const handleNextClick = async () => {
+		try {
+			saveToStorage({ step: 6, name, relationship, outfit, accessories });
+			setStep(6);
+			setIsCreatingCharacter(true);
+			setCreateCharacterError(null);
+
+			const characterData = await addCharacter();
+			if (characterData) {
+				setCreatedCharacter({
+					id: characterData.id,
+					name: characterData.name,
+					description: characterData.description,
+					age: characterData.age,
+					params: characterData.params,
+					avatar: characterData.avatar
+				});
+			}
+		} catch (error) {
+			setCreateCharacterError(
+				error instanceof Error ? error.message : "Failed to create character"
+			);
+		} finally {
+			setIsCreatingCharacter(false);
+		}
 	};
+
+	const isNextDisabled = !name || !relationship || !outfit || !accessories;
 
 	return (
 		<div>
@@ -87,6 +119,7 @@ const Relationship = () => {
 				{/* TODO: вынести в NextButton */}
 				<div className="flex justify-center">
 					<button
+						disabled={isNextDisabled}
 						onClick={handleNextClick}
 						className="relative flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50"
 					>

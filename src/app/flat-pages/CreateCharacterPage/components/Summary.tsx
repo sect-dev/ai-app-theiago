@@ -8,15 +8,100 @@ import useAddCharacter from "../hooks/useAddCharacter";
 import FemaleIcon from "@/../public/images/createpage/female-icon.png";
 import AgeIcon from "@/../public/images/createpage/age-icon.png";
 import SummarySlider from "./SummarySlider";
+import SummaryPageSkeleton from "./SummaryPageSkeleton";
+import { useStartChat } from "@/app/shared/hooks/useStartChat";
+import { startConversation } from "@/app/shared/api/mesages";
+import {
+	mapBackendMessagesToMessages,
+	safeLocalStorage
+} from "@/app/shared/helpers";
+import { saveCharacterToLocalStorage } from "@/app/shared/helpers";
+import { useAuthStore } from "@/app/shared/store/authStore";
+import { usePaymentStore } from "@/app/shared/store/paymentStore";
+import { useState } from "react";
+import { useSelectedCardStore } from "@/app/shared/store/publicStore";
+import { useRouter } from "next/navigation";
+import {
+	getCharacterInfoByConstructor,
+	getCharacterInfoById
+} from "@/app/shared/api/getCharacterById";
+
+const INITIAL_CHARACTER = {
+	id: "",
+	avatar: null,
+	name: "",
+	description: "",
+	age: "",
+	params: []
+};
 
 const Summary = () => {
 	const { saveToStorage, clearStorage } = useLocalStorage();
-	const { gender, setStep } = useGenerateImageStore();
-	const { data, isLoading, error, addCharacter } = useAddCharacter();
-	console.log("summary", data);
+	const {
+		gender,
+		setStep,
+		isCreatingCharacter,
+		createdCharacter,
+		createCharacterError
+	} = useGenerateImageStore();
+	const [loading, setLoading] = useState(false);
+	const { setSelectedCharacterId, setCharacters } = useSelectedCardStore();
+	const localStorageCharacter = safeLocalStorage.get("createdCharacter");
+	const { name, description, age, params, avatar, id } =
+		createdCharacter || JSON.parse(localStorageCharacter ?? "{}");
+	const { user, setIsPremium } = useAuthStore();
+	const { setTokens } = usePaymentStore();
+	const navigate = useRouter();
 
-	const handleMakeItRealClick = () => {
-		console.log("make it real");
+	if (isCreatingCharacter || loading) return <SummaryPageSkeleton />;
+
+	if ((!localStorageCharacter || createCharacterError) && !loading) {
+		return (
+			<div className="flex flex-col items-center justify-center">
+				<span>An error occurred, please try again</span>
+				<button
+					className="bg-red-text-gradient bg-clip-text text-[14px] font-bold text-transparent"
+					onClick={() => {
+						clearStorage();
+						setStep(1);
+					}}
+				>
+					Create another girl
+				</button>
+			</div>
+		);
+	}
+
+	const handleMakeItRealClick = async () => {
+		try {
+			setLoading(true);
+
+			const characterInfo = await getCharacterInfoById(id);
+
+			const startChat = await startConversation({
+				userId: user?.uid ?? "id",
+				characterId: characterInfo?.character_id.toString() ?? null
+			});
+			const startChatMessages = mapBackendMessagesToMessages(
+				startChat?.response ?? []
+			);
+			const tokens = startChat?.tokens_remaining || 0;
+			const preparedCharacters = saveCharacterToLocalStorage(
+				characterInfo,
+				startChatMessages,
+				tokens
+			);
+			setSelectedCharacterId(characterInfo?.character_id.toString() ?? "");
+			setCharacters(preparedCharacters ?? null);
+			setTokens(tokens ?? 0);
+			setIsPremium(startChat?.is_premium ?? false);
+			clearStorage();
+			safeLocalStorage.remove("createdCharacter");
+			navigate.push(`/chats`);
+		} catch (error) {
+			setLoading(false);
+			console.log(error);
+		}
 	};
 
 	const handleCreateAnotherClick = () => {
@@ -46,14 +131,22 @@ const Summary = () => {
 					</span>
 				</div>
 
+				<div className="flex items-center justify-center">
+					<div className="relative mb-[32px] h-[447px] w-[427px] overflow-hidden rounded-[32px] md:h-[378px] md:w-[343px]">
+						<Image
+							src={avatar || ""}
+							alt="avatar"
+							fill
+							className="rounded-[32px] object-cover object-top"
+						/>
+					</div>
+				</div>
+
 				<div className="mb-[20px]">
 					<span className="traking-wide mb-[12px] block text-[18px] font-bold leading-[130%]">
-						Girlname
+						{name}
 					</span>
-					<span className="text-[16px] font-medium">
-						In a bar, wearing a tight leather outfit, looking at the viewer with
-						a playful smirk. Lying on back
-					</span>
+					<span className="text-[16px] font-medium">{description}</span>
 				</div>
 
 				<div className="mb-[32px] grid grid-cols-2 gap-[12px]">
@@ -79,7 +172,7 @@ const Summary = () => {
 							<span className="block text-[16px] font-semibold leading-[150%] opacity-50">
 								Age
 							</span>
-							<span className="block text-[16px] font-medium">20</span>
+							<span className="block text-[16px] font-medium">{age}</span>
 						</div>
 
 						<Image
@@ -92,7 +185,7 @@ const Summary = () => {
 					</div>
 				</div>
 
-				<SummarySlider />
+				<SummarySlider params={params} />
 
 				{/* TODO: вынести в NextButton */}
 				<div className="flex flex-col justify-center gap-[16px]">

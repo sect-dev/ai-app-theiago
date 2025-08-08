@@ -19,8 +19,9 @@ const TextAreaDesc = () => {
 		<div className="flex flex-col items-start gap-[4px]">
 			<span className="text-[14px] font-medium">Relationships description</span>
 			<TextareaAutosize
+				maxLength={1000}
 				placeholder="She is my former roommate"
-				className="w-full bg-transparent text-[16px] font-medium"
+				className="w-full resize-none bg-transparent text-[16px] font-medium"
 				minRows={2}
 				maxRows={5}
 				value={localRelationship}

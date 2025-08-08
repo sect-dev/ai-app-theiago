@@ -26,7 +26,7 @@ const AgeRangeSlider = () => {
 				Age
 			</span>
 
-			<div className="relative w-full pt-4">
+			<div className="relative w-full px-[12px] pt-4">
 				{/* Bubble */}
 				<div
 					className="absolute top-[-12px] -translate-x-1/2 transform transition-all duration-100"
@@ -44,13 +44,13 @@ const AgeRangeSlider = () => {
 					value={index}
 					onChange={handleSliderChange}
 					step={1}
-					trackStyle={{ backgroundColor: "#0862DC", height: 4 }}
-					railStyle={{ backgroundColor: "#1D1F37", height: 4 }}
+					trackStyle={{ backgroundColor: "#049AEF", height: 8 }}
+					railStyle={{ backgroundColor: "#1D1F37", height: 8 }}
 					handleStyle={{
 						borderColor: "#fff",
-						height: 12,
-						width: 12,
-						marginTop: -4,
+						height: 20,
+						width: 20,
+						marginTop: -6,
 						backgroundColor: "#fff",
 						boxShadow: "none",
 						opacity: 1

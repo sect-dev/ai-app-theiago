@@ -20,11 +20,11 @@ type TabType = "outfit" | "accessories";
 const ClothingComponent = () => {
 	const { data, isLoading, error } = useGetSuggestions();
 	const [activeTab, setActiveTab] = useState<TabType>("outfit");
-	const user = auth.currentUser;
-	console.log("user", user);
 
 	const { outfit, accessories, setOutfit, setAccessories } =
 		useGenerateImageStore();
+
+	console.log("accessories:: ", accessories, "outfit:: ", outfit);
 
 	const filteredData = data.filter((item) => item.type === activeTab);
 
@@ -35,10 +35,10 @@ const ClothingComponent = () => {
 	const handleItemSelect = (item: SuggestionItem) => {
 		switch (item.type) {
 			case "outfit":
-				setOutfit(item.label);
+				setOutfit(item.id);
 				break;
 			case "accessories":
-				setAccessories(item.label);
+				setAccessories(item.id);
 				break;
 			default:
 				break;
@@ -48,9 +48,9 @@ const ClothingComponent = () => {
 	const isItemSelected = (item: SuggestionItem) => {
 		switch (item.type) {
 			case "outfit":
-				return outfit === item.label;
+				return outfit === item.id;
 			case "accessories":
-				return accessories === item.label;
+				return accessories === item.id;
 			default:
 				return false;
 		}

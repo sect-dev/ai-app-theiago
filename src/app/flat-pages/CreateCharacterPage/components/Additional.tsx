@@ -24,9 +24,16 @@ const Additional = () => {
 		if (hobbies.includes(hobby)) {
 			setHobbies(hobbies.filter((h) => h !== hobby));
 		} else {
-			setHobbies([...hobbies, hobby]);
+			const newHobbies =
+				hobbies.length >= 3
+					? [...hobbies.slice(1), hobby]
+					: [...hobbies, hobby];
+
+			setHobbies(newHobbies);
 		}
 	};
+
+	const isNextDisabled = !voice || !occupation || hobbies.length === 0;
 
 	const handleNextClick = () => {
 		setStep(5);
@@ -93,6 +100,7 @@ const Additional = () => {
 				{/* TODO: вынести в NextButton */}
 				<div className="flex justify-center">
 					<button
+						disabled={isNextDisabled}
 						onClick={handleNextClick}
 						className="relative flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] bg-blue-button-gradient shadow-blue-shadow disabled:pointer-events-none disabled:opacity-50"
 					>
