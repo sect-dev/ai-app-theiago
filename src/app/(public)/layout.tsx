@@ -20,6 +20,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 	const pathname = usePathname();
 	const isChatPage = pathname?.includes("chats");
 	const isCreatePage = pathname?.includes("create");
+	console.log("test")
 
 	return (
 		<DefaultLayout>
