@@ -1,0 +1,46 @@
+export const pageBySlugQuery = `
+*[_type == "page" && slug.current == $slug][0]{
+  title,
+  metatitle,
+  metadescription,
+  content[]{
+    _key,
+    _type,
+    heading,
+    ctaText,
+    ctaLink,
+    ctaUrl,
+    seoText[]{
+      ...,
+      children[]{
+        ...
+      }
+    },
+    image{
+      ...,
+      asset->{
+        _id,
+        url
+      },
+      alt
+    },
+    items[]{
+      heading,
+      ctaText,
+      ctaLink,
+      image{
+        ...,
+        asset->{
+          _id,
+          url
+        },
+        alt
+      }
+    },
+    links[]{
+      title,
+      "slug": slug{ current }
+    }
+  }
+}
+`
