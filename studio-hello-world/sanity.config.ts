@@ -5,9 +5,9 @@ import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'sanity-admin',
+  title: 'admin-aigo',
 
-  projectId: 'pmsp8kky',
+  projectId: '5755vpzu',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],

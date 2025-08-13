@@ -15,6 +15,8 @@
     "@headlessui/react": "^2.2.0",
     "@next-auth/firebase-adapter": "^2.0.1",
     "@next/third-parties": "^15.3.1",
+    "@sanity/client": "^7.8.2",
+    "@sanity/image-url": "^1.1.0",
     "@sentry/nextjs": "^9.30.0",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",

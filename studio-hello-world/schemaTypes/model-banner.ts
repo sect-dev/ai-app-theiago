@@ -1,16 +1,10 @@
 import { defineType, defineField } from 'sanity'
 
-export const chatBlock = defineType({
-  name: 'chatBlock',
-  title: 'Chat Block',
-  type: 'document',
+export const modelBanner = defineType({
+  name: 'modelBanner',
+  title: 'Model Banner',
+  type: 'object',
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Block Title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
     defineField({
       name: 'heading',
       title: 'Heading',
@@ -35,6 +29,22 @@ export const chatBlock = defineType({
               validation: (Rule) => Rule.required(),
             }),
             defineField({
+              name: 'name',
+              title: 'Name',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'age',
+              title: 'Age',
+              type: 'string',
+            }),
+            defineField({
+              name: 'description',
+              title: 'Description',
+              type: 'text',
+            }),
+            defineField({
               name: 'ctaText',
               title: 'CTA Text',
               type: 'string',
@@ -44,10 +54,11 @@ export const chatBlock = defineType({
               name: 'ctaLink',
               title: 'CTA Link',
               type: 'url',
-              validation: (Rule) => Rule.uri({
-                allowRelative: true,
-                scheme: ['http', 'https']
-              }),
+              validation: (Rule) =>
+                Rule.uri({
+                  allowRelative: true,
+                  scheme: ['http', 'https'],
+                }),
             }),
           ],
         }),
