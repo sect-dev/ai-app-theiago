@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import {defineType, defineField} from 'sanity'
 
 export const page = defineType({
   name: 'page',
@@ -21,13 +21,13 @@ export const page = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-        defineField({
+    defineField({
       name: 'metatitle',
       title: 'Meta title',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
-            defineField({
+    defineField({
       name: 'metadescription',
       title: 'Meta description',
       type: 'string',
@@ -38,13 +38,13 @@ export const page = defineType({
       title: 'Page Content',
       type: 'array',
       of: [
-        { type: 'ctaBanner1' },
-        { type: 'modelBanner' },
-        { type: 'textBlock1' },
-        { type: 'textBlock2' },
-        { type: 'textBlock3' },
-        { type: 'faqBlock' },
-        { type: 'internallink' },
+        {type: 'ctaBanner1'},
+        {type: 'modelBanner'},
+        {type: 'textBlock1'},
+        {type: 'textBlock2'},
+        {type: 'textBlock3'},
+        {type: 'faqBlock'},
+        {type: 'internallink'},
       ],
     }),
   ],

@@ -49,7 +49,7 @@ const useAddCharacter = () => {
 			hairStyle,
 			hairColor
 		} = storedData;
-		
+
 		setIsLoading(true);
 		setError(null);
 		const user = auth.currentUser;

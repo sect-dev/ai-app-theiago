@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import {defineType, defineField} from 'sanity'
 
 export const textBlock2 = defineType({
   name: 'textBlock2',
@@ -35,7 +35,7 @@ export const textBlock2 = defineType({
       name: 'image',
       title: 'Image',
       type: 'image',
-      options: { hotspot: true },
+      options: {hotspot: true},
     }),
   ],
 })

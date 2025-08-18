@@ -5,89 +5,89 @@ import clsx from "clsx";
 const COUNTDOWN_DURATION = 5 * 60 * 1000;
 
 interface ComponentProps {
-  isVisible?: boolean;
-  setIsVisible?: (value: boolean) => void;
-  className?: string;
+	isVisible?: boolean;
+	setIsVisible?: (value: boolean) => void;
+	className?: string;
 }
 
 const CountDownTimer: FC<ComponentProps> = ({
-  isVisible,
-  setIsVisible,
-  className,
+	isVisible,
+	setIsVisible,
+	className
 }) => {
-  const [timeLeft, setTimeLeft] = useState<number>(COUNTDOWN_DURATION);
-  const timerStartedRef = useRef(false);
-  const observerRef = useRef<HTMLDivElement | null>(null);
+	const [timeLeft, setTimeLeft] = useState<number>(COUNTDOWN_DURATION);
+	const timerStartedRef = useRef(false);
+	const observerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const storedStartTime = localStorage.getItem("timerStart");
-    const startTime = storedStartTime ? parseInt(storedStartTime) : Date.now();
+	useEffect(() => {
+		const storedStartTime = localStorage.getItem("timerStart");
+		const startTime = storedStartTime ? parseInt(storedStartTime) : Date.now();
 
-    if (!storedStartTime) {
-      localStorage.setItem("timerStart", startTime.toString());
-    }
+		if (!storedStartTime) {
+			localStorage.setItem("timerStart", startTime.toString());
+		}
 
-    const updateTimer = () => {
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = COUNTDOWN_DURATION - elapsedTime;
-      if (remainingTime > 0) {
-        setTimeLeft(remainingTime);
-      } else {
-        setTimeLeft(0);
-        setIsVisible?.(false);
-      }
-    };
+		const updateTimer = () => {
+			const elapsedTime = Date.now() - startTime;
+			const remainingTime = COUNTDOWN_DURATION - elapsedTime;
+			if (remainingTime > 0) {
+				setTimeLeft(remainingTime);
+			} else {
+				setTimeLeft(0);
+				setIsVisible?.(false);
+			}
+		};
 
-    const interval = setInterval(updateTimer, 1000);
-    updateTimer();
+		const interval = setInterval(updateTimer, 1000);
+		updateTimer();
 
-    return () => clearInterval(interval);
-  }, []);
+		return () => clearInterval(interval);
+	}, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !timerStartedRef.current) {
-          timerStartedRef.current = true;
-          setTimeLeft((prev) => (prev > 0 ? prev : 0));
-        }
-      },
-      { threshold: 0.5 },
-    );
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting && !timerStartedRef.current) {
+					timerStartedRef.current = true;
+					setTimeLeft((prev) => (prev > 0 ? prev : 0));
+				}
+			},
+			{ threshold: 0.5 }
+		);
 
-    const currentRef = observerRef.current;
+		const currentRef = observerRef.current;
 
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+		if (currentRef) {
+			observer.observe(currentRef);
+		}
 
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
+		return () => {
+			if (currentRef) {
+				observer.unobserve(currentRef);
+			}
+		};
+	}, []);
 
-  const formatTime = (ms: number) => {
-    const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-  };
+	const formatTime = (ms: number) => {
+		const totalSeconds = Math.floor(ms / 1000);
+		const minutes = Math.floor((totalSeconds % 3600) / 60);
+		const seconds = totalSeconds % 60;
+		return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+	};
 
-  if (!isVisible) return null;
+	if (!isVisible) return null;
 
-  return (
-    <div
-      ref={observerRef}
-      className={clsx(
-        "countdown-bg relative flex h-[24px] items-center justify-center overflow-hidden rounded-[7px] bg-[#191B2C] px-[12px] text-[12px] text-[#F80C2B]",
-        className,
-      )}
-    >
-      <span className="relative z-[5] font-bold">{formatTime(timeLeft)}</span>
-    </div>
-  );
+	return (
+		<div
+			ref={observerRef}
+			className={clsx(
+				"countdown-bg relative flex h-[24px] items-center justify-center overflow-hidden rounded-[7px] bg-[#191B2C] px-[12px] text-[12px] text-[#F80C2B]",
+				className
+			)}
+		>
+			<span className="relative z-[5] font-bold">{formatTime(timeLeft)}</span>
+		</div>
+	);
 };
 
 export default CountDownTimer;

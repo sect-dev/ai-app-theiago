@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import {defineType, defineField} from 'sanity'
 
 export const ctaBanner1 = defineType({
   name: 'ctaBanner1',
@@ -37,7 +37,7 @@ export const ctaBanner1 = defineType({
       name: 'image',
       title: 'Image',
       type: 'image',
-      options: { hotspot: true },
+      options: {hotspot: true},
       validation: (Rule) => Rule.required(),
     }),
   ],
