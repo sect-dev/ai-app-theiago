@@ -21,13 +21,15 @@ const OccupationComponent = () => {
 		setOccupation(optionId);
 	};
 
+	const isMobile = window.innerWidth <= 570;
+
 	return (
 		<div className="mb-8">
 			<h2 className="mb-[8px] text-[18px] font-bold leading-[130%] tracking-wide">
 				Occupation
 			</h2>
 
-			<Swiper
+			{isMobile  && (<Swiper
 				centeredSlides={true}
 				slidesPerView={2.25} // Показывает центральный + части боковых
 				spaceBetween={20}
@@ -99,10 +101,40 @@ const OccupationComponent = () => {
 						alt="prev image"
 					/>
 				</div>
-			</Swiper>
+			</Swiper>)}
+
+									{!isMobile && (<div className="flex flex-wrap gap-[12px]">
+								{data.map((option) => {
+									return <BasicImageCard key={option.id} image={option.image} title={option.title} onClick={() => handleOptionSelect(option.id)} isSelected={occupation === option.id} />
+								})}
+							</div>)}
 		</div>
 	);
 };
+
+interface BasicImageCardProps {
+	image: string;
+	title: string;
+	onClick: () => void;
+	isSelected: boolean;
+}
+
+const BasicImageCard = (option: BasicImageCardProps) => {
+	return (
+		<div className={clsx("relative h-[118px] w-[97.5px] inner-shadow rounded-[16px] cursor-pointer transition-all duration-200", option.isSelected && "border-main-gradient choosen-token-shadow-generate")} onClick={option.onClick}>
+			<Image src={option.image} alt={option.title} width={97.5} height={118} className="rounded-[16px] relative h-[118px] w-[98px] object-cover" />
+			<div className="absolute bottom-0 left-0 right-0 z-[1] mb-[12px] text-[12px] font-bold">
+				{option.title}
+			</div>
+
+			{option.isSelected && (
+				<div className="absolute right-0 top-0 z-[1] p-[12px]">
+					<CheckButton />
+				</div>
+			)}
+		</div>
+	)
+}
 
 const BasicInfoCard = ({
 	option,
