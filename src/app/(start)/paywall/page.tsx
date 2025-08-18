@@ -15,79 +15,79 @@ import * as amplitude from "@amplitude/analytics-browser";
 import log from "@/app/shared/lib/logger";
 
 const PageContent = () => {
-  const searchParams = useSearchParams();
-  const character_id = searchParams.get("character_id");
-  const locale = searchParams.get("locale") ?? "en";
-  const clickId = searchParams.get("clickid");
+	const searchParams = useSearchParams();
+	const character_id = searchParams.get("character_id");
+	const locale = searchParams.get("locale") ?? "en";
+	const clickId = searchParams.get("clickid");
 
-  const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[] | null>(null);
-  const [character, setCharacter] = useState<CharacterByConstructor | null>(
-    null,
-  );
+	const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[] | null>(null);
+	const [character, setCharacter] = useState<CharacterByConstructor | null>(
+		null
+	);
 
-  useEffect(() => {
-    if (character_id && typeof window !== "undefined") {
-      log.debug(
-        "PageContent.tsx",
-        "sending analytics to paywall_show:: ",
-        character_id,
-      );
-      sendGTMEvent({ event: "paywall_show", placement: "quiz" });
-      fbq.event("AddtoCart");
-      ym("reachGoal", "paywall_show", { placement: "quiz" });
-      amplitude.track("paywall_show", {
-        placement: "quiz",
-        domain: window.location.hostname,
-      });
-    }
-  }, []);
+	useEffect(() => {
+		if (character_id && typeof window !== "undefined") {
+			log.debug(
+				"PageContent.tsx",
+				"sending analytics to paywall_show:: ",
+				character_id
+			);
+			sendGTMEvent({ event: "paywall_show", placement: "quiz" });
+			fbq.event("AddtoCart");
+			ym("reachGoal", "paywall_show", { placement: "quiz" });
+			amplitude.track("paywall_show", {
+				placement: "quiz",
+				domain: window.location.hostname
+			});
+		}
+	}, []);
 
-  useEffect(() => {
-    if (clickId) {
-      saveClickId(clickId);
-    }
-  }, [clickId]);
+	useEffect(() => {
+		if (clickId) {
+			saveClickId(clickId);
+		}
+	}, [clickId]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      log.debug("PageContent.tsx", "fetching paywall data:: ", character_id);
-      try {
-        const [plans, characterData] = await Promise.all([
-          getPaymentPlans(locale),
-          getCharacterInfoByConstructor(
-            character_id ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
-            locale,
-          ),
-        ]);
-        setPaymentPlans(plans);
-        setCharacter(characterData);
-      } catch (error) {
-        log.error("PageContent.tsx", "error fetching paywall data:: ", error);
-      }
-    };
+	useEffect(() => {
+		const fetchData = async () => {
+			log.debug("PageContent.tsx", "fetching paywall data:: ", character_id);
+			try {
+				const [plans, characterData] = await Promise.all([
+					getPaymentPlans(locale),
+					getCharacterInfoByConstructor(
+						character_id ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
+						locale
+					)
+				]);
+				setPaymentPlans(plans);
+				setCharacter(characterData);
+			} catch (error) {
+				log.error("PageContent.tsx", "error fetching paywall data:: ", error);
+			}
+		};
 
-    fetchData();
-  }, [character_id]);
+		fetchData();
+	}, [character_id]);
 
-  if (!paymentPlans || !character) {
-    return <InitpageSkeleton />;
-  }
+	if (!paymentPlans || !character) {
+		return <InitpageSkeleton />;
+	}
 
-  return (
-    <div className="fmLbg-transparent rounded-[24px] bg-[#121423] p-[25px] fm:p-0">
-      <Initpage
-        locale={locale}
-        paymentPlans={paymentPlans}
-        character={character}
-      />
-    </div>
-  );
+	return (
+		<div className="fmLbg-transparent rounded-[24px] bg-[#121423] p-[25px] fm:p-0">
+			<Initpage
+				locale={locale}
+				paymentPlans={paymentPlans}
+				character={character}
+			/>
+		</div>
+	);
 };
 
 const Page = () => (
-  <Suspense fallback={<InitpageSkeleton />}>
-    <PageContent />
-  </Suspense>
+	<Suspense fallback={<InitpageSkeleton />}>
+		<PageContent />
+	</Suspense>
 );
 
 export default Page;

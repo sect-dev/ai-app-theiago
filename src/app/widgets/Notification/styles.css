@@ -1,7 +1,7 @@
 .notification.success {
-  background: linear-gradient(94.77deg, #32bb71 15.3%, #2a9d8f 113.45%);
+	background: linear-gradient(94.77deg, #32bb71 15.3%, #2a9d8f 113.45%);
 }
 
 .notification.error {
-  background: linear-gradient(94.77deg, #ff4d4d 15.3%, #f02e2e 113.45%);
+	background: linear-gradient(94.77deg, #ff4d4d 15.3%, #f02e2e 113.45%);
 }

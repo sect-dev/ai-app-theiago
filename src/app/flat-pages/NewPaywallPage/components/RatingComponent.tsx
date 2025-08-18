@@ -9,64 +9,64 @@ import clsx from "clsx";
 import { useTranslations } from "next-intl";
 
 interface Props {
-  isOrganic?: boolean;
+	isOrganic?: boolean;
 }
 
 const RatingComponent = (props: Props) => {
-  const { isOrganic } = props;
-  const t = useTranslations("Paywall");
+	const { isOrganic } = props;
+	const t = useTranslations("Paywall");
 
-  return (
-    <div className="mb-[20px]">
-      <div className="relative mb-[20px] flex flex-col items-center font-bold">
-        <span className="text-[16px]">{t("advantages_loved_by")}</span>
-        <span
-          className={clsx(
-            "bg-clip-text text-[34px] text-transparent",
-            isOrganic ? "bg-blue-text-gradient" : "bg-purple-text-gradient",
-          )}
-        >
-          {t("advantages_2_million")}
-        </span>
-        <span className="text-[16px]">{t("advantages_users")}</span>
+	return (
+		<div className="mb-[20px]">
+			<div className="relative mb-[20px] flex flex-col items-center font-bold">
+				<span className="text-[16px]">{t("advantages_loved_by")}</span>
+				<span
+					className={clsx(
+						"bg-clip-text text-[34px] text-transparent",
+						isOrganic ? "bg-blue-text-gradient" : "bg-purple-text-gradient"
+					)}
+				>
+					{t("advantages_2_million")}
+				</span>
+				<span className="text-[16px]">{t("advantages_users")}</span>
 
-        <Image
-          className="absolute left-3/4 top-1/2 -translate-y-1/2"
-          src={isOrganic ? IconLeavesRightBlue.src : IconLeavesRight.src}
-          alt="icon leaves"
-          width={IconLeavesRight.width}
-          height={IconLeavesRight.height}
-        />
-        <Image
-          className="absolute right-3/4 top-1/2 -translate-y-1/2"
-          src={isOrganic ? IconLeavesLeftBlue.src : IconLeavesLeft.src}
-          alt="icon leaves"
-          width={IconLeavesLeft.width}
-          height={IconLeavesLeft.height}
-        />
-      </div>
-      <div className="flex items-center justify-center text-[20px] font-semibold">
-        <span>{t("advantages_thousands_of")}</span>
-        <div className="flex gap-[2px] px-[5px]">
-          <span
-            className={clsx(
-              "bg-clip-text text-transparent",
-              isOrganic ? "bg-blue-text-gradient" : "bg-purple-text-gradient",
-            )}
-          >
-            5
-          </span>
-          <Image
-            src={isOrganic ? IconStarBlue.src : IconStar.src}
-            alt="icon star"
-            width={IconStar.width}
-            height={IconStar.height}
-          />
-        </div>
-        <span>{t("advantages_ratings")}</span>
-      </div>
-    </div>
-  );
+				<Image
+					className="absolute left-3/4 top-1/2 -translate-y-1/2"
+					src={isOrganic ? IconLeavesRightBlue.src : IconLeavesRight.src}
+					alt="icon leaves"
+					width={IconLeavesRight.width}
+					height={IconLeavesRight.height}
+				/>
+				<Image
+					className="absolute right-3/4 top-1/2 -translate-y-1/2"
+					src={isOrganic ? IconLeavesLeftBlue.src : IconLeavesLeft.src}
+					alt="icon leaves"
+					width={IconLeavesLeft.width}
+					height={IconLeavesLeft.height}
+				/>
+			</div>
+			<div className="flex items-center justify-center text-[20px] font-semibold">
+				<span>{t("advantages_thousands_of")}</span>
+				<div className="flex gap-[2px] px-[5px]">
+					<span
+						className={clsx(
+							"bg-clip-text text-transparent",
+							isOrganic ? "bg-blue-text-gradient" : "bg-purple-text-gradient"
+						)}
+					>
+						5
+					</span>
+					<Image
+						src={isOrganic ? IconStarBlue.src : IconStar.src}
+						alt="icon star"
+						width={IconStar.width}
+						height={IconStar.height}
+					/>
+				</div>
+				<span>{t("advantages_ratings")}</span>
+			</div>
+		</div>
+	);
 };
 
 export default RatingComponent;

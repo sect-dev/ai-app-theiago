@@ -17,58 +17,64 @@ import QuestionsComponent from "../components/QuestionsComponent";
 import FooterComponent from "../components/FooterComponent";
 
 const OrganicPage = () => {
-  const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const locale = safeLocalStorage.get("locale") ?? "en";
-  const firstSectionPlansRef = useRef<HTMLDivElement>(null);
-  
-  const fetchData = async () => {
-    try {
-      const [plans] = await Promise.all([getPaymentPlans(locale)]);
-      setPaymentPlans(plans);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+	const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const locale = safeLocalStorage.get("locale") ?? "en";
+	const firstSectionPlansRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+	const fetchData = async () => {
+		try {
+			const [plans] = await Promise.all([getPaymentPlans(locale)]);
+			setPaymentPlans(plans);
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-  if (isLoading) {
-    return <PaywallSkeleton />;
-  }
+	useEffect(() => {
+		fetchData();
+	}, []);
 
-  const scrollToSectionPlans = () => {
-    if (firstSectionPlansRef.current) {
-      firstSectionPlansRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
+	if (isLoading) {
+		return <PaywallSkeleton />;
+	}
 
-  return (
-    <div>
-      <div>
-        <Image src={OrganicImage} alt="organic image" className="mb-[20px]" />
-      </div>
+	const scrollToSectionPlans = () => {
+		if (firstSectionPlansRef.current) {
+			firstSectionPlansRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "start"
+			});
+		}
+	};
 
-      <SectionAdvantages isOrganic={true} onButtonClick={scrollToSectionPlans} />
-      <div ref={firstSectionPlansRef}>
-        <SectionPlans paymentPlans={paymentPlans} isOrganic={true} />
-      </div>
-      <DiscountComponent isOrganic={true} />
-      <RatingComponent isOrganic={true} />
-      <SectionReviews isOrganic={true} />
-      <EvaluatedComponent />
-      <BestGirlsComponent isOrganic={true} />
-      <AdvantagesComponent />
-      <SectionPlans paymentPlans={paymentPlans} isOrganic={true} />
-      <SafePayment isOrganic={true} />
-      <QuestionsComponent />
-      <FooterComponent paymentPlans={paymentPlans} isOrganic={true} />
-    </div>
-  );
+	return (
+		<div>
+			<div>
+				<Image src={OrganicImage} alt="organic image" className="mb-[20px]" />
+			</div>
+
+			<SectionAdvantages
+				isOrganic={true}
+				onButtonClick={scrollToSectionPlans}
+			/>
+			<div ref={firstSectionPlansRef}>
+				<SectionPlans paymentPlans={paymentPlans} isOrganic={true} />
+			</div>
+			<DiscountComponent isOrganic={true} />
+			<RatingComponent isOrganic={true} />
+			<SectionReviews isOrganic={true} />
+			<EvaluatedComponent />
+			<BestGirlsComponent isOrganic={true} />
+			<AdvantagesComponent />
+			<SectionPlans paymentPlans={paymentPlans} isOrganic={true} />
+			<SafePayment isOrganic={true} />
+			<QuestionsComponent />
+			<FooterComponent paymentPlans={paymentPlans} isOrganic={true} />
+		</div>
+	);
 };
 
 export default OrganicPage;

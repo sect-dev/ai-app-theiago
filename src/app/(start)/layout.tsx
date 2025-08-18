@@ -11,46 +11,47 @@ import { safeLocalStorage } from "../shared/helpers";
 import * as Sentry from "@sentry/nextjs";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { setSuccessPaymentModal, isSuccessPaymentModalActive } =
-    usePaymentStore();
-  const { user, loading } = useAuthStore();
-  const searchParams = useSearchParams();
+	const { setSuccessPaymentModal, isSuccessPaymentModalActive } =
+		usePaymentStore();
+	const { user, loading } = useAuthStore();
+	const searchParams = useSearchParams();
 
-  Sentry.captureException(new Error("test error"));
+	Sentry.captureException(new Error("test error"));
 
-  useEffect(() => {
-    const newParam = searchParams.get("new");
-    const accessToken = safeLocalStorage.get("accessToken");
-    const hasAccessToken = accessToken && accessToken !== "null" && accessToken !== "undefined";
+	useEffect(() => {
+		const newParam = searchParams.get("new");
+		const accessToken = safeLocalStorage.get("accessToken");
+		const hasAccessToken =
+			accessToken && accessToken !== "null" && accessToken !== "undefined";
 
-    // Не показываем модалку если в URL есть new=way
-    if (newParam === "way") {
-      return;
-    }
+		// Не показываем модалку если в URL есть new=way
+		if (newParam === "way") {
+			return;
+		}
 
-    if (hasAccessToken) {
-      return;
-    }
+		if (hasAccessToken) {
+			return;
+		}
 
-    setSuccessPaymentModal({
-      isSuccessPaymentModalActive: true,
-      successPaymentModalType: "subscription_success",
-    });
-  }, [user, loading]);
+		setSuccessPaymentModal({
+			isSuccessPaymentModalActive: true,
+			successPaymentModalType: "subscription_success"
+		});
+	}, [user, loading]);
 
-  return (
-    <main className="bg-[#121423] font-bai-jamjuree">
-      {/* <div className="fm:hidden">
+	return (
+		<main className="bg-[#121423] font-bai-jamjuree">
+			{/* <div className="fm:hidden">
         <PaymentDiscountBanner />
       </div> */}
-      {children}
-      <Script
-        src="https://assets.vivapay.me/v1.0.7/js/vivapay.js"
-        strategy="afterInteractive"
-      />
-      <ModalsProvider />
-    </main>
-  );
+			{children}
+			<Script
+				src="https://assets.vivapay.me/v1.0.7/js/vivapay.js"
+				strategy="afterInteractive"
+			/>
+			<ModalsProvider />
+		</main>
+	);
 };
 
 export default Layout;
