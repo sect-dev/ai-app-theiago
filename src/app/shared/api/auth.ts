@@ -12,7 +12,9 @@ import {
 	TwitterAuthProvider,
 	sendSignInLinkToEmail,
 	AuthError,
-	signOut
+	signOut,
+	sendEmailVerification,
+	User
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { auth } from "@/firebase";
@@ -39,6 +41,9 @@ export const signUpWithEmailAndPassword = async (
 		if (currentUser && currentUser.isAnonymous) {
 			const credential = EmailAuthProvider.credential(email, password);
 			const userCredential = await linkWithCredential(currentUser, credential);
+			await sendEmailVerification(currentUser as User, {
+				url: window.location.origin + ""
+			});
 
 			const user = userCredential.user as FirebaseUser;
 			user.accessToken = (
@@ -59,6 +64,7 @@ export const signUpWithEmailAndPassword = async (
 
 			return user;
 		} else {
+			console.log("createUserWithEmailAndPassword");
 			const userCredential = await createUserWithEmailAndPassword(
 				auth,
 				email,

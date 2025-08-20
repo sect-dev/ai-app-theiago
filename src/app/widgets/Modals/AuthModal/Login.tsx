@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import ImageModal from "@/../public/images/img/image-modal.webp";
-// import IconEye from '@/../public/images/icons/icon-eye.svg';
+import IconEye from "@/../public/images/icons/icon-eye.svg";
 import IconGoogle from "@/../public/images/icons/icon-google.svg";
 import IconFacebook from "@/../public/images/icons/icon-fb.webp";
 import IconX from "@/../public/images/icons/icon-x.webp";
@@ -11,6 +11,7 @@ import clsx from "clsx";
 import Spinner from "@/app/widgets/Spinner";
 import {
 	handleEmailLinkAuth,
+	signInWithEmailAndPasswordHandler,
 	// signInWithEmailAndPasswordHandler,
 	signInWithFacebook,
 	signInWithGoogle,
@@ -21,10 +22,11 @@ import { authErrorMessages } from "@/app/shared/consts";
 import notification from "@/app/widgets/Notification";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/app/shared/store/authStore";
 
 interface FormData {
 	email: string;
-	// password: string;
+	password: string;
 }
 
 interface AuthError {
@@ -32,13 +34,13 @@ interface AuthError {
 }
 
 const Login = () => {
-	// const {setAuthModal} = useAuthStore()
+	const { setAuthModal } = useAuthStore();
 	const { selectedCharacterId, characters } = useSelectedCardStore();
 	const currentCharacter =
 		characters && characters?.find((item) => item.id === selectedCharacterId);
 	const image = currentCharacter ? currentCharacter.image : ImageModal.src;
 	const [loading, setLoading] = useState<boolean>(false);
-	// const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [authError, setAuthError] = useState<string | null>(null);
 	const t = useTranslations("LoginModal");
 	const {
@@ -53,17 +55,11 @@ const Login = () => {
 		try {
 			setLoading(true);
 			const isOrganicAuth = true;
-			const resp = await handleEmailLinkAuth(data.email, isOrganicAuth);
-
-			if (resp && resp?.success) {
-				notification.open({
-					title: "Message sent",
-					type: "success",
-					description: "We have sent you an email to confirm your address"
-				});
-
-				reset();
-			}
+			// const resp = await handleEmailLinkAuth(data.email, isOrganicAuth);
+			const user = await signInWithEmailAndPasswordHandler(
+				data.email,
+				data.password
+			);
 		} catch (error) {
 			const authError = error as AuthError;
 			const errorMessage =
@@ -143,6 +139,69 @@ const Login = () => {
 					{authError && (
 						<p className="text-[14px] text-[#BD0000]">{authError}</p>
 					)}
+					{/*/!* Поле Password *!/*/}
+					<div className="relative">
+						<label
+							htmlFor="password"
+							className="mb-[8px] block pl-[16px] text-[12px] leading-[1.2em]"
+						>
+							Password
+						</label>
+						<div className="relative mb-[8px]">
+							<input
+								id="password"
+								placeholder="Enter password"
+								className={clsx(
+									"placeholder-text:opacity-50 h-[48px] w-full rounded-[12px] border border-transparent bg-[#191B2C] px-[16px] text-[14px] font-medium leading-[1.5em] outline-offset-0 transition-all duration-300 focus:border-[#049AEF] focus:outline-none focus:outline-offset-0",
+									{
+										"!border-[#BD0000]": errors.password
+									}
+								)}
+								type={showPassword ? "text" : "password"}
+								{...register("password", {
+									required: "Password is required",
+									minLength: { value: 6, message: "Min 6 characters" }
+								})}
+							/>
+							<button
+								type="button"
+								className="text-gray-400 hover:text-gray-200 absolute right-2 top-1/2 flex size-[32px] -translate-y-1/2 items-center justify-center"
+								onClick={() => setShowPassword(!showPassword)}
+							>
+								{showPassword ? (
+									<Image
+										src={IconEye.src}
+										width={IconEye.width}
+										height={IconEye.height}
+										alt="icon eye"
+									/>
+								) : (
+									<Image
+										src={IconEye.src}
+										width={IconEye.width}
+										height={IconEye.height}
+										alt="icon eye"
+									/>
+								)}
+							</button>
+						</div>
+						<button
+							onClick={() =>
+								setAuthModal({
+									modalType: "forgotPass",
+									isAuthModalActive: true
+								})
+							}
+							className="text-blue-400 block items-center text-sm hover:underline"
+						>
+							Forgot password?
+						</button>
+						{errors.password && (
+							<p className="absolute right-0 top-0 text-[12px] text-[#BD0000]">
+								{errors.password.message}
+							</p>
+						)}
+					</div>
 
 					{/* Кнопка отправки */}
 					<button
@@ -190,33 +249,6 @@ const Login = () => {
           </button>
         </div> */}
 
-				{/*/!* Поле Password *!/*/}
-				{/*<div className="relative">*/}
-				{/*  <label htmlFor="password" className="block text-[12px] pl-[16px] leading-[1.2em] mb-[8px]">Password</label>*/}
-				{/*  <div className="relative">*/}
-				{/*    <input*/}
-				{/*      id="password"*/}
-				{/*      placeholder="Enter password"*/}
-				{/*      className={clsx("w-full bg-[#191B2C] px-[16px] rounded-[12px] h-[48px] text-[14px] border border-transparent font-medium leading-[1.5em] transition-all duration-300 focus:border-[#049AEF] placeholder-text:opacity-50 focus:outline-none outline-offset-0 focus:outline-offset-0", {*/}
-				{/*        "!border-[#BD0000]": errors.password*/}
-				{/*      })}*/}
-				{/*      type={showPassword ? "text" : "password"}*/}
-				{/*      {...register("password", { required: "Password is required", minLength: { value: 6, message: "Min 6 characters" } })}*/}
-				{/*    />*/}
-				{/*    <button*/}
-				{/*      type="button"*/}
-				{/*      className="absolute right-2 top-1/2 size-[32px] flex items-center justify-center  -translate-y-1/2 text-gray-400 hover:text-gray-200"*/}
-				{/*      onClick={() => setShowPassword(!showPassword)}*/}
-				{/*    >*/}
-				{/*      {showPassword*/}
-				{/*        ? <Image src={IconEye.src} width={IconEye.width} height={IconEye.height} alt="icon eye" />*/}
-				{/*        :  <Image src={IconEye.src} width={IconEye.width} height={IconEye.height} alt="icon eye" />*/}
-				{/*      }*/}
-				{/*    </button>*/}
-				{/*  </div>*/}
-				{/*  {errors.password && <p className="text-[#BD0000] text-[12px] absolute right-0 top-0">{errors.password.message}</p>}*/}
-				{/*</div>*/}
-
 				{/*<div className="flex items-center justify-between mt-4 pb-[16px]">*/}
 				{/*  /!* Toggle Switch *!/*/}
 				{/*  <label className="flex items-center cursor-pointer">*/}
@@ -242,13 +274,8 @@ const Login = () => {
 				{/*  </label>*/}
 
 				{/*  /!* Forgot password *!/*/}
-				{/*  <button*/}
-				{/*    onClick={() => setAuthModal({ modalType: "forgotPass", isAuthModalActive: true })}*/}
-				{/*    className="block text-blue-400 text-sm hover:underline"*/}
-				{/*  >*/}
-				{/*    Forgot password?*/}
-				{/*  </button>*/}
-				{/*</div>*/}
+
+				{/* </div> */}
 
 				{/*  Отображение ошибки авторизации */}
 
@@ -257,15 +284,17 @@ const Login = () => {
             or continue with
           </p> */}
 
-					{/* <div className="flex gap-[8px] text-[12px]">
-            <p>Dont have an account?</p>
-            <Link
-              href={process.env.NEXT_PUBLIC_QUIZ_URL ?? ""}
-              className="logo-gradient"
-            >
-              Register now
-            </Link>
-          </div> */}
+					<div className="flex gap-[8px] text-[12px]">
+						<p>Dont have an account?</p>
+						<div
+							onClick={() =>
+								setAuthModal({ modalType: "register", isAuthModalActive: true })
+							}
+							className="logo-gradient"
+						>
+							Register now
+						</div>
+					</div>
 				</div>
 			</div>
 			<div className="h-hull relative w-full sm:hidden">
