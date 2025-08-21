@@ -290,7 +290,7 @@ const Login = () => {
 							onClick={() =>
 								setAuthModal({ modalType: "register", isAuthModalActive: true })
 							}
-							className="logo-gradient"
+							className="logo-gradient cursor-pointer"
 						>
 							Register now
 						</div>
