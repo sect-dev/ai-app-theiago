@@ -41,7 +41,7 @@ const SidebarBanner = () => {
 					</li>
 				</ul>
 				<Link
-					href={process.env.NEXT_PUBLIC_QUIZ_URL ?? ""}
+					href="/"
 					className="block flex h-[28px] w-full items-center justify-center rounded-[16px] bg-white text-[14px] font-semibold text-blue"
 				>
 					{t("sidebar_sub_banner_see_more")}
