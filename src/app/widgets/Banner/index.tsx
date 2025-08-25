@@ -5,7 +5,7 @@ import { useState } from "react";
 import GenerateCharacterBanner from "../GenerateCharacterBanner";
 
 const components = [CreateImageBanner, GenerateCharacterBanner];
-const DELAY = 5000;
+const DELAY = 3000;
 
 const Banner = () => {
 	const [activeIndex, setActiveIndex] = useState(0);
@@ -13,8 +13,8 @@ const Banner = () => {
 	return (
 		<div className="relative mx-auto w-full">
 			<Swiper
-				// modules={[Autoplay]}
-				// autoplay={{ delay: DELAY, disableOnInteraction: false }}
+				modules={[Autoplay]}
+				autoplay={{ delay: DELAY, disableOnInteraction: false }}
 				loop={true}
 				onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
 				className="overflow-hidden rounded-xl"
