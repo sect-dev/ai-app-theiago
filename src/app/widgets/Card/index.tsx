@@ -21,7 +21,7 @@ const Card: FC<ComponentProps> = ({ avatar }) => {
 		<button
 			onClick={() => handleClick(avatar)}
 			className={clsx(
-				"card group relative flex h-[386px] w-full animate-fadeIn cursor-pointer items-end overflow-hidden rounded-[20px] p-[16px] text-left transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]",
+				"card group inner-shadow-border-none relative flex h-[386px] w-full animate-fadeIn cursor-pointer items-end overflow-hidden rounded-[20px] p-[16px] text-left transition-shadow duration-300 hover:shadow-card-shadow md:p-[12px] sm:h-[270px]",
 				{
 					"pointer-events-none": isLoading
 				}

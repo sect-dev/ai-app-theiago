@@ -214,6 +214,27 @@ body {
 	pointer-events: none;
 }
 
+.inner-shadow-border-none {
+	background: linear-gradient(
+		180deg,
+		rgba(0, 0, 0, 0) 42.51%,
+		rgba(0, 0, 0, 0.5) 77.39%
+	);
+}
+
+.inner-shadow-border-none::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 0px;
+	background: linear-gradient(
+		180deg,
+		rgba(0, 0, 0, 0) 42.51%,
+		rgba(0, 0, 0, 0.5) 77.39%
+	);
+	pointer-events: none;
+}
+
 .choosen-token-shadow {
 	box-shadow: 0px 4px 18.4px 0px #058eeb80;
 }

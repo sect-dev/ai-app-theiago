@@ -77,14 +77,14 @@ const CharacterBlock = React.memo((props: Props) => {
 
 			<div className="block max-w-[293px] rounded-tl-[24px] rounded-tr-[8px] md:hidden">
 				<div className="relative h-[293px] w-full">
-					<Image
-						src={`${mainChar?.avatar}?format=webp&quality=85&width=500`}
-						fill
-						sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
-						alt="image"
-						className="rounded-tl-[24px] rounded-tr-[8px] object-cover"
-						priority={false}
-					/>
+					<div className="inner-shadow-border-none">						<Image
+							src={`${mainChar?.avatar}?format=webp&quality=85&width=500`}
+							fill
+							sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"
+							alt="image"
+							className="rounded-tl-[24px] rounded-tr-[8px] object-cover"
+							priority={false}
+						/></div>
 					<ChangeButton className="absolute left-[20px] top-[20px]" />
 					<div className="absolute bottom-[20px] left-[20px] grid grid-rows-2 gap-[4px]">
 						<span className="text-[20px] font-semibold leading-[1.3]">
