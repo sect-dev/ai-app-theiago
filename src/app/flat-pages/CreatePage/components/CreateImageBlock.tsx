@@ -106,7 +106,7 @@ const CreateImageBlock = () => {
 							{t("generator_createimage_button")}
 						</span>
 						<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
-							2
+							3
 						</span>
 						<Image
 							src={ImageStackSvg}

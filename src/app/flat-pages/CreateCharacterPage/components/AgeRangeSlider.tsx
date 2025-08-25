@@ -14,8 +14,6 @@ const AgeRangeSlider = () => {
 			: AGE_VALUES.indexOf(20);
 	const percent = (index / (AGE_VALUES.length - 1)) * 100;
 
-	console.log("ageChar", ageChar);
-
 	const handleSliderChange = (val: number | number[]) => {
 		setAge(AGE_VALUES[val as number]);
 	};

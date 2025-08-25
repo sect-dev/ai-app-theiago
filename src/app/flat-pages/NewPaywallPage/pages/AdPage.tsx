@@ -20,80 +20,84 @@ import GalleryComponent from "../components/GalleryComponent";
 import PaywallSkeleton from "../components/Skeleton";
 
 interface Props {
-  characterId: string;
+	characterId: string;
 }
 
 const AdPage = (props: Props) => {
-  const { characterId } = props;
-  const [character, setCharacter] = useState<CharacterByConstructor | null>(
-    null,
-  );
-  const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+	const { characterId } = props;
+	const [character, setCharacter] = useState<CharacterByConstructor | null>(
+		null
+	);
+	const [paymentPlans, setPaymentPlans] = useState<PaymentPlan[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
 
+	const firstSectionPlansRef = useRef<HTMLDivElement>(null);
+	const locale = safeLocalStorage.get("locale") ?? "en";
 
-  const firstSectionPlansRef = useRef<HTMLDivElement>(null);
-  const locale = safeLocalStorage.get("locale") ?? "en";
+	const scrollToSectionPlans = () => {
+		if (firstSectionPlansRef.current) {
+			firstSectionPlansRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "start"
+			});
+		}
+	};
 
+	const fetchData = async () => {
+		try {
+			const [plans, characterData] = await Promise.all([
+				getPaymentPlans(locale),
+				getCharacterInfoByConstructor(
+					characterId ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
+					locale
+				)
+			]);
+			setPaymentPlans(plans);
+			setCharacter(characterData);
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-  const scrollToSectionPlans = () => {
-    if (firstSectionPlansRef.current) {
-      firstSectionPlansRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
+	useEffect(() => {
+		fetchData();
+	}, [characterId, locale]);
 
-  const fetchData = async () => {
-    try {
-      const [plans, characterData] = await Promise.all([
-        getPaymentPlans(locale),
-        getCharacterInfoByConstructor(
-          characterId ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
-          locale,
-        ),
-      ]);
-      setPaymentPlans(plans);
-      setCharacter(characterData);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+	if (isLoading) {
+		return <PaywallSkeleton />;
+	}
 
-  useEffect(() => {
-    fetchData();
-  }, [characterId, locale]);
+	return (
+		<div>
+			{character && <GalleryComponent character={character} />}
+			<SectionAdvantages
+				character={character}
+				onButtonClick={scrollToSectionPlans}
+			/>
+			<div ref={firstSectionPlansRef}>
+				<SectionPlans paymentPlans={paymentPlans} />
+			</div>
+			<DiscountComponent />
+			<RatingComponent />
+			<SectionReviews />
+			<EvaluatedComponent />
+			<BestGirlsComponent />
 
-  if (isLoading) {
-    return <PaywallSkeleton />;
-  }
-
-  return (
-    <div>
-      {character && <GalleryComponent character={character} />}
-      <SectionAdvantages character={character} onButtonClick={scrollToSectionPlans} />
-      <div ref={firstSectionPlansRef}>
-        <SectionPlans paymentPlans={paymentPlans} />
-      </div>
-      <DiscountComponent />
-      <RatingComponent />
-      <SectionReviews />
-      <EvaluatedComponent />
-      <BestGirlsComponent />
-
-      {/* <div className="mb-[16px] flex flex-col items-center justify-center">
+			{/* <div className="mb-[16px] flex flex-col items-center justify-center">
         <span className="text-center text-[20px] font-semibold leading-[120%]">
           Choose a convenient <br /> payment method
         </span>
       </div> */}
 
-      <AdvantagesComponent />
-      <SectionPlans paymentPlans={paymentPlans} />
-      <SafePayment />
-      <QuestionsComponent />
-      <FooterComponent paymentPlans={paymentPlans} />
-    </div>
-  );
+			<AdvantagesComponent />
+			<SectionPlans paymentPlans={paymentPlans} />
+			<SafePayment />
+			<QuestionsComponent />
+			<FooterComponent paymentPlans={paymentPlans} />
+		</div>
+	);
 };
 
 export default AdPage;

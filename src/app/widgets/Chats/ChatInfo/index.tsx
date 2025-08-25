@@ -34,6 +34,8 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 	const handleCollapse = () => setInfoCollapse(true);
 	const t = useTranslations("ChatsPage");
 
+	console.log(characterInfo);
+
 	const tabsCaptions = [
 		{
 			title: t("chats_posts"),
@@ -90,9 +92,9 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 				)}
 			>
 				<div className="chatInfoImage relative flex h-[293px] items-end overflow-hidden rounded-tl-[8px] rounded-tr-[24px] p-[20px]">
-					{characterInfo?.imageZero && (
+					{characterInfo?.imageZero || characterInfo?.avatar && (
 						<Image
-							src={characterInfo?.imageZero}
+							src={characterInfo?.imageZero || characterInfo?.avatar}
 							sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 292px"
 							fill
 							alt="image"
@@ -187,7 +189,7 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 						{t("chats_create_image_chats")}
 					</span>
 					<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
-						2
+						3
 					</span>
 					<Image
 						src={ImageStackSvg}

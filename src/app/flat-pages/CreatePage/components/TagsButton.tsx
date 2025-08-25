@@ -1,5 +1,4 @@
-import clsx from 'clsx';
-
+import clsx from "clsx";
 
 interface Props {
 	text: string;
@@ -8,17 +7,29 @@ interface Props {
 }
 
 const TagsButton = (props: Props) => {
-	const {text, isActive, onClick} = props;
-
+	const { text, isActive, onClick } = props;
 
 	return (
-		<button onClick={onClick} className={clsx("py-[6px] px-[12px]  rounded-[12px] flex justify-center items-center", {
-			"bg-[#003B5F]": isActive,
-			"bg-[#1D1F37]": !isActive
-		})}>
-			<span className={clsx("font-semibold text-[12px]", {"text-[#0394EC]": isActive, "text-[#FFF]": !isActive})}>{text}</span>
+		<button
+			onClick={onClick}
+			className={clsx(
+				"flex items-center justify-center rounded-[12px] px-[12px] py-[6px]",
+				{
+					"bg-[#003B5F]": isActive,
+					"bg-[#1D1F37]": !isActive
+				}
+			)}
+		>
+			<span
+				className={clsx("text-[12px] font-semibold", {
+					"text-[#0394EC]": isActive,
+					"text-[#FFF]": !isActive
+				})}
+			>
+				{text}
+			</span>
 		</button>
-	)
-}
+	);
+};
 
-export default TagsButton
+export default TagsButton;

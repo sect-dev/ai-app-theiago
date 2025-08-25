@@ -100,84 +100,141 @@ const BasicInfoComponent = () => {
 							{category.title}
 						</h2>
 
-						<Swiper
-							centeredSlides={true}
-							slidesPerView={2.25} // Показывает центральный + части боковых
-							spaceBetween={20}
-							loop={true}
-							breakpoints={{
-								360: {
-									slidesPerView: 1.7
-								},
-								375: {
-									slidesPerView: 1.8
-								},
-								400: {
-									slidesPerView: 2
-								},
-								430: {
-									slidesPerView: 2.1
-								},
-								570: {
-									slidesPerView: 2.25
-								}
-							}}
-							modules={[Navigation]}
-							navigation={{
-								nextEl: ".custom-next",
-								prevEl: ".custom-prev"
-							}}
-							className="!overflow-visible"
-						>
-							{category.options.map((option, index) => {
-								return (
-									<SwiperSlide
-										key={option.id}
-										className="!h-[217px] !w-[180px] transition-all duration-300"
-									>
-										{({ isActive }) => (
-											<BasicInfoCard
-												option={option}
-												isActive={isActive}
-												isSelected={selectedValue === option.id}
-												onSelect={() =>
-													handleOptionSelect(category.category, option.id)
-												}
-											/>
-										)}
-									</SwiperSlide>
-								);
-							})}
-
-							<div
-								role="button"
-								aria-label="Next Slide"
-								className="custom-next absolute right-0 top-1/2 z-10 flex h-[42px] w-[42px] -translate-y-1/2 items-center justify-center rounded-full border border-[#FFFFFF42] bg-[#1214235E]"
+						{isMobile && (
+							<Swiper
+								centeredSlides={true}
+								slidesPerView={2.25}
+								spaceBetween={20}
+								loop={true}
+								breakpoints={{
+									360: {
+										slidesPerView: 1.7
+									},
+									375: {
+										slidesPerView: 1.8
+									},
+									400: {
+										slidesPerView: 2
+									},
+									430: {
+										slidesPerView: 2.1
+									},
+									570: {
+										slidesPerView: 2.25
+									}
+								}}
+								modules={[Navigation]}
+								navigation={{
+									nextEl: ".custom-next",
+									prevEl: ".custom-prev"
+								}}
+								className="!overflow-visible"
 							>
-								<Image
-									src={NextButtonIcon.src}
-									width={NextButtonIcon.width / 2}
-									height={NextButtonIcon.height / 2}
-									alt="next image"
-								/>
-							</div>
+								{category.options.map((option, index) => {
+									return (
+										<SwiperSlide
+											key={option.id}
+											className="!h-[217px] !w-[180px] transition-all duration-300"
+										>
+											{({ isActive }) => (
+												<BasicInfoCard
+													option={option}
+													isActive={isActive}
+													isSelected={selectedValue === option.id}
+													onSelect={() =>
+														handleOptionSelect(category.category, option.id)
+													}
+												/>
+											)}
+										</SwiperSlide>
+									);
+								})}
 
-							<div
-								role="button"
-								aria-label="Prev Slide"
-								className="custom-prev absolute left-0 top-1/2 z-10 flex h-[42px] w-[42px] -translate-y-1/2 rotate-180 items-center justify-center rounded-full border border-[#FFFFFF42] bg-[#1214235E]"
-							>
-								<Image
-									src={NextButtonIcon.src}
-									width={NextButtonIcon.width / 2}
-									height={NextButtonIcon.height / 2}
-									alt="prev image"
-								/>
+								<div
+									role="button"
+									aria-label="Next Slide"
+									className="custom-next absolute right-0 top-1/2 z-10 flex h-[42px] w-[42px] -translate-y-1/2 items-center justify-center rounded-full border border-[#FFFFFF42] bg-[#1214235E]"
+								>
+									<Image
+										src={NextButtonIcon.src}
+										width={NextButtonIcon.width / 2}
+										height={NextButtonIcon.height / 2}
+										alt="next image"
+									/>
+								</div>
+
+								<div
+									role="button"
+									aria-label="Prev Slide"
+									className="custom-prev absolute left-0 top-1/2 z-10 flex h-[42px] w-[42px] -translate-y-1/2 rotate-180 items-center justify-center rounded-full border border-[#FFFFFF42] bg-[#1214235E]"
+								>
+									<Image
+										src={NextButtonIcon.src}
+										width={NextButtonIcon.width / 2}
+										height={NextButtonIcon.height / 2}
+										alt="prev image"
+									/>
+								</div>
+							</Swiper>
+						)}
+
+						{!isMobile && (
+							<div className="flex flex-wrap gap-[12px]">
+								{category.options.map((option) => {
+									return (
+										<BasicImageCard
+											key={option.id}
+											image={option.image}
+											label={option.label}
+											onClick={() =>
+												handleOptionSelect(category.category, option.id)
+											}
+											isSelected={selectedValue === option.id}
+										/>
+									);
+								})}
 							</div>
-						</Swiper>
+						)}
 					</div>
 				);
 			})}
+		</div>
+	);
+};
+
+interface BasicImageCardProps {
+	image: string;
+	label: string;
+	onClick: () => void;
+	isSelected: boolean;
+}
+
+const BasicImageCard = (option: BasicImageCardProps) => {
+	return (
+		<div
+			className={clsx(
+				"inner-shadow relative h-[118px] w-[97.5px] cursor-pointer rounded-[16px] transition-all duration-200",
+				option.isSelected &&
+					"border-main-gradient choosen-token-shadow-generate"
+			)}
+			onClick={option.onClick}
+		>
+			<Image
+				src={option.image}
+				alt={option.label}
+				width={97.5}
+				height={118}
+				className="relative h-[118px] w-[98px] rounded-[16px] object-cover"
+			/>
+			<div className="absolute bottom-0 left-0 right-0 z-[1] mb-[12px] text-[12px] font-bold">
+				{option.label}
+			</div>
+
+			{option.isSelected && (
+				<div className="absolute right-0 top-0 z-[1] p-[12px]">
+					<CheckButton />
+				</div>
+			)}
 		</div>
 	);
 };

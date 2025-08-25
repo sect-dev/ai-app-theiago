@@ -17,7 +17,7 @@ const FavoritesGirlsCard: FC<ComponentProps> = ({ avatar }) => {
 
 	return (
 		<div className="size-full">
-			<div className="card-shadow card group relative flex h-full animate-fadeIn cursor-grab items-end overflow-hidden rounded-[20px] p-[12px] md:rounded-[24px]">
+			<div className="card-shadow inner-shadow-border-none card group relative flex h-full animate-fadeIn cursor-grab items-end overflow-hidden rounded-[20px] p-[12px] md:rounded-[24px]">
 				<Image
 					src={`${avatar.avatar}?format=webp&quality=85&width=600&height=660`}
 					sizes="(max-width: 768px) 90vw, (max-width: 1200px) 40vw, 300px"

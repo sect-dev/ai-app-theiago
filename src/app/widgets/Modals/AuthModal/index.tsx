@@ -9,57 +9,57 @@ import ForgotPassword from "@/app/widgets/Modals/AuthModal/ForgotPassword";
 import { useAuthStore } from "@/app/shared/store/authStore";
 
 const AuthModal = () => {
-  const { isAuthModalActive, modalType, setAuthModal } = useAuthStore();
+	const { isAuthModalActive, modalType, setAuthModal } = useAuthStore();
 
-  const renderContent = () => {
-    switch (modalType) {
-      case "login":
-        return <Login />;
-      case "register":
-        return <Register />;
-      case "forgotPass":
-        return <ForgotPassword />;
-      default:
-        return <Login />;
-    }
-  };
+	const renderContent = () => {
+		switch (modalType) {
+			case "login":
+				return <Login />;
+			case "register":
+				return <Register />;
+			case "forgotPass":
+				return <ForgotPassword />;
+			default:
+				return <Login />;
+		}
+	};
 
-  return (
-    <Dialog
-      open={isAuthModalActive}
-      as="div"
-      className="relative z-[60] focus:outline-none"
-      onClose={() =>
-        setAuthModal({ modalType: null, isAuthModalActive: false })
-      }
-    >
-      <div className="font-lato fixed inset-0 z-[60] w-screen overflow-y-auto">
-        <div className="flex min-h-full items-center justify-center">
-          <DialogPanel
-            transition
-            className="data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.5)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
-          >
-            <div className="relative mx-auto h-[550px] w-[690px] sm:size-full">
-              <button
-                onClick={() =>
-                  setAuthModal({ modalType: null, isAuthModalActive: false })
-                }
-                className="absolute right-[20px] top-[20px] z-[10] flex size-[32px] items-center justify-center rounded-[12px] bg-[#191B2C] sm:left-[20px] sm:right-auto sm:top-[70px]"
-              >
-                <Image
-                  src={IconClose.src}
-                  width={IconClose.width}
-                  height={IconClose.height}
-                  alt="icon close"
-                />
-              </button>
-              {renderContent()}
-            </div>
-          </DialogPanel>
-        </div>
-      </div>
-    </Dialog>
-  );
+	return (
+		<Dialog
+			open={isAuthModalActive}
+			as="div"
+			className="relative z-[60] focus:outline-none"
+			onClose={() =>
+				setAuthModal({ modalType: null, isAuthModalActive: false })
+			}
+		>
+			<div className="font-lato fixed inset-0 z-[60] w-screen overflow-y-auto">
+				<div className="flex min-h-full items-center justify-center">
+					<DialogPanel
+						transition
+						className="data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.5)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
+					>
+						<div className="relative mx-auto h-[550px] w-[690px] sm:size-full">
+							<button
+								onClick={() =>
+									setAuthModal({ modalType: null, isAuthModalActive: false })
+								}
+								className="absolute right-[20px] top-[20px] z-[10] flex size-[32px] items-center justify-center rounded-[12px] bg-[#191B2C] sm:left-[20px] sm:right-auto sm:top-[70px]"
+							>
+								<Image
+									src={IconClose.src}
+									width={IconClose.width}
+									height={IconClose.height}
+									alt="icon close"
+								/>
+							</button>
+							{renderContent()}
+						</div>
+					</DialogPanel>
+				</div>
+			</div>
+		</Dialog>
+	);
 };
 
 export default AuthModal;

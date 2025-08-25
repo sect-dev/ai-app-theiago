@@ -42,7 +42,8 @@ const Summary = () => {
 		setStep,
 		isCreatingCharacter,
 		createdCharacter,
-		createCharacterError
+		createCharacterError,
+		ageChar
 	} = useGenerateImageStore();
 	const [loading, setLoading] = useState(false);
 	const { setSelectedCharacterId, setCharacters } = useSelectedCardStore();
@@ -172,7 +173,9 @@ const Summary = () => {
 							<span className="block text-[16px] font-semibold leading-[150%] opacity-50">
 								Age
 							</span>
-							<span className="block text-[16px] font-medium">{age}</span>
+							<span className="block text-[16px] font-medium">
+								{ageChar}
+							</span>
 						</div>
 
 						<Image

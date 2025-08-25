@@ -4,9 +4,9 @@ import log from "loglevel";
 const isStage = process.env.NEXT_PUBLIC_ENV === "stage";
 
 if (isStage) {
-  log.setLevel("debug"); // Показываем все логи
+	log.setLevel("debug"); // Показываем все логи
 } else {
-  log.setLevel("silent"); // Отключаем логи
+	log.setLevel("silent"); // Отключаем логи
 }
 
 export default log;

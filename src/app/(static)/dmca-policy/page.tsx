@@ -5,7 +5,11 @@ const Page = () => {
 			<p className="mb-4 text-sm">Effective Date: 30 July 2025</p>
 
 			<p>
-				New Verve Limited (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) respects the intellectual property rights of others and expects users of theaigo.com and its Services to do the same. This Digital Millennium Copyright Act (“DMCA”) Policy explains how copyright owners can submit infringement notices to us and how we respond.
+				New Verve Limited (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;)
+				respects the intellectual property rights of others and expects users of
+				theaigo.com and its Services to do the same. This Digital Millennium
+				Copyright Act (“DMCA”) Policy explains how copyright owners can submit
+				infringement notices to us and how we respond.
 			</p>
 
 			<h2 className="mb-2 mt-4 text-xl font-bold">

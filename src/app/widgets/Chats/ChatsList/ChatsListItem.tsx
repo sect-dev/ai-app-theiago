@@ -7,95 +7,95 @@ import LastMessage from "@/app/widgets/Chats/ChatsList/LastMessage";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 
 interface ComponentProps {
-  id: number | string;
-  collapse: boolean;
-  image: string;
-  name: string;
-  lastMessage: Message;
-  lastMessageTime: Date;
+	id: number | string;
+	collapse: boolean;
+	image: string;
+	name: string;
+	lastMessage: Message;
+	lastMessageTime: Date;
 }
 
 const ChatsListItem: FC<ComponentProps> = ({
-  id,
-  collapse,
-  image,
-  name,
-  lastMessage,
-  lastMessageTime,
+	id,
+	collapse,
+	image,
+	name,
+	lastMessage,
+	lastMessageTime
 }) => {
-  const { selectedCharacterId, setSelectedCharacterId } =
-    useSelectedCardStore();
-  const router = useRouter();
+	const { selectedCharacterId, setSelectedCharacterId } =
+		useSelectedCardStore();
+	const router = useRouter();
 
-  const handleChatChange = (chatId: number | string) => {
-    setSelectedCharacterId(chatId);
-    router.push(`/chats`);
-  };
+	const handleChatChange = (chatId: number | string) => {
+		setSelectedCharacterId(chatId);
+		router.push(`/chats`);
+	};
 
-  const date = new Date(lastMessageTime);
-  const formattedTime = date.toLocaleTimeString("ru-RU", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+	const date = new Date(lastMessageTime);
+	const formattedTime = date.toLocaleTimeString("ru-RU", {
+		hour: "2-digit",
+		minute: "2-digit"
+	});
 
-  return (
-    <button
-      key={id}
-      onClick={() => handleChatChange(id)}
-      className={clsx(
-        "transition-bg flex w-full px-[20px] py-[6px] duration-300 md:w-full md:px-[16px]",
-        {
-          "bg-[#0680E642]":
-            selectedCharacterId &&
-            id.toString() === selectedCharacterId.toString(),
-        },
-      )}
-    >
-      <span className="flex w-full items-center gap-[8px] md:w-full">
-        <span className="relative">
-          <span className="relative block size-[42px] overflow-hidden rounded-[16px]">
-            <Image
-              src={`${image}?format=webp&quality=95&width=100`}
-              fill
-              sizes="(max-width: 768px) 42px, (max-width: 1200px) 42px, 42px"
-              alt="nicole image"
-              className="object-cover object-top"
-            />
-          </span>
-          {/*{collapse && (*/}
-          {/*  <span*/}
-          {/*    className="animate-fadeIn bg-main-gradient absolute right-[-2px] bottom-[-2px] flex items-center justify-center font-semibold text-[11px] rounded-full size-[14px] mt-[8px]">*/}
-          {/*  1*/}
-          {/*</span>*/}
-          {/*)}*/}
-        </span>
-        {!collapse && (
-          <span className="animate-fadeIn text-left">
-            <span className="line-clamp-1 text-[14px] font-medium tracking-[-0.04em]">
-              {name}
-            </span>
-            {lastMessage && (
-              <span className="flex items-center gap-[4px]">
-                <LastMessage message={lastMessage} />
-              </span>
-            )}
-          </span>
-        )}
-      </span>
-      {!collapse && (
-        <span className="flex animate-fadeIn flex-col items-end pl-[5px]">
-          <span className="text-[12px] font-medium tracking-[-0.04em] opacity-50">
-            {formattedTime}
-          </span>
-          {/*<span*/}
-          {/*  className="bg-main-gradient flex items-center justify-center font-semibold text-[11px] rounded-full size-[14px] mt-[8px]"*/}
-          {/*>*/}
-          {/*  1*/}
-          {/*</span>*/}
-        </span>
-      )}
-    </button>
-  );
+	return (
+		<button
+			key={id}
+			onClick={() => handleChatChange(id)}
+			className={clsx(
+				"transition-bg flex w-full px-[20px] py-[6px] duration-300 md:w-full md:px-[16px]",
+				{
+					"bg-[#0680E642]":
+						selectedCharacterId &&
+						id.toString() === selectedCharacterId.toString()
+				}
+			)}
+		>
+			<span className="flex w-full items-center gap-[8px] md:w-full">
+				<span className="relative">
+					<span className="relative block size-[42px] overflow-hidden rounded-[16px]">
+						<Image
+							src={`${image}?format=webp&quality=95&width=100`}
+							fill
+							sizes="(max-width: 768px) 42px, (max-width: 1200px) 42px, 42px"
+							alt="nicole image"
+							className="object-cover object-top"
+						/>
+					</span>
+					{/*{collapse && (*/}
+					{/*  <span*/}
+					{/*    className="animate-fadeIn bg-main-gradient absolute right-[-2px] bottom-[-2px] flex items-center justify-center font-semibold text-[11px] rounded-full size-[14px] mt-[8px]">*/}
+					{/*  1*/}
+					{/*</span>*/}
+					{/*)}*/}
+				</span>
+				{!collapse && (
+					<span className="animate-fadeIn text-left">
+						<span className="line-clamp-1 text-[14px] font-medium tracking-[-0.04em]">
+							{name}
+						</span>
+						{lastMessage && (
+							<span className="flex items-center gap-[4px]">
+								<LastMessage message={lastMessage} />
+							</span>
+						)}
+					</span>
+				)}
+			</span>
+			{!collapse && (
+				<span className="flex animate-fadeIn flex-col items-end pl-[5px]">
+					<span className="text-[12px] font-medium tracking-[-0.04em] opacity-50">
+						{formattedTime}
+					</span>
+					{/*<span*/}
+					{/*  className="bg-main-gradient flex items-center justify-center font-semibold text-[11px] rounded-full size-[14px] mt-[8px]"*/}
+					{/*>*/}
+					{/*  1*/}
+					{/*</span>*/}
+				</span>
+			)}
+		</button>
+	);
 };
 
 export default ChatsListItem;

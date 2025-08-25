@@ -53,8 +53,16 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 			className: "rounded-[4px]"
 		},
 		{
-			title: t("sidebar_chats"),
+			title: t("sidebar_create_character"),
 			id: 3,
+			icon: IconCreatePage,
+			activeIcon: IconCreatePageActive,
+			href: "/create",
+			className: "rounded-[4px]"
+		},
+		{
+			title: t("sidebar_chats"),
+			id: 4,
 			icon: IconChats,
 			activeIcon: IconChatsActive,
 			href: "/chats",
