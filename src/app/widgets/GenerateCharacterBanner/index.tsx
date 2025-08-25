@@ -16,7 +16,7 @@ const GenerateCharacterBanner = () => {
 	const router = useRouter();
 
 	const handleClick = () => {
-		router.push("/");
+		router.push("/create");
 	};
 
 	return (
