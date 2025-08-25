@@ -1,7 +1,7 @@
 import useVoicesInfo from "../hooks/useVoicesInfo";
 import PlayButton from "@/../public/images/createpage/icon-play.png";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import NextButtonIcon from "@/../public/images/createpage/next-button-icon.png";
@@ -30,6 +30,8 @@ const VoiceComponent = () => {
 	if (isLoading) return <VoiceComponentSkeleton />;
 	if (error) return <div>Error: {error}</div>;
 
+	console.log(data);
+
 	return (
 		<div className="mb-[12px]">
 			<span className="mb-[8px] block text-[18px] font-bold leading-[130%] tracking-wide">
@@ -38,26 +40,9 @@ const VoiceComponent = () => {
 
 			<Swiper
 				centeredSlides={true}
-				slidesPerView={2.25}
+				slidesPerView={3}
 				spaceBetween={20}
-				breakpoints={{
-					360: {
-						slidesPerView: 1.53
-					},
-					375: {
-						slidesPerView: 1.6
-					},
-					400: {
-						slidesPerView: 1.7
-					},
-					425: {
-						slidesPerView: 1.8
-					},
-					570: {
-						slidesPerView: 2
-					}
-				}}
-				loop={true}
+				loop
 				modules={[Navigation]}
 				navigation={{ nextEl: ".custom-next", prevEl: ".custom-prev" }}
 				className="!overflow-visible"
@@ -126,20 +111,27 @@ const VoiceCard = (props: VoiceCardProps) => {
 	const [isPlaying, setIsPlaying] = useState(false);
 
 	const handlePlayClick = (e: React.MouseEvent) => {
-		e.stopPropagation(); // чтобы не срабатывал onClick карточки
-		const audio = audioRef.current;
-		if (!audio) return;
-
+		e.stopPropagation();
 		if (isPlaying) {
-			audio.pause();
-			setIsPlaying(false);
 			setActivePlayingId(null);
 		} else {
-			audio.play();
-			setIsPlaying(true);
 			setActivePlayingId(id);
 		}
 	};
+
+	useEffect(() => {
+		const audio = audioRef.current;
+		if (!audio) return;
+
+		if (activePlayingId === id) {
+			audio.play();
+			setIsPlaying(true);
+		} else {
+			audio.pause();
+			audio.currentTime = 0;
+			setIsPlaying(false);
+		}
+	}, [activePlayingId, id]);
 
 	return (
 		<div
