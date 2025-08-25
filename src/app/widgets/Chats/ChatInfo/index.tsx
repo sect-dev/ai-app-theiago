@@ -187,7 +187,7 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 						{t("chats_create_image_chats")}
 					</span>
 					<span className="mr-[4px] block text-[12px] font-bold leading-[150%]">
-						2
+						3
 					</span>
 					<Image
 						src={ImageStackSvg}
