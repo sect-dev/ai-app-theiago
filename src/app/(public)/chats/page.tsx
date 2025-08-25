@@ -56,6 +56,7 @@ const Page = () => {
 	useEffect(() => {
 		if (selectedCharacterId !== "9a9b9") {
 			const id = selectedCharacterId ? selectedCharacterId.toString() : "";
+			console.log("character____Id", id);
 			getCharacterInfo(id);
 		}
 	}, [selectedCharacterId]);
