@@ -42,7 +42,7 @@ const ChatsHeader: FC<ComponentProps> = ({ avatar, name }) => {
 	return (
 		<div
 			className={clsx(
-				"flex shrink-0 animate-fadeIn items-center justify-between overflow-hidden rounded-[8px] bg-[#121423] px-[24px] py-[16px] transition-transform duration-300 md:shrink-0 md:rounded-[16px] md:px-[12px] md:py-[14px]",
+				"flex flex-col gap-[6px] shrink-0 animate-fadeIn items-left overflow-hidden rounded-[8px] bg-[#121423] px-[24px] py-[16px] transition-transform duration-300 md:shrink-0 md:rounded-[16px] md:px-[12px] md:py-[14px]",
 				{}
 			)}
 		>
@@ -101,6 +101,9 @@ const ChatsHeader: FC<ComponentProps> = ({ avatar, name }) => {
 						className="size-[18px]"
 					/>
 				</button>
+			</div>
+			<div className="text-[11px] opacity-50">
+				All AI responses are fictional. Please follow your local laws and reframe discussing any forbidden content
 			</div>
 		</div>
 	);
