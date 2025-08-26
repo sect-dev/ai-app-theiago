@@ -57,7 +57,7 @@ const Relationship = () => {
 		}
 	};
 
-	const isNextDisabled = !name || !relationship || !outfit || !accessories;
+	const isNextDisabled = !name || !relationship;
 
 	return (
 		<div>

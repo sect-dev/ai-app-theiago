@@ -13,8 +13,8 @@ const Banner = () => {
 	return (
 		<div className="relative mx-auto w-full">
 			<Swiper
-				modules={[Autoplay]}
-				autoplay={{ delay: DELAY, disableOnInteraction: false }}
+				// modules={[Autoplay]}
+				// autoplay={{ delay: DELAY, disableOnInteraction: false }}
 				loop={true}
 				onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
 				className="overflow-hidden rounded-xl"

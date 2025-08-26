@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 import ImageIconOrange from "@/../public/images/img/image-sparkling-orange.png";
 import Spinner from "../Spinner";
 import ImageCreateBannerRight from "@/../public/images/img/image-create-banner-right.png";
-import ImageCreateBannerLeft from "@/../public/images/img/image-generator-banner-left.png";
+import ImageCreateBannerLeft from "@/../public/images/img/aigo-new-banner-left.png";
+import ImageCreateBannerLeft1 from "@/../public/images/img/aigo-new-banner-left1.png";
 import ImageGeneratorBannerBlue from "@/../public/images/img/image-generator-banner-blue.png";
 import ImageGeneratorBannerGirls from "@/../public/images/img/image-generator-banner-girls.png";
+import ImageLightBlue from "@/../public/images/img/aigo-new-banner-light-blue.png";
 import { useTranslations } from "next-intl";
 
 const CreateImageBanner = () => {
@@ -24,12 +26,12 @@ const CreateImageBanner = () => {
 	return (
 		<div
 			onClick={handleClick}
-			className="choosen-token-shadow-generate mx-[16px] mb-[18px] mt-[9px] cursor-pointer rounded-[32px]"
+			className="choosen-token-shadow-generate mx-[16px] mb-[18px] mt-[9px] cursor-pointer rounded-[32px] relative"
 		>
 			<div className="main-gradient flex h-[225px] w-full justify-between rounded-[32px] sm:h-[175px]">
 				<div className="relative py-[35px] pl-[64px] sm:p-[16px]">
 					<div className="relative z-[1] mb-[24px] flex flex-col gap-[8px]">
-						<span className="text-[38px] font-bold leading-[1.2] lgm:text-[24px]">
+						<span className="text-[42px] italic font-bold leading-[1.2] lgm:text-[24px]">
 							{t("generator_banner_image_generator")}
 						</span>
 						<span className="block text-[20px] font-semibold leading-[1.3] lgm:text-[14px] sm:hidden">
@@ -90,6 +92,21 @@ const CreateImageBanner = () => {
 					height={ImageCreateBannerLeft.height}
 					className="absolute left-0 top-0 hidden lg:block fm:hidden"
 				/>
+
+				{/* <Image
+					src={ImageCreateBannerLeft.src}
+					alt="create image banner"
+					width={ImageCreateBannerLeft.width / 2}
+					height={ImageCreateBannerLeft.height / 2}
+					className="absolute left-0 top-0 rounded-l-[32px] lgm:rounded-[32px]"
+				/>
+				 <Image
+					src={ImageLightBlue.src}
+					alt="light blue"
+					width={ImageLightBlue.width}
+					height={ImageLightBlue.height}
+					className="absolute left-0 top-0"
+				/>  */}
 			</div>
 		</div>
 	);
