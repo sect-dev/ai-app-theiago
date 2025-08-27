@@ -9,7 +9,6 @@ import {internallink} from './internallink'
 import {ctaBannerSecond} from './cta-banner-second'
 
 export const schemaTypes = [
-  page,
   ctaBanner1,
   modelBanner,
   textBlock1,
@@ -18,4 +17,5 @@ export const schemaTypes = [
   faqBlock,
   internallink,
   ctaBannerSecond,
+  page,
 ]
