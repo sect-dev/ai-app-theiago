@@ -9,7 +9,7 @@ interface Props {
 
 export default function InternalLinkBlock({ heading, links }: Props) {
 	return (
-		<section className="internal-links bg-sky-500">
+		<nav className="internal-links bg-sky-500">
 			{heading && <h2>{heading}</h2>}
 			<ul>
 				{links?.map((link, idx) => (
@@ -18,6 +18,6 @@ export default function InternalLinkBlock({ heading, links }: Props) {
 					</li>
 				))}
 			</ul>
-		</section>
+		</nav>
 	);
 }

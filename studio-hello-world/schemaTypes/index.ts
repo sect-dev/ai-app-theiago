@@ -6,6 +6,7 @@ import {textBlock2} from './text-block-2'
 import {textBlock3} from './text-block-3'
 import {faqBlock} from './faq-block'
 import {internallink} from './internallink'
+import {ctaBannerSecond} from './cta-banner-second'
 
 export const schemaTypes = [
   page,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   textBlock3,
   faqBlock,
   internallink,
+  ctaBannerSecond,
 ]
