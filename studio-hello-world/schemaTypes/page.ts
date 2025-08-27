@@ -45,6 +45,7 @@ export const page = defineType({
         {type: 'textBlock3'},
         {type: 'faqBlock'},
         {type: 'internallink'},
+        {type: 'ctaBannerSecond'},
       ],
     }),
   ],

@@ -6,40 +6,71 @@ export const pageBySlugQuery = `
   content[]{
     _key,
     _type,
-    heading,
-    ctaText,
-    ctaLink,
-    ctaUrl,
-    seoText[]{
-      ...,
-      children[]{
-        ...
-      }
-    },
-    image{
-      ...,
-      asset->{
-        _id,
-        url
-      },
-      alt
-    },
-    items[]{
+
+    // CTA Banner 1
+    _type == "ctaBanner1" => {
       heading,
+      seoText,
       ctaText,
       ctaLink,
       image{
-        ...,
-        asset->{
-          _id,
-          url
-        },
+        asset->{ _id, url },
         alt
       }
     },
-    links[]{
-      title,
-      "slug": slug{ current }
+
+    // CTA Banner Second
+    _type == "ctaBannerSecond" => {
+      heading,
+      text,
+      ctaText,
+      ctaLink,
+      image{
+        asset->{ _id, url },
+        alt
+      }
+    },
+
+    // Model Banner
+    _type == "modelBanner" => {
+      heading,
+      items[]{
+        image{
+          asset->{ _id, url },
+          alt
+        },
+        name,
+        age,
+        description,
+        ctaText,
+        ctaLink
+      }
+    },
+
+    // FAQ Block
+    _type == "faqBlock" => {
+      heading,
+      items[]{
+        question,
+        answer
+      }
+    },
+
+    // Internal Links
+    _type == "internallink" => {
+      heading,
+      links[]{
+        title,
+        "slug": slug.current
+      }
+    },
+
+    // Text Block 1
+    _type == "textBlock1" => {
+      heading,
+      seoText,
+      ctaText,
+      ctaLink
     }
   }
 }
