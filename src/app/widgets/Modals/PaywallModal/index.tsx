@@ -4,6 +4,7 @@ import ImageGirls from "@/../public/images/img/paywall-banner-girls.png"
 import SectionPlans from "@/app/flat-pages/Initpage/components/SectionPlans";
 import IconClose from "@/../public/images/icons/icon-modal-close.svg";
 import { useAuthStore } from "@/app/shared/store/authStore";
+import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 
 // TODO: Add payment plans from backend when payment system is ready
 type PaymentPlan = {
@@ -71,7 +72,7 @@ const paymentPlans: PaymentPlan[] = [
 ];
 
 const PaywallModal = () => {
-  const { setPaywallModal } = useAuthStore();
+  const { setPaywallModal, selectedCharacterName } = useAuthStore();
 
 	return (
 		<Dialog
@@ -133,7 +134,7 @@ const PaywallModal = () => {
                     alt="icon close"
                   />
                 </button>
-              <div className="text-[20px] font-semibold mb-[12px] leading-[28px]">Get Closer With</div>
+              <div className="text-[20px] font-semibold mb-[12px] leading-[28px]">Get Closer With {selectedCharacterName}</div>
               <div className="text-[16px] font-normal mb-[16px] text-[#B5B5B5]">Unlock All Features!</div>
               <SectionPlans isOrganic={true} paymentPlans={paymentPlans} />
               </div>
