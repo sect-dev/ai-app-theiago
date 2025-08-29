@@ -166,7 +166,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 				if (isPaywallMessage && user?.isAnonymous) {
 					setAuthModal({ modalType: "login", isAuthModalActive: true });
 				}
-				if (isPaywallMessage && !isPremium) {
+				if (isPaywallMessage && !isPremium && !user?.isAnonymous) {
 					setPaywallModal(true);
 				}
 			}
