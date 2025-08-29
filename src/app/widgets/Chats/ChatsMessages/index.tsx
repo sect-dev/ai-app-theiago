@@ -42,10 +42,11 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 	const [isTextareaFocused, setIsTextareaFocused] = useState(false);
 	const router = useRouter();
 	const { characters, setCharacters } = useSelectedCardStore();
-	const { user, setAuthModal } = useAuthStore();
+	const { user, setAuthModal, setPaywallModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 	const t = useTranslations("ChatsPage");
+	const {isPremium} = useAuthStore();
 
 	log.debug("user_id", user?.uid);
 
@@ -165,8 +166,8 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 				if (isPaywallMessage && user?.isAnonymous) {
 					setAuthModal({ modalType: "login", isAuthModalActive: true });
 				}
-				if (isPaywallMessage && user?.emailVerified) {
-					return router.push("/paywall2");
+				if (isPaywallMessage && !isPremium) {
+					setPaywallModal(true);
 				}
 			}
 		} catch (error) {

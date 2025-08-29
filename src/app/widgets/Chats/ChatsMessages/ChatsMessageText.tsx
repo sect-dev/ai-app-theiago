@@ -138,7 +138,7 @@ const ChatsMessageText: FC<ComponentProps> = ({
 							)}
 
 						{/* Text-message */}
-						{(msg.type === "text" || msg.type === "text_paywall") && (
+						{(msg.type === "text") && (
 							<div
 								className={clsx(
 									"w-fit max-w-[80%] animate-fadeIn rounded-[20px] px-[20px] py-[10px] text-[14px] font-medium",
@@ -154,7 +154,7 @@ const ChatsMessageText: FC<ComponentProps> = ({
 						)}
 
 						{/* Добавляем кнопки лайка/дизлайка после последнего сообщения бота */}
-						{isLastBotMessage && msg.sender === "bot" && (
+						{isLastBotMessage && msg.sender === "bot" && msg.type !== "text_paywall" && (
 							<div className="mt-2 flex gap-[8px]">
 								<Image
 									className="cursor-pointer transition-all duration-300 hover:opacity-80"
