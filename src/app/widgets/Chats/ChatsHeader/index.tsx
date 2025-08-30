@@ -25,6 +25,8 @@ const ChatsHeader: FC<ComponentProps> = ({ avatar, name }) => {
 	} = useSelectedCardStore();
 	const { setTokensModal, tokens } = usePaymentStore();
 	const t = useTranslations("ChatsPage");
+const {isTextareaFocused} = useSelectedCardStore();
+  const isMobile = window.matchMedia("(max-width: 570px)").matches;
 
 	const handleBack = () => {
 		setMobileChatOpen(false);
@@ -102,9 +104,16 @@ const ChatsHeader: FC<ComponentProps> = ({ avatar, name }) => {
 					/>
 				</button>
 			</div>
-			<div className="text-[11px] opacity-50">
-				All AI responses are fictional. Please follow your local laws and reframe discussing any forbidden content
-			</div>
+				{!isMobile && (
+					<div className="text-[11px] opacity-50">
+						All AI responses are fictional. Please follow your local laws and reframe discussing any forbidden content asdsada
+					</div>
+				)}
+			{!isTextareaFocused && isMobile && (
+				<div className="text-[11px] opacity-50">
+					All AI responses are fictional. Please follow your local laws and reframe discussing any forbidden content
+				</div>
+			)}
 		</div>
 	);
 };

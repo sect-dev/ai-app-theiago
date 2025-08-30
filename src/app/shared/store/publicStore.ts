@@ -38,6 +38,8 @@ interface SelectedCardState {
 	setQrModal: (isQrModalActive: boolean) => void;
 	setPaywallCharacter: (value: CharacterByConstructor | null) => void;
 	setCharactersList: (value: Character[] | null) => void;
+	setIsTextareaFocused: (value: boolean) => void;
+	isTextareaFocused: boolean;
 }
 
 export const useSelectedCardStore = create<SelectedCardState>((set) => {
@@ -53,6 +55,8 @@ export const useSelectedCardStore = create<SelectedCardState>((set) => {
 		isQrModalActive: false,
 		characters: initialCharacters.mainChar,
 		charFromPaywall: initialCharacters.tempChar,
+		isTextareaFocused: false,
+		setIsTextareaFocused: (value: boolean) => set({ isTextareaFocused: value }),
 		setSelectedCharacterId: (id) => set({ selectedCharacterId: id }),
 		setSelectedTag: (tag) => set({ selectedTag: tag }),
 		setCharacters: (characters) => set({ characters }),

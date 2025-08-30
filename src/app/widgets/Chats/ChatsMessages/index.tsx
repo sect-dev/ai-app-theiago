@@ -39,7 +39,7 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [messages, setMessages] = useState<Message[] | null>([]);
-	const [isTextareaFocused, setIsTextareaFocused] = useState(false);
+	const {isTextareaFocused, setIsTextareaFocused} = useSelectedCardStore();
 	const router = useRouter();
 	const { characters, setCharacters } = useSelectedCardStore();
 	const { user, setAuthModal, setPaywallModal } = useAuthStore();
@@ -124,6 +124,16 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 		localStorage.setItem("tokens", JSON.stringify(tokens));
 		setCharacters(characters);
 	};
+
+	const handleOnFocus = () => {
+		setIsTextareaFocused(true);
+		console.log("handleOnFocus");
+	}
+
+	const handleOnBlur = () => {
+		setIsTextareaFocused(false);
+		console.log("handleOnBlur");
+	}
 
 	const onSubmit = async (data: FormData) => {
 		const userMessage: Message = {
@@ -344,8 +354,8 @@ const ChatsMessages: FC<ComponentProps> = ({ characterInfo }) => {
 								placeholder={t("chats_your_message_here")}
 								minRows={1}
 								maxRows={3}
-								onFocus={() => setIsTextareaFocused(true)}
-								onBlur={() => setIsTextareaFocused(false)}
+								onFocus={handleOnFocus}
+								onBlur={handleOnBlur}
 								onKeyDown={(e) => {
 									if (e.key === "Enter" && !e.shiftKey) {
 										e.preventDefault();
