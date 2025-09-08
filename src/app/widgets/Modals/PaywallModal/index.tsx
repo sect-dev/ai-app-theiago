@@ -4,75 +4,47 @@ import ImageGirls from "@/../public/images/img/paywall-banner-girls.png"
 import SectionPlans from "@/app/flat-pages/Initpage/components/SectionPlans";
 import IconClose from "@/../public/images/icons/icon-modal-close.svg";
 import { useAuthStore } from "@/app/shared/store/authStore";
-import { useSelectedCardStore } from "@/app/shared/store/publicStore";
-
-// TODO: Add payment plans from backend when payment system is ready
-type PaymentPlan = {
-  id: string;
-  currency: string;
-  amount_initial: number;
-  amount_recurring: number;
-  interval_unit: "month" | "day" | "year" | "week";
-  interval_length: number;
-  description: string;
-  tokens_included: number;
-  places: string[];
-  schedule_id: string;
-};
-
-const paymentPlans: PaymentPlan[] = [
-  {
-    id: "1_day_premium_access",
-    currency: "USD",
-    amount_initial: 0.2,
-    amount_recurring: 0.2,
-    interval_unit: "day",
-    interval_length: 1,
-    description: "1 day premium access",
-    tokens_included: 10,
-    places: ["landing-paywall"],
-    schedule_id: "df9c6dfa-2428-11f0-b499-5e3b1ae81057",
-  },
-  {
-    id: "1_month_premium_access",
-    currency: "USD",
-    amount_initial: 14.99,
-    amount_recurring: 14.99,
-    interval_unit: "month",
-    interval_length: 1,
-    description: "1 month premium access",
-    tokens_included: 50,
-    places: ["landing-paywall"],
-    schedule_id: "df9c6dfa-2428-11f0-b499-5e3b1ae81058",
-  },
-  {
-    id: "3_months_premium_access",
-    currency: "USD",
-    amount_initial: 24.99,
-    amount_recurring: 24.99,
-    interval_unit: "month",
-    interval_length: 3,
-    description: "3 months premium access",
-    tokens_included: 200,
-    places: ["landing-paywall"],
-    schedule_id: "df9c6dfa-2428-11f0-b499-5e3b1ae81059",
-  },
-  {
-    id: "6_months_premium_access",
-    currency: "USD",
-    amount_initial: 49.99,
-    amount_recurring: 49.99,
-    interval_unit: "month",
-    interval_length: 6,
-    description: "6 months premium access",
-    tokens_included: 500,
-    places: ["landing-paywall"],
-    schedule_id: "df9c6dfa-2428-11f0-b499-5e3b1ae81060",
-  },
-];
+import { getTrustPayProducts, TPProduct } from "@/app/shared/api/trustPay";
+import { useEffect, useMemo, useState } from "react";
+import { PaymentPlan } from "@/app/shared/api/payment";
 
 const PaywallModal = () => {
   const { setPaywallModal, selectedCharacterName } = useAuthStore();
+
+  const [products, setProducts] = useState<TPProduct[] | null>(null);
+
+  useEffect(() => {
+      getTrustPayProducts()
+          .then((data) => setProducts(data));
+  }, []);
+
+  const paymentPlans = useMemo<PaymentPlan[]>(() => {
+      if (!products) return [];
+
+      products.sort((a, b) => {
+        const aIsSub = a.kind === 'subscription' ? 0 : 1;
+        const bIsSub = b.kind === 'subscription' ? 0 : 1;
+        if (aIsSub !== bIsSub) return aIsSub - bIsSub;
+        return Number(a.price) - Number(b.price);
+      });
+      return products.map((p) => {
+
+        const [interval_length, interval_unit] = p.type ? p.type.split("_") : [p.tokens_amount, 'tokens'];
+        return {
+          id: p.product_id,
+          currency: "USD",
+          amount_initial: Number(p.price),
+          amount_recurring: Number(p.price),
+          interval_unit: interval_unit as "month" | "day" | "year" | "week",
+          interval_length: interval_length as number,
+          description: p.kind ?? "",
+          tokens_included: p.tokens_amount ?? 0,
+          places: [],
+          schedule_id: "",
+        }
+      });
+      }, [products]);
+
 
 	return (
 		<Dialog
@@ -119,7 +91,7 @@ const PaywallModal = () => {
 						</div>
 					</DialogPanel>
 
-          <DialogPanel className="hidden fm:block data-[closed]:transform-[scale(95%)] flex h-screen w-full items-center justify-center overflow-y-auto bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0">
+          <DialogPanel className="hidden fm:block data-[closed]:transform-[scale(95%)] h-screen w-full items-center justify-center overflow-y-auto bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0">
             <div className="pt-[100px] px-[20px]">
                               <button
                   onClick={() =>

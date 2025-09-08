@@ -1,27 +1,23 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import ImageArrow from "@/../public/images/icons/icon-payment-arrow.svg";
-import IconExpand from "@/../public/images/icons/icon-expand-white.svg";
 import { PaymentPlan } from "@/app/shared/api/payment";
 import { calculateCostPerDay } from "@/app/shared/helpers";
 import { sendGTMEvent } from "@next/third-parties/google";
 import Link from "next/link";
-import { usePaymentStore } from "@/app/shared/store/paymentStore";
-import Spinner from "@/app/widgets/Spinner";
 import * as fbq from "@/app/shared/lib/fbPixel";
 
 import ym from "react-yandex-metrika";
 import { trackBuyButtonClick } from "@/app/shared/helpers/clickTracker";
-import { usePaywallStore } from "@/app/shared/store/paywallStore";
 import * as amplitude from "@amplitude/analytics-browser";
 import log from "@/app/shared/lib/logger";
 import { useTranslations } from "next-intl";
-import { useAuthStore } from "@/app/shared/store/authStore";
 import { trackSubscriptionSelection } from "@/app/shared/lib/amplitude";
 import IconSecure from "@/../public/images/icons/icon-payment-secure-shield.svg";
 import IconCancel from "@/../public/images/icons/icon-cancel-anytime-cash.svg";
+import { getTrustPayGatewayUrl } from "@/app/shared/api/trustPay";
 
 interface ComponentProps {
 	paymentPlans: PaymentPlan[];
@@ -29,9 +25,10 @@ interface ComponentProps {
 }
 
 const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
-	const { setPlan, selectedPlan } = usePaymentStore();
-	const { setPrice, price } = usePaywallStore();
-	const { user } = useAuthStore();
+	// const { setPrice, price } = usePaywallStore();
+	// const { user } = useAuthStore();
+	const prevPlanRef = useRef<number | null>(null);
+	const [selectedPlan, setPlan] = useState(2);
 	const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(null);
 	const [iframeUrl, setIframeUrl] = useState<string | null>(null);
 	const t = useTranslations("Paywall");
@@ -47,20 +44,20 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 	useEffect(() => {
 		if (paymentPlans && paymentPlans.length > 0) {
 			setSelectedPrice(paymentPlans[1]);
-			setPlan(paymentPlans[1].id ?? "1_month_premium_access");
+			setPlan(paymentPlans[1].id ?? 1);
 		}
 	}, [paymentPlans]);
 
 	useEffect(() => {
 		if (!selectedPlan || typeof window === "undefined") return;
 
-		const params = new URLSearchParams(window.location.search);
-		const apiBase = process.env.NEXT_PUBLIC_API_URL;
+		if (selectedPlan === prevPlanRef.current) return;
+		prevPlanRef.current = selectedPlan;
 
-		if (apiBase) {
-			const fullUrl = `${apiBase}/pre_subscription_purchase?name=${encodeURIComponent(selectedPlan)}&${params.toString()}&user_id=${user?.uid}`;
-			setIframeUrl(fullUrl);
-		}
+		getTrustPayGatewayUrl(selectedPlan)
+			.then(url => {
+				setIframeUrl(url);
+		})
 	}, [selectedPlan]);
 
 	const handleClickBuy = async () => {
@@ -89,7 +86,10 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 	};
 
 	const paymentHandle = (item: PaymentPlan) => {
+		if (item.id === selectedPlan) return;
+
 		setSelectedPrice(item);
+		setPlan(item.id);
 		log.debug(
 			"SectionPlans.tsx",
 			"sending analytics to switch_plan_click:: ",
@@ -99,11 +99,11 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 		const paymentSystem =
 			new URLSearchParams(window.location.search).get("payment_system") ||
 			"unknown";
-		trackSubscriptionSelection(item.id || "unknown", paymentSystem);
+		trackSubscriptionSelection(String(item.id) || "unknown", paymentSystem);
 
 		sendGTMEvent({ event: "switch_plan_click", type: `${item.id}` });
-		setPlan(item.id ?? paymentPlans[1].id ?? "1_month_premium_access");
-		setPrice(item.amount_recurring);
+		// setPlan(item.id ?? paymentPlans[1].id ?? "1_month_premium_access");
+		// setPrice(item.amount_recurring);
 		ym("reachGoal", "switch_plan_click", {
 			placement: "quiz",
 			type: `${item.id}`
@@ -192,12 +192,14 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 										</p>
 									</div>
 								</div>
-								<div className="flex items-end gap-[6px] font-asap leading-[1.5em] fm:gap-[1.60vw]">
-									<p className="flex items-center gap-[4px]">
+								{item.description === 'subscription'
+                	?
+									<div className="flex items-end gap-[6px] font-asap leading-[1.5em] fm:gap-[1.60vw]">
+										<p className="flex items-center gap-[4px]">
 										<span className="text-[12px] font-semibold uppercase fm:text-[3.20vw]">
 											{item.currency}
 										</span>
-										<span className="relative text-[12px] fm:text-[3.20vw]">
+											<span className="relative text-[12px] fm:text-[3.20vw]">
 											<span className="opacity-40">{fullPricePerDay}</span>
 											<span
 												className={clsx(
@@ -208,20 +210,35 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 												)}
 											/>
 										</span>
-									</p>
-									<p>
+										</p>
+										<p>
 										<span className="text-[12px] font-semibold leading-[1.3em] fm:text-[3.20vw]">
 											<span className="text-[24px] fm:text-[6.40vw]">
 												{firstLetterDiscountPrice}
 											</span>
 											<span>,{discountPriceWithoutFirstLetter}</span>
 										</span>
-										<span className="text-[12px] opacity-40 fm:text-[3.20vw]">
+											<span className="text-[12px] opacity-40 fm:text-[3.20vw]">
 											{" "}
-											/ day
+												/ day
 										</span>
-									</p>
-								</div>
+										</p>
+									</div>
+									:
+									<div className="flex items-end gap-[6px] font-asap leading-[1.5em] fm:gap-[1.60vw]">
+										<p className="flex items-center gap-[4px]">
+											<span className="text-[12px] font-semibold uppercase fm:text-[3.20vw]">
+												{item.currency}
+											</span>
+											<span className="text-[12px] font-semibold leading-[1.3em] fm:text-[3.20vw]">
+												<span className="text-[24px] fm:text-[6.40vw]">
+													{item.amount_recurring}
+												</span>
+											</span>
+										</p>
+
+									</div>
+								}
 							</div>
 							<div className="pt-[12px] fm:pt-[3.20vw]">
 								<button className="flex w-full items-center justify-between font-asap text-[13px] fm:text-[3.47vw]">
