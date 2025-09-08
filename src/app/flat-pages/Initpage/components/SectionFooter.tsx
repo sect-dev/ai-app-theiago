@@ -16,7 +16,7 @@ interface ComponentProps {
 const SectionFooter: FC<ComponentProps> = ({ paymentPlans }) => {
 	const t = useTranslations("Paywall");
 	const { selectedPlan } = usePaymentStore();
-	const currentPlan = paymentPlans.find((item) => item.id === selectedPlan);
+	const currentPlan = paymentPlans.find((item) => String(item.id) === String(selectedPlan));
 
 	return (
 		<div className="mx-auto overflow-hidden pb-[10px] pt-[20px] text-center font-bai-jamjuree sm:max-w-[91vw] sm:pb-[2.778vw] sm:pt-[5.56vw]">
