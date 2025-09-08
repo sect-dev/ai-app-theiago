@@ -1,11 +1,10 @@
 import axios from "axios";
-import { Plan } from "../store/paymentStore";
 import { StrictTokenPackage } from "@/app/shared/api/types/payment";
 import { apiClient, getCurrentToken } from "@/app/shared/api/index";
 
 export interface PaymentPlan {
 	currency: string;
-	id?: Plan;
+	id: number;
 	interval_unit: "month" | "year" | "week" | "day";
 	interval_length: number;
 	amount_initial: number;
