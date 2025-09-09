@@ -92,9 +92,9 @@ const ChatInfo: FC<ComponentProps> = ({ characterInfo }) => {
 				)}
 			>
 				<div className="chatInfoImage relative flex h-[293px] items-end overflow-hidden rounded-tl-[8px] rounded-tr-[24px] p-[20px]">
-					{characterInfo?.imageZero || characterInfo?.avatar && (
+					{characterInfo?.avatar && (
 						<Image
-							src={characterInfo?.imageZero || characterInfo?.avatar}
+							src={characterInfo?.avatar}
 							sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 292px"
 							fill
 							alt="image"

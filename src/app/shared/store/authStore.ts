@@ -101,6 +101,10 @@ interface AuthState {
 	}) => void;
 	isRegistrationComplete: boolean;
 	setRegistrationComplete: (isComplete: boolean) => void;
+	paywallModal: boolean;
+	setPaywallModal: (value: boolean) => void;
+	selectedCharacterName: string;
+	setSelectedCharacterName: (value: string) => void;
 }
 
 // Вспомогательная функция для отправки ошибок в Sentry с контекстом
@@ -177,6 +181,10 @@ export const useAuthStore = create<AuthState>((set) => {
 		loading: true,
 		isAuthModalActive: false,
 		modalType: "register",
+		paywallModal: false,
+		selectedCharacterName: "Mia",
+		setPaywallModal: (value: boolean) => set({ paywallModal: value }),
+		setSelectedCharacterName: (value: string) => set({ selectedCharacterName: value }),
 		setUser: (user: User | null) => set({ user, loading: false }),
 		setAuthModal: (value: {
 			modalType: "login" | "register" | "forgotPass" | null;

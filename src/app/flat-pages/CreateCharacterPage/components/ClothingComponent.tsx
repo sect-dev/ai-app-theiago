@@ -24,8 +24,6 @@ const ClothingComponent = () => {
 	const { outfit, accessories, setOutfit, setAccessories } =
 		useGenerateImageStore();
 
-	console.log("accessories:: ", accessories, "outfit:: ", outfit);
-
 	const filteredData = data.filter((item) => item.type === activeTab);
 
 	if (isLoading) {
@@ -71,8 +69,6 @@ const ClothingComponent = () => {
 			</div>
 		);
 	}
-
-	console.log(data);
 
 	return (
 		<div>

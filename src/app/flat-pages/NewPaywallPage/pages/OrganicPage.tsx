@@ -24,7 +24,7 @@ const OrganicPage = () => {
 
 	const fetchData = async () => {
 		try {
-			const [plans] = await Promise.all([getPaymentPlans(locale)]);
+			const plans = await getPaymentPlans();
 			setPaymentPlans(plans);
 		} catch (error) {
 			console.error(error);

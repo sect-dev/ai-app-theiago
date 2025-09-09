@@ -1,8 +1,8 @@
 import {defineType, defineField} from 'sanity'
 
-export const ctaBanner1 = defineType({
-  name: 'ctaBanner1',
-  title: 'Hero CTA Banner',
+export const ctaBannerSecond = defineType({
+  name: 'ctaBannerSecond',
+  title: 'CTA Banner Optional',
   type: 'object',
   fields: [
     defineField({
@@ -12,8 +12,8 @@ export const ctaBanner1 = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'seoText',
-      title: 'Text',
+      name: 'text',
+      title: 'Short Copy',
       type: 'string',
     }),
     defineField({
@@ -34,9 +34,16 @@ export const ctaBanner1 = defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Illustration',
       type: 'image',
       options: {hotspot: true},
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+        }),
+      ],
       validation: (Rule) => Rule.required(),
     }),
   ],

@@ -9,7 +9,6 @@ import ImageDecor1 from "@/../public/images/icons/payment/icon-decor1.png";
 // import SectionWithSwiper from "@/app/flat-pages/Initpage/components/SectionWithSwiper";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
 import IcnCoins from "@/../public/images/icons/icon-coins.svg";
-import { getTokenPackageInfo } from "@/app/shared/api/payment";
 import { useParams, useRouter } from "next/navigation";
 import IconClose from "@/../public/images/icons/icon-modal-close.svg";
 import { StrictTokenPackage } from "@/app/shared/api/types/payment";
@@ -47,18 +46,18 @@ const TokensModal = () => {
 	const [fullUrl, setFullUrl] = useState<string | null>(null);
 
 	const getTokenPackages = async () => {
-		setLoading(true);
-		try {
-			const resp = await getTokenPackageInfo();
-			if (resp) {
-				setSelectedPackage(resp[1]);
-				return setTokenPackages(resp);
-			}
-		} catch (error) {
-			console.log(error);
-		} finally {
-			setLoading(false);
-		}
+		// setLoading(true);
+		// try {
+		// 	const resp = await getTokenPackageInfo();
+		// 	if (resp) {
+		// 		setSelectedPackage(resp[1]);
+		// 		return setTokenPackages(resp);
+		// 	}
+		// } catch (error) {
+		// 	console.log(error);
+		// } finally {
+		// 	setLoading(false);
+		// }
 	};
 
 	useEffect(() => {
@@ -201,20 +200,20 @@ const TokensModal = () => {
 											</div>
 
 											<div className="mb-[8px] w-full rounded-[32px] bg-[#191B2C] px-[16px] py-[32px] sm:mb-[0px] sm:bg-inherit sm:px-0">
-												<div className="mt-[-10px]">
-													{tokenPackages && !loading ? (
-														<TokenPackages
-															tokenPackages={tokenPackages}
-															setSelectedPackage={setSelectedPackage}
-															selectedPackage={
-																selectedPackage?.description ?? ""
-															}
-														/>
-													) : (
-														<TokenPackagesSkeleton />
-													)}
-													{/*<SectionWithSwiper className="!h-[166px] fm:!h-[55.87vw] !rounded-[12px]" slidesPerView={2.2} images={selectedCard?.listImage ?? null} />*/}
-												</div>
+												{/*<div className="mt-[-10px]">*/}
+												{/*	{tokenPackages && !loading ? (*/}
+												{/*		<TokenPackages*/}
+												{/*			tokenPackages={tokenPackages}*/}
+												{/*			setSelectedPackage={setSelectedPackage}*/}
+												{/*			selectedPackage={*/}
+												{/*				selectedPackage?.description ?? ""*/}
+												{/*			}*/}
+												{/*		/>*/}
+												{/*	) : (*/}
+												{/*		<TokenPackagesSkeleton />*/}
+												{/*	)}*/}
+												{/*	/!*<SectionWithSwiper className="!h-[166px] fm:!h-[55.87vw] !rounded-[12px]" slidesPerView={2.2} images={selectedCard?.listImage ?? null} />*!/*/}
+												{/*</div>*/}
 												<button
 													onClick={() => {}}
 													disabled={!tokenPackages && loading}

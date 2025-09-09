@@ -1,11 +1,10 @@
 "use client";
 
 import { useAuthStore } from "@/app/shared/store/authStore";
-import { StrictTokenPackage } from "@/app/shared/api/types/payment";
 import { useSelectedCardStore } from "@/app/shared/store/publicStore";
-import { useState, useRef, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { getTokenPackageInfo } from "@/app/shared/api/payment";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import { PaymentPlan } from "@/app/shared/api/payment";
 import PaymentDiscountBanner from "@/app/widgets/Payment/PaymentDiscountBanner";
 import Image from "next/image";
 import ImageModalBuyTokens from "@/../public/images/img/image-buy-tokens.png";
@@ -20,23 +19,23 @@ import Spinner from "@/app/widgets/Spinner";
 import { sendGTMEvent } from "@next/third-parties/google";
 import * as fbq from "@/app/shared/lib/fbPixel";
 import ym from "react-yandex-metrika";
-import VivaPayComponent from "@/app/shared/components/VivaPayComponent";
-import { tokensPaymentSuccess } from "@/app/shared/components/VivaPayComponent/helpers/tokensPaymentSuccess";
-import { usePaywallStore } from "@/app/shared/store/paywallStore";
 import { useTokensStore } from "@/app/shared/store/tokensStore";
 import * as amplitude from "@amplitude/analytics-browser";
+import { useProductsToBuyStore } from "@/app/shared/store/productsToBuyStore";
+import { getTrustPayGatewayUrl } from "@/app/shared/api/trustPay";
 
 const TokensPage = () => {
 	const { characters, selectedCharacterId, setSelectedCharacterId } =
 		useSelectedCardStore();
 	const params = useParams();
 	const { user } = useAuthStore();
+  const { tokenPlans } = useProductsToBuyStore();
 	const [tokenPackages, setTokenPackages] = useState<
-		StrictTokenPackage[] | null
+    PaymentPlan[] | null
 	>(null);
 	const [loading, setLoading] = useState(false);
 	const [selectedPackage, setSelectedPackage] =
-		useState<StrictTokenPackage | null>(null);
+		useState<PaymentPlan | null>(null);
 	const [fullUrl, setFullUrl] = useState<string | null>(null);
 	const { setSelectedTokensPlan } = useTokensStore();
 
@@ -76,53 +75,27 @@ const TokensPage = () => {
 		});
 	};
 
-	const getTokenPackages = async () => {
-		setLoading(true);
-		try {
-			const resp = await getTokenPackageInfo();
-			if (resp) {
-				console.log(resp);
-				setSelectedPackage(resp[1]);
-				return setTokenPackages(resp);
-			}
-		} catch (error) {
-			console.log(error);
-		} finally {
-			setLoading(false);
-		}
-	};
+  const selectPackage = async (item: PaymentPlan | null) => {
+    if (!item) return;
+
+    setFullUrl(null);
+    setSelectedPackage(item);
+    const gatewayUrl = await getTrustPayGatewayUrl(item.id);
+    setFullUrl(gatewayUrl)
+  }
 
 	useEffect(() => {
-		getTokenPackages();
+    setTokenPackages(tokenPlans())
+    setSelectedPackage(tokenPlans()[1])
+    getTrustPayGatewayUrl(tokenPlans()[1].id)
+      .then(gatewayUrl => setFullUrl(gatewayUrl));
+
 
 		if (Array.isArray(characters) && characters.length > 0) {
 			const firstCharacter = characters[0];
 			setSelectedCharacterId(firstCharacter.id);
 		}
 	}, []);
-
-	// TODO: переписать на URLParams
-	useEffect(() => {
-		if (!selectedPackage || !user) return;
-
-		const packageName = selectedPackage.description.split(" ").join("_");
-		setSelectedTokensPlan(packageName);
-		const apiBase = process.env.NEXT_PUBLIC_API_URL;
-
-		if (apiBase) {
-			let fullUrl;
-
-			if (selectedCharacterId === null) {
-				fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${packageName}&user_id=${user.uid}&email=${user?.email}`;
-			} else {
-				fullUrl = `${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${packageName}&user_id=${user.uid}&email=${user?.email}&character_id=${selectedCharacterId}`;
-			}
-
-			if (fullUrl) {
-				setFullUrl(fullUrl);
-			}
-		}
-	}, [selectedPackage, user, params?.id]);
 
 	return (
 		<>
@@ -170,7 +143,7 @@ const TokensPage = () => {
 								{tokenPackages && !loading ? (
 									<TokenPackages
 										tokenPackages={tokenPackages}
-										setSelectedPackage={setSelectedPackage}
+										setSelectedPackage={selectPackage}
 										selectedPackage={selectedPackage?.description ?? ""}
 									/>
 								) : (
@@ -186,6 +159,7 @@ const TokensPage = () => {
 									<Link
 										onClick={handleClickBuyAnalytics}
 										href={fullUrl}
+                    target={"_blank"}
 										className="main-gradient mb-[8px] flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] disabled:pointer-events-none disabled:opacity-50"
 									>
 										<span className="relative z-[5] text-[15px] font-bold">

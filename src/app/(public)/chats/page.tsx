@@ -13,6 +13,7 @@ import { Character } from "@/app/shared/api/types";
 import { getCharacterInfoById } from "@/app/shared/api/getCharacterById";
 import { safeLocalStorage } from "@/app/shared/helpers";
 import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/app/shared/store/authStore";
 
 const Page = () => {
 	const { selectedCharacterId, setSelectedCharacterId } =
@@ -20,6 +21,7 @@ const Page = () => {
 	const [characterInfo, setCharacterInfo] = useState<Character | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
 	const t = useTranslations("ChatsPage");
+	const { setSelectedCharacterName } = useAuthStore();
 
 	const getCharacterInfo = async (id: string) => {
 		try {
@@ -28,6 +30,7 @@ const Page = () => {
 				const response = await getCharacterInfoById(id);
 				if (response) {
 					setCharacterInfo(response);
+					setSelectedCharacterName(response.name);
 					return setSelectedCharacterId(response.id);
 				}
 			} else {

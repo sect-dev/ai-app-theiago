@@ -1,11 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import ImageBg from "@/../public/images/img/connection.png";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/app/shared/store/authStore";
 
 const SidebarBanner = () => {
+  const { setPaywallModal } = useAuthStore();
+
 	const t = useTranslations("HomePage");
+
+  const onclick = () => {
+    setPaywallModal(true);
+  }
 
 	return (
 		<div className="relative animate-fadeIn overflow-hidden rounded-[16px] bg-main-gradient p-[12px]">
@@ -40,12 +46,13 @@ const SidebarBanner = () => {
 						{t("sidebar_sub_banner_no_ads")}
 					</li>
 				</ul>
-				<Link
-					href="/"
+				<button
+          type={"button"}
+          onClick={onclick}
 					className="block flex h-[28px] w-full items-center justify-center rounded-[16px] bg-white text-[14px] font-semibold text-blue"
 				>
 					{t("sidebar_sub_banner_see_more")}
-				</Link>
+				</button>
 			</div>
 		</div>
 	);

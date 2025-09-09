@@ -28,7 +28,7 @@ const CreateImageBlock = () => {
 	} = useGenerateImageStore();
 	const user = auth.currentUser;
 	const tokens = usePaymentStore((state) => state.tokens);
-	const { setAuthModal } = useAuthStore();
+	const { setAuthModal, setPaywallModal } = useAuthStore();
 	const { setTokens } = usePaymentStore();
 	const router = useRouter();
 	const { setIsErrorModalActive } = useGenerateImageStore();
@@ -40,7 +40,7 @@ const CreateImageBlock = () => {
 			return;
 		}
 		if (tokens < 2) {
-			router.push("/paywall2");
+      setPaywallModal(true);
 			return;
 		}
 		await createImage({
@@ -61,7 +61,7 @@ const CreateImageBlock = () => {
 			return;
 		}
 		if (tokens < 2) {
-			router.push("/paywall2");
+      setPaywallModal(true);
 			return;
 		}
 		await createImage({

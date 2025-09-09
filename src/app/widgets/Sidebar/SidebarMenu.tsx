@@ -30,7 +30,7 @@ interface UserStatusResponse {
 
 const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 	const { setMobileChatOpen } = useSelectedCardStore();
-	const { isPremium, user } = useAuthStore();
+	const { isPremium, user, setPaywallModal } = useAuthStore();
 	const [isHidden, setIsHidden] = useState<boolean | null>(true);
 	const isChatPage = pathname?.includes("chats");
 	const t = useTranslations("HomePage");
@@ -69,6 +69,10 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 			className: "rounded-[4px]"
 		}
 	];
+
+  const handleBuySubscriptionClick = () => {
+    setPaywallModal(true);
+  }
 
 	const handleSubscriptionClick = async (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -281,9 +285,9 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 			})}
 			{!isHidden && (
 				<li>
-					<Link
-						href={process.env.NEXT_PUBLIC_QUIZ_URL ?? ""}
-						rel="nofollow"
+					<button
+            type={"button"}
+            onClick={handleBuySubscriptionClick}
 						className={clsx(
 							"main-gradient block h-[40px] w-full animate-fadeIn cursor-pointer rounded-b-[12px] rounded-t-[4px] px-[16px] py-[12px] text-[14px] font-semibold text-white",
 							{
@@ -308,7 +312,7 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 							/>
 							{!isChatPage && <span>{t("sidebar_subscription")}</span>}
 						</span>
-					</Link>
+					</button>
 				</li>
 			)}
 		</ul>

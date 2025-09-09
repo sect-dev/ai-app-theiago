@@ -72,9 +72,15 @@ const FeedBackModal = dynamic(
 const GeoModal = dynamic(() => import("@/app/widgets/Modals/GeoModal"), {
 	ssr: false
 });
+const PaywallModal = dynamic(
+	() => import("@/app/widgets/Modals/PaywallModal"),
+	{
+		ssr: false
+	}
+);
 
 export default function ModalsProvider() {
-	const { isAuthModalActive } = useAuthStore();
+	const { isAuthModalActive, paywallModal } = useAuthStore();
 	const { isQrModalActive } = useSelectedCardStore();
 	const {
 		isPaymentModalActive,
@@ -130,6 +136,7 @@ export default function ModalsProvider() {
 			{isErrorModalActive && <ErrorModal />}
 			{isFeedBackModalActive && <FeedBackModal />}
 			{isGeoModalActive && <GeoModal />}
+			{paywallModal && <PaywallModal />}
 		</>
 	);
 }

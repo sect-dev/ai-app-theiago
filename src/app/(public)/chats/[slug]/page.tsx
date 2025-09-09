@@ -12,6 +12,7 @@ import TextBlock3 from "@/app/flat-pages/LandingPage/components/TextBlock3";
 import FaqBlock from "@/app/flat-pages/LandingPage/components/FaqBlock";
 import InternalLinkBlock from "@/app/flat-pages/LandingPage/components/InternalLinkBlock";
 import Head from "next/head";
+import CtaBannerSecond from "@/app/flat-pages/LandingPage/components/CtaBannerSecond";
 
 type SanityBlock = {
 	_type: string;
@@ -26,7 +27,8 @@ const componentsMap: Record<string, React.ComponentType<any>> = {
 	textBlock2: TextBlock2,
 	textBlock3: TextBlock3,
 	faqBlock: FaqBlock,
-	internallink: InternalLinkBlock
+	internallink: InternalLinkBlock,
+	ctaBannerSecond: CtaBannerSecond,
 };
 
 export default async function Page({
@@ -41,6 +43,9 @@ export default async function Page({
 		return <div>Not found</div>;
 	}
 
+		const mainBlocks = pages.content?.filter((b: SanityBlock) => b._type !== "internallink") || [];
+	const footerBlocks = pages.content?.filter((b: SanityBlock) => b._type === "internallink") || [];
+
 	return (
 		<>
 			<Head>
@@ -49,13 +54,26 @@ export default async function Page({
 					<meta name="description" content={pages.metadescription} />
 				)}
 			</Head>
-			<main>
-				{pages.content?.map((block: SanityBlock) => {
+
+			{mainBlocks.length > 0 && (
+			<main className="flex flex-col gap-10">
+				{mainBlocks.map((block: SanityBlock) => {
 					const BlockComponent = componentsMap[block._type];
 					if (!BlockComponent) return null;
-					return <BlockComponent key={block._key} {...block} />;
-				})}
-			</main>
+						return <BlockComponent key={block._key} {...block} />;
+					})}
+				</main>
+			)}
+
+			{footerBlocks.length > 0 && (
+				<footer>
+					{footerBlocks.map((block: SanityBlock) => {
+						const BlockComponent = componentsMap[block._type];
+						if (!BlockComponent) return null;
+						return <BlockComponent key={block._key} {...block} />;
+					})}
+				</footer>
+			)}
 		</>
 	);
 }
