@@ -1,74 +1,40 @@
 import axios from "axios";
 import { StrictTokenPackage } from "@/app/shared/api/types/payment";
 import { apiClient, getCurrentToken } from "@/app/shared/api/index";
+import { getTrustPayProducts } from "@/app/shared/api/trustPay";
 
 export interface PaymentPlan {
 	currency: string;
 	id: number;
-	interval_unit: "month" | "year" | "week" | "day";
+	interval_unit: string;
 	interval_length: number;
 	amount_initial: number;
 	amount_recurring: number;
-	description: string;
+	kind: string | undefined;
 	places: string[];
 	schedule_id: string;
+  description: string;
 }
 
-interface PaymentPlansResponse {
-	"1_month_premium_access": PaymentPlan;
-	"3_months_premium_access": PaymentPlan;
-	"6_months_premium_access": PaymentPlan;
-	"1_year_premium_access": PaymentPlan;
-}
+export const getPaymentPlans = async (): Promise<PaymentPlan[]> => {
+	const products = await getTrustPayProducts();
 
-export const getPaymentPlans = async (
-	locale?: string
-): Promise<PaymentPlan[]> => {
-	try {
-		const response = await axios.get<PaymentPlansResponse>(
-			`${process.env.NEXT_PUBLIC_API_URL}/products?place=landing-paywall&locale=${locale}`,
-			{
-				timeout: 10000
-			}
-		);
-		return Object.entries(response.data).map(([id, plan]) => ({ id, ...plan }));
-	} catch (error) {
-		console.error("Error receiving tariff plans:", error);
-		throw error;
-	}
-};
-
-export const getTokenPackageInfo = async (): Promise<
-	StrictTokenPackage[] | null
-> => {
-	try {
-		const response = await axios.get<Record<string, StrictTokenPackage>>(
-			`${process.env.NEXT_PUBLIC_API_URL}/products?place=tokens-paywall`
-		);
-		const data = response.data;
-		return Object.values(data);
-	} catch (error) {
-		console.error(
-			"Error:",
-			error instanceof Error ? error.message : "Unknown error"
-		);
-		return null;
-	}
-};
-
-export const buyTokens = async (
-	name: string,
-	userId: string,
-	email: string
-) => {
-	try {
-		const response = await axios.get(
-			`${process.env.NEXT_PUBLIC_API_URL}/tokens_purchase?name=${name}&user_id=${userId}&email=${email}`
-		);
-		return response.data;
-	} catch (error) {
-		console.log(error);
-	}
+  return products.map((p) => {
+    const [interval_length, interval_unit] = p.type ? p.type.split("_") : [p.tokens_amount, 'tokens'];
+    return {
+      id: p.product_id,
+      currency: "USD",
+      amount_initial: Number(p.price),
+      amount_recurring: Number(p.price),
+      interval_unit: interval_unit as string,
+      interval_length: interval_length as number,
+      kind: p.kind,
+      tokens_included: p.tokens_amount ?? 0,
+      places: [],
+      schedule_id: "",
+      description: p.kind === "subscription" ? p.type as string : p.description as string,
+    }
+  })
 };
 
 export const activateTokens = async (orderNumber: string) => {

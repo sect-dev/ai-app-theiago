@@ -51,19 +51,19 @@ const PageContent = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			log.debug("PageContent.tsx", "fetching paywall data:: ", character_id);
-			try {
-				const [plans, characterData] = await Promise.all([
-					getPaymentPlans(locale),
-					getCharacterInfoByConstructor(
-						character_id ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
-						locale
-					)
-				]);
-				setPaymentPlans(plans);
-				setCharacter(characterData);
-			} catch (error) {
-				log.error("PageContent.tsx", "error fetching paywall data:: ", error);
-			}
+			// try {
+			// 	const [plans, characterData] = await Promise.all([
+			// 		getPaymentPlans(locale),
+			// 		getCharacterInfoByConstructor(
+			// 			character_id ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
+			// 			locale
+			// 		)
+			// 	]);
+			// 	setPaymentPlans(plans);
+			// 	setCharacter(characterData);
+			// } catch (error) {
+			// 	log.error("PageContent.tsx", "error fetching paywall data:: ", error);
+			// }
 		};
 
 		fetchData();

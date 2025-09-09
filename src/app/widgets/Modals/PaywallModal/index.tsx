@@ -4,47 +4,12 @@ import ImageGirls from "@/../public/images/img/paywall-banner-girls.png"
 import SectionPlans from "@/app/flat-pages/Initpage/components/SectionPlans";
 import IconClose from "@/../public/images/icons/icon-modal-close.svg";
 import { useAuthStore } from "@/app/shared/store/authStore";
-import { getTrustPayProducts, TPProduct } from "@/app/shared/api/trustPay";
-import { useEffect, useMemo, useState } from "react";
-import { PaymentPlan } from "@/app/shared/api/payment";
+import { useProductsToBuyStore } from "@/app/shared/store/productsToBuyStore";
 
 const PaywallModal = () => {
-  const { setPaywallModal, selectedCharacterName } = useAuthStore();
+  const { setPaywallModal, selectedCharacterName, isPremium } = useAuthStore();
 
-  const [products, setProducts] = useState<TPProduct[] | null>(null);
-
-  useEffect(() => {
-      getTrustPayProducts()
-          .then((data) => setProducts(data));
-  }, []);
-
-  const paymentPlans = useMemo<PaymentPlan[]>(() => {
-      if (!products) return [];
-
-      products.sort((a, b) => {
-        const aIsSub = a.kind === 'subscription' ? 0 : 1;
-        const bIsSub = b.kind === 'subscription' ? 0 : 1;
-        if (aIsSub !== bIsSub) return aIsSub - bIsSub;
-        return Number(a.price) - Number(b.price);
-      });
-      return products.map((p) => {
-
-        const [interval_length, interval_unit] = p.type ? p.type.split("_") : [p.tokens_amount, 'tokens'];
-        return {
-          id: p.product_id,
-          currency: "USD",
-          amount_initial: Number(p.price),
-          amount_recurring: Number(p.price),
-          interval_unit: interval_unit as "month" | "day" | "year" | "week",
-          interval_length: interval_length as number,
-          description: p.kind ?? "",
-          tokens_included: p.tokens_amount ?? 0,
-          places: [],
-          schedule_id: "",
-        }
-      });
-      }, [products]);
-
+  const { subscriptionPlans, tokenPlans } = useProductsToBuyStore();
 
 	return (
 		<Dialog
@@ -59,14 +24,14 @@ const PaywallModal = () => {
 						transition
 						className="data-[closed]:transform-[scale(95%)] fm:hidden flex h-screen w-full items-center justify-center bg-[rgba(0,0,0,0.8)] backdrop-blur-[5px] duration-300 ease-out data-[closed]:opacity-0"
 					>
-						<div className="flex h-[691px] w-[688px] flex-row gap-[20px] rounded-3xl bg-[#121423]  fm:w-screen fm:flex-col fm:rounded-none">
+						<div className="flex h-[691px] max-h-[85%] w-[688px] flex-row gap-[20px] rounded-3xl bg-[#121423]  fm:w-screen fm:flex-col fm:rounded-none">
               <div className="grid grid-cols-2 w-full h-full fm:grid-cols-1">
                 <div className="flex flex-col pl-[20px] pt-[20px] pr-[20px] overflow-y-auto">
                   <DialogTitle className="mb-4 text-left text-[20px] font-semibold">
                     Nice to see you again
                   </DialogTitle>
 
-                  <SectionPlans isOrganic={true} paymentPlans={paymentPlans} />
+                  <SectionPlans isOrganic={true} paymentPlans={isPremium ? tokenPlans() : subscriptionPlans()} />
 
                 </div>
                 <div className="flex items-center justify-center fm:hidden relative">
@@ -108,7 +73,7 @@ const PaywallModal = () => {
                 </button>
               <div className="text-[20px] font-semibold mb-[12px] leading-[28px]">Get Closer With {selectedCharacterName}</div>
               <div className="text-[16px] font-normal mb-[16px] text-[#B5B5B5]">Unlock All Features!</div>
-              <SectionPlans isOrganic={true} paymentPlans={paymentPlans} />
+              <SectionPlans isOrganic={true} paymentPlans={isPremium ? tokenPlans() : subscriptionPlans()} />
               </div>
           </DialogPanel>
 				</div>

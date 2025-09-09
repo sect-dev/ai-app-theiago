@@ -44,21 +44,21 @@ const AdPage = (props: Props) => {
 	};
 
 	const fetchData = async () => {
-		try {
-			const [plans, characterData] = await Promise.all([
-				getPaymentPlans(locale),
-				getCharacterInfoByConstructor(
-					characterId ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
-					locale
-				)
-			]);
-			setPaymentPlans(plans);
-			setCharacter(characterData);
-		} catch (error) {
-			console.error(error);
-		} finally {
-			setIsLoading(false);
-		}
+		// try {
+		// 	const [plans, characterData] = await Promise.all([
+		// 		getPaymentPlans(locale),
+		// 		getCharacterInfoByConstructor(
+		// 			characterId ?? "constructor_067eeb24-1b27-7eaf-8000-42bce5d41b10",
+		// 			locale
+		// 		)
+		// 	]);
+		// 	setPaymentPlans(plans);
+		// 	setCharacter(characterData);
+		// } catch (error) {
+		// 	console.error(error);
+		// } finally {
+		// 	setIsLoading(false);
+		// }
 	};
 
 	useEffect(() => {

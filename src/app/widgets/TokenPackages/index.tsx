@@ -1,14 +1,14 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
-import { StrictTokenPackage } from "@/app/shared/api/types/payment";
+import React, { Dispatch, FC } from "react";
 import Image from "next/image";
 import IconTokenPayWall from "@/../public/images/icons/icon-token-paywall.svg";
 import clsx from "clsx";
 import "swiper/css";
+import { PaymentPlan } from "@/app/shared/api/payment";
 
 interface ComponentProps {
-	tokenPackages: StrictTokenPackage[] | null;
+	tokenPackages: PaymentPlan[] | null;
 	selectedPackage: string;
-	setSelectedPackage: Dispatch<SetStateAction<StrictTokenPackage | null>>;
+	setSelectedPackage: Dispatch<PaymentPlan | null>;
 }
 
 const TokenPackages: FC<ComponentProps> = (props) => {
@@ -30,13 +30,13 @@ const TokenPackages: FC<ComponentProps> = (props) => {
 								}
 							)}
 						>
-							<div className="absolute top-0 max-h-[16px] whitespace-nowrap rounded-b-[13px] bg-main-gradient px-[8px] text-[12px] font-bold">
-								{item.lable}
-							</div>
+							{/*<div className="absolute top-0 max-h-[16px] whitespace-nowrap rounded-b-[13px] bg-main-gradient px-[8px] text-[12px] font-bold">*/}
+							{/*	{item.id}*/}
+							{/*</div>*/}
 							<div className="relative flex flex-col gap-y-[5px]">
-								<div className="flex items-center justify-start gap-[4px]">
+								<div className="flex items-center justify-start gap-[4px] text-nowrap">
 									<span className="font-bai-jamjuree text-[24px] font-bold">
-										{item.tokens_count}
+										{`${item.interval_length} ${item.interval_unit}`}
 									</span>
 									<Image
 										src={IconTokenPayWall.src}
@@ -46,10 +46,10 @@ const TokenPackages: FC<ComponentProps> = (props) => {
 									/>
 								</div>
 								<span className="leading-1.3 font-asap text-[14px] font-medium">
-									{item.currency} {item.price}
+									{item.currency} {item.amount_recurring}
 								</span>
 								<span className="font-asap text-[11px] font-medium line-through opacity-50">
-									{item.old_price}
+									{item.amount_initial}
 								</span>
 							</div>
 						</button>

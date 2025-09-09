@@ -12,6 +12,7 @@ import LocaleSync from "./shared/components/LocaleSync";
 import CookieScriptComponent from "./shared/components/CookieScriptComponent";
 import { headers } from "next/headers";
 import GeoProvider from "./shared/components/GeoProvider";
+import Script from "next/script";
 
 export const metadata: Metadata = {
 	title: "AiGO - Create AI Companions and Explore Your Digital Fantasy World",
@@ -35,6 +36,15 @@ export default async function RootLayout({
 	const country = requestHeaders.get("x-vercel-ip-country") || "US";
 	return (
 		<html lang={locale}>
+      <head>
+        <link rel="dns-prefetch" href="//mapi.trustpay.eu" />
+        <link rel="preconnect" href="https://mapi.trustpay.eu" crossOrigin="" />
+        <Script
+          src="https://mapi.trustpay.eu/mapi5/Scripts/TrustPay/popup.js"
+          strategy="afterInteractive"   // не блокирует hydration
+          type={"text/javascript"}
+        />
+      </head>
 			<body
 				className={`${baiJamjuree.variable} ${asap.variable} ${notoSans.variable} antialiased`}
 			>

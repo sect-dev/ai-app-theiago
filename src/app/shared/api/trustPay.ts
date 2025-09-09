@@ -6,12 +6,12 @@ export type TPProduct = {
     "kind": string,
     "tokens_amount"?: number,
     "type"?: string
+    "description"?: string,
 }
 
 export const getTrustPayProducts = async (): Promise<TPProduct[]> => {
     try {
         const response = await apiClient.get(`/trustpay/products`);
-        console.log('response: ', response);
         return response.data;
     } catch (error) {
         console.error("Error fetching TrustPay products:", error);
@@ -27,6 +27,7 @@ export const getTrustPayGatewayUrl = async (productId: number): Promise<string> 
         const response = await apiClient.post(`/trustpay/gateway-url`, {
             token,
             product_id: productId,
+            redirect_url: window.location.href,
         });
         return response.data;
     } catch (error) {

@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import ImageArrow from "@/../public/images/icons/icon-payment-arrow.svg";
@@ -25,12 +25,9 @@ interface ComponentProps {
 }
 
 const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
-	// const { setPrice, price } = usePaywallStore();
-	// const { user } = useAuthStore();
-	const prevPlanRef = useRef<number | null>(null);
 	const [selectedPlan, setPlan] = useState(2);
 	const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(null);
-	const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+	const [gatewayUrl, setGatewayUrl] = useState<string>("");
 	const t = useTranslations("Paywall");
 
 	const additionalInfo = [
@@ -45,20 +42,10 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 		if (paymentPlans && paymentPlans.length > 0) {
 			setSelectedPrice(paymentPlans[1]);
 			setPlan(paymentPlans[1].id ?? 1);
+
+      getTrustPayGatewayUrl(paymentPlans[1].id).then(gatewayUrl => setGatewayUrl(gatewayUrl));
 		}
 	}, [paymentPlans]);
-
-	useEffect(() => {
-		if (!selectedPlan || typeof window === "undefined") return;
-
-		if (selectedPlan === prevPlanRef.current) return;
-		prevPlanRef.current = selectedPlan;
-
-		getTrustPayGatewayUrl(selectedPlan)
-			.then(url => {
-				setIframeUrl(url);
-		})
-	}, [selectedPlan]);
 
 	const handleClickBuy = async () => {
 		log.debug(
@@ -90,6 +77,9 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 
 		setSelectedPrice(item);
 		setPlan(item.id);
+    getTrustPayGatewayUrl(item.id)
+      .then(gatewayUrl => setGatewayUrl(gatewayUrl));
+
 		log.debug(
 			"SectionPlans.tsx",
 			"sending analytics to switch_plan_click:: ",
@@ -119,7 +109,27 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 		<div>
 			<div className="mb-[24px] space-y-[12px]">
 				{paymentPlans.map((item) => {
-					const days = item.interval_length * 30;
+
+          let days;
+          switch (item.interval_unit) {
+            case "day":
+            case "days":
+              days = 1;
+              break;
+            case "week":
+              days = 7;
+              break;
+            case "month":
+            case "months":
+              days = 30;
+              break;
+            case "year":
+              days = 365;
+              break;
+            default:
+              days = 0;
+          }
+					days = days * item.interval_length;
 					const fullPricePerDay = calculateCostPerDay(
 						+item.amount_recurring,
 						days
@@ -128,6 +138,8 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 						+item.amount_initial,
 						days
 					);
+
+
 					const firstLetterDiscountPrice = fullPricePerDay
 						.toString()
 						.split(".")[0];
@@ -192,7 +204,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 										</p>
 									</div>
 								</div>
-								{item.description === 'subscription'
+								{item.kind === 'subscription'
                 	?
 									<div className="flex items-end gap-[6px] font-asap leading-[1.5em] fm:gap-[1.60vw]">
 										<p className="flex items-center gap-[4px]">
@@ -266,7 +278,8 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 											})}
 										</ul>
 										<Link
-											href={iframeUrl ?? ""}
+											href={gatewayUrl ?? ""}
+                      target={"_blank"}
 											onClick={handleClickBuy}
 											className={clsx(
 												"relative mb-[12px] flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]",

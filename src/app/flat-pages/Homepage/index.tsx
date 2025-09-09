@@ -28,6 +28,7 @@ import { safeLocalStorage } from "@/app/shared/helpers";
 import * as trackdesk from "@/app/shared/lib/trackdesk";
 import CreateImageBanner from "@/app/widgets/CreateImageBanner";
 import Banner from "@/app/widgets/Banner";
+import { useProductsToBuyStore } from "@/app/shared/store/productsToBuyStore";
 
 interface ComponentProps {
 	avatars: Character[] | null;
@@ -69,6 +70,10 @@ const HomePage: FC<ComponentProps> = ({
 	const tags: string[] = Array.from(
 		new Set(simpleAvatars?.flatMap((avatar) => avatar.tags ?? []))
 	);
+
+  useEffect(() => {
+    useProductsToBuyStore.getState().init();
+  }, []);
 
 	const getTokens = async (
 		orderNumber: string,
