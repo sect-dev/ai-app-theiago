@@ -18,6 +18,7 @@ import { trackSubscriptionSelection } from "@/app/shared/lib/amplitude";
 import IconSecure from "@/../public/images/icons/icon-payment-secure-shield.svg";
 import IconCancel from "@/../public/images/icons/icon-cancel-anytime-cash.svg";
 import { getTrustPayGatewayUrl } from "@/app/shared/api/trustPay";
+import Spinner from "@/app/widgets/Spinner";
 
 interface ComponentProps {
 	paymentPlans: PaymentPlan[];
@@ -27,7 +28,7 @@ interface ComponentProps {
 const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 	const [selectedPlan, setPlan] = useState(2);
 	const [selectedPrice, setSelectedPrice] = useState<PaymentPlan | null>(null);
-	const [gatewayUrl, setGatewayUrl] = useState<string>("");
+	const [gatewayUrl, setGatewayUrl] = useState<string | null>(null);
 	const t = useTranslations("Paywall");
 
 	const additionalInfo = [
@@ -74,6 +75,7 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 
 	const paymentHandle = (item: PaymentPlan) => {
 		if (item.id === selectedPlan) return;
+    setGatewayUrl(null)
 
 		setSelectedPrice(item);
 		setPlan(item.id);
@@ -277,25 +279,30 @@ const SectionPlans: FC<ComponentProps> = ({ paymentPlans, isOrganic }) => {
 												);
 											})}
 										</ul>
-										<Link
-											href={gatewayUrl ?? ""}
-                      target={"_blank"}
-											onClick={handleClickBuy}
-											className={clsx(
-												"relative mb-[12px] flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]",
-												isOrganic
-													? "bg-blue-button-gradient shadow-blue-shadow"
-													: "bg-button-gradient shadow-pink-shadow"
-											)}
-										>
+                    {!gatewayUrl ? (
+                      <div className="mb-[12px] flex items-center justify-center">
+                        <Spinner className="h-8 w-8" />
+                      </div>
+                    ) : (
+                      <Link
+                        href={gatewayUrl ?? ""}
+                        target={"_blank"}
+                        onClick={handleClickBuy}
+                        className={clsx(
+                          "relative mb-[12px] flex h-[60px] w-full items-center justify-center gap-[5px] overflow-hidden rounded-[24px] text-center text-white disabled:opacity-50 fm:h-[16vw] fm:rounded-[6.40vw]",
+                          isOrganic
+                            ? "bg-blue-button-gradient shadow-blue-shadow"
+                            : "bg-button-gradient shadow-pink-shadow"
+                        )}
+                      >
 											<span className="font-noto-sans text-[14px] font-bold uppercase fm:text-[3.73vw]">
 												{isOrganic
-													? t("plan_choose_plan")
-													: t("plan_get_your_girlfriend")}
+                          ? t("plan_choose_plan")
+                          : t("plan_get_your_girlfriend")}
 											</span>
-											<span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
-										</Link>
-
+                        <span className="absolute -left-1/2 top-1/2 block size-[125px] -translate-y-1/2 rotate-[20deg] animate-[moveRight_4.25s_ease-in_infinite_forwards] bg-white-gradient" />
+                      </Link>
+                    )}
 										<div className="flex items-center justify-center gap-[12px]">
 											<div className="flex gap-[1.5px]">
 												<Image
