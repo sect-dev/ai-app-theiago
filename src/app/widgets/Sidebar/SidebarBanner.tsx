@@ -5,12 +5,20 @@ import { useTranslations } from "next-intl";
 import { useAuthStore } from "@/app/shared/store/authStore";
 
 const SidebarBanner = () => {
-  const { setPaywallModal } = useAuthStore();
+  const { setPaywallModal, user, setAuthModal } = useAuthStore();
 
 	const t = useTranslations("HomePage");
 
   const onclick = () => {
-    setPaywallModal(true);
+    if (user?.email) {
+      setPaywallModal(true);
+    } else {
+      setAuthModal({
+        modalType: "register",
+        isAuthModalActive: true,
+        openPaymentModalThen: true,
+      })
+    }
   }
 
 	return (

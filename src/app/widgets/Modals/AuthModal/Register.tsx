@@ -27,7 +27,7 @@ interface AuthError {
 }
 
 const Register = () => {
-	const { setAuthModal } = useAuthStore();
+	const { setAuthModal, setPaywallModal, shouldOpenPaymentModalThen, } = useAuthStore();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [authError, setAuthError] = useState<string | null>(null);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -52,6 +52,9 @@ const Register = () => {
 			setAuthError(errorMessage);
 		} finally {
 			setLoading(false);
+      if (shouldOpenPaymentModalThen) {
+        setPaywallModal(true);
+      }
 		}
 	};
 

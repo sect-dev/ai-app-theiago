@@ -30,7 +30,7 @@ interface UserStatusResponse {
 
 const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 	const { setMobileChatOpen } = useSelectedCardStore();
-	const { isPremium, user, setPaywallModal } = useAuthStore();
+	const { isPremium, user, setPaywallModal, setAuthModal } = useAuthStore();
 	const [isHidden, setIsHidden] = useState<boolean | null>(true);
 	const isChatPage = pathname?.includes("chats");
 	const t = useTranslations("HomePage");
@@ -71,7 +71,15 @@ const SidebarMenu: FC<ComponentProps> = ({ pathname, setIsMenuOpen }) => {
 	];
 
   const handleBuySubscriptionClick = () => {
-    setPaywallModal(true);
+    if (user?.email) {
+      setPaywallModal(true);
+    } else {
+      setAuthModal({
+        modalType: "register",
+        isAuthModalActive: true,
+        openPaymentModalThen: true,
+      })
+    }
   }
 
 	const handleSubscriptionClick = async (e: React.MouseEvent) => {
