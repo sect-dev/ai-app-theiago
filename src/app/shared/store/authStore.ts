@@ -98,6 +98,7 @@ interface AuthState {
 	setAuthModal: (value: {
 		modalType: "login" | "register" | "forgotPass" | null;
 		isAuthModalActive: boolean;
+    openPaymentModalThen?: boolean;
 	}) => void;
 	isRegistrationComplete: boolean;
 	setRegistrationComplete: (isComplete: boolean) => void;
@@ -105,6 +106,7 @@ interface AuthState {
 	setPaywallModal: (value: boolean) => void;
 	selectedCharacterName: string;
 	setSelectedCharacterName: (value: string) => void;
+  shouldOpenPaymentModalThen: boolean;
 }
 
 // Вспомогательная функция для отправки ошибок в Sentry с контекстом
@@ -183,17 +185,21 @@ export const useAuthStore = create<AuthState>((set) => {
 		modalType: "register",
 		paywallModal: false,
 		selectedCharacterName: "Mia",
+    shouldOpenPaymentModalThen: false,
 		setPaywallModal: (value: boolean) => set({ paywallModal: value }),
 		setSelectedCharacterName: (value: string) => set({ selectedCharacterName: value }),
 		setUser: (user: User | null) => set({ user, loading: false }),
 		setAuthModal: (value: {
 			modalType: "login" | "register" | "forgotPass" | null;
 			isAuthModalActive: boolean;
-		}) =>
-			set({
-				modalType: value.modalType,
-				isAuthModalActive: value.isAuthModalActive
-			}),
+      openPaymentModalThen?: boolean;
+		}) => {
+      set({
+        modalType: value.modalType,
+        isAuthModalActive: value.isAuthModalActive,
+        shouldOpenPaymentModalThen: value.openPaymentModalThen ?? false,
+      })
+    },
 		setIsPremium: (isPremium: boolean) => {
 			set({ isPremium });
 		},
